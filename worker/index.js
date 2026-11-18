@@ -20,6 +20,8 @@
  *   MP_ACCESS_TOKEN    Access Token do Mercado Pago (de teste primeiro)
  *   MP_WEBHOOK_SECRET  "Assinatura secreta" das notificações do Mercado Pago
  *   RELATORIO_SENHA    senha para baixar a planilha de vendas e abrir o /admin
+ *   PLANILHA_URL       endereço do Apps Script da planilha Google de e-mails (newsletter e clientes)
+ *   PLANILHA_SEGREDO   senha combinada com o Apps Script (a mesma escrita lá)
  *   RESEND_API_KEY     chave do Resend (resend.com), que manda os e-mails de entrada e de "pedido enviado"
  *
  * Regras ajustáveis ficam em wrangler.toml, na seção [vars].
@@ -57,7 +59,7 @@ export default {
           return await webhook(request, env, url);
         case 'POST /api/newsletter':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
-          return json(await newsletter(request, env), 200, cors);
+          return json(await newsletter(request, env, ctx), 200, cors);
         case 'GET /api/newsletter.csv':
           return await newsletterCsv(request, env);
         case 'POST /api/entrar':
@@ -65,7 +67,7 @@ export default {
           return json(await entrar(request, env), 200, cors);
         case 'POST /api/entrar/confirmar':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
-          return json(await confirmarEntrada(request, env), 200, cors);
+          return json(await confirmarEntrada(request, env, ctx), 200, cors);
         case 'GET /api/minha-conta':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await minhaConta(request, env), 200, cors);
@@ -84,6 +86,7 @@ export default {
             assinatura_webhook_configurada: !!env.MP_WEBHOOK_SECRET,
             relatorio_configurado: !!env.RELATORIO_SENHA,
             email_configurado: !!env.RESEND_API_KEY,
+            planilha_configurada: !!(env.PLANILHA_URL && env.PLANILHA_SEGREDO),
             banco_configurado: !!env.DB,
           }, 200, cors || {});
         default:
@@ -468,7 +471,7 @@ function json(dados, status = 200, extra = {}) {
 
 
 /* ---------------- Newsletter ---------------- */
-async function newsletter(request, env) {
+async function newsletter(request, env, ctx) {
   let dados = {};
   try { dados = await request.json(); } catch { throw new Error('Dados inválidos.'); }
   const email = String(dados.email || '').trim().toLowerCase();
@@ -481,6 +484,7 @@ async function newsletter(request, env) {
     `INSERT INTO newsletter (email, nome, origem, aceite_em, criado_em, ativo) VALUES (?1, ?2, ?3, ?4, ?4, 1)
      ON CONFLICT(email) DO UPDATE SET nome = COALESCE(NULLIF(?2, ''), nome), ativo = 1, aceite_em = ?4`
   ).bind(email, nome, String(dados.origem || 'site').slice(0, 30), agora).run();
+  paraPlanilha(env, ctx, { aba: 'newsletter', email, nome, origem: String(dados.origem || 'site').slice(0, 30) });
   return { ok: true, mensagem: 'Pronto! Você vai receber nossas promoções no seu e-mail.' };
 }
 
@@ -575,7 +579,7 @@ async function entrar(request, env) {
   throw new Error('RESEND_API_KEY não configurado');
 }
 
-async function confirmarEntrada(request, env) {
+async function confirmarEntrada(request, env, ctx) {
   const corpo = await lerCorpo(request);
   const token = String(corpo.token || '');
   if (!/^[0-9a-f]{64}$/.test(token)) throw new ErroCliente('Esse link de entrada não é válido. Peça um novo.');
@@ -583,6 +587,8 @@ async function confirmarEntrada(request, env) {
   const link = await env.DB.prepare('SELECT * FROM login_links WHERE hash = ?1').bind(await hashDe(token)).first();
   if (!link || link.usado_em || link.expira_em < agora) throw new ErroCliente('Esse link já foi usado ou expirou. Peça um novo.');
   await env.DB.prepare('UPDATE login_links SET usado_em = ?2 WHERE hash = ?1').bind(link.hash, agora).run();
+  const jaCliente = await env.DB.prepare('SELECT 1 FROM clientes WHERE email = ?1').bind(link.email).first();
+  if (!jaCliente) paraPlanilha(env, ctx, { aba: 'clientes', email: link.email, origem: 'minha conta' });
   await env.DB.prepare('INSERT INTO clientes (email, criado_em, ultimo_acesso) VALUES (?1, ?2, ?2) ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2')
     .bind(link.email, agora).run();
   const sessao = tokenNovo();
@@ -702,4 +708,18 @@ async function salvarAdmin(request, env) {
     } catch { avisou = false; }
   }
   return Response.redirect(`${propria}/admin?ok=${encodeURIComponent(id)}${avisou ? '&email=1' : ''}`, 303);
+}
+
+
+/* ---------------- Planilha Google (cópia dos e-mails no Drive) ---------------- */
+// Manda o e-mail para a planilha sem atrasar a resposta para a cliente. Se a planilha falhar, o cadastro continua salvo no banco.
+function paraPlanilha(env, ctx, dados) {
+  if (!env.PLANILHA_URL || !env.PLANILHA_SEGREDO) return;
+  const envio = fetch(env.PLANILHA_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ ...dados, segredo: env.PLANILHA_SEGREDO }),
+    redirect: 'follow',
+  }).catch(e => console.error('planilha falhou', e && e.message));
+  if (ctx && ctx.waitUntil) ctx.waitUntil(envio);
 }
