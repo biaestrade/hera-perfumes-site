@@ -8,12 +8,19 @@
  *   GET  /api/relatorio.csv planilha de vendas e comissões (pede usuário e senha)
  *   POST /api/newsletter    guarda o e-mail de quem quer receber promoções
  *   GET  /api/newsletter.csv planilha de cadastros da newsletter (mesma senha da planilha de vendas)
+ *   POST /api/entrar        envia o link de entrada para o e-mail da cliente (sem senha)
+ *   POST /api/entrar/confirmar  troca o link por uma sessão (a cliente fica conectada)
+ *   GET  /api/minha-conta   pedidos da cliente conectada, com situação da entrega
+ *   POST /api/sair          desconecta
+ *   GET  /admin             painel da Hera para pôr rastreio e situação da entrega (mesma senha do relatório)
+ *   POST /api/admin/pedido  salva o que foi preenchido no painel
  *   GET  /api/saude         mostra se o servidor está configurado (sem revelar segredos)
  *
  * Segredos (colados no painel do Cloudflare, nunca no código):
  *   MP_ACCESS_TOKEN    Access Token do Mercado Pago (de teste primeiro)
  *   MP_WEBHOOK_SECRET  "Assinatura secreta" das notificações do Mercado Pago
- *   RELATORIO_SENHA    senha para baixar a planilha de vendas
+ *   RELATORIO_SENHA    senha para baixar a planilha de vendas e abrir o /admin
+ *   RESEND_API_KEY     chave do Resend (resend.com), que manda os e-mails de entrada e de "pedido enviado"
  *
  * Regras ajustáveis ficam em wrangler.toml, na seção [vars].
  * Os cupons ficam na tabela "cupons" do banco D1 (não no código, porque o repositório é público).
@@ -26,6 +33,7 @@ const MAX_QTD = 10;
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === '/admin') return await painelAdmin(request, env);
     if (!url.pathname.startsWith('/api/')) {
       // ambiente de teste: o próprio Worker serve as páginas do site
       if (env.ASSETS) return env.ASSETS.fetch(request);
@@ -52,6 +60,20 @@ export default {
           return json(await newsletter(request, env), 200, cors);
         case 'GET /api/newsletter.csv':
           return await newsletterCsv(request, env);
+        case 'POST /api/entrar':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await entrar(request, env), 200, cors);
+        case 'POST /api/entrar/confirmar':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await confirmarEntrada(request, env), 200, cors);
+        case 'GET /api/minha-conta':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await minhaConta(request, env), 200, cors);
+        case 'POST /api/sair':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await sair(request, env), 200, cors);
+        case 'POST /api/admin/pedido':
+          return await salvarAdmin(request, env);
         case 'GET /api/relatorio.csv':
           return await relatorio(request, env, url);
         case 'GET /api/saude':
@@ -61,6 +83,7 @@ export default {
             mercado_pago_configurado: !!env.MP_ACCESS_TOKEN,
             assinatura_webhook_configurada: !!env.MP_WEBHOOK_SECRET,
             relatorio_configurado: !!env.RELATORIO_SENHA,
+            email_configurado: !!env.RESEND_API_KEY,
             banco_configurado: !!env.DB,
           }, 200, cors || {});
         default:
@@ -236,20 +259,22 @@ async function pagar(request, env) {
   const c = await calcular(env, corpo);
   if (corpo.cupom && !c.cupom) throw new ErroCliente('Esse código de representante não é válido. Corrija ou apague o código.');
 
+  const sessao = await sessaoAtual(request, env);
+  let emailCliente = sessao ? sessao.email : emailValido(corpo.email);
   const pedidoId = 'HERA-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + crypto.randomUUID().slice(0, 8).toUpperCase();
   const agora = new Date().toISOString();
   const modo = env.MODO || 'teste';
 
   await env.DB.prepare(
     `INSERT INTO pedidos (id, criado_em, modo, itens, subtotal_centavos, desconto_centavos, frete_centavos, total_centavos,
-       cupom, representante, comissao_pct, comissao_centavos, status, atualizado_em)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, 'criado', ?2)`
+       cupom, representante, comissao_pct, comissao_centavos, status, atualizado_em, email_cliente)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, 'criado', ?2, ?13)`
   ).bind(
     pedidoId, agora, modo,
     JSON.stringify(c.linhas.map(l => ({ id: l.id, titulo: l.titulo, quantidade: l.quantidade, unitario_centavos: l.unitarioCentavos }))),
     c.subtotal, c.desconto, c.frete, c.total,
     c.cupom ? c.cupom.codigo : null, c.cupom ? c.cupom.representante : null,
-    c.comissaoPct, c.comissaoCentavos
+    c.comissaoPct, c.comissaoCentavos, emailCliente
   ).run();
 
   const origemApi = new URL(request.url).origin;
@@ -273,6 +298,7 @@ async function pagar(request, env) {
     statement_descriptor: 'HERA PERFUMES',
     metadata: { pedido_id: pedidoId, cupom: c.cupom ? c.cupom.codigo : null },
   };
+  if (emailCliente) preferencia.payer = { email: emailCliente };
 
   const resp = await fetch(`${MP_API}/checkout/preferences`, {
     method: 'POST',
@@ -338,6 +364,9 @@ async function webhook(request, env, url) {
        atualizado_em = ?6
      WHERE id = ?1 AND (status NOT LIKE 'aprovado%' OR pagamento_id = ?3)`
   ).bind(pedidoId, status, String(pg.id), valorPago, pg.date_approved || null, new Date().toISOString()).run();
+  // se o pedido ainda não tem e-mail (cliente não estava conectada), usa o e-mail informado no Mercado Pago
+  const emailPagador = emailValido(pg.payer && pg.payer.email);
+  if (emailPagador) await env.DB.prepare('UPDATE pedidos SET email_cliente = COALESCE(email_cliente, ?2) WHERE id = ?1').bind(pedidoId, emailPagador).run();
 
   return new Response('ok', { status: 200 });
 }
@@ -424,7 +453,7 @@ function cabecalhosCors(request, env) {
   return {
     'Access-Control-Allow-Origin': origem,
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Max-Age': '86400',
     Vary: 'Origin',
   };
@@ -479,4 +508,198 @@ async function newsletterCsv(request, env) {
     'Content-Disposition': 'attachment; filename="hera-newsletter.csv"',
     'Cache-Control': 'no-store',
   } });
+}
+
+
+/* ---------------- Conta da cliente (login por link no e-mail) ---------------- */
+const LINK_MINUTOS = 20;
+const SESSAO_DIAS = 30;
+
+function emailValido(v) {
+  const e = String(v || '').trim().toLowerCase();
+  return e.length <= 254 && /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/.test(e) ? e : null;
+}
+function tokenNovo() {
+  const b = new Uint8Array(32); crypto.getRandomValues(b);
+  return [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+async function hashDe(texto) {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
+  return [...new Uint8Array(d)].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+async function mandarEmail(env, para, assunto, html) {
+  if (!env.RESEND_API_KEY) return false;
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: env.EMAIL_REMETENTE || 'Hera Perfumes <contato@heraevodiaperfumes.com.br>', to: [para], subject: assunto, html }),
+  });
+  if (!r.ok) { console.error('Resend recusou o e-mail', r.status, (await r.text()).slice(0, 300)); throw new Error('falha ao enviar e-mail'); }
+  return true;
+}
+function moldeEmail(titulo, texto, botao, link) {
+  return `<div style="background:#FBF7F2;padding:32px 16px;font-family:Montserrat,Arial,sans-serif;color:#3B0B18">
+  <div style="max-width:480px;margin:auto;background:#fff;border-radius:16px;padding:32px 28px">
+    <p style="letter-spacing:4px;font-size:12px;color:#88072B;margin:0 0 12px">HERA PERFUMES</p>
+    <h1 style="font-family:Georgia,serif;font-weight:400;font-size:26px;margin:0 0 12px">${titulo}</h1>
+    <p style="line-height:1.6;color:#5a4a4f">${texto}</p>
+    ${botao ? `<p style="margin:24px 0"><a href="${link}" style="background:#3B0B18;color:#FBF7F2;text-decoration:none;padding:14px 26px;border-radius:999px;display:inline-block">${botao}</a></p>` : ''}
+    <p style="font-size:12px;color:#8a7a7f">Se você não pediu este e-mail, pode ignorar.</p>
+  </div></div>`;
+}
+
+async function entrar(request, env) {
+  const corpo = await lerCorpo(request);
+  const email = emailValido(corpo.email);
+  if (!email) throw new ErroCliente('Confira o e-mail digitado.');
+  const agora = new Date();
+  const recentes = await env.DB.prepare('SELECT COUNT(*) AS n FROM login_links WHERE email = ?1 AND criado_em > ?2')
+    .bind(email, new Date(agora - 15 * 60e3).toISOString()).first();
+  if (recentes && recentes.n >= 3) throw new ErroCliente('Já mandamos alguns links agora há pouco. Confira seu e-mail (e a caixa de spam) ou tente de novo em 15 minutos.');
+
+  const token = tokenNovo();
+  await env.DB.prepare('INSERT INTO login_links (hash, email, criado_em, expira_em) VALUES (?1, ?2, ?3, ?4)')
+    .bind(await hashDe(token), email, agora.toISOString(), new Date(+agora + LINK_MINUTOS * 60e3).toISOString()).run();
+
+  const site = (env.SITE_URL || new URL(request.url).origin).replace(/\/+$/, '');
+  const link = `${site}/#minha-conta/entrar/${token}`;
+  const enviado = await mandarEmail(env, email, 'Seu link para entrar na Hera Perfumes',
+    moldeEmail('Entrar na sua conta', `Toque no botão para ver seus pedidos e acompanhar a entrega. O link vale por ${LINK_MINUTOS} minutos e só funciona uma vez.`, 'Entrar na minha conta', link));
+  if (enviado) return { ok: true, mensagem: `Enviamos um link de entrada para ${email}. Abra seu e-mail neste aparelho.` };
+  // sem serviço de e-mail configurado: só no modo de teste o link aparece na tela, para testar
+  if ((env.MODO || 'teste') === 'teste') return { ok: true, mensagem: 'Modo de teste: o e-mail ainda não está configurado, então o link aparece aqui.', link_teste: link };
+  throw new Error('RESEND_API_KEY não configurado');
+}
+
+async function confirmarEntrada(request, env) {
+  const corpo = await lerCorpo(request);
+  const token = String(corpo.token || '');
+  if (!/^[0-9a-f]{64}$/.test(token)) throw new ErroCliente('Esse link de entrada não é válido. Peça um novo.');
+  const agora = new Date().toISOString();
+  const link = await env.DB.prepare('SELECT * FROM login_links WHERE hash = ?1').bind(await hashDe(token)).first();
+  if (!link || link.usado_em || link.expira_em < agora) throw new ErroCliente('Esse link já foi usado ou expirou. Peça um novo.');
+  await env.DB.prepare('UPDATE login_links SET usado_em = ?2 WHERE hash = ?1').bind(link.hash, agora).run();
+  await env.DB.prepare('INSERT INTO clientes (email, criado_em, ultimo_acesso) VALUES (?1, ?2, ?2) ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2')
+    .bind(link.email, agora).run();
+  const sessao = tokenNovo();
+  await env.DB.prepare('INSERT INTO sessoes (hash, email, criado_em, expira_em) VALUES (?1, ?2, ?3, ?4)')
+    .bind(await hashDe(sessao), link.email, agora, new Date(Date.now() + SESSAO_DIAS * 864e5).toISOString()).run();
+  return { ok: true, sessao, email: link.email };
+}
+
+async function sessaoAtual(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  const m = auth.match(/^Bearer ([0-9a-f]{64})$/);
+  if (!m || !env.DB) return null;
+  const s = await env.DB.prepare('SELECT email, expira_em FROM sessoes WHERE hash = ?1').bind(await hashDe(m[1])).first();
+  if (!s || s.expira_em < new Date().toISOString()) return null;
+  return s;
+}
+
+async function minhaConta(request, env) {
+  const s = await sessaoAtual(request, env);
+  if (!s) return { conectada: false };
+  const { results } = await env.DB.prepare(
+    `SELECT id, criado_em, itens, total_centavos, status, pago_em, status_envio, transportadora, rastreio_codigo, rastreio_url, nota_fiscal_url, enviado_em, entregue_em
+     FROM pedidos WHERE email_cliente = ?1 AND status NOT IN ('criado', 'erro_ao_criar') ORDER BY criado_em DESC LIMIT 50`
+  ).bind(s.email).all();
+  const pedidos = results.map(p => {
+    let itens = [];
+    try { itens = JSON.parse(p.itens).map(i => ({ titulo: i.titulo, quantidade: i.quantidade })); } catch {}
+    return { ...p, itens };
+  });
+  return { conectada: true, email: s.email, pedidos };
+}
+
+async function sair(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  const m = auth.match(/^Bearer ([0-9a-f]{64})$/);
+  if (m) await env.DB.prepare('DELETE FROM sessoes WHERE hash = ?1').bind(await hashDe(m[1])).run();
+  return { ok: true };
+}
+
+/* ---------------- Painel da Hera: rastreio e situação da entrega ---------------- */
+function senhaAdminOk(request, env) {
+  const auth = request.headers.get('Authorization') || '';
+  let senha = '';
+  if (auth.startsWith('Basic ')) { try { senha = atob(auth.slice(6)).split(':').slice(1).join(':'); } catch { senha = ''; } }
+  return !!env.RELATORIO_SENHA && !!senha && igualSeguro(senha, env.RELATORIO_SENHA);
+}
+function pedeSenha() {
+  return new Response('Senha necessária', { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Painel Hera", charset="UTF-8"' } });
+}
+const ENVIO = { aguardando: 'Aguardando', separando: 'Em separação', enviado: 'Enviado', entregue: 'Entregue' };
+
+async function painelAdmin(request, env) {
+  if (!env.RELATORIO_SENHA) return new Response('Defina o segredo RELATORIO_SENHA no Cloudflare.', { status: 503 });
+  if (!senhaAdminOk(request, env)) return pedeSenha();
+  const url = new URL(request.url);
+  const { results } = await env.DB.prepare(
+    `SELECT * FROM pedidos WHERE status LIKE 'aprovado%' OR status = 'pendente' ORDER BY criado_em DESC LIMIT 100`
+  ).all();
+  const reais = c => 'R$ ' + ((c || 0) / 100).toFixed(2).replace('.', ',');
+  const linhas = results.map(p => {
+    let itens = '';
+    try { itens = JSON.parse(p.itens).map(i => `${i.quantidade}x ${i.titulo}`).join('<br>'); } catch {}
+    const opc = Object.entries(ENVIO).map(([k, v]) => `<option value="${k}"${p.status_envio === k ? ' selected' : ''}>${v}</option>`).join('');
+    return `<form method="post" action="/api/admin/pedido" class="ped">
+      <input type="hidden" name="id" value="${escHtml(p.id)}">
+      <div class="cab"><b>${escHtml(p.id)}</b><span>${escHtml((p.criado_em || '').slice(0, 10))}</span><span class="st st-${escHtml(p.status)}">${escHtml(p.status)}</span><span>${reais(p.total_centavos)}</span></div>
+      <div class="itens">${itens}<br><small>${escHtml(p.email_cliente || 'sem e-mail')}${p.cupom ? ' · código ' + escHtml(p.cupom) : ''}</small></div>
+      <div class="campos">
+        <label>Entrega<select name="status_envio">${opc}</select></label>
+        <label>Transportadora<input name="transportadora" value="${escHtml(p.transportadora || '')}" placeholder="Correios, Melhor Envio…"></label>
+        <label>Código de rastreio<input name="rastreio_codigo" value="${escHtml(p.rastreio_codigo || '')}"></label>
+        <label>Link do rastreio (opcional)<input name="rastreio_url" value="${escHtml(p.rastreio_url || '')}" placeholder="https://…"></label>
+        <label>Link da nota fiscal (opcional)<input name="nota_fiscal_url" value="${escHtml(p.nota_fiscal_url || '')}" placeholder="https://…"></label>
+        <button>Salvar</button>
+      </div></form>`;
+  }).join('') || '<p>Nenhum pedido pago ainda.</p>';
+  const aviso = url.searchParams.get('ok') ? `<p class="ok">Pedido ${escHtml(url.searchParams.get('ok'))} atualizado${url.searchParams.get('email') ? ' e e-mail enviado para a cliente' : ''}.</p>` : '';
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Painel Hera — pedidos</title><style>
+body{font-family:Montserrat,Arial,sans-serif;background:#FBF7F2;color:#3B0B18;margin:0;padding:24px}h1{font-family:Georgia,serif;font-weight:400}
+.ped{background:#fff;border:1px solid #eadfd8;border-radius:14px;padding:16px;margin:0 0 14px}.cab{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:8px}
+.st{padding:2px 10px;border-radius:999px;background:#f3e6e9;font-size:12px}.st-aprovado{background:#dff2e5;color:#1f6b3a}.itens{font-size:14px;margin-bottom:10px}
+.campos{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}label{display:grid;gap:4px;font-size:12px}
+input,select{min-height:38px;border:1px solid #d9cbc4;border-radius:8px;padding:0 10px;font:inherit}button{min-height:40px;border:0;border-radius:999px;background:#3B0B18;color:#fff;font:inherit;cursor:pointer}
+.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}</style></head><body>
+<h1>Pedidos · Hera Perfumes</h1><p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
+  return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+}
+
+async function salvarAdmin(request, env) {
+  if (!senhaAdminOk(request, env)) return pedeSenha();
+  const propria = new URL(request.url).origin;
+  const origem = request.headers.get('Origin');
+  if (origem && origem !== propria) return new Response('Origem não permitida', { status: 403 });
+  const f = await request.formData();
+  const id = String(f.get('id') || '');
+  const antes = await env.DB.prepare('SELECT * FROM pedidos WHERE id = ?1').bind(id).first();
+  if (!antes) return new Response('Pedido não encontrado', { status: 404 });
+  const campo = (n, max = 300) => String(f.get(n) || '').trim().slice(0, max) || null;
+  const link = n => { const v = campo(n, 500); return v && /^https:\/\//i.test(v) ? v : null; };
+  const envio = ENVIO[f.get('status_envio')] ? String(f.get('status_envio')) : 'aguardando';
+  const agora = new Date().toISOString();
+  await env.DB.prepare(
+    `UPDATE pedidos SET status_envio = ?2, transportadora = ?3, rastreio_codigo = ?4, rastreio_url = ?5, nota_fiscal_url = ?6,
+       enviado_em = CASE WHEN ?2 IN ('enviado','entregue') THEN COALESCE(enviado_em, ?7) ELSE enviado_em END,
+       entregue_em = CASE WHEN ?2 = 'entregue' THEN COALESCE(entregue_em, ?7) ELSE entregue_em END,
+       atualizado_em = ?7 WHERE id = ?1`
+  ).bind(id, envio, campo('transportadora', 60), campo('rastreio_codigo', 60), link('rastreio_url'), link('nota_fiscal_url'), agora).run();
+
+  let avisou = false;
+  if (envio === 'enviado' && antes.status_envio !== 'enviado' && antes.email_cliente) {
+    const site = (env.SITE_URL || propria).replace(/\/+$/, '');
+    const codigo = campo('rastreio_codigo', 60);
+    try {
+      avisou = await mandarEmail(env, antes.email_cliente, `Seu pedido ${id} foi enviado`,
+        moldeEmail('Seu perfume está a caminho!', `O pedido <b>${escHtml(id)}</b> foi enviado${campo('transportadora') ? ' por ' + escHtml(campo('transportadora')) : ''}.${codigo ? ' Código de rastreio: <b>' + escHtml(codigo) + '</b>.' : ''}`, 'Acompanhar meu pedido', `${site}/#minha-conta`));
+    } catch { avisou = false; }
+  }
+  return Response.redirect(`${propria}/admin?ok=${encodeURIComponent(id)}${avisou ? '&email=1' : ''}`, 303);
 }

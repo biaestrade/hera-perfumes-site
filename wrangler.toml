@@ -36,7 +36,7 @@ ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiape
 # Desconto do site, em %
 DESCONTO_BASE_PCT = "5"
 # Os 5% também valem pagando online?  "sim" ou "nao"
-DESCONTO_BASE_NO_ONLINE = "sim"
+DESCONTO_BASE_NO_ONLINE = "nao"
 # Com código de representante:  "maior" = vale o maior desconto (5% OU cupom);  "somar" = soma os dois (5% + cupom)
 COMBINAR_DESCONTOS = "maior"
 # Frete fixo em centavos (0 = sem frete no pagamento online; ex.: "2500" = R$ 25,00)
