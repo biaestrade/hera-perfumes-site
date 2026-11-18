@@ -14,7 +14,7 @@ binding = "ASSETS"
 [[d1_databases]]
 binding = "DB"
 database_name = "hera-loja"
-database_id = "COLE-AQUI-O-ID-DO-BANCO"
+database_id = "5ca699eb-06ec-417d-9a76-c464707e0cfa"
 migrations_dir = "worker/migrations"
 
 [vars]
