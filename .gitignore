@@ -1,0 +1,6 @@
+node_modules/
+.wrangler/
+# segredos para testes no computador (nunca enviar ao GitHub)
+.dev.vars
+.env
+.claude/

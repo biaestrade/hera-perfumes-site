@@ -605,6 +605,33 @@ body.tem-selecao .wa-flutuante{bottom:110px}
 .rodape-lista .tot b{font-size:22px;color:var(--carmim)}
 .rodape-lista small{display:block;color:var(--texto);margin:2px 0 14px;font-size:12px}
 body.lista-aberta{overflow:hidden}
+/* carrinho: quantidade, cupom, pagamento online */
+.lista-lateral li .info{flex:1;line-height:1.35;display:flex;flex-direction:column;gap:4px}
+.lista-lateral li .info em{font-size:13px}
+.lista-lateral li .qtd{flex:0 0 auto;display:inline-flex;align-items:center;border:1px solid var(--linha);border-radius:18px;background:#fff}
+.lista-lateral .qtd button{width:30px;height:30px;font-size:16px;color:var(--bordo);padding:0}
+.lista-lateral .qtd b{min-width:18px;text-align:center;font-size:13px}
+.rodape-lista{max-height:66vh;overflow:auto}
+.rodape-lista .linha-tot{display:flex;justify-content:space-between;font-size:13px;color:var(--texto);margin-bottom:12px}
+.cupom{margin:0 0 14px}
+.cupom label{display:block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--suave);margin-bottom:6px}
+.cupom div{display:flex;gap:8px}
+.cupom input{flex:1;min-width:0;height:42px;border:1px solid var(--linha);border-radius:21px;padding:0 16px;font:500 14px var(--sans);color:var(--bordo);text-transform:uppercase;background:var(--off)}
+.cupom input:focus{outline:2px solid var(--rosa-antigo);outline-offset:1px}
+.cupom button{height:42px;padding:0 18px;border-radius:21px;border:1px solid var(--bordo);background:none;color:var(--bordo);font:600 13px var(--sans);cursor:pointer}
+.cupom small{margin:6px 2px 0!important}
+.cupom small.ok{color:#2F6B3A}
+.cupom small.erro{color:var(--carmim)}
+.bloco-online{padding:14px 0 16px;margin-bottom:14px;border-bottom:1px solid var(--linha)}
+.btn-pagar{width:100%;min-height:52px;background:var(--bordo);color:var(--off)}
+.btn-pagar[disabled]{opacity:.6;cursor:wait}
+.btn-wa-claro{width:100%;min-height:48px;background:none;color:var(--carmim);border-color:var(--carmim)}
+.pag-retorno{max-width:620px;margin:0 auto;text-align:center;padding:64px 0 80px}
+.pag-retorno .pg-icone{width:72px;height:72px;border-radius:50%;margin:0 auto 22px;display:flex;align-items:center;justify-content:center;background:var(--rosado);color:var(--carmim)}
+.pag-retorno .pg-icone svg{width:34px;height:34px}
+.pag-retorno h1{font-size:34px;color:var(--bordo);margin:10px 0 16px}
+.pag-retorno p{line-height:1.7}
+.pag-retorno .acoes{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
 
 @media (min-width:1600px){
   .s-vitrine{background-position:0 0,right 15% bottom;background-size:auto,auto 132%}
@@ -876,6 +903,19 @@ body.lista-aberta{overflow:hidden}
   </div>
 </div>
 
+<div class="pagina" id="p-pagamento">
+  <div class="wrap">
+    <section class="pag-retorno" aria-live="polite">
+      <div class="pg-icone" id="pg-selo"></div>
+      <p class="eyebrow" id="pg-eyebrow"></p>
+      <h1 id="pg-titulo"></h1>
+      <p class="muted" id="pg-texto"></p>
+      <p class="muted" id="pg-codigo" style="font-size:13px"></p>
+      <div class="acoes" id="pg-acoes"></div>
+    </section>
+  </div>
+</div>
+
 </main>
 
 <footer class="rodape">
@@ -903,125 +943,151 @@ body.lista-aberta{overflow:hidden}
     <button type="button" class="fecha-lista" id="sel-fechar" aria-label="Fechar lista">×</button>
   </div>
   <ul id="sel-itens"></ul>
-  <p class="lista-vazia" id="sel-vazia">Toque em <b>+ Lista</b> nos perfumes que você quer. Depois é só enviar tudo de uma vez pelo WhatsApp.</p>
+  <p class="lista-vazia" id="sel-vazia">Toque em <b>+ Lista</b> nos perfumes que você quer. Depois é só pagar online ou enviar tudo de uma vez pelo WhatsApp.</p>
   <div class="rodape-lista" id="sel-rodape">
-    <div class="tot"><span>Total com 5% off</span><b id="sel-total"></b></div>
+    <div class="linha-tot"><span>Subtotal (preço de tabela)</span><span id="sel-subtotal"></span></div>
+    <form class="cupom" id="sel-cupom-form" autocomplete="off">
+      <label for="sel-cupom">Código do representante</label>
+      <div><input id="sel-cupom" name="cupom" maxlength="30" placeholder="Opcional" autocapitalize="characters" spellcheck="false"><button type="submit">Aplicar</button></div>
+      <small id="sel-cupom-msg" aria-live="polite"></small>
+    </form>
+    <div class="bloco-online" id="sel-online" hidden>
+      <div class="tot"><span>Pagando online</span><b id="sel-total-online"></b></div>
+      <small id="sel-detalhe-online"></small>
+      <button type="button" class="btn btn-pagar" id="sel-pagar">Pagar agora</button>
+      <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
+    </div>
+    <div class="tot"><span>Pelo WhatsApp</span><b id="sel-total"></b></div>
     <small id="sel-outros"></small>
     <a class="btn btn-wa" id="sel-enviar" target="_blank" rel="noopener" href="#" style="width:100%;min-height:52px"><svg class="ico" style="width:18px;height:18px"><use href="#i-wa"/></svg>Enviar pelo WhatsApp</a>
   </div>
 </aside>
 <script>
-// ==== CATÁLOGO: produtos do painel da Hera (11/11/2026). preco = preço de tabela; o site calcula 5% de desconto pelo WhatsApp, em qualquer forma de pagamento ====
+// ==== CATÁLOGO: os produtos ficam em produtos.json (preco = preço de tabela, em reais). O site calcula o desconto do WhatsApp; o servidor recalcula tudo no pagamento online ====
 var WHATSAPP = '5511984141224';
-var PERFUMES = [
-  {"id": "oue0k3t2kw2z1cnmfizw", "marca": "Abercrombie & Fitch", "nome": "Authentic Man", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 359.0, "familia": "Cítrico Aromático", "acordes": ["cítrico", "fresco especiado", "amadeirado", "aromático"], "topo": "Toranja, bergamota, pimenta-rosa", "coracao": "Gengibre, sálvia, lavanda", "fundo": "Clearwood, musgo, camurça", "destaque": false},
-  {"id": "h7k4bcrpmqdbw0lfyj7u", "marca": "Abercrombie & Fitch", "nome": "Authentic Self Man", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 349.0, "familia": "", "acordes": [], "topo": "Cipreste, gengibre chinês, cardamomo da Guatemala", "coracao": "Gerânio egípcio, frésia, folha de violeta", "fundo": "Cedro da Virgínia, fava tonka brasileira, baunilha Bourbon", "destaque": false},
-  {"id": "goo8ql85v3xd190dj12m", "marca": "Abercrombie & Fitch", "nome": "Fierce", "conc": "Eau de Cologne", "vol": "", "genero": "Masculino", "preco": 469.0, "familia": "", "acordes": [], "topo": "Petitgrain, abeto, laranja, limão, cardamomo", "coracao": "Alecrim, lírio-do-vale, rosa, jasmim", "fundo": "Pau-rosa, almíscar, vetiver, musgo de carvalho", "destaque": false},
-  {"id": "jmgkdwawzlnel7ldszo6", "marca": "Abercrombie & Fitch", "nome": "Fierce Cologne", "conc": "Eau de Cologne", "vol": "200 ml", "genero": "Masculino", "preco": 579.0, "familia": "", "acordes": [], "topo": "Petitgrain, abeto, laranja, limão, cardamomo", "coracao": "Alecrim, lírio-do-vale, rosa, jasmim", "fundo": "Pau-rosa, almíscar, vetiver, musgo de carvalho", "destaque": false},
-  {"id": "dachlyfrtv32ajf9jood", "marca": "Abercrombie & Fitch", "nome": "First Instinct", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 369.0, "familia": "Aromático Fougère", "acordes": ["ozônico", "aquático", "aromático", "almiscarado"], "topo": "Melão, água tônica, gim", "coracao": "Folha de violeta, pimenta de Sichuan, cítricos", "fundo": "Almíscar, camurça, âmbar", "destaque": false},
-  {"id": "r1jnsr207bvheoc7xqnr", "marca": "Abercrombie & Fitch", "nome": "First Instinct Blue", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 349.0, "familia": "Aromático Fougère", "acordes": ["fresco especiado", "aromático", "lavanda", "especiado quente"], "topo": "Maçã, bergamota, cardamomo", "coracao": "Lavanda, alecrim, pimenta", "fundo": "Sândalo, fava tonka, âmbar", "destaque": false},
-  {"id": "5os71dzt2clgi4vt5ota", "marca": "Abercrombie & Fitch", "nome": "First Instinct Woman", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 349.0, "familia": "", "acordes": ["doce", "floral", "cítrico", "frutado"], "topo": "Toranja, magnólia, maracujá", "coracao": "Orquídea-borboleta, flor de laranjeira", "fundo": "Âmbar, fava tonka", "destaque": false},
-  {"id": "ujw6n9up4nmax3c16pw8", "marca": "Animale", "nome": "Animale", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 329.0, "familia": "Floral Frutal", "acordes": ["floral", "frutado", "especiado", "amadeirado"], "topo": "Bergamota, pêssego, melão, groselha preta, anis, cardamomo", "coracao": "Jasmim, rosa, lírio-do-vale, tuberosa, ilangue-ilangue, gerânio", "fundo": "Sândalo, musgo de carvalho, âmbar, baunilha, almíscar, patchouli", "destaque": false},
-  {"id": "ui8h8gto4bwht43fgbuz", "marca": "Animale", "nome": "Animale", "conc": "Eau de Parfum", "vol": "200 ml", "genero": "Feminino", "preco": 389.0, "familia": "Floral Frutal", "acordes": ["floral", "frutado", "âmbar", "almiscarado"], "topo": "Bergamota, pêssego, melão, frutas verdes, ameixa, aldeídos", "coracao": "Jasmim, rosa, lírio-do-vale, ylang-ylang, tuberosa, violeta", "fundo": "Sândalo, almíscar, âmbar, baunilha, patchouli, vetiver", "destaque": false},
-  {"id": "wk18okaaereac1rvxbpw", "marca": "Animale", "nome": "Animale Animale", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 289.0, "familia": "Floral Oriental", "acordes": ["floral", "musgoso", "cítrico", "frutado"], "topo": "Pêssego, bergamota, aldeídos, jacinto, mandarina, groselha preta", "coracao": "Jasmim, rosa, ylang-ylang, lírio-do-vale, íris, cravo", "fundo": "Sândalo, âmbar, almíscar, baunilha, musgo de carvalho, patchouli", "destaque": false},
-  {"id": "71yqiy005gpxqgsbgoxn", "marca": "Animale", "nome": "Animale for Men", "conc": "Eau de Toilette", "vol": "200 ml", "genero": "Masculino", "preco": 349.0, "familia": "Oriental Especiada", "acordes": ["aromático", "fresco especiado", "cítrico", "lavanda"], "topo": "Limão, néroli e frésia", "coracao": "Lavanda, bagas de zimbro e gerânio", "fundo": "Musgo de carvalho, couro e vetiver", "destaque": false},
-  {"id": "slm6h4mjclnvex0t123z", "marca": "Animale", "nome": "Animale Seduction Homme", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 329.0, "familia": "Amadeirada Aromática", "acordes": ["amadeirado", "aromático", "especiado", "fresco"], "topo": "", "coracao": "", "fundo": "", "destaque": false},
-  {"id": "9fc08jrgvg3w8fkjqau7", "marca": "Animale", "nome": "Seduction Femme", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 339.0, "familia": "Floral", "acordes": ["frutado", "doce", "rosa", "aromático"], "topo": "Framboesa, cassis e toranja", "coracao": "Rosa, jasmim e tuberosa", "fundo": "Praliné, âmbar e patchouli", "destaque": false},
-  {"id": "nbaze660hfyyh0antaa2", "marca": "Antonio Banderas", "nome": "The Icon", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 269.0, "familia": "Oriental Amadeirado", "acordes": ["fresco especiado", "aromático", "cítrico", "lavanda"], "topo": "Toranja, pimenta-do-reino", "coracao": "Lavanda, sálvia", "fundo": "Sândalo, musgo de carvalho", "destaque": false},
-  {"id": "67d0v9rhp4nl2vqbcfbt", "marca": "Azzaro", "nome": "Azzaro Pour Homme", "conc": "Eau de Toilette", "vol": "50 ml", "genero": "Masculino", "preco": 189.0, "familia": "Aromático Fougère", "acordes": [], "topo": "Alcaravia, íris, lavanda, sálvia esclareia, manjericão, anis, bergamota, limão", "coracao": "Sândalo, bagas de zimbro, patchouli, vetiver, cedro, cardamomo", "fundo": "Couro, fava tonka, âmbar, almíscar, musgo de carvalho", "destaque": false},
-  {"id": "27l467cyxjmmilo0th10", "marca": "Azzaro", "nome": "Azzaro Pour Homme", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 319.0, "familia": "Aromático Fougère", "acordes": [], "topo": "Alcaravia, íris, lavanda, sálvia esclareia, manjericão, anis, bergamota, limão", "coracao": "Sândalo, bagas de zimbro, patchouli, vetiver, cedro, cardamomo", "fundo": "Couro, fava tonka, âmbar, almíscar, musgo de carvalho", "destaque": false},
-  {"id": "9myv3hbk235yh1k1usux", "marca": "Azzaro", "nome": "Azzaro Pour Homme", "conc": "Eau de Toilette", "vol": "200 ml", "genero": "Masculino", "preco": 389.0, "familia": "Aromático Fougère", "acordes": [], "topo": "Alcaravia, íris, lavanda, sálvia esclareia, manjericão, anis, bergamota, limão", "coracao": "Sândalo, bagas de zimbro, patchouli, vetiver, cedro, cardamomo", "fundo": "Couro, fava tonka, âmbar, almíscar, musgo de carvalho", "destaque": false},
-  {"id": "o8hz317e51wcl0xlyn05", "marca": "Azzaro", "nome": "Azzaro Sport", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 279.0, "familia": "Aromático Fougère", "acordes": ["aromático", "cítrico", "amadeirado", "especiado"], "topo": "Toranja", "coracao": "Sálvia esclareia", "fundo": "Sândalo, fava tonka", "destaque": false},
-  {"id": "lweqfjz85l3g2a8wjal0", "marca": "Azzaro", "nome": "Chrome", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 449.0, "familia": "Aromático Cítrico", "acordes": [], "topo": "Limão, alecrim, bergamota, neroli, abacaxi", "coracao": "Jasmim, cíclame, musgo de carvalho, coentro", "fundo": "Almíscar, cedro, musgo de carvalho, sândalo, cardamomo, fava tonka, pau-rosa brasileiro", "destaque": false},
-  {"id": "j9ihk0gp8s2nogkvwn1v", "marca": "Azzaro", "nome": "Chrome", "conc": "Eau de Toilette", "vol": "200 ml", "genero": "Masculino", "preco": 469.0, "familia": "Aromático Cítrico", "acordes": [], "topo": "Limão, alecrim, bergamota, neroli, abacaxi", "coracao": "Jasmim, cíclame, musgo de carvalho, coentro", "fundo": "Almíscar, cedro, musgo de carvalho, sândalo, cardamomo, fava tonka, pau-rosa brasileiro", "destaque": false},
-  {"id": "mvt7e83farcbdia5d4qo", "marca": "Azzaro", "nome": "Chrome Eau de Parfum", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 469.0, "familia": "Aromático Especiado", "acordes": [], "topo": "Tangerina verde", "coracao": "Lavanda", "fundo": "Pinho", "destaque": false},
-  {"id": "9coq81r66zkzv4xq5zrl", "marca": "Azzaro", "nome": "Chrome Legend", "conc": "Eau de Toilette", "vol": "125 ml", "genero": "Masculino", "preco": 279.0, "familia": "Aromático Frutado", "acordes": ["verde", "fresco", "frutado", "amadeirado"], "topo": "Maçã verde, chá, laranja amarga, almíscar, fava tonka, vetiver, musgo de carvalho, cedro e âmbar", "coracao": "", "fundo": "", "destaque": false},
-  {"id": "m9d601xnjc75r18wmt8p", "marca": "Azzaro", "nome": "Forever Wanted Elixir", "conc": "Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 759.0, "familia": "Couro", "acordes": [], "topo": "Framboesa, tangerina verde, bergamota", "coracao": "Sálvia esclareia, lavandin, cardamomo", "fundo": "Acorde de couro, vetiver, wolfwood", "destaque": false},
-  {"id": "47in9igf6y4n9eganvk6", "marca": "Azzaro", "nome": "The Most Wanted Eau de Parfum Intense", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 619.0, "familia": "Âmbar Especiado", "acordes": [], "topo": "Cardamomo", "coracao": "Toffee (caramelo)", "fundo": "Madeira de âmbar", "destaque": false},
-  {"id": "dl-azzaro-the-most-wanted-eau-de-toilette-intense", "marca": "Azzaro", "nome": "The Most Wanted Eau de Toilette Intense", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 589.0, "familia": "Amadeirada aromática", "acordes": ["lavanda", "cítrico", "fresco especiado", "aromático"], "topo": "Bergamota", "coracao": "Lavanda", "fundo": "Licor, musgo", "destaque": false},
-  {"id": "vtmc282e2tdx2vlcpshg", "marca": "Azzaro", "nome": "The Most Wanted Parfum", "conc": "Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 629.0, "familia": "Amadeirado Especiado", "acordes": [], "topo": "Gengibre vermelho", "coracao": "Notas amadeiradas", "fundo": "Baunilha bourbon", "destaque": false},
-  {"id": "dl-azzaro-wanted", "marca": "Azzaro", "nome": "Wanted", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 569.0, "familia": "Amadeirada especiada", "acordes": ["aromático", "fresco especiado", "fresco", "cítrico"], "topo": "Limão, gengibre, lavanda e hortelã", "coracao": "Cardamomo da Guatemala, zimbro, maçã e gerânio", "fundo": "Fava tonka, amberwood e vetiver do Haiti", "destaque": false},
-  {"id": "aa4b1x1vxo20mjr8t2sp", "marca": "Azzaro", "nome": "Wanted by Night", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 639.0, "familia": "Amadeirado Especiado", "acordes": [], "topo": "Canela, tangerina, lavanda, limão", "coracao": "Notas frutadas, incenso, cedro vermelho, cominho", "fundo": "Tabaco, baunilha, couro, cedro, benjoim, cipreste, patchouli", "destaque": false},
-  {"id": "uuba3pz7w7vo8uauomd2", "marca": "Azzaro", "nome": "Wanted Girl", "conc": "Eau de Parfum", "vol": "80 ml", "genero": "Feminino", "preco": 599.0, "familia": "Floral Frutal Gourmand", "acordes": ["doce", "frutado", "baunilha", "floral"], "topo": "Cassis, tangerina, cereja", "coracao": "Jasmim sambac, flor de laranjeira, cacau", "fundo": "Baunilha, fava tonka, caramelo, âmbar", "destaque": false},
-  {"id": "f5mgdqcgebihcg1pot5q", "marca": "Britney Spears", "nome": "Fantasy", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 289.0, "familia": "Floral Frutado Gourmand", "acordes": ["doce", "frutado", "tropical", "fresco"], "topo": "Kiwi, lichia vermelha, marmelo", "coracao": "Chocolate branco, cupcake, orquídea, jasmim", "fundo": "Almíscar, raiz de íris, notas amadeiradas", "destaque": false},
-  {"id": "s11t98yb8ntmmjmcqwyj", "marca": "Britney Spears", "nome": "Midnight Fantasy", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 289.0, "familia": "Floral Frutado", "acordes": ["frutado", "doce", "cereja", "baunilha"], "topo": "Ameixa, cereja ácida, framboesa", "coracao": "Orquídea, íris, frésia", "fundo": "Baunilha, almíscar, âmbar", "destaque": false},
-  {"id": "3fgt3o9nqfyd8bfu1ub8", "marca": "Burberry", "nome": "Brit for Him", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 449.0, "familia": "Amadeirada Aromática", "acordes": ["amadeirado", "cítrico", "especiado", "aromático"], "topo": "Limão siciliano, bergamota, mandarina verde, cardamomo, gengibre", "coracao": "Madeira de cedro, noz-moscada, flor de pepino", "fundo": "Madeira de cedro, almíscar, madeira de âmbar, madeira de rosa", "destaque": false},
-  {"id": "028yyj15d9w15i2lykjp", "marca": "Burberry", "nome": "Burberry for Women", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 419.0, "familia": "Floral Frutado", "acordes": ["frutado", "atalcado", "amadeirado", "baunilha"], "topo": "Pêssego, damasco, pera, cassis, maçã verde", "coracao": "Sândalo, jasmim, musgo", "fundo": "Baunilha, cedro, almíscar", "destaque": false},
-  {"id": "jefvnib5yk77iimbrh6r", "marca": "Burberry", "nome": "Burberry Goddess", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 629.0, "familia": "Aromático", "acordes": ["baunilha", "lavanda", "fresco especiado", "cacau"], "topo": "Baunilha, lavanda, cacau, gengibre", "coracao": "Caviar de baunilha", "fundo": "Absoluto de baunilha", "destaque": false},
-  {"id": "6k8fn5se8oagnem5q5zb", "marca": "Burberry", "nome": "Burberry Goddess Intense", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 639.0, "familia": "Amadeirado Aromático", "acordes": ["baunilha", "lavanda", "patchouli", "amadeirado"], "topo": "Lavanda", "coracao": "Baunilha, absoluto de baunilha, baunilha bourbon, caviar de baunilha", "fundo": "Patchouli", "destaque": false},
-  {"id": "2by366byvympjlkeomq0", "marca": "Burberry", "nome": "Burberry Her", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 679.0, "familia": "Floral Frutado Gourmand", "acordes": ["frutado", "doce", "amadeirado", "atalcado"], "topo": "Morango, framboesa, amora, ginja, cassis, tangerina, limão", "coracao": "Violeta, jasmim", "fundo": "Almíscar, baunilha, cashmeran, notas amadeiradas, âmbar, musgo de carvalho, patchouli", "destaque": false},
-  {"id": "j7ug97hbbh5xf46fpomr", "marca": "Burberry", "nome": "Her Eau de Toilette", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Feminino", "preco": 619.0, "familia": "Floral Frutado", "acordes": ["frutado", "fresco", "doce", "floral"], "topo": "Pera, morango, groselha negra, pimenta-rosa", "coracao": "Peônia, rosa, lírio-do-vale, madressilva", "fundo": "Almíscar, cedro", "destaque": false},
-  {"id": "61n88jubo90nrv7tdq8y", "marca": "Burberry", "nome": "Her Elixir de Parfum", "conc": "Elixir", "vol": "100 ml", "genero": "Feminino", "preco": 689.0, "familia": "Floral Frutal Gourmand", "acordes": ["frutado", "doce", "floral", "âmbar"], "topo": "Framboesa, amora, cereja ácida, bergamota", "coracao": "Jasmim, violeta, peônia", "fundo": "Almíscar, âmbar, cashmeran, baunilha, sândalo", "destaque": false},
-  {"id": "grmobxng66r9kiscgp8u", "marca": "Burberry", "nome": "Hero", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 639.0, "familia": "Amadeirado Especiado", "acordes": ["âmbar", "amadeirado", "especiado quente", "aromático"], "topo": "Agulhas de pinheiro, olíbano", "coracao": "Benjoim, incenso", "fundo": "Cedro do Atlas, cedro do Himalaia, cedro da Virgínia", "destaque": false},
-  {"id": "dl-burberry-london", "marca": "Burberry", "nome": "London", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 429.0, "familia": "Floral", "acordes": ["floral branco", "cítrico", "frutado", "floral"], "topo": "Madressilva, tangerina e rosa", "coracao": "Jasmim, flor de tiaré, peônia e clementina", "fundo": "Almíscar, sândalo e patchouli", "destaque": false},
-  {"id": "lss9ofb5w0g84kds2wm7", "marca": "Burberry", "nome": "My Burberry", "conc": "Eau de Parfum", "vol": "90 ml", "genero": "Feminino", "preco": 549.0, "familia": "Floral", "acordes": ["floral", "doce", "cítrico", "rosa"], "topo": "Ervilha-de-cheiro, bergamota, tangerina, toranja, limão", "coracao": "Marmelo, frésia, gerânio, pêssego, notas verdes, gardênia, maracujá", "fundo": "Rosa damascena, rosa, patchouli, almíscar, couro, violeta", "destaque": false},
-  {"id": "px90uamcx0zim01i0u0x", "marca": "Burberry", "nome": "My Burberry Black", "conc": "Parfum", "vol": "90 ml", "genero": "Feminino", "preco": 789.0, "familia": "Oriental Floral", "acordes": ["âmbar", "patchouli", "frutado", "rosa"], "topo": "Jasmim", "coracao": "Pêssego, rosa", "fundo": "Âmbar, patchouli", "destaque": false},
-  {"id": "0uar8nulngrm0dt5cbir", "marca": "Burberry", "nome": "My Burberry Blush", "conc": "Eau de Parfum", "vol": "90 ml", "genero": "Feminino", "preco": 569.0, "familia": "Floral", "acordes": ["rosa", "frutado", "fresco especiado", "floral"], "topo": "Romã, limão", "coracao": "Maçã verde, pétalas de rosa, gerânio", "fundo": "Glicínia, jasmim", "destaque": false},
-  {"id": "2gt8bk4to4yrain74ou0", "marca": "Bvlgari", "nome": "Man Terrae Essence", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Masculino", "preco": 569.0, "familia": "Amadeirada Aromática", "acordes": ["amadeirado", "terroso", "aromático", "âmbar"], "topo": "Bergamota, cipreste, violeta", "coracao": "Vetiver, patchouli", "fundo": "Âmbar, benjoim, cedro", "destaque": false},
-  {"id": "yd20a31zwz7gwi694vgu", "marca": "Carolina Herrera", "nome": "212 VIP Rosé", "conc": "Eau de Parfum", "vol": "80 ml", "genero": "Feminino", "preco": 649.0, "familia": "Floral Frutado", "acordes": ["floral", "almiscarado", "frutado", "amadeirado"], "topo": "Champanhe rosé, pimenta rosa", "coracao": "Flor de pêssego, rosa", "fundo": "Almíscar branco, notas amadeiradas", "destaque": false},
-  {"id": "hv1d9xc31jlcntw1kgdn", "marca": "Carolina Herrera", "nome": "Good Girl", "conc": "Eau de Parfum", "vol": "80 ml", "genero": "Feminino", "preco": 669.0, "familia": "Âmbar floral", "acordes": ["doce", "floral branco", "baunilha", "quente especiado"], "topo": "Amêndoa, café, bergamota e limão", "coracao": "Nardo, jasmim sambac, flor de laranjeira, rosa e íris", "fundo": "Fava tonka, cacau, baunilha, praliné, sândalo, âmbar", "destaque": true},
-  {"id": "j8mf6hvfedjlowzqlstr", "marca": "Dior", "nome": "J'adore", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 969.0, "familia": "Floral Frutado", "acordes": ["floral branco", "floral", "frutado", "doce"], "topo": "Pera, melão, magnólia, pêssego, mandarina e bergamota", "coracao": "Jasmim, lírio-do-vale, tuberosa, frésia, rosa, orquídea", "fundo": "Almíscar, baunilha, cedro e amora", "destaque": true},
-  {"id": "wq7vx81sq15ad4707q03", "marca": "Dior", "nome": "Sauvage", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 829.0, "familia": "Aromático fresco", "acordes": ["fresco especiado", "âmbar", "cítrico", "aromático"], "topo": "Bergamota da Calábria", "coracao": "Pimenta Sichuan, lavanda, resina de elemi", "fundo": "Ambroxan, elemi e resinas amadeiradas", "destaque": true},
-  {"id": "light-blue-eau-intense", "marca": "Dolce&Gabbana", "nome": "Light Blue", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Feminino", "preco": 529.0, "familia": "Floral Frutado", "acordes": ["cítrico", "amadeirado", "fresco", "frutado"], "topo": "Limão siciliano, maçã Granny Smith, cedro, campânula", "coracao": "Jasmim, bambu, rosa", "fundo": "Cedro, almíscar, âmbar", "destaque": false},
-  {"id": "j5mvdqz387n7zwukrl9g", "marca": "Giorgio Armani", "nome": "Acqua di Giò Pour Homme", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 649.0, "familia": "Aromático Aquático", "acordes": ["cítrico", "aromático", "marinho", "fresco especiado"], "topo": "Lima, limão, bergamota, jasmim, laranja, mandarina e néroli", "coracao": "Notas oceânicas, jasmim, pêssego, frésia, alecrim, jacinto, violeta", "fundo": "Almíscar branco, cedro, musgo de carvalho, patchouli e âmbar", "destaque": true},
-  {"id": "dl-givenchy-l-interdit", "marca": "Givenchy", "nome": "L'Interdit", "conc": "Eau de Parfum", "vol": "80 ml", "genero": "Feminino", "preco": 729.0, "familia": "Oriental Floral", "acordes": ["floral branco", "tuberosa", "doce", "cítrico"], "topo": "Pera, bergamota", "coracao": "Tuberosa, flor de laranjeira, jasmim sambac", "fundo": "Patchouli, baunilha, ambroxan, vetiver", "destaque": false},
-  {"id": "dl-jean-paul-gaultier-le-male-le-parfum", "marca": "Jean Paul Gaultier", "nome": "Le Male Le Parfum", "conc": "Parfum", "vol": "200 ml", "genero": "Masculino", "preco": 829.0, "familia": "Oriental", "acordes": ["âmbar", "aromático", "íris", "lavanda"], "topo": "Cardamomo", "coracao": "Lavanda e íris", "fundo": "Baunilha, notas orientais e notas amadeiradas", "destaque": false},
-  {"id": "6d3apso22g8oq2jri9bf", "marca": "Jean Paul Gaultier", "nome": "Scandal", "conc": "Eau de Parfum", "vol": "80 ml", "genero": "Feminino", "preco": 729.0, "familia": "Floral branco e mel", "acordes": ["mel", "doce", "floral branco", "cítrico"], "topo": "Laranja sanguínea, mandarina", "coracao": "Mel, jasmim, pêssego, flor de laranjeira, gardênia", "fundo": "Patchouli, caramelo, cera de abelha, alcaçuz", "destaque": true},
-  {"id": "uke5p53rhwl1oxoreks1", "marca": "Lancôme", "nome": "La Vie Est Belle", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 729.0, "familia": "Floral Frutado Gourmand", "acordes": ["doce", "baunilha", "frutado", "patchouli"], "topo": "Groselha preta, pera", "coracao": "Íris, jasmim, flor de laranjeira", "fundo": "Pralinê, baunilha, patchouli, fava tonka", "destaque": true},
-  {"id": "dl-mugler-angel", "marca": "Mugler", "nome": "Angel", "conc": "Eau de Parfum", "vol": "100 ml", "genero": "Feminino", "preco": 749.0, "familia": "Oriental Baunilha", "acordes": ["doce", "patchouli", "especiado quente", "frutado"], "topo": "Bergamota, mandarina, coco, melão, abacaxi, cassis, algodão-doce", "coracao": "Rosa, jasmim, pêssego, mel, bagas vermelhas, ameixa, damasco", "fundo": "Patchouli, sândalo, baunilha, âmbar, fava tonka, caramelo, chocolate", "destaque": false},
-  {"id": "qvqp0f9cdgqbzw9lht1t", "marca": "Paco Rabanne", "nome": "1 Million", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 549.0, "familia": "Amadeirado Especiado", "acordes": ["quente especiado", "canela", "cítrico", "âmbar"], "topo": "Tangerina sanguínea, toranja e hortelã", "coracao": "Canela, notas especiadas e rosa", "fundo": "Âmbar, couro, notas amadeiradas e patchouli indiano", "destaque": true},
-  {"id": "dl-paco-rabanne-invictus", "marca": "Paco Rabanne", "nome": "Invictus", "conc": "Eau de Toilette", "vol": "100 ml", "genero": "Masculino", "preco": 569.0, "familia": "", "acordes": [], "topo": "", "coracao": "", "fundo": "", "destaque": false},
-  {"id": "dl-prada-paradoxe", "marca": "Prada", "nome": "Paradoxe", "conc": "Eau de Parfum", "vol": "90 ml", "genero": "Feminino", "preco": 919.0, "familia": "Floral Ambarado", "acordes": ["floral branco", "cítrico", "doce", "âmbar"], "topo": "Bergamota da Calábria, tangerina, pera", "coracao": "Neroli, flor de laranjeira, jasmim sambac", "fundo": "Âmbar, benjoim, baunilha Bourbon, almíscar branco", "destaque": false},
-  {"id": "dl-versace-crystal-noir", "marca": "Versace", "nome": "Crystal Noir", "conc": "Eau de Parfum", "vol": "90 ml", "genero": "Feminino", "preco": 629.0, "familia": "Oriental Floral", "acordes": ["fresco especiado", "quente especiado", "floral branco", "coco"], "topo": "Pimenta, gengibre e cardamomo", "coracao": "Coco, gardênia, flor de laranjeira e peônia", "fundo": "Sândalo, almíscar e âmbar", "destaque": false},
-  {"id": "dl-versace-eros", "marca": "Versace", "nome": "Eros", "conc": "Eau de Toilette", "vol": "200 ml", "genero": "Masculino", "preco": 719.0, "familia": "Aromático Fougère", "acordes": ["baunilha", "aromático", "verde", "fresco especiado"], "topo": "Hortelã, maçã verde, limão", "coracao": "Fava tonka, ambroxan, gerânio", "fundo": "Baunilha de Madagascar, cedro, vetiver, musgo de carvalho", "destaque": false},
-  {"id": "gxg4djks2i3enmbosk4u", "marca": "Yves Saint Laurent", "nome": "Libre", "conc": "Eau de Parfum", "vol": "90 ml", "genero": "Feminino", "preco": 879.0, "familia": "Âmbar Fougère", "acordes": ["floral branco", "cítrico", "lavanda", "baunilha"], "topo": "Lavanda, mandarina, groselha preta e petitgrain", "coracao": "Lavanda, flor de laranjeira e jasmim", "fundo": "Baunilha de Madagascar, almíscar, cedro e âmbar cinzento", "destaque": true}
-];
+// ==== LOJA ONLINE (Mercado Pago) ====
+// API_LOJA: endereço do servidor no Cloudflare, ex.: 'https://hera-loja.SEU-NOME.workers.dev'.
+// Vazio = o servidor está no mesmo endereço do site (é assim no ambiente de teste do Cloudflare).
+// No site oficial (GitHub Pages), o botão "Pagar agora" só aparece depois que API_LOJA for preenchido.
+var API_LOJA = '';
+var DESCONTO_WHATSAPP = 5; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
+function lojaOnline(){ return !!API_LOJA || /\.workers\.dev$/.test(location.hostname) || location.hostname === 'localhost' || location.hostname === '127.0.0.1'; }
+var PERFUMES = []; // a lista oficial fica em produtos.json (o site e o servidor leem o mesmo arquivo)
 // ======================================================================
 
 var FOTOS = {"028yyj15d9w15i2lykjp": "assets/produtos/028yyj15d9w15i2lykjp.webp", "0uar8nulngrm0dt5cbir": "assets/produtos/0uar8nulngrm0dt5cbir.webp", "27l467cyxjmmilo0th10": "assets/produtos/27l467cyxjmmilo0th10.webp", "2by366byvympjlkeomq0": "assets/produtos/2by366byvympjlkeomq0.webp", "2gt8bk4to4yrain74ou0": "assets/produtos/2gt8bk4to4yrain74ou0.webp", "3fgt3o9nqfyd8bfu1ub8": "assets/produtos/3fgt3o9nqfyd8bfu1ub8.webp", "47in9igf6y4n9eganvk6": "assets/produtos/47in9igf6y4n9eganvk6.webp", "5os71dzt2clgi4vt5ota": "assets/produtos/5os71dzt2clgi4vt5ota.webp", "61n88jubo90nrv7tdq8y": "assets/produtos/61n88jubo90nrv7tdq8y.webp", "67d0v9rhp4nl2vqbcfbt": "assets/produtos/67d0v9rhp4nl2vqbcfbt.webp", "6d3apso22g8oq2jri9bf": "assets/produtos/6d3apso22g8oq2jri9bf.webp", "6k8fn5se8oagnem5q5zb": "assets/produtos/6k8fn5se8oagnem5q5zb.webp", "71yqiy005gpxqgsbgoxn": "assets/produtos/71yqiy005gpxqgsbgoxn.webp", "9coq81r66zkzv4xq5zrl": "assets/produtos/9coq81r66zkzv4xq5zrl.webp", "9fc08jrgvg3w8fkjqau7": "assets/produtos/9fc08jrgvg3w8fkjqau7.webp", "9myv3hbk235yh1k1usux": "assets/produtos/9myv3hbk235yh1k1usux.webp", "aa4b1x1vxo20mjr8t2sp": "assets/produtos/aa4b1x1vxo20mjr8t2sp.webp", "dachlyfrtv32ajf9jood": "assets/produtos/dachlyfrtv32ajf9jood.webp", "dl-azzaro-the-most-wanted-eau-de-toilette-intense": "assets/produtos/dl-azzaro-the-most-wanted-eau-de-toilette-intense.webp", "dl-azzaro-wanted": "assets/produtos/dl-azzaro-wanted.webp", "dl-burberry-london": "assets/produtos/dl-burberry-london.webp", "dl-givenchy-l-interdit": "assets/produtos/dl-givenchy-l-interdit.webp", "dl-jean-paul-gaultier-le-male-le-parfum": "assets/produtos/dl-jean-paul-gaultier-le-male-le-parfum.webp", "dl-mugler-angel": "assets/produtos/dl-mugler-angel.webp", "dl-paco-rabanne-invictus": "assets/produtos/dl-paco-rabanne-invictus.webp", "dl-prada-paradoxe": "assets/produtos/dl-prada-paradoxe.webp", "dl-versace-crystal-noir": "assets/produtos/dl-versace-crystal-noir.webp", "dl-versace-eros": "assets/produtos/dl-versace-eros.webp", "f5mgdqcgebihcg1pot5q": "assets/produtos/f5mgdqcgebihcg1pot5q.webp", "goo8ql85v3xd190dj12m": "assets/produtos/goo8ql85v3xd190dj12m.webp", "grmobxng66r9kiscgp8u": "assets/produtos/grmobxng66r9kiscgp8u.webp", "gxg4djks2i3enmbosk4u": "assets/produtos/gxg4djks2i3enmbosk4u.webp", "h7k4bcrpmqdbw0lfyj7u": "assets/produtos/h7k4bcrpmqdbw0lfyj7u.webp", "hv1d9xc31jlcntw1kgdn": "assets/produtos/hv1d9xc31jlcntw1kgdn.webp", "j5mvdqz387n7zwukrl9g": "assets/produtos/j5mvdqz387n7zwukrl9g.webp", "j7ug97hbbh5xf46fpomr": "assets/produtos/j7ug97hbbh5xf46fpomr.webp", "j8mf6hvfedjlowzqlstr": "assets/produtos/j8mf6hvfedjlowzqlstr.webp", "j9ihk0gp8s2nogkvwn1v": "assets/produtos/j9ihk0gp8s2nogkvwn1v.webp", "jefvnib5yk77iimbrh6r": "assets/produtos/jefvnib5yk77iimbrh6r.webp", "jmgkdwawzlnel7ldszo6": "assets/produtos/jmgkdwawzlnel7ldszo6.webp", "light-blue-eau-intense": "assets/produtos/light-blue-eau-intense.webp", "lss9ofb5w0g84kds2wm7": "assets/produtos/lss9ofb5w0g84kds2wm7.webp", "lweqfjz85l3g2a8wjal0": "assets/produtos/lweqfjz85l3g2a8wjal0.webp", "m9d601xnjc75r18wmt8p": "assets/produtos/m9d601xnjc75r18wmt8p.webp", "mvt7e83farcbdia5d4qo": "assets/produtos/mvt7e83farcbdia5d4qo.webp", "nbaze660hfyyh0antaa2": "assets/produtos/nbaze660hfyyh0antaa2.webp", "o8hz317e51wcl0xlyn05": "assets/produtos/o8hz317e51wcl0xlyn05.webp", "oue0k3t2kw2z1cnmfizw": "assets/produtos/oue0k3t2kw2z1cnmfizw.webp", "px90uamcx0zim01i0u0x": "assets/produtos/px90uamcx0zim01i0u0x.webp", "qvqp0f9cdgqbzw9lht1t": "assets/produtos/qvqp0f9cdgqbzw9lht1t.webp", "r1jnsr207bvheoc7xqnr": "assets/produtos/r1jnsr207bvheoc7xqnr.webp", "s11t98yb8ntmmjmcqwyj": "assets/produtos/s11t98yb8ntmmjmcqwyj.webp", "slm6h4mjclnvex0t123z": "assets/produtos/slm6h4mjclnvex0t123z.webp", "ui8h8gto4bwht43fgbuz": "assets/produtos/ui8h8gto4bwht43fgbuz.webp", "ujw6n9up4nmax3c16pw8": "assets/produtos/ujw6n9up4nmax3c16pw8.webp", "uke5p53rhwl1oxoreks1": "assets/produtos/uke5p53rhwl1oxoreks1.webp", "uuba3pz7w7vo8uauomd2": "assets/produtos/uuba3pz7w7vo8uauomd2.webp", "vtmc282e2tdx2vlcpshg": "assets/produtos/vtmc282e2tdx2vlcpshg.webp", "wk18okaaereac1rvxbpw": "assets/produtos/wk18okaaereac1rvxbpw.webp", "wq7vx81sq15ad4707q03": "assets/produtos/wq7vx81sq15ad4707q03.webp", "yd20a31zwz7gwi694vgu": "assets/produtos/yd20a31zwz7gwi694vgu.webp"};
-/* ---- minha seleção ---- */
-var SEL=[];
+/* ---- carrinho (a "Minha lista") ---- */
+var SEL=[];   // [{id, q}]
 try{ SEL=JSON.parse(localStorage.getItem('hera-selecao')||'[]'); }catch(e){ SEL=[]; }
-function salvaSel(){ try{ localStorage.setItem('hera-selecao',JSON.stringify(SEL)); }catch(e){} }
+// versão antiga guardava só os ids; converte para {id, q}
+SEL=(Array.isArray(SEL)?SEL:[]).map(function(x){ return typeof x==='string'?{id:x,q:1}:x; }).filter(function(x){ return x && x.id && x.q>0; });
+var CUPOM=''; try{ CUPOM=localStorage.getItem('hera-cupom')||''; }catch(e){}
+var COTACAO=null;   // resposta do servidor (preços, descontos e cupom conferidos lá)
+var QTD_MAX=10;
+function salvaSel(){ try{ localStorage.setItem('hera-selecao',JSON.stringify(SEL)); localStorage.setItem('hera-cupom',CUPOM); }catch(e){} }
+function naSel(id){ for(var i=0;i<SEL.length;i++){ if(SEL[i].id===id) return i; } return -1; }
 function botaoLista(id){
-  var on=SEL.indexOf(id)>=0;
+  var on=naSel(id)>=0;
   return '<button type="button" class="btn-lista'+(on?' na-lista':'')+'" data-lista="'+id+'" aria-pressed="'+on+'"><span class="mais">'+(on?'✓':'+')+'</span><span class="txt">'+(on?'Na lista':'Lista')+'</span></button>';
 }
 function porId(id){ return PERFUMES.filter(function(x){return x.id===id;})[0]; }
+function pulaContador(){ document.querySelectorAll('.qtd-lista').forEach(function(q){ q.classList.remove('pulo'); void q.offsetWidth; q.classList.add('pulo'); }); }
+function mudouSel(){ salvaSel(); COTACAO=null; atualizaSel(); cotar(); }
 function alternaSel(id){
-  var i=SEL.indexOf(id); if(i>=0) SEL.splice(i,1); else SEL.push(id);
-  salvaSel(); atualizaSel();
-  document.querySelectorAll('.qtd-lista').forEach(function(q){ q.classList.remove('pulo'); void q.offsetWidth; q.classList.add('pulo'); });
+  var i=naSel(id); if(i>=0) SEL.splice(i,1); else SEL.push({id:id,q:1});
+  mudouSel(); pulaContador();
 }
+function mudaQtd(id,d){
+  var i=naSel(id); if(i<0) return;
+  SEL[i].q=Math.max(1,Math.min(QTD_MAX,SEL[i].q+d)); mudouSel(); pulaContador();
+}
+function itensSel(){ return SEL.map(function(s){ return {p:porId(s.id), q:s.q}; }).filter(function(x){ return x.p; }); }
+function centavos(v){ return brl((v||0)/100); }
 function atualizaSel(){
   document.querySelectorAll('[data-lista]').forEach(function(b){
-    var on=SEL.indexOf(b.dataset.lista)>=0; b.classList.toggle('na-lista',on); b.setAttribute('aria-pressed',on);
+    var on=naSel(b.dataset.lista)>=0; b.classList.toggle('na-lista',on); b.setAttribute('aria-pressed',on);
     var grande=b.classList.contains('grande');
     b.innerHTML='<span class="mais">'+(on?'✓':'+')+'</span><span class="txt">'+(grande?(on?'Na sua lista':'Adicionar à lista'):(on?'Na lista':'Lista'))+'</span>';
   });
-  var itens=SEL.map(porId).filter(Boolean);
-  document.querySelectorAll('.qtd-lista').forEach(function(q){ q.textContent=itens.length; q.hidden=!itens.length; });
-  document.getElementById('sel-vazia').hidden=!!itens.length;
-  document.getElementById('sel-rodape').hidden=!itens.length;
-  document.getElementById('sel-qtd').textContent=itens.length? itens.length+(itens.length>1?' perfumes':' perfume') : 'Nenhum perfume';
-  if(!itens.length){ document.getElementById('sel-itens').innerHTML=''; return; }
-  var tPix=itens.reduce(function(s,p){return s+pix(p);},0), tOut=itens.reduce(function(s,p){return s+outros(p);},0);
-  document.getElementById('sel-total').textContent=brl(tPix);
-  document.getElementById('sel-outros').textContent='No Pix ou no cartão. Sem o desconto: '+brl(itens.reduce(function(s,p){return s+p.preco;},0));
-  document.getElementById('sel-itens').innerHTML=itens.map(function(p){
-    return '<li>'+(FOTOS[p.id]?'<img src="'+FOTOS[p.id]+'" alt="">':'')+'<span>'+esc(p.marca+' '+p.nome)+(p.vol?' · '+esc(p.vol):'')+'</span><em>'+brl(pix(p))+'</em><button type="button" data-tirar="'+p.id+'" aria-label="Tirar da lista">×</button></li>';
+  var itens=itensSel();
+  var n=itens.reduce(function(s,x){return s+x.q;},0);
+  document.querySelectorAll('.qtd-lista').forEach(function(q){ q.textContent=n; q.hidden=!n; });
+  document.getElementById('sel-vazia').hidden=!!n;
+  document.getElementById('sel-rodape').hidden=!n;
+  document.getElementById('sel-qtd').textContent=n? n+(n>1?' perfumes':' perfume') : 'Nenhum perfume';
+  if(!n){ document.getElementById('sel-itens').innerHTML=''; return; }
+  var cheio=itens.reduce(function(s,x){return s+x.p.preco*x.q;},0);
+  var tWa=itens.reduce(function(s,x){return s+pix(x.p)*x.q;},0);
+  document.getElementById('sel-subtotal').textContent=brl(cheio);
+  document.getElementById('sel-total').textContent=brl(tWa);
+  document.getElementById('sel-outros').textContent='Com '+DESCONTO_WHATSAPP+'% de desconto, no Pix ou no cartão, combinando com a Hera.';
+  document.getElementById('sel-itens').innerHTML=itens.map(function(x){
+    var p=x.p;
+    return '<li>'+(FOTOS[p.id]?'<img src="'+FOTOS[p.id]+'" alt="">':'')+
+      '<span class="info"><span>'+esc(p.marca+' '+p.nome)+(p.vol?' · '+esc(p.vol):'')+'</span><em>'+brl(p.preco)+(x.q>1?' cada':'')+'</em></span>'+
+      '<span class="qtd"><button type="button" data-menos="'+p.id+'" aria-label="Diminuir quantidade"'+(x.q<=1?' disabled':'')+'>−</button><b aria-label="Quantidade">'+x.q+'</b><button type="button" data-mais="'+p.id+'" aria-label="Aumentar quantidade"'+(x.q>=QTD_MAX?' disabled':'')+'>+</button></span>'+
+      '<button type="button" data-tirar="'+p.id+'" aria-label="Tirar da lista">×</button></li>';
   }).join('');
-  var msg='Olá! Quero fazer um pedido:\n'+itens.map(function(p){return '• '+p.marca+' '+p.nome+' '+p.conc+(p.vol?' '+p.vol:'');}).join('\n')+
-    '\n\nTotal com 5% de desconto: '+brl(tPix)+'.';
+  // pagamento online: valores sempre vindos do servidor
+  var on=lojaOnline(), bloco=document.getElementById('sel-online');
+  bloco.hidden=!on;
+  var inp=document.getElementById('sel-cupom'); if(document.activeElement!==inp) inp.value=CUPOM;
+  if(on){
+    var tot=document.getElementById('sel-total-online'), det=document.getElementById('sel-detalhe-online');
+    if(COTACAO && !COTACAO.erro){
+      tot.textContent=centavos(COTACAO.total);
+      det.textContent=COTACAO.descontos && COTACAO.descontos.length ? COTACAO.descontos.map(function(d){return d.nome+': −'+centavos(d.valor);}).join(' · ') : 'Pix ou cartão pelo Mercado Pago.';
+    } else if(COTACAO && COTACAO.erro){ tot.textContent='—'; det.textContent=COTACAO.erro; }
+    else { tot.textContent='calculando…'; det.textContent=''; }
+  }
+  var msgCupom=document.getElementById('sel-cupom-msg');
+  if(CUPOM && COTACAO && !COTACAO.erro){ msgCupom.textContent=COTACAO.mensagem_cupom||''; msgCupom.className=COTACAO.cupom_valido?'ok':'erro'; }
+  else if(!CUPOM){ msgCupom.textContent=''; msgCupom.className=''; }
+  var msg='Olá! Quero fazer um pedido:\n'+itens.map(function(x){var p=x.p;return '• '+(x.q>1?x.q+'x ':'')+p.marca+' '+p.nome+' '+p.conc+(p.vol?' '+p.vol:'');}).join('\n')+
+    '\n\nTotal com '+DESCONTO_WHATSAPP+'% de desconto: '+brl(tWa)+'.'+
+    (CUPOM?'\nCódigo do representante: '+CUPOM:'');
   document.getElementById('sel-enviar').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
 }
+/* ---- conversa com o servidor ---- */
+function api(caminho,dados){
+  return fetch(API_LOJA+caminho,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(dados)})
+    .then(function(r){ return r.json().catch(function(){return {};}).then(function(j){ if(!r.ok) throw new Error(j.erro||'Não foi possível falar com a loja agora.'); return j; }); });
+}
+function pedidoAtual(){ return {itens:SEL.filter(function(s){return porId(s.id);}).map(function(s){return {id:s.id,quantidade:s.q};}), cupom:CUPOM}; }
+var tCotar=null, nCotar=0;
+function cotar(){ clearTimeout(tCotar); tCotar=setTimeout(cotarAgora,350); }
+function cotarAgora(){
+  if(!lojaOnline() || !SEL.length){ return; }
+  var n=++nCotar;
+  api('/api/cotacao',pedidoAtual()).then(function(j){ if(n===nCotar){ COTACAO=j; atualizaSel(); } })
+    .catch(function(e){ if(n===nCotar){ COTACAO={erro:e.message}; atualizaSel(); } });
+}
+document.getElementById('sel-cupom-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  CUPOM=document.getElementById('sel-cupom').value.trim().toUpperCase().replace(/\s+/g,'');
+  salvaSel(); COTACAO=null; atualizaSel();
+  if(lojaOnline()) cotarAgora();
+  else { var m=document.getElementById('sel-cupom-msg'); m.textContent=CUPOM?'O código vai junto na mensagem do WhatsApp.':''; m.className='ok'; }
+});
+document.getElementById('sel-pagar').addEventListener('click',function(){
+  var b=this, m=document.getElementById('sel-pagar-msg');
+  if(!SEL.length) return;
+  b.disabled=true; b.textContent='Abrindo o Mercado Pago…'; m.textContent='';
+  api('/api/pagar',pedidoAtual()).then(function(j){
+    if(!j.url) throw new Error('Não foi possível abrir o pagamento.');
+    location.href=j.url;
+  }).catch(function(e){ b.disabled=false; b.textContent='Pagar agora'; m.textContent=e.message+' Se preferir, envie pelo WhatsApp.'; });
+});
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-lista]'); if(b){ e.preventDefault(); e.stopPropagation(); alternaSel(b.dataset.lista); return; }
   var r=e.target.closest('[data-tirar]'); if(r){ alternaSel(r.dataset.tirar); return; }
+  var mais=e.target.closest('[data-mais]'); if(mais){ mudaQtd(mais.dataset.mais,1); return; }
+  var menos=e.target.closest('[data-menos]'); if(menos){ mudaQtd(menos.dataset.menos,-1); return; }
 });
 function abreLista(v){
   var l=document.getElementById('selecao'), f=document.getElementById('lista-fundo');
   l.classList.toggle('aberta',v); l.setAttribute('aria-hidden',!v); f.hidden=!v; document.body.classList.toggle('lista-aberta',v);
+  if(v && !COTACAO) cotar();
 }
 document.querySelectorAll('[data-abre-lista]').forEach(function(b){ b.addEventListener('click',function(){ abreLista(true); }); });
 document.getElementById('sel-fechar').addEventListener('click',function(){ abreLista(false); });
@@ -1029,8 +1095,8 @@ document.getElementById('lista-fundo').addEventListener('click',function(){ abre
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') abreLista(false); });
 
 function brl(v){return 'R$ ' + v.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');}
-function pix(p){return Math.round(p.preco * 0.95 * 100) / 100;}
-function outros(p){return Math.round(p.preco * 0.95 * 100) / 100;}
+function pix(p){return Math.round(p.preco * (100 - DESCONTO_WHATSAPP)) / 100;}
+function outros(p){return pix(p);}
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function linkWA(p){
   var msg = 'Olá! Quero o ' + p.marca + ' ' + p.nome + ' ' + p.conc + (p.vol ? ' ' + p.vol : '') + '.';
@@ -1051,7 +1117,7 @@ function render(id, lista, comBotao){
   document.getElementById(id).innerHTML = lista.map(function(p){return card(p, comBotao);}).join('');
 }
 
-render('grade-destaques', PERFUMES.filter(function(p){return p.destaque;}), false);
+function montaDestaques(){ render('grade-destaques', PERFUMES.filter(function(p){return p.destaque;}), false); }
 
 var filtroGen = '', filtroMarca = '', filtroBusca = '';
 function semAcento(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
@@ -1065,9 +1131,9 @@ function renderCatalogo(){
   document.getElementById('contagem').textContent = lista.length + (lista.length === 1 ? ' perfume' : ' perfumes');
 }
 var selMarca = document.getElementById('filtro-marca');
-PERFUMES.map(function(p){return p.marca;}).filter(function(m,i,a){return a.indexOf(m)===i;}).sort().forEach(function(m){
+function montaMarcas(){ PERFUMES.map(function(p){return p.marca;}).filter(function(m,i,a){return a.indexOf(m)===i;}).sort().forEach(function(m){
   var o = document.createElement('option'); o.value = m; o.textContent = m; selMarca.appendChild(o);
-});
+}); }
 selMarca.addEventListener('change', function(){ filtroMarca = selMarca.value; renderCatalogo(); });
 document.getElementById('busca').addEventListener('input', function(e){ filtroBusca = e.target.value; renderCatalogo(); });
 document.querySelectorAll('.segmento button').forEach(function(btn){
@@ -1077,10 +1143,10 @@ document.querySelectorAll('.segmento button').forEach(function(btn){
     renderCatalogo();
   });
 });
-renderCatalogo();
 
 function mostrarProduto(id){
   var p = PERFUMES.filter(function(x){return x.id === id;})[0] || PERFUMES[0];
+  if (!p) return;
   var pf=document.getElementById('pr-foto');
   if (p && FOTOS[p.id]) { pf.classList.add('tem-foto'); pf.innerHTML='<img src="'+FOTOS[p.id]+'" alt="'+esc(p.marca+' '+p.nome)+'">'; }
   else if (pf) { pf.classList.remove('tem-foto'); pf.innerHTML='<svg><use href="#i-frasco"/></svg>Foto real do frasco'; }
@@ -1124,7 +1190,7 @@ function rota(){
   var partes = h.split('/');
   var pagina = partes[0] || 'inicio';
   if (!document.getElementById('p-' + pagina)) pagina = 'inicio';
-  if (pagina === 'produto') mostrarProduto(partes[1]); else document.title = 'Hera Perfumes — Fragrâncias icônicas';
+  if (pagina === 'produto') mostrarProduto(partes[1]); else if (pagina === 'pagamento') mostrarPagamento(partes[1]); else document.title = 'Hera Perfumes — Fragrâncias icônicas';
   document.querySelectorAll('.pagina').forEach(function(el){el.classList.toggle('ativa', el.id === 'p-' + pagina);});
   document.querySelectorAll('nav.menu a[href^="#"]').forEach(function(a){
     if (a.getAttribute('href') === '#' + pagina) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
@@ -1213,9 +1279,49 @@ function soltarPenas(){ if(window.carrosselReinicia) window.carrosselReinicia();
   var topo=document.querySelector('header.topo');
   window.addEventListener('scroll',function(){ topo.classList.toggle('rolou', window.scrollY>8); },{passive:true});
 })();
+/* ---- volta do Mercado Pago: ?pagamento=aprovado|pendente|recusado ---- */
+var PG = {
+  aprovado: {eyebrow:'Pagamento aprovado', titulo:'Obrigada! Seu pedido está confirmado.', texto:'Você vai receber o comprovante do Mercado Pago no seu e-mail. A Hera vai falar com você pelo WhatsApp para combinar o envio, com nota fiscal, foto do lote e vídeo do seu frasco.', icone:'<path d="M5 12.5l4.5 4.5L19 7.5"/>'},
+  pendente: {eyebrow:'Pagamento em análise', titulo:'Recebemos seu pedido.', texto:'O pagamento ainda está sendo processado (por exemplo, boleto ou Pix aguardando confirmação). Assim que ele for aprovado, a Hera fala com você pelo WhatsApp.', icone:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4.5l3 2"/>'},
+  recusado: {eyebrow:'Pagamento não aprovado', titulo:'O pagamento não foi concluído.', texto:'Nenhum valor foi cobrado. Você pode tentar de novo com outro cartão ou forma de pagamento, ou fazer o pedido pelo WhatsApp com 5% de desconto.', icone:'<path d="M7 7l10 10M17 7L7 17"/>'}
+};
+var PG_PARAMS = {};
+function mostrarPagamento(st){
+  var c = PG[st] || PG.pendente;
+  document.getElementById('pg-selo').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+c.icone+'</svg>';
+  document.getElementById('pg-eyebrow').textContent = c.eyebrow;
+  document.getElementById('pg-titulo').textContent = c.titulo;
+  document.getElementById('pg-texto').textContent = c.texto;
+  var cod = PG_PARAMS.payment_id || PG_PARAMS.collection_id;
+  document.getElementById('pg-codigo').textContent = cod && cod !== 'null' ? 'Número do pagamento: ' + cod : '';
+  var waMsg = 'Olá! ' + (st === 'aprovado' ? 'Acabei de pagar meu pedido pelo site.' : st === 'recusado' ? 'Tentei pagar pelo site e não deu certo.' : 'Fiz um pedido pelo site e o pagamento está em análise.') + (cod && cod !== 'null' ? ' Pagamento nº ' + cod + '.' : '');
+  document.getElementById('pg-acoes').innerHTML =
+    (st === 'recusado' ? '<button type="button" class="btn btn-pagar" style="width:auto" data-abre-lista-pg>Tentar de novo</button>' : '<a class="btn btn-claro" style="background:var(--bordo);color:var(--off)" href="#catalogo">Voltar ao catálogo</a>') +
+    '<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMsg) + '"><svg class="ico"><use href="#i-wa"/></svg>Falar com a Hera</a>';
+  var t = document.querySelector('[data-abre-lista-pg]'); if (t) t.addEventListener('click', function(){ abreLista(true); });
+  document.title = c.eyebrow + ' — Hera Perfumes';
+}
+(function(){
+  var q = new URLSearchParams(location.search), st = q.get('pagamento');
+  if (!st) return;
+  q.forEach(function(v, k){ PG_PARAMS[k] = v; });
+  if (st === 'aprovado') { SEL = []; CUPOM = ''; salvaSel(); }   // pedido pago: esvazia o carrinho
+  history.replaceState(null, '', location.pathname + '#pagamento/' + (PG[st] ? st : 'pendente'));
+})();
+
+/* ---- carrega a lista oficial de produtos e monta o site ---- */
 window.addEventListener('hashchange', rota);
-setTimeout(atualizaSel,0);
-rota();
+fetch('produtos.json', {cache: 'no-cache'})
+  .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(lista){
+    PERFUMES = lista;
+    montaDestaques(); montaMarcas(); renderCatalogo(); atualizaSel(); rota(); cotar();
+  })
+  .catch(function(){
+    rota();
+    var aviso = '<p class="muted" style="grid-column:1/-1;padding:24px 0">Não conseguimos carregar o catálogo agora. Atualize a página ou fale com a Hera pelo <a href="https://wa.me/' + WHATSAPP + '" target="_blank" rel="noopener">WhatsApp</a>.</p>';
+    ['grade-destaques','grade-catalogo'].forEach(function(id){ var el = document.getElementById(id); if (el) el.innerHTML = aviso; });
+  });
 </script>
 </body>
 </html>

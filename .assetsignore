@@ -1,0 +1,13 @@
+# arquivos que o Worker NÃO publica como páginas do site
+.git
+.gitignore
+.assetsignore
+.wrangler
+.dev.vars
+node_modules
+worker
+wrangler.toml
+package.json
+package-lock.json
+*.md
+CNAME

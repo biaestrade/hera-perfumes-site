@@ -1,0 +1,43 @@
+# Servidor da loja Hera Perfumes (Cloudflare Workers, plano gratuito)
+# Nada aqui é segredo. As chaves (Mercado Pago, senha do relatório) ficam como "secrets" no painel do Cloudflare.
+
+name = "hera-loja"
+main = "worker/index.js"
+compatibility_date = "2025-09-01"
+
+# Ambiente de teste: o Worker também serve as páginas do site (index.html, produtos.json, fotos).
+[assets]
+directory = "."
+binding = "ASSETS"
+
+# Banco de dados (pedidos e cupons). O database_id aparece quando você roda:  npx wrangler d1 create hera-loja
+[[d1_databases]]
+binding = "DB"
+database_name = "hera-loja"
+database_id = "COLE-AQUI-O-ID-DO-BANCO"
+migrations_dir = "worker/migrations"
+
+[vars]
+# "teste" enquanto usar as credenciais de teste do Mercado Pago; "producao" quando for para valer
+MODO = "teste"
+
+# Endereço do site para onde a cliente volta depois de pagar. Vazio = o próprio endereço do Worker (teste).
+# No site oficial:  SITE_URL = "https://heraevodiaperfumes.com.br"
+SITE_URL = ""
+
+# De onde o servidor lê os preços oficiais. Vazio = o produtos.json publicado junto com o Worker (teste).
+# No site oficial:  PRODUTOS_URL = "https://heraevodiaperfumes.com.br/produtos.json"
+PRODUTOS_URL = ""
+
+# Sites que podem usar o servidor (separados por vírgula)
+ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiaperfumes.com.br"
+
+# ---- REGRAS DE DESCONTO (pontos em aberto: troque aqui quando decidir) ----
+# Desconto do site, em %
+DESCONTO_BASE_PCT = "5"
+# Os 5% também valem pagando online?  "sim" ou "nao"
+DESCONTO_BASE_NO_ONLINE = "sim"
+# Com código de representante:  "maior" = vale o maior desconto (5% OU cupom);  "somar" = soma os dois (5% + cupom)
+COMBINAR_DESCONTOS = "maior"
+# Frete fixo em centavos (0 = sem frete no pagamento online; ex.: "2500" = R$ 25,00)
+FRETE_CENTAVOS = "0"
