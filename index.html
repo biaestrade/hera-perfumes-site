@@ -658,21 +658,44 @@ nav.menu a.btn-insta{background-image:none}
 .wa-card{display:block;font-size:12px;color:#1f6b3a;margin-top:2px}
 .tot-wa{margin-top:14px;padding-top:12px;border-top:1px dashed var(--linha);font-size:14px}
 .link-wa{display:block;text-align:center;font-size:14px;font-weight:600;color:#1f6b3a;margin-top:6px}
-/* ---- carrinho em tela inteira ---- */
-.cab-acoes{display:flex;align-items:center;gap:10px}
-.tela-cheia-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid var(--linha);border-radius:999px;padding:6px 12px;font:500 12px var(--sans);color:var(--bordo);cursor:pointer}
-.tela-cheia-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6}
-.lista-lateral{transition:transform .45s cubic-bezier(.2,.7,.2,1),width .35s ease}
-.lista-lateral.tela-cheia{width:100vw;box-shadow:none}
-@media(min-width:900px){
-  .lista-lateral.tela-cheia{display:grid;grid-template-columns:minmax(0,1fr) 440px;grid-template-rows:auto 1fr;padding:0 max(24px,calc((100vw - 1240px)/2))}
-  .lista-lateral.tela-cheia .cab-lista{grid-column:1/-1;padding:34px 0 22px}
-  .lista-lateral.tela-cheia .cab-lista b{font-size:34px}
-  .lista-lateral.tela-cheia ul,.lista-lateral.tela-cheia .lista-vazia{grid-column:1;padding:12px 40px 12px 0;overflow:auto}
-  .lista-lateral.tela-cheia li{gap:22px;padding:20px 0;font-size:16px}
-  .lista-lateral.tela-cheia li img{width:104px;height:104px}
-  .lista-lateral.tela-cheia .rodape-lista{grid-column:2;grid-row:2;align-self:start;margin-top:12px;border:1px solid var(--linha);border-radius:20px;max-height:none}
-}
+/* ---- página do carrinho ---- */
+.btn-pagar{width:100%;min-height:58px;font-size:16px;letter-spacing:.3px}
+.ver-carrinho{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;margin:0 0 16px;border:1.5px solid var(--bordo);border-radius:999px;background:#fff;color:var(--bordo);font:600 15px var(--sans);text-decoration:none}
+.ver-carrinho svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
+.ver-carrinho:hover{background:var(--bordo);color:var(--off)}
+#car-resumo .ver-carrinho{display:none}
+.car{padding-top:40px;padding-bottom:72px}
+.car-topo{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px}
+.car-topo h1{font-family:Marcellus,serif;font-size:40px;color:var(--bordo);margin-top:8px}
+.car-topo a{font-weight:600;color:var(--carmim)}
+.car-grade{display:grid;gap:28px;grid-template-columns:minmax(0,1fr)}
+#car-itens,#car-resumo{min-width:0}
+@media(min-width:960px){.car-grade{grid-template-columns:minmax(0,1fr) 400px;align-items:start}#car-resumo{position:sticky;top:120px}}
+#car-resumo .rodape-lista{border:1px solid var(--linha);border-radius:20px;max-height:none;padding:22px}
+.car-item{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;background:#fff;border:1px solid var(--linha);border-radius:20px;padding:18px;margin-bottom:16px}
+@media(min-width:700px){.car-item{grid-template-columns:170px minmax(0,1fr) auto;gap:24px;padding:22px}}
+.car-foto{display:block;aspect-ratio:1;background:#fbf7f2;border-radius:14px;overflow:hidden}
+.car-foto img{width:100%;height:100%;object-fit:contain;padding:8px}
+.car-info .marca-p{display:block;font-size:11px;letter-spacing:3px;color:var(--carmim);font-weight:600}
+.car-info h2{font-family:Marcellus,serif;font-size:23px;color:var(--bordo);margin:4px 0 4px}
+.car-info .tipo{font-size:13px;color:#6b5a5f}
+.car-acordes{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 8px}
+.car-acordes span{font-size:11px;background:#f6eef0;color:var(--bordo);border-radius:999px;padding:4px 10px}
+.car-notas{font-size:13px;color:#5a4a4f;line-height:1.55}
+.car-notas b{font-size:10px;letter-spacing:2px;color:var(--carmim);margin-right:6px}
+.car-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px}
+.car-links a,.car-links button{background:none;border:0;padding:0;font:600 13px var(--sans);color:var(--carmim);cursor:pointer;text-decoration:underline}
+.car-links button{color:#8a7a7f}
+.car-valores{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;border-top:1px dashed var(--linha);padding-top:14px}
+@media(min-width:700px){.car-valores{grid-column:auto;flex-direction:column;align-items:flex-end;justify-content:flex-start;border:0;padding:0;min-width:150px;text-align:right}}
+.car-valores .unit{font-size:13px;color:#6b5a5f}
+.car-valores .linha{font-size:22px;font-weight:600;color:var(--carmim)}
+.car-valores .wa{font-size:12px;color:#1f6b3a}
+.car-item .qtd{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--linha);border-radius:999px;padding:2px}
+.car-item .qtd button{width:34px;height:34px;border:0;background:none;font-size:18px;color:var(--bordo);cursor:pointer;border-radius:50%}
+.car-item .qtd button:disabled{opacity:.35;cursor:default}
+.car-item .qtd b{min-width:24px;text-align:center}
+.car-vazio{background:#fff;border:1px solid var(--linha);border-radius:20px;padding:40px 24px;text-align:center}
 /* ---- Minha conta ---- */
 .link-conta{display:inline-flex;align-items:center;gap:6px;color:var(--bordo);text-decoration:none;font:500 14px var(--sans);white-space:nowrap}
 .link-conta svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5}
@@ -732,7 +755,7 @@ nav.menu a.link-conta{background-image:none}
 .pol-secao .tabela>div:last-child{border-bottom:0}
 .link-news{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline}
 /* ---- Pop-up newsletter ---- */
-.news[hidden],.news-fundo[hidden],#selecao [hidden]{display:none!important}
+.news[hidden],.news-fundo[hidden],#selecao [hidden],#car-resumo [hidden],#car-resumo[hidden]{display:none!important}
 .news-fundo{position:fixed;inset:0;background:rgba(30,6,12,.55);z-index:90;backdrop-filter:blur(2px)}
 .news{position:fixed;z-index:91;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,calc(100% - 32px));background:var(--off,#FBF7F2);border-radius:22px;overflow:hidden;display:grid;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:newsEntra .45s ease}
 @keyframes newsEntra{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
@@ -1159,6 +1182,20 @@ nav.menu a.link-conta{background-image:none}
     </section>
   </div>
 </div>
+
+<!-- ============ CARRINHO (página inteira) ============ -->
+<div class="pagina" id="p-carrinho">
+  <div class="wrap car">
+    <div class="car-topo">
+      <div><p class="eyebrow">Carrinho</p><h1 id="car-titulo">Seu carrinho</h1></div>
+      <a href="#catalogo">← Continuar comprando</a>
+    </div>
+    <div class="car-grade">
+      <div id="car-itens"></div>
+      <div id="car-resumo"></div>
+    </div>
+  </div>
+</div>
 <div class="pagina" id="p-pagamento">
   <div class="wrap">
     <section class="pag-retorno" aria-live="polite">
@@ -1219,24 +1256,22 @@ nav.menu a.link-conta{background-image:none}
 <aside class="lista-lateral" id="selecao" aria-label="Carrinho" aria-hidden="true">
   <div class="cab-lista">
     <div><span class="eyebrow">Carrinho</span><b id="sel-qtd">Nenhum perfume</b></div>
-    <div class="cab-acoes">
-      <button type="button" class="tela-cheia-btn" id="sel-tela" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Tela inteira</span></button>
-      <button type="button" class="fecha-lista" id="sel-fechar" aria-label="Fechar carrinho">×</button>
-    </div>
+    <button type="button" class="fecha-lista" id="sel-fechar" aria-label="Fechar carrinho">×</button>
   </div>
   <ul id="sel-itens"></ul>
   <p class="lista-vazia" id="sel-vazia">Toque em <b>Adicionar ao carrinho</b> nos perfumes que você quer. Depois é só pagar online, ou pedir pelo WhatsApp com 5% de desconto.</p>
   <div class="rodape-lista" id="sel-rodape">
+    <a class="ver-carrinho" href="#carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Ver meu carrinho completo</a>
     <div class="linha-tot"><span>Subtotal (preço de tabela)</span><span id="sel-subtotal"></span></div>
     <form class="cupom" id="sel-cupom-form" autocomplete="off">
       <label for="sel-cupom">Código do representante</label>
       <div><input id="sel-cupom" name="cupom" maxlength="30" placeholder="Opcional" autocapitalize="characters" spellcheck="false"><button type="submit">Aplicar</button></div>
       <small id="sel-cupom-msg" aria-live="polite"></small>
     </form>
-    <div class="bloco-online" id="sel-online" hidden>
-      <div class="tot"><span>Pagando online</span><b id="sel-total-online"></b></div>
+    <div class="bloco-online" id="sel-online">
+      <div class="tot"><span>Total no site</span><b id="sel-total-online"></b></div>
       <small id="sel-detalhe-online"></small>
-      <button type="button" class="btn btn-pagar" id="sel-pagar">Pagar agora</button>
+      <button type="button" class="btn btn-pagar" id="sel-pagar"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Finalizar compra</button>
       <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
     </div>
     <div class="tot tot-wa"><span>Pelo WhatsApp (5% off)</span><b id="sel-total"></b></div>
@@ -1298,6 +1333,7 @@ function atualizaSel(){
   document.getElementById('sel-vazia').hidden=!!n;
   document.getElementById('sel-rodape').hidden=!n;
   document.getElementById('sel-qtd').textContent=n? n+(n>1?' perfumes':' perfume') : 'Nenhum perfume';
+  montaCarrinhoPagina(itens,n);
   if(!n){ document.getElementById('sel-itens').innerHTML=''; return; }
   var cheio=itens.reduce(function(s,x){return s+x.p.preco*x.q;},0);
   var tWa=itens.reduce(function(s,x){return s+pix(x.p)*x.q;},0);
@@ -1313,8 +1349,12 @@ function atualizaSel(){
   }).join('');
   // pagamento online: valores sempre vindos do servidor
   var on=lojaOnline(), bloco=document.getElementById('sel-online');
-  bloco.hidden=!on; document.getElementById('sel-offline').hidden=on;
+  bloco.hidden=false;
   var inp=document.getElementById('sel-cupom'); if(document.activeElement!==inp) inp.value=CUPOM;
+  if(!on){
+    document.getElementById('sel-total-online').textContent=brl(cheio);
+    document.getElementById('sel-detalhe-online').textContent='Pix ou cartão pelo Mercado Pago, em ambiente seguro.'+(CUPOM?' O código '+CUPOM+' é conferido no pagamento.':'');
+  }
   if(on){
     var tot=document.getElementById('sel-total-online'), det=document.getElementById('sel-detalhe-online');
     if(COTACAO && !COTACAO.erro){
@@ -1330,6 +1370,40 @@ function atualizaSel(){
     '\n\nTotal com '+DESCONTO_WHATSAPP+'% de desconto: '+brl(tWa)+'.'+
     (CUPOM?'\nCódigo do representante: '+CUPOM:'');
   document.getElementById('sel-enviar').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
+}
+/* ---- página do carrinho, com todos os detalhes ---- */
+function montaCarrinhoPagina(itens,n){
+  var box=document.getElementById('car-itens'); if(!box) return;
+  document.getElementById('car-titulo').textContent=n?'Seu carrinho · '+n+(n>1?' perfumes':' perfume'):'Seu carrinho';
+  document.getElementById('car-resumo').hidden=!n;
+  if(!n){ box.innerHTML='<div class="car-vazio"><p class="muted" style="margin-bottom:16px">Seu carrinho está vazio.</p><a class="btn" style="background:var(--bordo);color:var(--off)" href="#catalogo">Ver o catálogo</a></div>'; return; }
+  box.innerHTML=itens.map(function(x){
+    var p=x.p, notas=[];
+    if(p.topo) notas.push(['TOPO',p.topo]); if(p.coracao) notas.push(['CORAÇÃO',p.coracao]); if(p.fundo) notas.push(['FUNDO',p.fundo]);
+    return '<article class="car-item">'+
+      '<a class="car-foto" href="#produto/'+p.id+'">'+(FOTOS[p.id]?'<img src="'+FOTOS[p.id]+'" alt="'+esc(p.marca+' '+p.nome)+'">':'')+'</a>'+
+      '<div class="car-info"><span class="marca-p">'+esc(p.marca.toUpperCase())+'</span><h2>'+esc(p.nome)+'</h2>'+
+        '<span class="tipo">'+esc(p.conc)+(p.vol?' · '+esc(p.vol):'')+(p.genero?' · '+esc(p.genero):'')+(p.familia?' · '+esc(p.familia):'')+'</span>'+
+        ((p.acordes||[]).length?'<div class="car-acordes">'+p.acordes.slice(0,5).map(function(a){return '<span>'+esc(a)+'</span>';}).join('')+'</div>':'')+
+        (notas.length?'<div class="car-notas">'+notas.map(function(l){return '<div><b>'+l[0]+'</b>'+esc(l[1])+'</div>';}).join('')+'</div>':'')+
+        '<div class="car-links"><a href="#produto/'+p.id+'">Ver detalhes do perfume</a><button type="button" data-tirar="'+p.id+'">Tirar do carrinho</button></div></div>'+
+      '<div class="car-valores">'+
+        '<span class="qtd"><button type="button" data-menos="'+p.id+'" aria-label="Diminuir quantidade"'+(x.q<=1?' disabled':'')+'>−</button><b>'+x.q+'</b><button type="button" data-mais="'+p.id+'" aria-label="Aumentar quantidade"'+(x.q>=QTD_MAX?' disabled':'')+'>+</button></span>'+
+        '<span class="unit">'+brl(p.preco)+' cada</span>'+
+        '<span class="linha">'+brl(p.preco*x.q)+'</span>'+
+        '<span class="wa">'+brl(pix(p)*x.q)+' pelo WhatsApp</span>'+
+      '</div></article>';
+  }).join('');
+}
+function mostrarCarrinho(){
+  abreLista(false);
+  document.getElementById('car-resumo').appendChild(document.getElementById('sel-rodape'));
+  document.title='Carrinho — Hera Perfumes';
+  if(lojaOnline() && !COTACAO) cotar();
+}
+function devolveResumo(){
+  var r=document.getElementById('sel-rodape'), aside=document.getElementById('selecao');
+  if(r.parentNode!==aside) aside.appendChild(r);
 }
 /* ---- conversa com o servidor ---- */
 function api(caminho,dados){
@@ -1356,11 +1430,12 @@ document.getElementById('sel-cupom-form').addEventListener('submit',function(e){
 document.getElementById('sel-pagar').addEventListener('click',function(){
   var b=this, m=document.getElementById('sel-pagar-msg');
   if(!SEL.length) return;
+  if(!lojaOnline()){ m.textContent=window.HERA_PREVIA?'Prévia: no site de teste, este botão abre o pagamento do Mercado Pago.':'O pagamento online abre em breve. Enquanto isso, peça pelo WhatsApp com 5% de desconto.'; return; }
   b.disabled=true; b.textContent='Abrindo o Mercado Pago…'; m.textContent='';
   api('/api/pagar',pedidoAtual()).then(function(j){
     if(!j.url) throw new Error('Não foi possível abrir o pagamento.');
     location.href=j.url;
-  }).catch(function(e){ b.disabled=false; b.textContent='Pagar agora'; m.textContent=e.message+' Se precisar, fale com a Hera pelo WhatsApp.'; });
+  }).catch(function(e){ b.disabled=false; b.textContent='Finalizar compra'; m.textContent=e.message+' Se precisar, fale com a Hera pelo WhatsApp.'; });
 });
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-lista]'); if(b){ e.preventDefault(); e.stopPropagation(); alternaSel(b.dataset.lista); return; }
@@ -1369,17 +1444,14 @@ document.addEventListener('click',function(e){
   var menos=e.target.closest('[data-menos]'); if(menos){ mudaQtd(menos.dataset.menos,-1); return; }
 });
 function abreLista(v){
+  if(v && document.getElementById('p-carrinho').classList.contains('ativa')){ window.scrollTo({top:0,behavior:'smooth'}); return; }
   var l=document.getElementById('selecao'), f=document.getElementById('lista-fundo');
   l.classList.toggle('aberta',v); l.setAttribute('aria-hidden',!v); f.hidden=!v; document.body.classList.toggle('lista-aberta',v);
   if(v && !COTACAO) cotar();
 }
 document.querySelectorAll('[data-abre-lista]').forEach(function(b){ b.addEventListener('click',function(){ abreLista(true); }); });
 document.getElementById('sel-fechar').addEventListener('click',function(){ abreLista(false); });
-document.getElementById('sel-tela').addEventListener('click',function(){
-  var l=document.getElementById('selecao'), on=!l.classList.contains('tela-cheia');
-  l.classList.toggle('tela-cheia',on); this.setAttribute('aria-pressed',on);
-  this.querySelector('span').textContent=on?'Recolher':'Tela inteira';
-});
+
 document.getElementById('lista-fundo').addEventListener('click',function(){ abreLista(false); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') abreLista(false); });
 
@@ -1476,9 +1548,10 @@ menuBtn.addEventListener('click', function(){
 function rota(){
   var h = (location.hash || '#inicio').slice(1);
   var partes = h.split('/');
+  if ((partes[0] || 'inicio') !== 'carrinho') devolveResumo();
   var pagina = partes[0] || 'inicio';
   if (!document.getElementById('p-' + pagina)) pagina = 'inicio';
-  if (pagina === 'produto') mostrarProduto(partes[1]); else if (pagina === 'pagamento') mostrarPagamento(partes[1]); else if (pagina === 'minha-conta') mostrarConta(partes); else document.title = 'Hera Perfumes — Fragrâncias icônicas';
+  if (pagina === 'produto') mostrarProduto(partes[1]); else if (pagina === 'pagamento') mostrarPagamento(partes[1]); else if (pagina === 'minha-conta') mostrarConta(partes); else if (pagina === 'carrinho') mostrarCarrinho(); else document.title = 'Hera Perfumes — Fragrâncias icônicas';
   document.querySelectorAll('.pagina').forEach(function(el){el.classList.toggle('ativa', el.id === 'p-' + pagina);});
   document.querySelectorAll('nav.menu a[href^="#"]').forEach(function(a){
     if (a.getAttribute('href') === '#' + pagina) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
