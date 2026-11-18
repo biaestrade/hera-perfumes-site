@@ -8,7 +8,10 @@
  *   GET  /api/relatorio.csv planilha de vendas e comissões (pede usuário e senha)
  *   POST /api/newsletter    guarda o e-mail de quem quer receber promoções
  *   GET  /api/newsletter.csv planilha de cadastros da newsletter (mesma senha da planilha de vendas)
- *   POST /api/entrar        envia o link de entrada para o e-mail da cliente (sem senha)
+ *   POST /api/cadastrar     cria a conta com e-mail e senha (manda link para confirmar o e-mail)
+ *   POST /api/login         entra com e-mail e senha
+ *   POST /api/senha         cria ou troca a senha (cliente já conectada)
+ *   POST /api/entrar        envia o link de entrada para o e-mail da cliente (também serve para "esqueci a senha")
  *   POST /api/entrar/confirmar  troca o link por uma sessão (a cliente fica conectada)
  *   GET  /api/minha-conta   pedidos da cliente conectada, com situação da entrega
  *   POST /api/sair          desconecta
@@ -62,6 +65,15 @@ export default {
           return json(await newsletter(request, env, ctx), 200, cors);
         case 'GET /api/newsletter.csv':
           return await newsletterCsv(request, env);
+        case 'POST /api/cadastrar':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await cadastrar(request, env), 200, cors);
+        case 'POST /api/login':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await login(request, env), 200, cors);
+        case 'POST /api/senha':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await trocarSenha(request, env), 200, cors);
         case 'POST /api/entrar':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await entrar(request, env), 200, cors);
@@ -560,23 +572,97 @@ async function entrar(request, env) {
   const corpo = await lerCorpo(request);
   const email = emailValido(corpo.email);
   if (!email) throw new ErroCliente('Confira o e-mail digitado.');
+  if (await muitosLinks(env, email)) throw new ErroCliente('Já mandamos alguns links agora há pouco. Confira seu e-mail (e a caixa de spam) ou tente de novo em 15 minutos.');
+
+  return await enviarLink(request, env, email, {
+    assunto: 'Seu link para entrar na Hera Perfumes', titulo: 'Entrar na sua conta',
+    texto: `Toque no botão para ver seus pedidos e acompanhar a entrega. O link vale por ${LINK_MINUTOS} minutos e só funciona uma vez.`,
+    botao: 'Entrar na minha conta', mensagem: `Enviamos um link de entrada para ${email}. Abra seu e-mail neste aparelho.`,
+  });
+}
+
+async function enviarLink(request, env, email, txt, extra = {}) {
   const agora = new Date();
-  const recentes = await env.DB.prepare('SELECT COUNT(*) AS n FROM login_links WHERE email = ?1 AND criado_em > ?2')
-    .bind(email, new Date(agora - 15 * 60e3).toISOString()).first();
-  if (recentes && recentes.n >= 3) throw new ErroCliente('Já mandamos alguns links agora há pouco. Confira seu e-mail (e a caixa de spam) ou tente de novo em 15 minutos.');
-
   const token = tokenNovo();
-  await env.DB.prepare('INSERT INTO login_links (hash, email, criado_em, expira_em) VALUES (?1, ?2, ?3, ?4)')
-    .bind(await hashDe(token), email, agora.toISOString(), new Date(+agora + LINK_MINUTOS * 60e3).toISOString()).run();
-
+  await env.DB.prepare('INSERT INTO login_links (hash, email, criado_em, expira_em, senha_hash, aceite_promocoes, nome) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)')
+    .bind(await hashDe(token), email, agora.toISOString(), new Date(+agora + LINK_MINUTOS * 60e3).toISOString(),
+      extra.senha_hash || null, extra.aceite_promocoes ? 1 : 0, extra.nome || null).run();
   const site = (env.SITE_URL || new URL(request.url).origin).replace(/\/+$/, '');
   const link = `${site}/#minha-conta/entrar/${token}`;
-  const enviado = await mandarEmail(env, email, 'Seu link para entrar na Hera Perfumes',
-    moldeEmail('Entrar na sua conta', `Toque no botão para ver seus pedidos e acompanhar a entrega. O link vale por ${LINK_MINUTOS} minutos e só funciona uma vez.`, 'Entrar na minha conta', link));
-  if (enviado) return { ok: true, mensagem: `Enviamos um link de entrada para ${email}. Abra seu e-mail neste aparelho.` };
+  const enviado = await mandarEmail(env, email, txt.assunto, moldeEmail(txt.titulo, txt.texto, txt.botao, link));
+  if (enviado) return { ok: true, mensagem: txt.mensagem };
   // sem serviço de e-mail configurado: só no modo de teste o link aparece na tela, para testar
   if ((env.MODO || 'teste') === 'teste') return { ok: true, mensagem: 'Modo de teste: o e-mail ainda não está configurado, então o link aparece aqui.', link_teste: link };
   throw new Error('RESEND_API_KEY não configurado');
+}
+
+async function muitosLinks(env, email) {
+  const r = await env.DB.prepare('SELECT COUNT(*) AS n FROM login_links WHERE email = ?1 AND criado_em > ?2')
+    .bind(email, new Date(Date.now() - 15 * 60e3).toISOString()).first();
+  return r && r.n >= 3;
+}
+
+/* ---- senha ---- */
+const PBKDF2_VOLTAS = 30000; // o plano grátis do Cloudflare tem pouco tempo de processamento por pedido
+function b64(buf) { return btoa(String.fromCharCode(...new Uint8Array(buf))); }
+function deB64(s) { return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+async function hashSenha(senha, sal = crypto.getRandomValues(new Uint8Array(16)), voltas = PBKDF2_VOLTAS) {
+  const chave = await crypto.subtle.importKey('raw', new TextEncoder().encode(senha), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: sal, iterations: voltas }, chave, 256);
+  return `pbkdf2$${voltas}$${b64(sal)}$${b64(bits)}`;
+}
+async function senhaConfere(senha, guardado) {
+  const [tipo, voltas, sal] = String(guardado || '').split('$');
+  if (tipo !== 'pbkdf2' || !sal) return false;
+  return igualSeguro(await hashSenha(senha, deB64(sal), Number(voltas)), guardado);
+}
+function senhaValida(s) {
+  s = String(s || '');
+  if (s.length < 8) throw new ErroCliente('A senha precisa ter pelo menos 8 caracteres.');
+  if (s.length > 128) throw new ErroCliente('Senha longa demais.');
+  return s;
+}
+
+async function cadastrar(request, env) {
+  const corpo = await lerCorpo(request);
+  const email = emailValido(corpo.email);
+  if (!email) throw new ErroCliente('Confira o e-mail digitado.');
+  const senha = senhaValida(corpo.senha);
+  if (corpo.aceite !== true) throw new ErroCliente('Para criar a conta, aceite a política de compra e de privacidade.');
+  if (await muitosLinks(env, email)) throw new ErroCliente('Já mandamos alguns e-mails agora há pouco. Confira sua caixa de entrada (e o spam) ou tente de novo em 15 minutos.');
+  const existe = await env.DB.prepare('SELECT senha_hash FROM clientes WHERE email = ?1').bind(email).first();
+  if (existe && existe.senha_hash) throw new ErroCliente('Já existe uma conta com esse e-mail. Entre com sua senha ou use "Esqueci minha senha".');
+  return await enviarLink(request, env, email, {
+    assunto: 'Confirme seu e-mail para criar sua conta Hera', titulo: 'Falta só confirmar seu e-mail',
+    texto: `Toque no botão para confirmar seu e-mail e ativar sua conta. O link vale por ${LINK_MINUTOS} minutos.`,
+    botao: 'Confirmar e entrar', mensagem: `Quase lá! Enviamos um link para ${email}. Abra o e-mail e toque em "Confirmar e entrar" para ativar sua conta.`,
+  }, { senha_hash: await hashSenha(senha), aceite_promocoes: corpo.promocoes === true, nome: String(corpo.nome || '').trim().slice(0, 80) });
+}
+
+async function login(request, env) {
+  const corpo = await lerCorpo(request);
+  const email = emailValido(corpo.email);
+  const senha = String(corpo.senha || '');
+  if (!email || !senha) throw new ErroCliente('Digite seu e-mail e sua senha.');
+  const desde = new Date(Date.now() - 15 * 60e3).toISOString();
+  const erros = await env.DB.prepare('SELECT COUNT(*) AS n FROM tentativas_login WHERE email = ?1 AND em > ?2').bind(email, desde).first();
+  if (erros && erros.n >= 8) throw new ErroCliente('Muitas tentativas com senha errada. Espere 15 minutos ou use "Esqueci minha senha".');
+  const c = await env.DB.prepare('SELECT senha_hash FROM clientes WHERE email = ?1').bind(email).first();
+  if (!c || !c.senha_hash || !(await senhaConfere(senha, c.senha_hash))) {
+    await env.DB.prepare('INSERT INTO tentativas_login (email, em) VALUES (?1, ?2)').bind(email, new Date().toISOString()).run();
+    throw new ErroCliente('E-mail ou senha incorretos. Se você ainda não tem senha, crie sua conta ou use "Esqueci minha senha".');
+  }
+  await env.DB.prepare('UPDATE clientes SET ultimo_acesso = ?2 WHERE email = ?1').bind(email, new Date().toISOString()).run();
+  return { ok: true, sessao: await abrirSessao(env, email), email };
+}
+
+async function trocarSenha(request, env) {
+  const s = await sessaoAtual(request, env);
+  if (!s) throw new ErroCliente('Entre na sua conta de novo para trocar a senha.');
+  const corpo = await lerCorpo(request);
+  const senha = senhaValida(corpo.senha);
+  await env.DB.prepare('UPDATE clientes SET senha_hash = ?2 WHERE email = ?1').bind(s.email, await hashSenha(senha)).run();
+  return { ok: true, mensagem: 'Senha salva. Da próxima vez, entre com seu e-mail e senha.' };
 }
 
 async function confirmarEntrada(request, env, ctx) {
@@ -591,10 +677,24 @@ async function confirmarEntrada(request, env, ctx) {
   if (!jaCliente) paraPlanilha(env, ctx, { aba: 'clientes', email: link.email, origem: 'minha conta' });
   await env.DB.prepare('INSERT INTO clientes (email, criado_em, ultimo_acesso) VALUES (?1, ?2, ?2) ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2')
     .bind(link.email, agora).run();
+  if (link.senha_hash) { // veio do "Criar conta": a senha passa a valer agora que o e-mail foi confirmado
+    await env.DB.prepare('UPDATE clientes SET senha_hash = ?2, aceite_termos_em = ?3, aceite_promocoes = ?4 WHERE email = ?1')
+      .bind(link.email, link.senha_hash, agora, link.aceite_promocoes ? 1 : 0).run();
+    if (link.aceite_promocoes) {
+      await env.DB.prepare(`INSERT INTO newsletter (email, nome, origem, aceite_em, criado_em, ativo) VALUES (?1, ?2, 'cadastro', ?3, ?3, 1)
+        ON CONFLICT(email) DO UPDATE SET ativo = 1, aceite_em = ?3`).bind(link.email, link.nome || '', agora).run();
+      paraPlanilha(env, ctx, { aba: 'newsletter', email: link.email, nome: link.nome || '', origem: 'cadastro' });
+    }
+  }
+  return { ok: true, sessao: await abrirSessao(env, link.email), email: link.email };
+}
+
+async function abrirSessao(env, email) {
   const sessao = tokenNovo();
+  const agora = new Date().toISOString();
   await env.DB.prepare('INSERT INTO sessoes (hash, email, criado_em, expira_em) VALUES (?1, ?2, ?3, ?4)')
-    .bind(await hashDe(sessao), link.email, agora, new Date(Date.now() + SESSAO_DIAS * 864e5).toISOString()).run();
-  return { ok: true, sessao, email: link.email };
+    .bind(await hashDe(sessao), email, agora, new Date(Date.now() + SESSAO_DIAS * 864e5).toISOString()).run();
+  return sessao;
 }
 
 async function sessaoAtual(request, env) {

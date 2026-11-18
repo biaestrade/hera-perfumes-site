@@ -658,6 +658,21 @@ nav.menu a.btn-insta{background-image:none}
 .wa-card{display:block;font-size:12px;color:#1f6b3a;margin-top:2px}
 .tot-wa{margin-top:14px;padding-top:12px;border-top:1px dashed var(--linha);font-size:14px}
 .link-wa{display:block;text-align:center;font-size:14px;font-weight:600;color:#1f6b3a;margin-top:6px}
+/* ---- carrinho em tela inteira ---- */
+.cab-acoes{display:flex;align-items:center;gap:10px}
+.tela-cheia-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid var(--linha);border-radius:999px;padding:6px 12px;font:500 12px var(--sans);color:var(--bordo);cursor:pointer}
+.tela-cheia-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6}
+.lista-lateral{transition:transform .45s cubic-bezier(.2,.7,.2,1),width .35s ease}
+.lista-lateral.tela-cheia{width:100vw;box-shadow:none}
+@media(min-width:900px){
+  .lista-lateral.tela-cheia{display:grid;grid-template-columns:minmax(0,1fr) 440px;grid-template-rows:auto 1fr;padding:0 max(24px,calc((100vw - 1240px)/2))}
+  .lista-lateral.tela-cheia .cab-lista{grid-column:1/-1;padding:34px 0 22px}
+  .lista-lateral.tela-cheia .cab-lista b{font-size:34px}
+  .lista-lateral.tela-cheia ul,.lista-lateral.tela-cheia .lista-vazia{grid-column:1;padding:12px 40px 12px 0;overflow:auto}
+  .lista-lateral.tela-cheia li{gap:22px;padding:20px 0;font-size:16px}
+  .lista-lateral.tela-cheia li img{width:104px;height:104px}
+  .lista-lateral.tela-cheia .rodape-lista{grid-column:2;grid-row:2;align-self:start;margin-top:12px;border:1px solid var(--linha);border-radius:20px;max-height:none}
+}
 /* ---- Minha conta ---- */
 .link-conta{display:inline-flex;align-items:center;gap:6px;color:var(--bordo);text-decoration:none;font:500 14px var(--sans);white-space:nowrap}
 .link-conta svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5}
@@ -667,6 +682,16 @@ nav.menu a.link-conta{background-image:none}
 .conta h1{font-family:Marcellus,serif;font-size:36px;color:var(--bordo);margin:8px 0 10px}
 .conta-form{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:560px}
 .conta-form input{flex:1 1 240px;min-height:50px;border:1px solid var(--linha);border-radius:12px;padding:0 14px;font:inherit;background:#fff}
+.conta-abas{display:inline-flex;gap:4px;background:#fff;border:1px solid var(--linha);border-radius:999px;padding:4px;margin-top:22px}
+.conta-abas button{border:0;background:none;border-radius:999px;padding:10px 20px;font:500 14px var(--sans);color:var(--bordo);cursor:pointer}
+.conta-abas button.ativa{background:var(--bordo);color:var(--off)}
+.conta-form[hidden]{display:none!important}
+#conta-login input,#conta-cadastro input[type=text],#conta-cadastro input[type=email],#conta-cadastro input[type=password]{flex-basis:100%}
+#conta-login .btn,#conta-cadastro .btn{flex-basis:100%;min-height:50px}
+.conta-form .news-aceite{flex-basis:100%;font-size:13px}
+.conta-form .news-aceite input{flex:none;min-height:0;width:18px;height:18px;padding:0;margin-top:1px}
+.conta-senha{margin-top:28px;background:#fff;border:1px solid var(--linha);border-radius:14px;padding:14px 18px}
+.conta-senha summary{cursor:pointer;font-weight:600;color:var(--bordo)}
 .conta-msg{margin-top:12px;font-size:14px}.conta-msg.erro{color:#a1122f}.conta-msg.ok{color:#1f6b3a}
 .conta-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
 .conta-demo{background:#FFF6DA;border-radius:10px;padding:10px 14px;font-size:13px;margin:12px 0}
@@ -751,13 +776,13 @@ nav.menu a.link-conta{background-image:none}
       <a href="#como-comprar">Como comprar</a>
       <a href="#politica">Política de compra</a>
       <a class="link-conta" href="#minha-conta"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="txt-conta">Entrar</span></a>
-      <button type="button" class="abre-lista" data-abre-lista><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Minha lista<span class="qtd-lista" hidden>0</span></button>
+      <button type="button" class="abre-lista" data-abre-lista><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Carrinho<span class="qtd-lista" hidden>0</span></button>
       <a class="btn-insta" href="https://www.instagram.com/heraevodia_perfumes/" target="_blank" rel="noopener" aria-label="Instagram da Hera"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" class="pt"/></svg></a>
       <a class="btn btn-wa" href="https://wa.me/5511913184495" target="_blank" rel="noopener" style="min-height:44px;padding:0 20px;font-size:14px"><svg class="ico"><use href="#i-wa"/></svg>WhatsApp</a>
     </nav>
     <a class="btn-insta so-cel" href="https://www.instagram.com/heraevodia_perfumes/" target="_blank" rel="noopener" aria-label="Instagram da Hera"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" class="pt"/></svg></a>
     <a class="link-conta so-cel" href="#minha-conta" aria-label="Minha conta"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
-    <button type="button" class="abre-lista so-cel" data-abre-lista aria-label="Minha lista"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="qtd-lista" hidden>0</span></button>
+    <button type="button" class="abre-lista so-cel" data-abre-lista aria-label="Carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="qtd-lista" hidden>0</span></button>
     <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false" aria-controls="gaveta">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -853,7 +878,7 @@ nav.menu a.link-conta{background-image:none}
         </div>
         <ol class="passos">
           <li><span class="n">1</span>Escolha o perfume no catálogo.</li>
-          <li><span class="n">2</span>Toque em "Pedir" para um perfume, ou monte sua lista e envie vários de uma vez. A mensagem já vai pronta.</li>
+          <li><span class="n">2</span>Toque em "Adicionar ao carrinho" nos perfumes que quiser e pague online, ou envie o carrinho pelo WhatsApp com 5% de desconto.</li>
           <li><span class="n">3</span>Pague no Pix ou no cartão e receba em casa.</li>
         </ol>
       </div>
@@ -907,7 +932,7 @@ nav.menu a.link-conta{background-image:none}
           <svg stroke="#88072B"><use href="#i-escudo"/></svg>
           <div><b style="font-size:14px" id="pr-aviso-t"></b><p class="muted" style="font-size:13px" id="pr-aviso-p"></p></div>
         </div>
-        <button type="button" class="btn-lista grande principal" id="pr-lista" data-lista="">+ Adicionar à lista</button>
+        <button type="button" class="btn-lista grande principal" id="pr-lista" data-lista="">+ Adicionar ao carrinho</button>
         <p class="muted" style="font-size:12px;text-align:center;margin-top:8px">Pagamento seguro pelo Mercado Pago: Pix ou cartão.</p>
 
         <div id="pr-notas-bloco">
@@ -968,7 +993,7 @@ nav.menu a.link-conta{background-image:none}
       <div class="grade-2">
         <ol class="linha">
           <li><span class="col"><span class="num">1</span><span class="traco"></span></span><span class="txt"><b>Escolha no catálogo</b><span class="muted">Veja foto, notas e preço de cada perfume.</span></span></li>
-          <li><span class="col"><span class="num">2</span><span class="traco"></span></span><span class="txt"><b>Adicione à sua lista</b><span class="muted">Escolha a quantidade e, se tiver, coloque o código do seu representante.</span></span></li>
+          <li><span class="col"><span class="num">2</span><span class="traco"></span></span><span class="txt"><b>Adicione ao carrinho</b><span class="muted">Escolha a quantidade e, se tiver, coloque o código do seu representante.</span></span></li>
           <li><span class="col"><span class="num">3</span><span class="traco"></span></span><span class="txt"><b>Pague pelo Mercado Pago</b><span class="muted">Pix ou cartão, num ambiente seguro. Pedindo pelo WhatsApp, 5% de desconto.</span></span></li>
           <li><span class="col"><span class="num">4</span></span><span class="txt"><b>Receba</b><span class="muted">Você recebe o código de rastreio e o vídeo do seu frasco.</span></span></li>
         </ol>
@@ -1087,10 +1112,31 @@ nav.menu a.link-conta{background-image:none}
       <div id="conta-entrar">
         <p class="eyebrow">Minha conta</p>
         <h1>Acompanhe seus pedidos</h1>
-        <p class="muted">Sem senha: digite o e-mail que você usou na compra e mandamos um link para você entrar.</p>
-        <form id="conta-form" class="conta-form" novalidate>
+        <p class="muted">Entre para ver seus pedidos, o rastreio da entrega e a nota fiscal.</p>
+        <div class="conta-abas" role="tablist">
+          <button type="button" role="tab" class="ativa" data-aba-conta="login" aria-selected="true">Entrar</button>
+          <button type="button" role="tab" data-aba-conta="cadastro" aria-selected="false">Criar conta</button>
+        </div>
+        <form id="conta-login" class="conta-form" novalidate>
+          <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required maxlength="254">
+          <input type="password" name="senha" placeholder="Sua senha" autocomplete="current-password" required maxlength="128">
+          <button type="submit" class="btn" style="background:var(--bordo);color:var(--off)">Entrar</button>
+          <button type="button" class="link-news" id="conta-esqueci">Esqueci minha senha / entrar com um link no e-mail</button>
+        </form>
+        <form id="conta-cadastro" class="conta-form" novalidate hidden>
+          <input type="text" name="nome" placeholder="Seu nome" autocomplete="name" maxlength="80">
+          <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required maxlength="254">
+          <input type="password" name="senha" placeholder="Crie uma senha (mínimo 8 caracteres)" autocomplete="new-password" required minlength="8" maxlength="128">
+          <input type="password" name="senha2" placeholder="Repita a senha" autocomplete="new-password" required maxlength="128">
+          <label class="news-aceite"><input type="checkbox" name="aceite" required><span>Li e aceito a <a href="#politica">política de compra</a> e a <a href="#politica/privacidade">política de privacidade</a>, e autorizo a Hera a usar meus dados para processar meus pedidos e fazer a entrega.</span></label>
+          <label class="news-aceite"><input type="checkbox" name="promocoes"><span>Quero receber promoções e novidades da Hera por e-mail (opcional).</span></label>
+          <button type="submit" class="btn" style="background:var(--bordo);color:var(--off)">Criar minha conta</button>
+        </form>
+        <form id="conta-form" class="conta-form" novalidate hidden>
+          <p class="muted" style="flex-basis:100%;font-size:14px">Digite seu e-mail: mandamos um link para você entrar sem senha. Lá dentro, você pode criar uma senha nova.</p>
           <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required maxlength="254">
           <button type="submit" class="btn" style="background:var(--bordo);color:var(--off)">Receber link de entrada</button>
+          <button type="button" class="link-news" data-aba-conta="login">Voltar para entrar com senha</button>
         </form>
         <p id="conta-msg" class="conta-msg" aria-live="polite"></p>
       </div>
@@ -1101,6 +1147,14 @@ nav.menu a.link-conta{background-image:none}
         </div>
         <p class="conta-demo" id="conta-demo" hidden>Prévia com pedidos de exemplo. No site de teste, aparecem os pedidos de verdade.</p>
         <div id="conta-pedidos"></div>
+        <details class="conta-senha">
+          <summary>Criar ou trocar minha senha</summary>
+          <form id="conta-senha-form" class="conta-form" novalidate>
+            <input type="password" name="senha" placeholder="Nova senha (mínimo 8 caracteres)" autocomplete="new-password" minlength="8" maxlength="128" required>
+            <button type="submit" class="btn" style="background:var(--bordo);color:var(--off)">Salvar senha</button>
+          </form>
+          <p class="conta-msg" id="conta-senha-msg" aria-live="polite"></p>
+        </details>
       </div>
     </section>
   </div>
@@ -1162,13 +1216,16 @@ nav.menu a.link-conta{background-image:none}
     </form>
   </div>
 </div>
-<aside class="lista-lateral" id="selecao" aria-label="Minha lista" aria-hidden="true">
+<aside class="lista-lateral" id="selecao" aria-label="Carrinho" aria-hidden="true">
   <div class="cab-lista">
-    <div><span class="eyebrow">Minha lista</span><b id="sel-qtd">Nenhum perfume</b></div>
-    <button type="button" class="fecha-lista" id="sel-fechar" aria-label="Fechar lista">×</button>
+    <div><span class="eyebrow">Carrinho</span><b id="sel-qtd">Nenhum perfume</b></div>
+    <div class="cab-acoes">
+      <button type="button" class="tela-cheia-btn" id="sel-tela" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Tela inteira</span></button>
+      <button type="button" class="fecha-lista" id="sel-fechar" aria-label="Fechar carrinho">×</button>
+    </div>
   </div>
   <ul id="sel-itens"></ul>
-  <p class="lista-vazia" id="sel-vazia">Toque em <b>+ Lista</b> nos perfumes que você quer. Depois é só pagar online, ou pedir pelo WhatsApp com 5% de desconto.</p>
+  <p class="lista-vazia" id="sel-vazia">Toque em <b>Adicionar ao carrinho</b> nos perfumes que você quer. Depois é só pagar online, ou pedir pelo WhatsApp com 5% de desconto.</p>
   <div class="rodape-lista" id="sel-rodape">
     <div class="linha-tot"><span>Subtotal (preço de tabela)</span><span id="sel-subtotal"></span></div>
     <form class="cupom" id="sel-cupom-form" autocomplete="off">
@@ -1185,7 +1242,7 @@ nav.menu a.link-conta{background-image:none}
     <div class="tot tot-wa"><span>Pelo WhatsApp (5% off)</span><b id="sel-total"></b></div>
     <small id="sel-outros" hidden></small>
     <p class="aviso-offline" id="sel-offline" hidden>O pagamento online abre em breve. Enquanto isso, fale com a Hera pelo <a href="https://wa.me/5511913184495" target="_blank" rel="noopener">WhatsApp</a>.</p>
-    <a class="link-wa" id="sel-enviar" target="_blank" rel="noopener" href="#">Prefere o WhatsApp? Enviar a lista com 5% off →</a>
+    <a class="link-wa" id="sel-enviar" target="_blank" rel="noopener" href="#">Prefere o WhatsApp? Enviar o carrinho com 5% off →</a>
   </div>
 </aside>
 <script>
@@ -1214,7 +1271,7 @@ function salvaSel(){ try{ localStorage.setItem('hera-selecao',JSON.stringify(SEL
 function naSel(id){ for(var i=0;i<SEL.length;i++){ if(SEL[i].id===id) return i; } return -1; }
 function botaoLista(id, grande){
   var on=naSel(id)>=0;
-  return '<button type="button" class="btn-lista'+(grande?' grande principal':'')+(on?' na-lista':'')+'" data-lista="'+id+'" aria-pressed="'+on+'"><span class="mais">'+(on?'✓':'+')+'</span><span class="txt">'+(grande?(on?'Na sua lista':'Adicionar à lista'):(on?'Na lista':'Lista'))+'</span></button>';
+  return '<button type="button" class="btn-lista'+(grande?' grande principal':'')+(on?' na-lista':'')+'" data-lista="'+id+'" aria-pressed="'+on+'"><span class="mais">'+(on?'✓':'+')+'</span><span class="txt">'+(grande?(on?'No carrinho':'Adicionar ao carrinho'):(on?'No carrinho':'Carrinho'))+'</span></button>';
 }
 function porId(id){ return PERFUMES.filter(function(x){return x.id===id;})[0]; }
 function pulaContador(){ document.querySelectorAll('.qtd-lista').forEach(function(q){ q.classList.remove('pulo'); void q.offsetWidth; q.classList.add('pulo'); }); }
@@ -1233,7 +1290,7 @@ function atualizaSel(){
   document.querySelectorAll('[data-lista]').forEach(function(b){
     var on=naSel(b.dataset.lista)>=0; b.classList.toggle('na-lista',on); b.setAttribute('aria-pressed',on);
     var grande=b.classList.contains('grande');
-    b.innerHTML='<span class="mais">'+(on?'✓':'+')+'</span><span class="txt">'+(grande?(on?'Na sua lista':'Adicionar à lista'):(on?'Na lista':'Lista'))+'</span>';
+    b.innerHTML='<span class="mais">'+(on?'✓':'+')+'</span><span class="txt">'+(grande?(on?'No carrinho':'Adicionar ao carrinho'):(on?'No carrinho':'Carrinho'))+'</span>';
   });
   var itens=itensSel();
   var n=itens.reduce(function(s,x){return s+x.q;},0);
@@ -1252,7 +1309,7 @@ function atualizaSel(){
     return '<li>'+(FOTOS[p.id]?'<img src="'+FOTOS[p.id]+'" alt="">':'')+
       '<span class="info"><span>'+esc(p.marca+' '+p.nome)+(p.vol?' · '+esc(p.vol):'')+'</span><em>'+brl(p.preco)+(x.q>1?' cada':'')+'</em></span>'+
       '<span class="qtd"><button type="button" data-menos="'+p.id+'" aria-label="Diminuir quantidade"'+(x.q<=1?' disabled':'')+'>−</button><b aria-label="Quantidade">'+x.q+'</b><button type="button" data-mais="'+p.id+'" aria-label="Aumentar quantidade"'+(x.q>=QTD_MAX?' disabled':'')+'>+</button></span>'+
-      '<button type="button" data-tirar="'+p.id+'" aria-label="Tirar da lista">×</button></li>';
+      '<button type="button" data-tirar="'+p.id+'" aria-label="Tirar do carrinho">×</button></li>';
   }).join('');
   // pagamento online: valores sempre vindos do servidor
   var on=lojaOnline(), bloco=document.getElementById('sel-online');
@@ -1318,6 +1375,11 @@ function abreLista(v){
 }
 document.querySelectorAll('[data-abre-lista]').forEach(function(b){ b.addEventListener('click',function(){ abreLista(true); }); });
 document.getElementById('sel-fechar').addEventListener('click',function(){ abreLista(false); });
+document.getElementById('sel-tela').addEventListener('click',function(){
+  var l=document.getElementById('selecao'), on=!l.classList.contains('tela-cheia');
+  l.classList.toggle('tela-cheia',on); this.setAttribute('aria-pressed',on);
+  this.querySelector('span').textContent=on?'Recolher':'Tela inteira';
+});
 document.getElementById('lista-fundo').addEventListener('click',function(){ abreLista(false); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') abreLista(false); });
 
@@ -1653,6 +1715,48 @@ function carregaConta(){
     mostraPainel(j.email,j.pedidos||[],false);
   }).catch(function(e){ mostraEntrar(esc(e.message),'erro'); });
 }
+function abaConta(qual){
+  ['login','cadastro'].forEach(function(k){ var b=document.querySelector('.conta-abas [data-aba-conta="'+k+'"]'); b.classList.toggle('ativa',k===qual); b.setAttribute('aria-selected',k===qual); });
+  document.getElementById('conta-login').hidden=qual!=='login';
+  document.getElementById('conta-cadastro').hidden=qual!=='cadastro';
+  document.getElementById('conta-form').hidden=qual!=='link';
+  document.getElementById('conta-msg').textContent='';
+}
+document.querySelectorAll('[data-aba-conta]').forEach(function(b){ b.addEventListener('click',function(){ abaConta(b.dataset.abaConta); }); });
+document.getElementById('conta-esqueci').addEventListener('click',function(){ abaConta('link'); });
+function entrouConta(j){ guardaSessao(j.sessao); marcaConta(); carregaConta(); }
+document.getElementById('conta-login').addEventListener('submit',function(e){
+  e.preventDefault();
+  var f=this, b=f.querySelector('button[type=submit]'), d={email:f.email.value.trim(), senha:f.senha.value};
+  if(!d.email||!d.senha){ mostraEntrar('Digite seu e-mail e sua senha.','erro'); return; }
+  if(!lojaOnline()){ guardaSessao('demo'); marcaConta(); mostraPainel(d.email,DEMO_PEDIDOS,true); return; }
+  b.disabled=true; mostraEntrar('Entrando…');
+  api('/api/login',d).then(function(j){ f.senha.value=''; entrouConta(j); })
+    .catch(function(er){ mostraEntrar(esc(er.message),'erro'); }).then(function(){ b.disabled=false; });
+});
+document.getElementById('conta-cadastro').addEventListener('submit',function(e){
+  e.preventDefault();
+  var f=this, b=f.querySelector('button[type=submit]');
+  var d={nome:f.nome.value.trim(), email:f.email.value.trim(), senha:f.senha.value, aceite:f.aceite.checked, promocoes:f.promocoes.checked};
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)){ mostraEntrar('Confira o e-mail digitado.','erro'); return; }
+  if(d.senha.length<8){ mostraEntrar('A senha precisa ter pelo menos 8 caracteres.','erro'); return; }
+  if(d.senha!==f.senha2.value){ mostraEntrar('As duas senhas estão diferentes.','erro'); return; }
+  if(!d.aceite){ mostraEntrar('Para criar a conta, marque que aceita a política de compra e de privacidade.','erro'); return; }
+  if(!lojaOnline()){ mostraEntrar('Prévia: no site de teste, aqui chega o e-mail para confirmar a conta.','ok'); return; }
+  b.disabled=true; mostraEntrar('Criando sua conta…');
+  api('/api/cadastrar',d).then(function(j){
+    f.senha.value=''; f.senha2.value='';
+    mostraEntrar(esc(j.mensagem)+(j.link_teste?'<br><a href="'+esc(j.link_teste)+'" style="font-weight:600">Confirmar agora (link de teste)</a>':''),'ok');
+  }).catch(function(er){ mostraEntrar(esc(er.message),'erro'); }).then(function(){ b.disabled=false; });
+});
+document.getElementById('conta-senha-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var f=this, m=document.getElementById('conta-senha-msg');
+  if(f.senha.value.length<8){ m.textContent='A senha precisa ter pelo menos 8 caracteres.'; m.className='conta-msg erro'; return; }
+  if(!lojaOnline()){ m.textContent='Prévia: no site de teste, a senha é salva aqui.'; m.className='conta-msg ok'; return; }
+  api('/api/senha',{senha:f.senha.value}).then(function(j){ f.senha.value=''; m.textContent=j.mensagem; m.className='conta-msg ok'; })
+    .catch(function(er){ m.textContent=er.message; m.className='conta-msg erro'; });
+});
 document.getElementById('conta-form').addEventListener('submit',function(e){
   e.preventDefault();
   var email=this.email.value.trim(), b=this.querySelector('button');
@@ -1666,7 +1770,7 @@ document.getElementById('conta-form').addEventListener('submit',function(e){
 document.getElementById('conta-sair').addEventListener('click',function(){
   var s=sessaoConta();
   if(s && s!=='demo' && lojaOnline()) api('/api/sair',{}).catch(function(){});
-  guardaSessao(''); marcaConta(); mostraEntrar('Você saiu da sua conta.','ok');
+  guardaSessao(''); marcaConta(); abaConta('login'); mostraEntrar('Você saiu da sua conta.','ok');
 });
 </script>
 </body>
