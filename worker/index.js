@@ -6,6 +6,8 @@
  *   POST /api/pagar         registra o pedido e cria o pagamento no Mercado Pago (Checkout Pro)
  *   POST /api/mp-webhook    recebe o aviso do Mercado Pago e atualiza o pedido
  *   GET  /api/relatorio.csv planilha de vendas e comissões (pede usuário e senha)
+ *   POST /api/newsletter    guarda o e-mail de quem quer receber promoções
+ *   GET  /api/newsletter.csv planilha de cadastros da newsletter (mesma senha da planilha de vendas)
  *   GET  /api/saude         mostra se o servidor está configurado (sem revelar segredos)
  *
  * Segredos (colados no painel do Cloudflare, nunca no código):
@@ -45,6 +47,11 @@ export default {
           return json(await pagar(request, env), 200, cors);
         case 'POST /api/mp-webhook':
           return await webhook(request, env, url);
+        case 'POST /api/newsletter':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await newsletter(request, env), 200, cors);
+        case 'GET /api/newsletter.csv':
+          return await newsletterCsv(request, env);
         case 'GET /api/relatorio.csv':
           return await relatorio(request, env, url);
         case 'GET /api/saude':
@@ -428,4 +435,48 @@ function json(dados, status = 200, extra = {}) {
     status,
     headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...extra },
   });
+}
+
+
+/* ---------------- Newsletter ---------------- */
+async function newsletter(request, env) {
+  let dados = {};
+  try { dados = await request.json(); } catch { throw new Error('Dados inválidos.'); }
+  const email = String(dados.email || '').trim().toLowerCase();
+  const nome = String(dados.nome || '').trim().slice(0, 80);
+  if (!/^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/.test(email) || email.length > 254) throw new Error('Confira o e-mail digitado.');
+  if (dados.aceite !== true) throw new Error('Para receber as promoções, aceite a política de privacidade.');
+  if (dados.site) return { ok: true }; // campo escondido preenchido = robô; finge que deu certo
+  const agora = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO newsletter (email, nome, origem, aceite_em, criado_em, ativo) VALUES (?1, ?2, ?3, ?4, ?4, 1)
+     ON CONFLICT(email) DO UPDATE SET nome = COALESCE(NULLIF(?2, ''), nome), ativo = 1, aceite_em = ?4`
+  ).bind(email, nome, String(dados.origem || 'site').slice(0, 30), agora).run();
+  return { ok: true, mensagem: 'Pronto! Você vai receber nossas promoções no seu e-mail.' };
+}
+
+async function newsletterCsv(request, env) {
+  if (!env.RELATORIO_SENHA) return new Response('Defina o segredo RELATORIO_SENHA no Cloudflare.', { status: 503 });
+  const auth = request.headers.get('Authorization') || '';
+  let senha = '';
+  if (auth.startsWith('Basic ')) {
+    try { senha = atob(auth.slice(6)).split(':').slice(1).join(':'); } catch { senha = ''; }
+  }
+  if (!senha || !igualSeguro(senha, env.RELATORIO_SENHA)) {
+    return new Response('Senha necessária', { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Newsletter Hera", charset="UTF-8"' } });
+  }
+  const { results } = await env.DB.prepare('SELECT * FROM newsletter WHERE ativo = 1 ORDER BY criado_em DESC').all();
+  const celula = v => {
+    let s = String(v == null ? '' : v);
+    if (/^[=+\-@]/.test(s)) s = "'" + s;
+    return /[";\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const linhas = [['E-mail', 'Nome', 'Origem', 'Cadastrado em', 'Aceite da privacidade em']];
+  for (const r of results) linhas.push([r.email, r.nome, r.origem, r.criado_em, r.aceite_em]);
+  const csv = '\uFEFF' + linhas.map(l => l.map(celula).join(';')).join('\r\n');
+  return new Response(csv, { headers: {
+    'Content-Type': 'text/csv; charset=utf-8',
+    'Content-Disposition': 'attachment; filename="hera-newsletter.csv"',
+    'Cache-Control': 'no-store',
+  } });
 }
