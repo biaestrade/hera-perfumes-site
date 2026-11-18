@@ -268,14 +268,15 @@ async function cotacao(request, env) {
 /* ----------------------------------------------------------------- pagar */
 
 async function pagar(request, env) {
+  const sessao = await sessaoAtual(request, env);
+  if (!sessao) throw new ErroCliente('Entre na sua conta para finalizar a compra.');
+  const emailCliente = sessao.email;
   if (!env.MP_ACCESS_TOKEN) throw new Error('MP_ACCESS_TOKEN não configurado');
   if (!env.DB) throw new Error('banco D1 não configurado');
   const corpo = await lerCorpo(request);
   const c = await calcular(env, corpo);
   if (corpo.cupom && !c.cupom) throw new ErroCliente('Esse código de representante não é válido. Corrija ou apague o código.');
 
-  const sessao = await sessaoAtual(request, env);
-  let emailCliente = sessao ? sessao.email : emailValido(corpo.email);
   const pedidoId = 'HERA-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + crypto.randomUUID().slice(0, 8).toUpperCase();
   const agora = new Date().toISOString();
   const modo = env.MODO || 'teste';

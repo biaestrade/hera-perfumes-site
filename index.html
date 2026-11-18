@@ -660,6 +660,7 @@ nav.menu a.btn-insta{background-image:none}
 .link-wa{display:block;text-align:center;font-size:14px;font-weight:600;color:#1f6b3a;margin-top:6px}
 /* ---- página do carrinho ---- */
 .btn-pagar{width:100%;min-height:58px;font-size:16px;letter-spacing:.3px}
+.aviso-login{display:block;font-size:12px;color:#6b5a5f;margin:8px 0 0;text-align:center}
 .ver-carrinho{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;margin:0 0 16px;border:1.5px solid var(--bordo);border-radius:999px;background:#fff;color:var(--bordo);font:600 15px var(--sans);text-decoration:none}
 .ver-carrinho svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
 .ver-carrinho:hover{background:var(--bordo);color:var(--off)}
@@ -1273,6 +1274,7 @@ nav.menu a.link-conta{background-image:none}
       <small id="sel-detalhe-online"></small>
       <button type="button" class="btn btn-pagar" id="sel-pagar"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Finalizar compra</button>
       <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
+      <small class="aviso-login" id="sel-aviso-login">Para finalizar, você entra na sua conta (ou cria uma em 1 minuto). Seu carrinho fica guardado.</small>
     </div>
     <div class="tot tot-wa"><span>Pelo WhatsApp (5% off)</span><b id="sel-total"></b></div>
     <small id="sel-outros" hidden></small>
@@ -1427,15 +1429,19 @@ document.getElementById('sel-cupom-form').addEventListener('submit',function(e){
   if(lojaOnline()) cotarAgora();
   else { var m=document.getElementById('sel-cupom-msg'); m.textContent=CUPOM?'O código será conferido no pagamento.':''; m.className='ok'; }
 });
+var ORIG_PAGAR=document.getElementById('sel-pagar').innerHTML;
 document.getElementById('sel-pagar').addEventListener('click',function(){
   var b=this, m=document.getElementById('sel-pagar-msg');
   if(!SEL.length) return;
+  if(!sessaoConta()){ pedeLoginParaComprar(); return; }
   if(!lojaOnline()){ m.textContent=window.HERA_PREVIA?'Prévia: no site de teste, este botão abre o pagamento do Mercado Pago.':'O pagamento online abre em breve. Enquanto isso, peça pelo WhatsApp com 5% de desconto.'; return; }
   b.disabled=true; b.textContent='Abrindo o Mercado Pago…'; m.textContent='';
   api('/api/pagar',pedidoAtual()).then(function(j){
     if(!j.url) throw new Error('Não foi possível abrir o pagamento.');
     location.href=j.url;
-  }).catch(function(e){ b.disabled=false; b.textContent='Finalizar compra'; m.textContent=e.message+' Se precisar, fale com a Hera pelo WhatsApp.'; });
+  }).catch(function(e){ b.disabled=false; b.innerHTML=ORIG_PAGAR;
+    if(/Entre na sua conta/.test(e.message)){ guardaSessao(''); marcaConta(); pedeLoginParaComprar(); return; }
+    m.textContent=e.message+' Se precisar, fale com a Hera pelo WhatsApp.'; });
 });
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-lista]'); if(b){ e.preventDefault(); e.stopPropagation(); alternaSel(b.dataset.lista); return; }
@@ -1726,7 +1732,21 @@ window.addEventListener('hashchange',irSecaoPolitica); irSecaoPolitica();
 /* ---- Minha conta: entrar por link no e-mail e acompanhar o pedido ---- */
 function sessaoConta(){ try{ return localStorage.getItem('hera_sessao')||''; }catch(e){ return ''; } }
 function guardaSessao(v){ try{ if(v) localStorage.setItem('hera_sessao',v); else localStorage.removeItem('hera_sessao'); }catch(e){} }
-function marcaConta(){ document.querySelectorAll('.txt-conta').forEach(function(s){ s.textContent=sessaoConta()?'Minha conta':'Entrar'; }); }
+function marcaConta(){
+  document.querySelectorAll('.txt-conta').forEach(function(s){ s.textContent=sessaoConta()?'Minha conta':'Entrar'; });
+  var a=document.getElementById('sel-aviso-login'); if(a) a.hidden=!!sessaoConta();
+}
+function pedeLoginParaComprar(){
+  try{ localStorage.setItem('hera_volta','carrinho'); }catch(e){}
+  abreLista(false);
+  if(location.hash==='#minha-conta') rota(); else location.hash='#minha-conta';
+}
+function voltaDepoisDoLogin(){
+  var v=''; try{ v=localStorage.getItem('hera_volta')||''; localStorage.removeItem('hera_volta'); }catch(e){}
+  if(v==='carrinho'){ location.hash='#carrinho'; return true; }
+  return false;
+}
+function querComprar(){ try{ return localStorage.getItem('hera_volta')==='carrinho'; }catch(e){ return false; } }
 marcaConta();
 var ETAPAS=[['pago','Pagamento aprovado'],['separando','Em separação'],['enviado','Enviado'],['entregue','Entregue']];
 function dataCurta(iso){ if(!iso) return ''; var d=new Date(iso); return isNaN(d)?'':d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}); }
@@ -1769,17 +1789,17 @@ var TOKEN_EM_USO='';
 function mostrarConta(partes){
   document.title='Minha conta — Hera Perfumes';
   if(!lojaOnline()){ // prévia (artefato): mostra como fica, com pedidos de exemplo
-    if(sessaoConta()==='demo') mostraPainel('cliente@exemplo.com',DEMO_PEDIDOS,true); else mostraEntrar();
+    if(sessaoConta()==='demo') mostraPainel('cliente@exemplo.com',DEMO_PEDIDOS,true); else mostraEntrar(querComprar()?'Para finalizar a compra, entre ou crie sua conta. Seu carrinho fica guardado.':'');
     return;
   }
   if(partes[1]==='entrar' && partes[2]){
     if(TOKEN_EM_USO===partes[2]) return; TOKEN_EM_USO=partes[2];
     mostraEntrar('Entrando…');
-    api('/api/entrar/confirmar',{token:partes[2]}).then(function(j){ guardaSessao(j.sessao); marcaConta(); history.replaceState(null,'','#minha-conta'); carregaConta(); })
+    api('/api/entrar/confirmar',{token:partes[2]}).then(function(j){ guardaSessao(j.sessao); marcaConta(); history.replaceState(null,'','#minha-conta'); if(!voltaDepoisDoLogin()) carregaConta(); })
       .catch(function(e){ history.replaceState(null,'','#minha-conta'); mostraEntrar(esc(e.message),'erro'); });
     return;
   }
-  if(!sessaoConta()){ mostraEntrar(); return; }
+  if(!sessaoConta()){ mostraEntrar(querComprar()?'Para finalizar a compra, entre ou crie sua conta. Seu carrinho fica guardado.':''); return; }
   carregaConta();
 }
 function carregaConta(){
@@ -1797,12 +1817,12 @@ function abaConta(qual){
 }
 document.querySelectorAll('[data-aba-conta]').forEach(function(b){ b.addEventListener('click',function(){ abaConta(b.dataset.abaConta); }); });
 document.getElementById('conta-esqueci').addEventListener('click',function(){ abaConta('link'); });
-function entrouConta(j){ guardaSessao(j.sessao); marcaConta(); carregaConta(); }
+function entrouConta(j){ guardaSessao(j.sessao); marcaConta(); if(!voltaDepoisDoLogin()) carregaConta(); }
 document.getElementById('conta-login').addEventListener('submit',function(e){
   e.preventDefault();
   var f=this, b=f.querySelector('button[type=submit]'), d={email:f.email.value.trim(), senha:f.senha.value};
   if(!d.email||!d.senha){ mostraEntrar('Digite seu e-mail e sua senha.','erro'); return; }
-  if(!lojaOnline()){ guardaSessao('demo'); marcaConta(); mostraPainel(d.email,DEMO_PEDIDOS,true); return; }
+  if(!lojaOnline()){ guardaSessao('demo'); marcaConta(); if(!voltaDepoisDoLogin()) mostraPainel(d.email,DEMO_PEDIDOS,true); return; }
   b.disabled=true; mostraEntrar('Entrando…');
   api('/api/login',d).then(function(j){ f.senha.value=''; entrouConta(j); })
     .catch(function(er){ mostraEntrar(esc(er.message),'erro'); }).then(function(){ b.disabled=false; });
@@ -1815,7 +1835,7 @@ document.getElementById('conta-cadastro').addEventListener('submit',function(e){
   if(d.senha.length<8){ mostraEntrar('A senha precisa ter pelo menos 8 caracteres.','erro'); return; }
   if(d.senha!==f.senha2.value){ mostraEntrar('As duas senhas estão diferentes.','erro'); return; }
   if(!d.aceite){ mostraEntrar('Para criar a conta, marque que aceita a política de compra e de privacidade.','erro'); return; }
-  if(!lojaOnline()){ mostraEntrar('Prévia: no site de teste, aqui chega o e-mail para confirmar a conta.','ok'); return; }
+  if(!lojaOnline()){ mostraEntrar('Prévia: no site de teste, aqui chega o e-mail para confirmar a conta.','ok'); guardaSessao('demo'); marcaConta(); setTimeout(function(){ if(!voltaDepoisDoLogin()) mostraPainel(d.email,DEMO_PEDIDOS,true); },1400); return; }
   b.disabled=true; mostraEntrar('Criando sua conta…');
   api('/api/cadastrar',d).then(function(j){
     f.senha.value=''; f.senha2.value='';
