@@ -29,6 +29,10 @@ SITE_URL = ""
 # No site oficial:  PRODUTOS_URL = "https://heraevodiaperfumes.com.br/produtos.json"
 PRODUTOS_URL = ""
 
+# "Continuar com Google": ID do cliente OAuth (não é segredo; aparece no site). Vazio = botão escondido.
+# Criado em console.cloud.google.com > APIs e serviços > Credenciais > ID do cliente OAuth (Aplicativo da Web)
+GOOGLE_CLIENT_ID = ""
+
 # Sites que podem usar o servidor (separados por vírgula)
 ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiaperfumes.com.br"
 

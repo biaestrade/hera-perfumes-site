@@ -10,6 +10,8 @@
  *   GET  /api/newsletter.csv planilha de cadastros da newsletter (mesma senha da planilha de vendas)
  *   POST /api/cadastrar     cria a conta com e-mail e senha (manda link para confirmar o e-mail)
  *   POST /api/login         entra com e-mail e senha
+ *   POST /api/login-google  entra com a conta Google (botão "Continuar com Google")
+ *   GET  /api/config        dados públicos que o site precisa (ID do Google)
  *   POST /api/senha         cria ou troca a senha (cliente já conectada)
  *   POST /api/entrar        envia o link de entrada para o e-mail da cliente (também serve para "esqueci a senha")
  *   POST /api/entrar/confirmar  troca o link por uma sessão (a cliente fica conectada)
@@ -71,6 +73,11 @@ export default {
         case 'POST /api/login':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await login(request, env), 200, cors);
+        case 'POST /api/login-google':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await loginGoogle(request, env, ctx), 200, cors);
+        case 'GET /api/config':
+          return json({ google_client_id: env.GOOGLE_CLIENT_ID || '' }, 200, { ...(cors || {}), 'Cache-Control': 'public, max-age=300' });
         case 'POST /api/senha':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await trocarSenha(request, env), 200, cors);
@@ -98,6 +105,7 @@ export default {
             assinatura_webhook_configurada: !!env.MP_WEBHOOK_SECRET,
             relatorio_configurado: !!env.RELATORIO_SENHA,
             email_configurado: !!env.RESEND_API_KEY,
+            google_configurado: !!env.GOOGLE_CLIENT_ID,
             planilha_configurada: !!(env.PLANILHA_URL && env.PLANILHA_SEGREDO),
             banco_configurado: !!env.DB,
           }, 200, cors || {});
@@ -823,4 +831,55 @@ function paraPlanilha(env, ctx, dados) {
     redirect: 'follow',
   }).catch(e => console.error('planilha falhou', e && e.message));
   if (ctx && ctx.waitUntil) ctx.waitUntil(envio);
+}
+
+
+/* ---------------- Continuar com Google ---------------- */
+// O Google entrega um "crachá" assinado (ID token). Conferimos a assinatura com as chaves públicas do Google,
+// se o crachá é para o nosso site (aud), se não venceu e se o e-mail foi verificado.
+let CHAVES_GOOGLE = null, CHAVES_GOOGLE_VALIDADE = 0;
+async function chavesGoogle() {
+  if (CHAVES_GOOGLE && Date.now() < CHAVES_GOOGLE_VALIDADE) return CHAVES_GOOGLE;
+  const r = await fetch('https://www.googleapis.com/oauth2/v3/certs');
+  if (!r.ok) throw new Error('não foi possível buscar as chaves do Google');
+  const m = /max-age=(\d+)/.exec(r.headers.get('Cache-Control') || '');
+  CHAVES_GOOGLE = (await r.json()).keys || [];
+  CHAVES_GOOGLE_VALIDADE = Date.now() + (m ? Number(m[1]) : 3600) * 1000;
+  return CHAVES_GOOGLE;
+}
+function b64url(s) {
+  s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '=';
+  return Uint8Array.from(atob(s), c => c.charCodeAt(0));
+}
+export async function verificaTokenGoogle(token, clientId, chaves, agoraSeg = Math.floor(Date.now() / 1000)) {
+  const partes = String(token || '').split('.');
+  if (partes.length !== 3) return null;
+  let cab, dados;
+  try { cab = JSON.parse(new TextDecoder().decode(b64url(partes[0]))); dados = JSON.parse(new TextDecoder().decode(b64url(partes[1]))); } catch { return null; }
+  if (cab.alg !== 'RS256') return null;
+  const jwk = chaves.find(k => k.kid === cab.kid);
+  if (!jwk) return null;
+  const chave = await crypto.subtle.importKey('jwk', { kty: jwk.kty, n: jwk.n, e: jwk.e, alg: 'RS256', ext: true }, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
+  const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', chave, b64url(partes[2]), new TextEncoder().encode(partes[0] + '.' + partes[1]));
+  if (!ok) return null;
+  if (!['accounts.google.com', 'https://accounts.google.com'].includes(dados.iss)) return null;
+  if (dados.aud !== clientId) return null;
+  if (!dados.exp || dados.exp < agoraSeg - 60) return null;
+  if (dados.email_verified !== true && dados.email_verified !== 'true') return null;
+  return dados;
+}
+
+async function loginGoogle(request, env, ctx) {
+  if (!env.GOOGLE_CLIENT_ID) throw new ErroCliente('O login com Google ainda não está ligado.');
+  const corpo = await lerCorpo(request);
+  const dados = await verificaTokenGoogle(corpo.credencial, env.GOOGLE_CLIENT_ID, await chavesGoogle());
+  const email = dados && emailValido(dados.email);
+  if (!email) throw new ErroCliente('Não foi possível entrar com o Google. Tente de novo ou entre com e-mail e senha.');
+  const agora = new Date().toISOString();
+  const jaCliente = await env.DB.prepare('SELECT 1 FROM clientes WHERE email = ?1').bind(email).first();
+  if (!jaCliente) paraPlanilha(env, ctx, { aba: 'clientes', email, origem: 'Google' });
+  // ao entrar pelo botão, a cliente aceita a política (o aviso fica logo abaixo do botão)
+  await env.DB.prepare(`INSERT INTO clientes (email, criado_em, ultimo_acesso, aceite_termos_em) VALUES (?1, ?2, ?2, ?2)
+    ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2, aceite_termos_em = COALESCE(aceite_termos_em, ?2)`).bind(email, agora).run();
+  return { ok: true, sessao: await abrirSessao(env, email), email, nome: dados.given_name || '' };
 }

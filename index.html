@@ -706,6 +706,14 @@ nav.menu a.link-conta{background-image:none}
 .conta h1{font-family:Marcellus,serif;font-size:36px;color:var(--bordo);margin:8px 0 10px}
 .conta-form{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;max-width:560px}
 .conta-form input{flex:1 1 240px;min-height:50px;border:1px solid var(--linha);border-radius:12px;padding:0 14px;font:inherit;background:#fff}
+.google-bloco{max-width:560px;margin-top:24px}
+#google-botao{min-height:44px}
+.google-falso{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:50px;border:1px solid #dadce0;border-radius:999px;background:#fff;font:500 15px var(--sans);color:#3c4043;cursor:pointer}
+.google-falso svg{width:20px;height:20px}
+.google-aviso{font-size:12px;color:#6b5a5f;margin:10px 0 0;text-align:center}
+.google-aviso a{color:var(--carmim)}
+.ou{display:flex;align-items:center;gap:14px;margin:20px 0 0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8a7a7f}
+.ou::before,.ou::after{content:"";flex:1;height:1px;background:var(--linha)}
 .conta-abas{display:inline-flex;gap:4px;background:#fff;border:1px solid var(--linha);border-radius:999px;padding:4px;margin-top:22px}
 .conta-abas button{border:0;background:none;border-radius:999px;padding:10px 20px;font:500 14px var(--sans);color:var(--bordo);cursor:pointer}
 .conta-abas button.ativa{background:var(--bordo);color:var(--off)}
@@ -1137,6 +1145,11 @@ nav.menu a.link-conta{background-image:none}
         <p class="eyebrow">Minha conta</p>
         <h1>Acompanhe seus pedidos</h1>
         <p class="muted">Entre para ver seus pedidos, o rastreio da entrega e a nota fiscal.</p>
+        <div class="google-bloco" id="google-bloco" hidden>
+          <div id="google-botao"></div>
+          <p class="google-aviso">Ao continuar com o Google, você aceita a <a href="#politica">política de compra</a> e a <a href="#politica/privacidade">política de privacidade</a>.</p>
+          <div class="ou"><span>ou com e-mail</span></div>
+        </div>
         <div class="conta-abas" role="tablist">
           <button type="button" role="tab" class="ativa" data-aba-conta="login" aria-selected="true">Entrar</button>
           <button type="button" role="tab" data-aba-conta="cadastro" aria-selected="false">Criar conta</button>
@@ -1787,6 +1800,7 @@ function mostraEntrar(msg,classe){
 }
 var TOKEN_EM_USO='';
 function mostrarConta(partes){
+  iniciaGoogle();
   document.title='Minha conta — Hera Perfumes';
   if(!lojaOnline()){ // prévia (artefato): mostra como fica, com pedidos de exemplo
     if(sessaoConta()==='demo') mostraPainel('cliente@exemplo.com',DEMO_PEDIDOS,true); else mostraEntrar(querComprar()?'Para finalizar a compra, entre ou crie sua conta. Seu carrinho fica guardado.':'');
@@ -1865,6 +1879,33 @@ document.getElementById('conta-sair').addEventListener('click',function(){
   if(s && s!=='demo' && lojaOnline()) api('/api/sair',{}).catch(function(){});
   guardaSessao(''); marcaConta(); abaConta('login'); mostraEntrar('Você saiu da sua conta.','ok');
 });
+
+/* ---- Continuar com Google ---- */
+var GOOGLE_INICIADO=false;
+var LOGO_G='<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.5 5.8c4.4-4 6.8-10 6.8-17.1z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.9-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.6 42.6 14.6 48 24 48z"/></svg>';
+function iniciaGoogle(){
+  if(GOOGLE_INICIADO) return; GOOGLE_INICIADO=true;
+  var bloco=document.getElementById('google-bloco'), alvo=document.getElementById('google-botao');
+  if(window.HERA_PREVIA){ // prévia: botão de mentira, entra com dados de exemplo
+    alvo.innerHTML='<button type="button" class="google-falso">'+LOGO_G+'Continuar com o Google</button>';
+    alvo.firstChild.addEventListener('click',function(){ guardaSessao('demo'); marcaConta(); if(!voltaDepoisDoLogin()) mostraPainel('cliente@gmail.com',DEMO_PEDIDOS,true); });
+    bloco.hidden=false; return;
+  }
+  if(!lojaOnline()) return;
+  fetch(API_LOJA+'/api/config').then(function(r){ return r.json(); }).then(function(cfg){
+    if(!cfg.google_client_id) return;
+    var s=document.createElement('script'); s.src='https://accounts.google.com/gsi/client'; s.async=true;
+    s.onload=function(){
+      google.accounts.id.initialize({ client_id:cfg.google_client_id, ux_mode:'popup', callback:function(resp){
+        mostraEntrar('Entrando com o Google…');
+        api('/api/login-google',{credencial:resp.credential}).then(entrouConta).catch(function(e){ mostraEntrar(esc(e.message),'erro'); });
+      }});
+      google.accounts.id.renderButton(alvo,{theme:'outline',size:'large',shape:'pill',text:'continue_with',locale:'pt-BR',width:Math.min(alvo.offsetWidth||360,400)});
+      bloco.hidden=false;
+    };
+    document.head.appendChild(s);
+  }).catch(function(){});
+}
 </script>
 </body>
 </html>
