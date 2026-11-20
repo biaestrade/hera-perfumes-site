@@ -3,13 +3,15 @@
  * Planilha: "Hera Perfumes — E-mails (newsletter e clientes)", abas "Newsletter" e "Clientes".
  *
  * Como instalar (uma vez só):
- * 1. Abra a planilha > Extensões > Apps Script. Apague o que estiver lá e cole este arquivo inteiro.
+ * 1. Abra script.google.com > Novo projeto (ou, na planilha, Extensões > Apps Script). Apague o que estiver lá e cole este arquivo inteiro.
  * 2. Troque COLE_AQUI_O_SEGREDO pela senha combinada (a mesma do segredo PLANILHA_SEGREDO no Cloudflare).
  * 3. Salve. Clique em Implantar > Nova implantação > tipo "App da Web".
  *    Executar como: Eu. Quem pode acessar: Qualquer pessoa. Implantar e autorizar.
  * 4. Copie o "URL do app da Web" e cole no Cloudflare como segredo PLANILHA_URL.
  */
 const SEGREDO = 'COLE_AQUI_O_SEGREDO';
+// id da planilha (o trecho do endereço entre /d/ e /edit); assim o script funciona também fora da planilha
+const PLANILHA_ID = '1OAMdJe0iYFT7pkftfj-2G8dT2qQpRbnDLYBDZWdSlc0';
 
 function doPost(e) {
   let d = {};
@@ -17,7 +19,7 @@ function doPost(e) {
   if (!SEGREDO || SEGREDO === 'COLE_AQUI_O_SEGREDO' || d.segredo !== SEGREDO) return saida({ ok: false });
 
   const clientes = d.aba === 'clientes';
-  const aba = SpreadsheetApp.getActive().getSheetByName(clientes ? 'Clientes' : 'Newsletter');
+  const aba = SpreadsheetApp.openById(PLANILHA_ID).getSheetByName(clientes ? 'Clientes' : 'Newsletter');
   const email = limpa(String(d.email || '').trim().toLowerCase());
   if (!aba || !email || email.indexOf('@') < 1) return saida({ ok: false });
 
