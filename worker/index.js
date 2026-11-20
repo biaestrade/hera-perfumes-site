@@ -12,6 +12,8 @@
  *   POST /api/login         entra com e-mail e senha
  *   POST /api/login-google  entra com a conta Google (botão "Continuar com Google")
  *   GET  /api/config        dados públicos que o site precisa (ID do Google)
+ *   GET  /api/perfil        dados da cliente (nome, CPF, WhatsApp, endereço)
+ *   POST /api/perfil        salva os dados da cliente
  *   POST /api/senha         cria ou troca a senha (cliente já conectada)
  *   POST /api/entrar        envia o link de entrada para o e-mail da cliente (também serve para "esqueci a senha")
  *   POST /api/entrar/confirmar  troca o link por uma sessão (a cliente fica conectada)
@@ -78,6 +80,12 @@ export default {
           return json(await loginGoogle(request, env, ctx), 200, cors);
         case 'GET /api/config':
           return json({ google_client_id: env.GOOGLE_CLIENT_ID || '' }, 200, { ...(cors || {}), 'Cache-Control': 'public, max-age=300' });
+        case 'GET /api/perfil':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await lerPerfil(request, env), 200, cors);
+        case 'POST /api/perfil':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await salvarPerfil(request, env), 200, cors);
         case 'POST /api/senha':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await trocarSenha(request, env), 200, cors);
@@ -279,6 +287,8 @@ async function pagar(request, env) {
   const sessao = await sessaoAtual(request, env);
   if (!sessao) throw new ErroCliente('Entre na sua conta para finalizar a compra.');
   const emailCliente = sessao.email;
+  const perfil = await env.DB.prepare('SELECT * FROM clientes WHERE email = ?1').bind(emailCliente).first();
+  if (!perfilCompleto(perfil)) throw new ErroCliente('Complete seus dados de entrega em Minha conta para finalizar a compra.');
   if (!env.MP_ACCESS_TOKEN) throw new Error('MP_ACCESS_TOKEN não configurado');
   if (!env.DB) throw new Error('banco D1 não configurado');
   const corpo = await lerCorpo(request);
@@ -291,14 +301,14 @@ async function pagar(request, env) {
 
   await env.DB.prepare(
     `INSERT INTO pedidos (id, criado_em, modo, itens, subtotal_centavos, desconto_centavos, frete_centavos, total_centavos,
-       cupom, representante, comissao_pct, comissao_centavos, status, atualizado_em, email_cliente)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, 'criado', ?2, ?13)`
+       cupom, representante, comissao_pct, comissao_centavos, status, atualizado_em, email_cliente, entrega)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, 'criado', ?2, ?13, ?14)`
   ).bind(
     pedidoId, agora, modo,
     JSON.stringify(c.linhas.map(l => ({ id: l.id, titulo: l.titulo, quantidade: l.quantidade, unitario_centavos: l.unitarioCentavos }))),
     c.subtotal, c.desconto, c.frete, c.total,
     c.cupom ? c.cupom.codigo : null, c.cupom ? c.cupom.representante : null,
-    c.comissaoPct, c.comissaoCentavos, emailCliente
+    c.comissaoPct, c.comissaoCentavos, emailCliente, JSON.stringify(entregaDe(perfil))
   ).run();
 
   const origemApi = new URL(request.url).origin;
@@ -322,7 +332,14 @@ async function pagar(request, env) {
     statement_descriptor: 'HERA PERFUMES',
     metadata: { pedido_id: pedidoId, cupom: c.cupom ? c.cupom.codigo : null },
   };
-  if (emailCliente) preferencia.payer = { email: emailCliente };
+  const nomes = String(perfil.nome || '').trim().split(/\s+/);
+  preferencia.payer = {
+    email: emailCliente,
+    first_name: nomes[0] || undefined, last_name: nomes.slice(1).join(' ') || undefined,
+    identification: perfil.cpf ? { type: 'CPF', number: perfil.cpf } : undefined,
+    phone: perfil.telefone ? { area_code: perfil.telefone.slice(0, 2), number: perfil.telefone.slice(2) } : undefined,
+    address: { zip_code: perfil.cep, street_name: perfil.logradouro, street_number: perfil.numero },
+  };
 
   const resp = await fetch(`${MP_API}/checkout/preferences`, {
     method: 'POST',
@@ -719,15 +736,19 @@ async function minhaConta(request, env) {
   const s = await sessaoAtual(request, env);
   if (!s) return { conectada: false };
   const { results } = await env.DB.prepare(
-    `SELECT id, criado_em, itens, total_centavos, status, pago_em, status_envio, transportadora, rastreio_codigo, rastreio_url, nota_fiscal_url, enviado_em, entregue_em
+    `SELECT id, criado_em, itens, total_centavos, status, pago_em, status_envio, transportadora, rastreio_codigo, rastreio_url, nota_fiscal_url, enviado_em, entregue_em, entrega
      FROM pedidos WHERE email_cliente = ?1 AND status NOT IN ('criado', 'erro_ao_criar') ORDER BY criado_em DESC LIMIT 50`
   ).bind(s.email).all();
   const pedidos = results.map(p => {
     let itens = [];
-    try { itens = JSON.parse(p.itens).map(i => ({ titulo: i.titulo, quantidade: i.quantidade })); } catch {}
-    return { ...p, itens };
+    try { itens = JSON.parse(p.itens).map(i => ({ id: i.id, titulo: i.titulo, quantidade: i.quantidade })); } catch {}
+    let entrega = null;
+    try { entrega = p.entrega ? JSON.parse(p.entrega) : null; } catch {}
+    if (entrega) entrega = { nome: entrega.nome, endereco: entrega.endereco };
+    return { ...p, itens, entrega };
   });
-  return { conectada: true, email: s.email, pedidos };
+  const perfil = await env.DB.prepare('SELECT * FROM clientes WHERE email = ?1').bind(s.email).first();
+  return { conectada: true, email: s.email, pedidos, perfil: perfilPublico(perfil), perfil_completo: perfilCompleto(perfil) };
 }
 
 async function sair(request, env) {
@@ -760,11 +781,14 @@ async function painelAdmin(request, env) {
   const linhas = results.map(p => {
     let itens = '';
     try { itens = JSON.parse(p.itens).map(i => `${i.quantidade}x ${i.titulo}`).join('<br>'); } catch {}
+    let ent = null; try { ent = p.entrega ? JSON.parse(p.entrega) : null; } catch {}
+    const cpfFmt = c => String(c || '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    const entHtml = ent ? `<div class="ent"><b>Entregar para:</b> ${escHtml(ent.nome)} · CPF ${escHtml(cpfFmt(ent.cpf))} · WhatsApp ${escHtml(ent.telefone)}<br>${escHtml(ent.endereco)}</div>` : '';
     const opc = Object.entries(ENVIO).map(([k, v]) => `<option value="${k}"${p.status_envio === k ? ' selected' : ''}>${v}</option>`).join('');
     return `<form method="post" action="/api/admin/pedido" class="ped">
       <input type="hidden" name="id" value="${escHtml(p.id)}">
       <div class="cab"><b>${escHtml(p.id)}</b><span>${escHtml((p.criado_em || '').slice(0, 10))}</span><span class="st st-${escHtml(p.status)}">${escHtml(p.status)}</span><span>${reais(p.total_centavos)}</span></div>
-      <div class="itens">${itens}<br><small>${escHtml(p.email_cliente || 'sem e-mail')}${p.cupom ? ' · código ' + escHtml(p.cupom) : ''}</small></div>
+      <div class="itens">${itens}<br><small>${escHtml(p.email_cliente || 'sem e-mail')}${p.cupom ? ' · código ' + escHtml(p.cupom) : ''}</small>${entHtml}</div>
       <div class="campos">
         <label>Entrega<select name="status_envio">${opc}</select></label>
         <label>Transportadora<input name="transportadora" value="${escHtml(p.transportadora || '')}" placeholder="Correios, Melhor Envio…"></label>
@@ -782,7 +806,7 @@ body{font-family:Montserrat,Arial,sans-serif;background:#FBF7F2;color:#3B0B18;ma
 .st{padding:2px 10px;border-radius:999px;background:#f3e6e9;font-size:12px}.st-aprovado{background:#dff2e5;color:#1f6b3a}.itens{font-size:14px;margin-bottom:10px}
 .campos{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}label{display:grid;gap:4px;font-size:12px}
 input,select{min-height:38px;border:1px solid #d9cbc4;border-radius:8px;padding:0 10px;font:inherit}button{min-height:40px;border:0;border-radius:999px;background:#3B0B18;color:#fff;font:inherit;cursor:pointer}
-.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}</style></head><body>
+.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}.ent{margin-top:8px;font-size:13px;background:#fbf7f2;border-radius:8px;padding:8px 10px}</style></head><body>
 <h1>Pedidos · Hera Perfumes</h1><p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
@@ -882,4 +906,62 @@ async function loginGoogle(request, env, ctx) {
   await env.DB.prepare(`INSERT INTO clientes (email, criado_em, ultimo_acesso, aceite_termos_em) VALUES (?1, ?2, ?2, ?2)
     ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2, aceite_termos_em = COALESCE(aceite_termos_em, ?2)`).bind(email, agora).run();
   return { ok: true, sessao: await abrirSessao(env, email), email, nome: dados.given_name || '' };
+}
+
+
+/* ---------------- Perfil da cliente (Meus dados) ---------------- */
+const UFS = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+function soNumeros(v) { return String(v || '').replace(/\D/g, ''); }
+function cpfValido(c) {
+  c = soNumeros(c);
+  if (c.length !== 11 || /^(\d)\1{10}$/.test(c)) return false;
+  for (let t = 9; t < 11; t++) {
+    let s = 0;
+    for (let i = 0; i < t; i++) s += Number(c[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(c[t])) return false;
+  }
+  return true;
+}
+function perfilCompleto(p) {
+  return !!(p && p.nome && p.cpf && p.telefone && p.cep && p.logradouro && p.numero && p.bairro && p.cidade && p.uf);
+}
+function perfilPublico(p) {
+  if (!p) return {};
+  const campos = ['nome', 'cpf', 'telefone', 'nascimento', 'cep', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf'];
+  const o = {}; campos.forEach(k => { o[k] = p[k] || ''; }); return o;
+}
+function entregaDe(p) {
+  const end = `${p.logradouro}, ${p.numero}${p.complemento ? ' - ' + p.complemento : ''} · ${p.bairro} · ${p.cidade}/${p.uf} · CEP ${p.cep.replace(/(\d{5})(\d{3})/, '$1-$2')}`;
+  return { nome: p.nome, cpf: p.cpf, telefone: p.telefone, endereco: end };
+}
+async function lerPerfil(request, env) {
+  const s = await sessaoAtual(request, env);
+  if (!s) throw new ErroCliente('Entre na sua conta de novo.');
+  const p = await env.DB.prepare('SELECT * FROM clientes WHERE email = ?1').bind(s.email).first();
+  return { ok: true, email: s.email, perfil: perfilPublico(p), completo: perfilCompleto(p) };
+}
+async function salvarPerfil(request, env) {
+  const s = await sessaoAtual(request, env);
+  if (!s) throw new ErroCliente('Entre na sua conta de novo para salvar seus dados.');
+  const d = await lerCorpo(request);
+  const txt = (v, n) => String(v || '').trim().replace(/\s+/g, ' ').slice(0, n);
+  const p = {
+    nome: txt(d.nome, 120), cpf: soNumeros(d.cpf), telefone: soNumeros(d.telefone), nascimento: txt(d.nascimento, 10),
+    cep: soNumeros(d.cep), logradouro: txt(d.logradouro, 160), numero: txt(d.numero, 20), complemento: txt(d.complemento, 80),
+    bairro: txt(d.bairro, 80), cidade: txt(d.cidade, 80), uf: txt(d.uf, 2).toUpperCase(),
+  };
+  if (p.nome.split(' ').length < 2) throw new ErroCliente('Digite seu nome completo (nome e sobrenome).');
+  if (!cpfValido(p.cpf)) throw new ErroCliente('Confira o CPF: ele precisa ser válido para emitir a nota fiscal.');
+  if (p.telefone.length < 10 || p.telefone.length > 11) throw new ErroCliente('Confira o WhatsApp com DDD.');
+  if (p.nascimento && !/^\d{4}-\d{2}-\d{2}$/.test(p.nascimento)) p.nascimento = '';
+  if (p.cep.length !== 8) throw new ErroCliente('Confira o CEP (8 números).');
+  if (!p.logradouro || !p.numero || !p.bairro || !p.cidade) throw new ErroCliente('Preencha o endereço completo: rua, número, bairro e cidade.');
+  if (!UFS.includes(p.uf)) throw new ErroCliente('Confira o estado (UF).');
+  const agora = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO clientes (email, criado_em, ultimo_acesso, nome, cpf, telefone, nascimento, cep, logradouro, numero, complemento, bairro, cidade, uf, atualizado_em)
+     VALUES (?1, ?2, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?2)
+     ON CONFLICT(email) DO UPDATE SET nome=?3, cpf=?4, telefone=?5, nascimento=?6, cep=?7, logradouro=?8, numero=?9, complemento=?10, bairro=?11, cidade=?12, uf=?13, atualizado_em=?2`
+  ).bind(s.email, agora, p.nome, p.cpf, p.telefone, p.nascimento, p.cep, p.logradouro, p.numero, p.complemento, p.bairro, p.cidade, p.uf).run();
+  return { ok: true, mensagem: 'Dados salvos.', perfil: p, completo: true };
 }

@@ -706,6 +706,26 @@ nav.menu a.btn-insta{background-image:none}
 .car-item .qtd button:disabled{opacity:.35;cursor:default}
 .car-item .qtd b{min-width:24px;text-align:center}
 .car-vazio{background:#fff;border:1px solid var(--linha);border-radius:20px;padding:40px 24px;text-align:center}
+/* ---- Meus dados e confirmação ---- */
+.perfil-form{display:grid;gap:22px;margin-top:22px;max-width:820px}
+.perfil-form fieldset{border:1px solid var(--linha);border-radius:18px;background:#fff;padding:18px 20px 22px;display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:700px){.perfil-form fieldset{grid-template-columns:1fr 1fr}.perfil-form .c2{grid-column:1/-1}}
+.perfil-form legend{font-family:Marcellus,serif;font-size:19px;color:var(--bordo);padding:0 6px}
+.perfil-form label{display:grid;gap:6px;font-size:13px;font-weight:600;color:var(--bordo)}
+.perfil-form label small{font-weight:400;color:#8a7a7f;margin-left:4px}
+.perfil-form input,.perfil-form select{min-height:48px;border:1px solid var(--linha);border-radius:12px;padding:0 14px;font:400 15px var(--sans);background:#fff;color:var(--tinta,#2a0711)}
+.perfil-form input:disabled{background:#f6f1ee;color:#8a7a7f}
+.conf[hidden],#conf-fundo[hidden]{display:none!important}
+.conf{position:fixed;z-index:91;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100% - 28px));max-height:calc(100vh - 40px);overflow:auto;background:var(--off,#FBF7F2);border-radius:22px;padding:30px 26px 24px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+.conf h2{font-family:Marcellus,serif;font-size:28px;color:var(--bordo);margin:6px 0 6px}
+.conf-dados{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;margin:18px 0;background:#fff;border:1px solid var(--linha);border-radius:14px;padding:16px 18px;font-size:14px}
+.conf-dados dt{color:#8a7a7f;font-weight:600;font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding-top:2px}
+.conf-dados dd{margin:0;color:var(--bordo)}
+.conf-resumo{font-size:14px;margin-bottom:16px;display:flex;justify-content:space-between;gap:10px}
+.conf-resumo b{font-size:18px;color:var(--carmim)}
+.conf-acoes{display:grid;gap:10px}
+.conf-acoes .btn-ver-todos{justify-content:center}
+.ped-entrega{font-size:13px;color:#5a4a4f;margin-top:10px}
 /* ---- botão Ver todos ---- */
 .btn-ver-todos{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--bordo);border-radius:999px;padding:10px 20px;font:600 14px var(--sans);color:var(--bordo);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
 .btn-ver-todos:hover{background:var(--bordo);color:var(--off)}
@@ -1197,10 +1217,15 @@ nav.menu a.link-conta{background-image:none}
       </div>
       <div id="conta-painel" hidden>
         <div class="conta-topo">
-          <div><p class="eyebrow">Minha conta</p><h1>Meus pedidos</h1><p class="muted" id="conta-email"></p></div>
+          <div><p class="eyebrow">Minha conta</p><h1 id="conta-h1">Meus pedidos</h1><p class="muted" id="conta-email"></p></div>
           <button type="button" class="link-news" id="conta-sair">Sair</button>
         </div>
-        <p class="conta-demo" id="conta-demo" hidden>Prévia com pedidos de exemplo. No site de teste, aparecem os pedidos de verdade.</p>
+        <div class="conta-abas" role="tablist" style="margin-top:18px">
+          <button type="button" role="tab" class="ativa" data-aba-painel="pedidos" aria-selected="true">Pedidos</button>
+          <button type="button" role="tab" data-aba-painel="dados" aria-selected="false">Meus dados</button>
+        </div>
+        <p class="conta-demo" id="conta-demo" hidden>Prévia com dados de exemplo. No site de teste, aparecem os dados de verdade.</p>
+        <div id="aba-pedidos">
         <div id="conta-pedidos"></div>
         <details class="conta-senha">
           <summary>Criar ou trocar minha senha</summary>
@@ -1210,6 +1235,30 @@ nav.menu a.link-conta{background-image:none}
           </form>
           <p class="conta-msg" id="conta-senha-msg" aria-live="polite"></p>
         </details>
+        </div>
+        <div id="aba-dados" hidden>
+          <p class="conta-msg" id="perfil-aviso" aria-live="polite"></p>
+          <form id="perfil-form" class="perfil-form" novalidate>
+            <fieldset><legend>Seus dados</legend>
+              <label class="c2">Nome completo<input name="nome" autocomplete="name" maxlength="120" required></label>
+              <label><span>CPF <small>(para a nota fiscal)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required></label>
+              <label>WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="15" required></label>
+              <label><span>Data de nascimento <small>(opcional)</small></span><input name="nascimento" type="date"></label>
+              <label>E-mail<input name="email" disabled></label>
+            </fieldset>
+            <fieldset><legend>Endereço de entrega</legend>
+              <label>CEP<input name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required></label>
+              <label class="c2">Rua / avenida<input name="logradouro" autocomplete="address-line1" maxlength="160" required></label>
+              <label>Número<input name="numero" maxlength="20" required></label>
+              <label><span>Complemento <small>(opcional)</small></span><input name="complemento" autocomplete="address-line2" maxlength="80" placeholder="Apto, bloco, referência"></label>
+              <label>Bairro<input name="bairro" maxlength="80" required></label>
+              <label>Cidade<input name="cidade" autocomplete="address-level2" maxlength="80" required></label>
+              <label>Estado<select name="uf" required><option value="">UF</option></select></label>
+            </fieldset>
+            <button type="submit" class="btn" style="background:var(--bordo);color:var(--off);min-height:52px">Salvar meus dados</button>
+            <p class="conta-msg" id="perfil-msg" aria-live="polite"></p>
+          </form>
+        </div>
       </div>
     </section>
   </div>
@@ -1267,6 +1316,20 @@ nav.menu a.link-conta{background-image:none}
 
 <div class="lista-fundo" id="lista-fundo" hidden></div>
 
+<div class="news-fundo" id="conf-fundo" hidden></div>
+<div class="conf" id="conf" role="dialog" aria-modal="true" aria-labelledby="conf-titulo" hidden>
+  <button type="button" class="news-fechar" id="conf-fechar" aria-label="Fechar">×</button>
+  <p class="eyebrow">Antes de pagar</p>
+  <h2 id="conf-titulo">Confirme seus dados</h2>
+  <p class="muted" style="font-size:14px">Confira se está tudo certo para a nota fiscal e a entrega.</p>
+  <dl class="conf-dados" id="conf-dados"></dl>
+  <div class="conf-resumo" id="conf-resumo"></div>
+  <div class="conf-acoes">
+    <button type="button" class="btn btn-pagar" id="conf-ok">Confirmar e pagar</button>
+    <button type="button" class="btn-ver-todos" id="conf-editar">Alterar dados</button>
+  </div>
+  <small id="conf-msg" class="conta-msg" aria-live="polite"></small>
+</div>
 <div class="news-fundo" id="news-fundo" hidden></div>
 <div class="news" id="news" role="dialog" aria-modal="true" aria-labelledby="news-titulo" hidden>
   <div class="news-foto" aria-hidden="true"></div>
@@ -1461,18 +1524,27 @@ document.getElementById('sel-cupom-form').addEventListener('submit',function(e){
 });
 var ORIG_PAGAR=document.getElementById('sel-pagar').innerHTML;
 document.getElementById('sel-pagar').addEventListener('click',function(){
-  var b=this, m=document.getElementById('sel-pagar-msg');
+  var m=document.getElementById('sel-pagar-msg');
   if(!SEL.length) return;
   if(!sessaoConta()){ pedeLoginParaComprar(); return; }
+  m.textContent='';
+  carregaPerfil().then(function(r){
+    if(!r.completo){ pedeDadosParaComprar(); return; }
+    abreConfirmacao(r.perfil);
+  }).catch(function(e){ if(/Entre na sua conta/.test(e.message)){ guardaSessao(''); marcaConta(); pedeLoginParaComprar(); return; } m.textContent=e.message; });
+});
+function pagarAgora(){
+  var b=document.getElementById('conf-ok'), m=document.getElementById('conf-msg');
   if(!lojaOnline()){ m.textContent=window.HERA_PREVIA?'Prévia: no site de teste, este botão abre o pagamento do Mercado Pago.':'O pagamento online abre em breve. Enquanto isso, fale com a Hera pelo WhatsApp.'; return; }
   b.disabled=true; b.textContent='Abrindo o Mercado Pago…'; m.textContent='';
   api('/api/pagar',pedidoAtual()).then(function(j){
     if(!j.url) throw new Error('Não foi possível abrir o pagamento.');
     location.href=j.url;
-  }).catch(function(e){ b.disabled=false; b.innerHTML=ORIG_PAGAR;
-    if(/Entre na sua conta/.test(e.message)){ guardaSessao(''); marcaConta(); pedeLoginParaComprar(); return; }
+  }).catch(function(e){ b.disabled=false; b.textContent='Confirmar e pagar';
+    if(/Entre na sua conta/.test(e.message)){ fechaConfirmacao(); guardaSessao(''); marcaConta(); pedeLoginParaComprar(); return; }
+    if(/Complete seus dados/.test(e.message)){ fechaConfirmacao(); pedeDadosParaComprar(); return; }
     m.textContent=e.message+' Se precisar, fale com a Hera pelo WhatsApp.'; });
-});
+}
 document.addEventListener('click',function(e){
   var b=e.target.closest('[data-lista]'); if(b){ e.preventDefault(); e.stopPropagation(); alternaSel(b.dataset.lista); return; }
   var r=e.target.closest('[data-tirar]'); if(r){ alternaSel(r.dataset.tirar); return; }
@@ -1811,6 +1883,7 @@ function cardPedido(p){
     ((p.rastreio_codigo||p.nota_fiscal_url)?'<div class="ped-rastreio">'+
       (p.rastreio_codigo?'<span>'+(p.transportadora?esc(p.transportadora)+' · ':'')+'Rastreio <b>'+esc(p.rastreio_codigo)+'</b></span>'+(r?'<a href="'+esc(r)+'" target="_blank" rel="noopener">Acompanhar entrega →</a>':''):'')+
       (p.nota_fiscal_url?'<a href="'+esc(p.nota_fiscal_url)+'" target="_blank" rel="noopener">Nota fiscal</a>':'')+'</div>':'')+
+    (p.entrega&&p.entrega.endereco?'<p class="ped-entrega"><b>Entrega:</b> '+esc(p.entrega.nome)+' · '+esc(p.entrega.endereco)+'</p>':'')+
     '</article>';
 }
 var DEMO_PEDIDOS=[
@@ -1820,6 +1893,8 @@ var DEMO_PEDIDOS=[
   {id:'HERA-20261102-91BC44E2',criado_em:'2026-11-02T18:40:00Z',total_centavos:33980,status:'aprovado',pago_em:'2026-11-02T18:41:00Z',status_envio:'entregue',enviado_em:'2026-11-03T09:00:00Z',entregue_em:'2026-11-06T15:00:00Z',transportadora:'Correios',rastreio_codigo:'AB987654321BR',nota_fiscal_url:'https://exemplo.com/nota-fiscal',itens:[{quantidade:1,titulo:'Cofre Calvin Klein Eternity Feminino'}]}
 ];
 function mostraPainel(email,pedidos,demo){
+  EMAIL_CONTA=email;
+  if(demo) pedidos.forEach(function(p){ if(!p.entrega){ var pf=leDemo(); p.entrega={nome:pf.nome,endereco:enderecoTexto(pf)}; } });
   document.getElementById('conta-entrar').hidden=true; document.getElementById('conta-painel').hidden=false;
   document.getElementById('conta-email').textContent=email;
   document.getElementById('conta-demo').hidden=!demo;
@@ -1835,7 +1910,7 @@ function mostrarConta(partes){
   iniciaGoogle();
   document.title='Minha conta — Hera Perfumes';
   if(!lojaOnline()){ // prévia (artefato): mostra como fica, com pedidos de exemplo
-    if(sessaoConta()==='demo') mostraPainel('cliente@exemplo.com',DEMO_PEDIDOS,true); else mostraEntrar(querComprar()?'Para finalizar a compra, entre ou crie sua conta. Seu carrinho fica guardado.':'');
+    if(sessaoConta()==='demo'){ mostraPainel('cliente@exemplo.com',DEMO_PEDIDOS,true); abaPainel(partes[1]==='dados'?'dados':'pedidos'); } else mostraEntrar(querComprar()?'Para finalizar a compra, entre ou crie sua conta. Seu carrinho fica guardado.':'');
     return;
   }
   if(partes[1]==='entrar' && partes[2]){
@@ -1845,13 +1920,14 @@ function mostrarConta(partes){
       .catch(function(e){ history.replaceState(null,'','#minha-conta'); mostraEntrar(esc(e.message),'erro'); });
     return;
   }
+  if(sessaoConta() && sessaoConta()!=='demo' && partes[1]==='dados'){ carregaConta(function(){ abaPainel('dados'); }); return; }
   if(!sessaoConta()){ mostraEntrar(querComprar()?'Para finalizar a compra, entre ou crie sua conta. Seu carrinho fica guardado.':''); return; }
   carregaConta();
 }
-function carregaConta(){
+function carregaConta(depois){
   api('/api/minha-conta').then(function(j){
     if(!j.conectada){ guardaSessao(''); marcaConta(); mostraEntrar('Sua sessão terminou. Entre de novo.',''); return; }
-    mostraPainel(j.email,j.pedidos||[],false);
+    PERFIL=j.perfil||{}; mostraPainel(j.email,j.pedidos||[],false); abaPainel('pedidos'); if(depois) depois();
   }).catch(function(e){ mostraEntrar(esc(e.message),'erro'); });
 }
 function abaConta(qual){
@@ -1938,6 +2014,91 @@ function iniciaGoogle(){
     document.head.appendChild(s);
   }).catch(function(){});
 }
+
+/* ---- Meus dados (perfil) e confirmação antes de pagar ---- */
+var PERFIL=null, EMAIL_CONTA='';
+var UFS='AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
+(function(){ var s=document.querySelector('#perfil-form select[name=uf]'); UFS.forEach(function(u){ var o=document.createElement('option'); o.value=u; o.textContent=u; s.appendChild(o); }); })();
+var PERFIL_DEMO={nome:'Maria Exemplo da Silva',cpf:'52998224725',telefone:'11913184495',nascimento:'',cep:'01310100',logradouro:'Avenida Paulista',numero:'1000',complemento:'Apto 52',bairro:'Bela Vista',cidade:'São Paulo',uf:'SP'};
+function soNum(v){ return String(v||'').replace(/\D/g,''); }
+function fmtCPF(v){ v=soNum(v).slice(0,11); return v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2'); }
+function fmtTel(v){ v=soNum(v).slice(0,11); return v.length>10?v.replace(/(\d{2})(\d{5})(\d{0,4})/,'($1) $2-$3'):v.replace(/(\d{2})(\d{4})(\d{0,4})/,'($1) $2-$3').replace(/-$/,''); }
+function fmtCEP(v){ v=soNum(v).slice(0,8); return v.replace(/(\d{5})(\d)/,'$1-$2'); }
+function perfilOk(p){ return !!(p&&p.nome&&p.cpf&&p.telefone&&p.cep&&p.logradouro&&p.numero&&p.bairro&&p.cidade&&p.uf); }
+function enderecoTexto(p){ return p.logradouro+', '+p.numero+(p.complemento?' - '+p.complemento:'')+' · '+p.bairro+' · '+p.cidade+'/'+p.uf+' · CEP '+fmtCEP(p.cep); }
+function leDemo(){ try{ var s=localStorage.getItem('hera_perfil_demo'); return s?JSON.parse(s):PERFIL_DEMO; }catch(e){ return PERFIL_DEMO; } }
+function carregaPerfil(){
+  if(!lojaOnline()){ PERFIL=leDemo(); EMAIL_CONTA=EMAIL_CONTA||'cliente@exemplo.com'; return Promise.resolve({perfil:PERFIL,completo:perfilOk(PERFIL)}); }
+  return api('/api/perfil').then(function(j){ PERFIL=j.perfil||{}; if(j.email) EMAIL_CONTA=j.email; return j; });
+}
+function preencheFormPerfil(p,email){
+  var f=document.getElementById('perfil-form'); p=p||{};
+  ['nome','nascimento','logradouro','numero','complemento','bairro','cidade','uf'].forEach(function(k){ f[k].value=p[k]||''; });
+  f.cpf.value=fmtCPF(p.cpf); f.telefone.value=fmtTel(p.telefone); f.cep.value=fmtCEP(p.cep); f.email.value=email||'';
+}
+function abaPainel(qual){
+  document.querySelectorAll('[data-aba-painel]').forEach(function(b){ var on=b.dataset.abaPainel===qual; b.classList.toggle('ativa',on); b.setAttribute('aria-selected',on); });
+  document.getElementById('aba-pedidos').hidden=qual!=='pedidos';
+  document.getElementById('aba-dados').hidden=qual!=='dados';
+  document.getElementById('conta-h1').textContent=qual==='dados'?'Meus dados':'Meus pedidos';
+  if(qual==='dados'){
+    var av=document.getElementById('perfil-aviso');
+    av.textContent=querComprar()?'Complete seus dados de entrega para finalizar a compra. Seu carrinho fica guardado.':''; av.className='conta-msg'+(querComprar()?' ok':'');
+    carregaPerfil().then(function(r){ preencheFormPerfil(r.perfil,document.getElementById('conta-email').textContent); }).catch(function(){});
+  }
+}
+document.querySelectorAll('[data-aba-painel]').forEach(function(b){ b.addEventListener('click',function(){ abaPainel(b.dataset.abaPainel); }); });
+(function(){
+  var f=document.getElementById('perfil-form');
+  f.cpf.addEventListener('input',function(){ this.value=fmtCPF(this.value); });
+  f.telefone.addEventListener('input',function(){ this.value=fmtTel(this.value); });
+  f.cep.addEventListener('input',function(){
+    this.value=fmtCEP(this.value);
+    var cep=soNum(this.value); if(cep.length!==8) return;
+    fetch('https://viacep.com.br/ws/'+cep+'/json/').then(function(r){ return r.json(); }).then(function(d){
+      if(d.erro) { document.getElementById('perfil-msg').textContent='CEP não encontrado. Preencha o endereço à mão.'; return; }
+      if(d.logradouro) f.logradouro.value=d.logradouro; if(d.bairro) f.bairro.value=d.bairro;
+      if(d.localidade) f.cidade.value=d.localidade; if(d.uf) f.uf.value=d.uf;
+      document.getElementById('perfil-msg').textContent=''; f.numero.focus();
+    }).catch(function(){});
+  });
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var m=document.getElementById('perfil-msg'), b=f.querySelector('button[type=submit]');
+    var d={nome:f.nome.value.trim(),cpf:soNum(f.cpf.value),telefone:soNum(f.telefone.value),nascimento:f.nascimento.value,cep:soNum(f.cep.value),
+      logradouro:f.logradouro.value.trim(),numero:f.numero.value.trim(),complemento:f.complemento.value.trim(),bairro:f.bairro.value.trim(),cidade:f.cidade.value.trim(),uf:f.uf.value};
+    var erro = d.nome.split(/\s+/).length<2 ? 'Digite seu nome completo.' : d.cpf.length!==11 ? 'Confira o CPF.' : d.telefone.length<10 ? 'Confira o WhatsApp com DDD.' :
+      d.cep.length!==8 ? 'Confira o CEP.' : !(d.logradouro&&d.numero&&d.bairro&&d.cidade&&d.uf) ? 'Preencha o endereço completo.' : '';
+    if(erro){ m.textContent=erro; m.className='conta-msg erro'; return; }
+    var salva = lojaOnline() ? api('/api/perfil',d) : new Promise(function(ok){ try{ localStorage.setItem('hera_perfil_demo',JSON.stringify(d)); }catch(x){} ok({perfil:d}); });
+    b.disabled=true; m.textContent='Salvando…'; m.className='conta-msg';
+    salva.then(function(j){
+      PERFIL=j.perfil||d; m.textContent='Dados salvos.'; m.className='conta-msg ok';
+      if(voltaDepoisDoLogin()) setTimeout(function(){ abreConfirmacao(PERFIL); },500);
+    }).catch(function(er){ m.textContent=er.message; m.className='conta-msg erro'; }).then(function(){ b.disabled=false; });
+  });
+})();
+function pedeDadosParaComprar(){
+  try{ localStorage.setItem('hera_volta','carrinho'); }catch(e){}
+  abreLista(false);
+  if(location.hash==='#minha-conta/dados') rota(); else location.hash='#minha-conta/dados';
+}
+function abreConfirmacao(p){
+  var tot=document.getElementById('sel-total-online').textContent;
+  document.getElementById('conf-dados').innerHTML=
+    '<dt>Nome</dt><dd>'+esc(p.nome)+'</dd><dt>CPF</dt><dd>'+esc(fmtCPF(p.cpf))+'</dd><dt>WhatsApp</dt><dd>'+esc(fmtTel(p.telefone))+'</dd>'+
+    '<dt>E-mail</dt><dd>'+esc(EMAIL_CONTA||document.getElementById('conta-email').textContent||'')+'</dd><dt>Entrega</dt><dd>'+esc(enderecoTexto(p))+'</dd>';
+  var n=SEL.reduce(function(s,x){return s+x.q;},0);
+  document.getElementById('conf-resumo').innerHTML='<span>'+n+(n>1?' perfumes':' perfume')+'</span><b>'+esc(tot)+'</b>';
+  document.getElementById('conf-msg').textContent='';
+  var b=document.getElementById('conf-ok'); b.disabled=false; b.textContent='Confirmar e pagar';
+  document.getElementById('conf').hidden=false; document.getElementById('conf-fundo').hidden=false;
+}
+function fechaConfirmacao(){ document.getElementById('conf').hidden=true; document.getElementById('conf-fundo').hidden=true; }
+document.getElementById('conf-fechar').addEventListener('click',fechaConfirmacao);
+document.getElementById('conf-fundo').addEventListener('click',fechaConfirmacao);
+document.getElementById('conf-editar').addEventListener('click',function(){ fechaConfirmacao(); pedeDadosParaComprar(); });
+document.getElementById('conf-ok').addEventListener('click',pagarAgora);
 </script>
 </body>
 </html>
