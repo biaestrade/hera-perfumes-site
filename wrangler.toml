@@ -38,7 +38,7 @@ ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiape
 
 # ---- REGRAS DE DESCONTO (pontos em aberto: troque aqui quando decidir) ----
 # Desconto do site, em %
-DESCONTO_BASE_PCT = "5"
+DESCONTO_BASE_PCT = "0"
 # Os 5% também valem pagando online?  "sim" ou "nao"
 DESCONTO_BASE_NO_ONLINE = "nao"
 # Com código de representante:  "maior" = vale o maior desconto (5% OU cupom);  "somar" = soma os dois (5% + cupom)
