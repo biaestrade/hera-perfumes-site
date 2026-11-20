@@ -1690,7 +1690,7 @@ function soltarPenas(){ if(window.carrosselReinicia) window.carrosselReinicia();
 })();
 /* ---- volta do Mercado Pago: ?pagamento=aprovado|pendente|recusado ---- */
 var PG = {
-  aprovado: {eyebrow:'Pagamento aprovado', titulo:'Obrigada! Seu pedido está confirmado.', texto:'Você vai receber o comprovante do Mercado Pago no seu e-mail. A Hera vai falar com você pelo WhatsApp para combinar o envio, com nota fiscal, foto do lote e vídeo do seu frasco.', icone:'<path d="M5 12.5l4.5 4.5L19 7.5"/>'},
+  aprovado: {eyebrow:'Pagamento aprovado', titulo:'Obrigada! Seu pedido está confirmado.', texto:'Você vai receber o comprovante do Mercado Pago no seu e-mail. Em Minha conta, você acompanha a separação, o rastreio da entrega e a nota fiscal.', icone:'<path d="M5 12.5l4.5 4.5L19 7.5"/>'},
   pendente: {eyebrow:'Pagamento em análise', titulo:'Recebemos seu pedido.', texto:'O pagamento ainda está sendo processado (por exemplo, boleto ou Pix aguardando confirmação). Assim que ele for aprovado, a Hera fala com você pelo WhatsApp.', icone:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4.5l3 2"/>'},
   recusado: {eyebrow:'Pagamento não aprovado', titulo:'O pagamento não foi concluído.', texto:'Nenhum valor foi cobrado. Você pode tentar de novo com outro cartão ou forma de pagamento, ou falar com a Hera pelo WhatsApp.', icone:'<path d="M7 7l10 10M17 7L7 17"/>'}
 };
@@ -1702,7 +1702,8 @@ function mostrarPagamento(st){
   document.getElementById('pg-titulo').textContent = c.titulo;
   document.getElementById('pg-texto').textContent = c.texto;
   var cod = PG_PARAMS.payment_id || PG_PARAMS.collection_id;
-  document.getElementById('pg-codigo').textContent = cod && cod !== 'null' ? 'Número do pagamento: ' + cod : '';
+  var ped = PG_PARAMS.external_reference;
+  document.getElementById('pg-codigo').textContent = (ped && ped !== 'null' ? 'Pedido ' + ped + (cod && cod !== 'null' ? ' · ' : '') : '') + (cod && cod !== 'null' ? 'Pagamento ' + cod : '');
   var waMsg = 'Olá! ' + (st === 'aprovado' ? 'Acabei de pagar meu pedido pelo site.' : st === 'recusado' ? 'Tentei pagar pelo site e não deu certo.' : 'Fiz um pedido pelo site e o pagamento está em análise.') + (cod && cod !== 'null' ? ' Pagamento nº ' + cod + '.' : '');
   document.getElementById('pg-acoes').innerHTML =
     (st !== 'recusado' ? '<a class="btn" style="background:var(--bordo);color:var(--off)" href="#minha-conta">Acompanhar meu pedido</a>' : '') +
@@ -1813,8 +1814,10 @@ function cardPedido(p){
     '</article>';
 }
 var DEMO_PEDIDOS=[
-  {id:'HERA-20261118-7F3A21C0',criado_em:'2026-11-18T14:10:00Z',total_centavos:96030,status:'aprovado',pago_em:'2026-11-18T14:12:00Z',status_envio:'enviado',enviado_em:'2026-11-19T10:00:00Z',transportadora:'Correios',rastreio_codigo:'AA123456789BR',itens:[{quantidade:2,titulo:'Abercrombie & Fitch Authentic Man 100 ml'},{quantidade:1,titulo:'Abercrombie & Fitch Authentic Self Man 100 ml'}]},
-  {id:'HERA-20261102-91BC44E2',criado_em:'2026-11-02T18:40:00Z',total_centavos:54900,status:'aprovado',pago_em:'2026-11-02T18:41:00Z',status_envio:'entregue',enviado_em:'2026-11-03T09:00:00Z',entregue_em:'2026-11-06T15:00:00Z',transportadora:'Correios',rastreio_codigo:'AB987654321BR',nota_fiscal_url:'https://exemplo.com/nf',itens:[{quantidade:1,titulo:'Perfume de exemplo 100 ml'}]}
+  {id:'HERA-20261120-4C1D9A07',criado_em:'2026-11-20T13:05:00Z',total_centavos:66240,status:'pendente',pago_em:null,status_envio:'aguardando',itens:[{quantidade:1,titulo:'Carolina Herrera Good Girl 80 ml'}]},
+  {id:'HERA-20261119-B27E5F31',criado_em:'2026-11-19T10:20:00Z',total_centavos:153590,status:'aprovado',pago_em:'2026-11-19T10:21:00Z',status_envio:'separando',itens:[{quantidade:1,titulo:'Dior J\'adore 100 ml'},{quantidade:1,titulo:'Lancôme La Vie Est Belle 100 ml'}]},
+  {id:'HERA-20261118-7F3A21C0',criado_em:'2026-11-18T14:10:00Z',total_centavos:78608,status:'aprovado',pago_em:'2026-11-18T14:12:00Z',status_envio:'enviado',enviado_em:'2026-11-19T10:00:00Z',transportadora:'Correios',rastreio_codigo:'AA123456789BR',itens:[{quantidade:1,titulo:'Dior Sauvage 100 ml'}]},
+  {id:'HERA-20261102-91BC44E2',criado_em:'2026-11-02T18:40:00Z',total_centavos:33980,status:'aprovado',pago_em:'2026-11-02T18:41:00Z',status_envio:'entregue',enviado_em:'2026-11-03T09:00:00Z',entregue_em:'2026-11-06T15:00:00Z',transportadora:'Correios',rastreio_codigo:'AB987654321BR',nota_fiscal_url:'https://exemplo.com/nota-fiscal',itens:[{quantidade:1,titulo:'Cofre Calvin Klein Eternity Feminino'}]}
 ];
 function mostraPainel(email,pedidos,demo){
   document.getElementById('conta-entrar').hidden=true; document.getElementById('conta-painel').hidden=false;
