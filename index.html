@@ -377,6 +377,8 @@ nav.menu a:not(.btn):hover,nav.menu a[aria-current="page"]:not(.btn){background-
 /* ---- ajustes "luxo" inspirados na referência ---- */
 .faixa-topo{background:#1F060D;color:var(--ouro-claro);font-size:10.5px;letter-spacing:3.5px;text-align:center;padding:9px 12px;font-weight:500}
 .faixa-topo span{margin:0 10px;opacity:.6}
+.faixa-topo .fx-wa,.faixa-topo .fx-longo{margin:0;opacity:1}
+@media(max-width:600px){.faixa-topo .fx-longo{display:none}}
 .moldura{display:none}
 .slide .eyebrow::before{display:none}
 .slide .eyebrow{letter-spacing:5px;font-size:11px}
@@ -846,7 +848,7 @@ nav.menu a.link-conta{background-image:none}
   <symbol id="i-frasco" viewBox="0 0 46 70"><g fill="none" stroke="#C7848C" stroke-width="1.5"><rect x="16" y="2" width="14" height="10" rx="2"/><rect x="19" y="12" width="8" height="6"/><rect x="4" y="18" width="38" height="50" rx="8"/></g></symbol>
 </svg>
 
-<div class="faixa-topo"><a href="#catalogo" style="color:inherit;text-decoration:none">INAUGURAÇÃO: DESCONTOS EM TODO O SITE</a><span class="sep"> · ENVIO PARA TODO O BRASIL</span></div>
+<div class="faixa-topo"><a href="#catalogo" style="color:inherit;text-decoration:none">INAUGURAÇÃO<span class="fx-longo">: DESCONTOS EM TODO O SITE</span></a><span class="fx-wa"> · <a href="https://wa.me/5511913184495" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">5% OFF PEDINDO PELO WHATSAPP</a></span><span class="sep"> · ENVIO PARA TODO O BRASIL</span></div>
 <header class="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="Hera Perfumes — início">
