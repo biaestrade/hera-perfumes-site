@@ -45,6 +45,9 @@ export default {
     if (url.pathname === '/admin') return await painelAdmin(request, env);
     if (!url.pathname.startsWith('/api/')) {
       // ambiente de teste: o próprio Worker serve as páginas do site
+      if (env.ASSETS && request.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html' || /^\/p\/[^/]+\/?$/.test(url.pathname))) {
+        return await paginaComPrevia(env, url);
+      }
       if (env.ASSETS) return env.ASSETS.fetch(request);
       return new Response('Não encontrado', { status: 404 });
     }
@@ -63,7 +66,7 @@ export default {
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await pagar(request, env), 200, cors);
         case 'POST /api/mp-webhook':
-          return await webhook(request, env, url);
+          return await webhook(request, env, url, ctx);
         case 'POST /api/newsletter':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await newsletter(request, env, ctx), 200, cors);
@@ -151,6 +154,51 @@ function regras(env) {
 /* ---------------------------------------------------------------- produtos */
 
 let cacheProdutos = null; // { quando, mapa }
+
+/* ------------------------------------------- prévia do link (WhatsApp etc.) */
+// "/" mostra a capa da Hera; "/p/<id>" mostra a foto e o nome do perfume e abre a página dele no site
+async function paginaComPrevia(env, url) {
+  const resp = await env.ASSETS.fetch(new Request(url.origin + '/'));
+  if (!resp.ok) return resp;
+  const origem = (env.SITE_URL || url.origin).replace(/\/+$/, '');
+  let meta = { titulo: 'Hera Perfumes — Fragrâncias icônicas', desc: null, imagem: origem + '/assets/compartilhar/hera.jpg', url: origem + '/', alt: 'Hera Perfumes' };
+  let idProduto = null;
+  const m = url.pathname.match(/^\/p\/([^/]+)/);
+  if (m) {
+    idProduto = decodeURIComponent(m[1]);
+    let p = null;
+    try {
+      const r = await env.ASSETS.fetch(new Request(url.origin + '/produtos.json'));
+      if (r.ok) p = (await r.json()).find(x => x.id === idProduto) || null;
+    } catch (e) {}
+    if (!p) return Response.redirect(url.origin + '/#catalogo', 302);
+    const preco = n => 'R$ ' + Number(n).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    const tipo = p.tipo === 'cofre' ? 'Cofre' : [p.conc, p.vol].filter(Boolean).join(' ');
+    const de = Number(p.preco_de) > Number(p.preco) ? `De ${preco(p.preco_de)} por ${preco(p.preco)}` : preco(p.preco);
+    meta = {
+      titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
+      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original, com nota fiscal. Pague com Pix ou cartão.`,
+      imagem: `${origem}/assets/compartilhar/${encodeURIComponent(p.id)}.jpg`,
+      url: `${origem}/p/${encodeURIComponent(p.id)}`,
+      alt: `${p.marca} ${p.nome}`,
+    };
+  }
+  const troca = (valor) => ({ element(el) { el.setAttribute('content', valor); } });
+  let rw = new HTMLRewriter()
+    .on('meta[property="og:title"]', troca(meta.titulo))
+    .on('meta[property="og:url"]', troca(meta.url))
+    .on('meta[property="og:image"]', troca(meta.imagem))
+    .on('meta[property="og:image:alt"]', troca(meta.alt));
+  if (meta.desc) {
+    rw = rw.on('meta[property="og:description"]', troca(meta.desc)).on('meta[name="description"]', troca(meta.desc))
+      .on('title', { element(el) { el.setInnerContent(meta.titulo); } })
+      .on('head', { element(el) { el.prepend(`<script>history.replaceState(null,'','/#produto/'+${JSON.stringify(idProduto).replace(/</g, '\\u003c')})</script>`, { html: true }); } });
+  }
+  const out = rw.transform(resp);
+  const h = new Headers(out.headers);
+  h.set('Cache-Control', 'public, max-age=300');
+  return new Response(out.body, { status: 200, headers: h });
+}
 
 async function produtosOficiais(env) {
   if (cacheProdutos && Date.now() - cacheProdutos.quando < 60_000) return cacheProdutos.mapa;
@@ -368,7 +416,7 @@ const STATUS = {
   refunded: 'estornado', charged_back: 'estornado',
 };
 
-async function webhook(request, env, url) {
+async function webhook(request, env, url, ctx) {
   const corpo = await request.json().catch(() => ({}));
   const tipo = corpo.type || corpo.topic || url.searchParams.get('type') || url.searchParams.get('topic');
   const dataId = String(url.searchParams.get('data.id') || (corpo.data && corpo.data.id) || url.searchParams.get('id') || '');
@@ -399,7 +447,7 @@ async function webhook(request, env, url) {
 
   // um pedido aprovado não volta para "recusado" por causa de uma tentativa antiga;
   // só muda se for o mesmo pagamento (ex.: estorno)
-  await env.DB.prepare(
+  const atualizou = await env.DB.prepare(
     `UPDATE pedidos SET status = ?2, pagamento_id = ?3, valor_pago_centavos = ?4,
        pago_em = CASE WHEN ?2 LIKE 'aprovado%' THEN COALESCE(?5, pago_em) ELSE pago_em END,
        atualizado_em = ?6
@@ -408,6 +456,14 @@ async function webhook(request, env, url) {
   // se o pedido ainda não tem e-mail (cliente não estava conectada), usa o e-mail informado no Mercado Pago
   const emailPagador = emailValido(pg.payer && pg.payer.email);
   if (emailPagador) await env.DB.prepare('UPDATE pedidos SET email_cliente = COALESCE(email_cliente, ?2) WHERE id = ?1').bind(pedidoId, emailPagador).run();
+
+  // primeira vez que o pedido fica pago: avisa a Hera e confirma para a cliente (uma vez só)
+  const virouPago = status.startsWith('aprovado') && !String(pedido.status || '').startsWith('aprovado')
+    && atualizou.meta && atualizou.meta.changes > 0;
+  if (virouPago) {
+    const tarefa = avisarPedidoPago(env, new URL(request.url).origin, pedidoId).catch(e => console.error('aviso de pedido', e));
+    if (ctx && ctx.waitUntil) ctx.waitUntil(tarefa); else await tarefa;
+  }
 
   return new Response('ok', { status: 200 });
 }
@@ -573,6 +629,37 @@ function escHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+// e-mail de "pedido novo pago" para a Hera (AVISO_PEDIDO_EMAIL, padrão: contato@) e "recebemos seu pedido" para a cliente
+export async function avisarPedidoPago(env, origem, pedidoId) {
+  const p = await env.DB.prepare('SELECT * FROM pedidos WHERE id = ?1').bind(pedidoId).first();
+  if (!p) return;
+  const reais = c => 'R$ ' + ((c || 0) / 100).toFixed(2).replace('.', ',');
+  let itens = []; try { itens = JSON.parse(p.itens || '[]'); } catch (e) {}
+  let ent = null; try { ent = JSON.parse(p.entrega || 'null'); } catch (e) {}
+  const lista = itens.map(i => `${i.quantidade}× ${escHtml(i.titulo || i.id)} — ${reais((i.unitario_centavos || 0) * i.quantidade)}`).join('<br>');
+  const descLinha = p.desconto_centavos ? `<br>Desconto${p.cupom ? ' (' + escHtml(p.cupom) + ')' : ''}: −${reais(p.desconto_centavos)}` : '';
+  const freteLinha = p.frete_centavos ? `<br>Frete: ${reais(p.frete_centavos)}` : '';
+  const cpfFmt = c => String(c || '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  const site = (env.SITE_URL || origem).replace(/\/+$/, '');
+  const teste = (p.modo || env.MODO || 'teste') === 'teste' ? ' [TESTE]' : '';
+  const divergente = p.status === 'aprovado_valor_divergente'
+    ? '<br><b style="color:#B00020">Atenção: o valor pago é diferente do total do pedido. Confira no Mercado Pago antes de enviar.</b>' : '';
+  const fone = ent && ent.telefone ? String(ent.telefone).replace(/\D/g, '') : '';
+  const paraHera = env.AVISO_PEDIDO_EMAIL || 'contato@heraevodiaperfumes.com.br';
+  const textoHera = `<b>${escHtml(p.id)}</b> · pago ${reais(p.valor_pago_centavos)}${p.cupom ? ' · cupom ' + escHtml(p.cupom) + ' (' + escHtml(p.representante || '') + ')' : ''}${divergente}<br><br>
+    ${lista}${descLinha}${freteLinha}<br><br>
+    ${ent ? `<b>Entregar para:</b> ${escHtml(ent.nome)} · CPF ${escHtml(cpfFmt(ent.cpf))}<br>${escHtml(ent.endereco)}<br>
+    WhatsApp: ${fone ? `<a href="https://wa.me/55${fone}">${escHtml(ent.telefone)}</a>` : '-'}` : ''}${p.email_cliente ? '<br>E-mail: ' + escHtml(p.email_cliente) : ''}`;
+  await mandarEmail(env, paraHera, `Pedido pago${teste}: ${p.id} · ${reais(p.valor_pago_centavos)}`,
+    moldeEmail('Pedido novo pago', textoHera, 'Abrir o painel de pedidos', site + '/admin', true));
+  if (p.email_cliente) {
+    const nome = ent && ent.nome ? escHtml(String(ent.nome).split(' ')[0]) + ', r' : 'R';
+    await mandarEmail(env, p.email_cliente, `Recebemos seu pedido ${p.id}`,
+      moldeEmail('Pedido confirmado', `${nome}ecebemos o pagamento do seu pedido <b>${escHtml(p.id)}</b>. Agora vamos separar seus perfumes com todo o cuidado.<br><br>${lista}${descLinha}${freteLinha}<br><br>Total pago: <b>${reais(p.valor_pago_centavos)}</b>${ent ? `<br>Entrega: ${escHtml(ent.endereco)}` : ''}<br><br>Você acompanha o envio e o rastreio em Minha conta.`,
+        'Ver meu pedido', site + '/#minha-conta', true));
+  }
+}
+
 async function mandarEmail(env, para, assunto, html) {
   if (!env.RESEND_API_KEY) return false;
   const r = await fetch('https://api.resend.com/emails', {
@@ -583,14 +670,14 @@ async function mandarEmail(env, para, assunto, html) {
   if (!r.ok) { console.error('Resend recusou o e-mail', r.status, (await r.text()).slice(0, 300)); throw new Error('falha ao enviar e-mail'); }
   return true;
 }
-function moldeEmail(titulo, texto, botao, link) {
+function moldeEmail(titulo, texto, botao, link, semRodape) {
   return `<div style="background:#FBF7F2;padding:32px 16px;font-family:Montserrat,Arial,sans-serif;color:#3B0B18">
   <div style="max-width:480px;margin:auto;background:#fff;border-radius:16px;padding:32px 28px">
     <p style="letter-spacing:4px;font-size:12px;color:#88072B;margin:0 0 12px">HERA PERFUMES</p>
     <h1 style="font-family:Georgia,serif;font-weight:400;font-size:26px;margin:0 0 12px">${titulo}</h1>
     <p style="line-height:1.6;color:#5a4a4f">${texto}</p>
     ${botao ? `<p style="margin:24px 0"><a href="${link}" style="background:#3B0B18;color:#FBF7F2;text-decoration:none;padding:14px 26px;border-radius:999px;display:inline-block">${botao}</a></p>` : ''}
-    <p style="font-size:12px;color:#8a7a7f">Se você não pediu este e-mail, pode ignorar.</p>
+    ${semRodape ? '' : '<p style="font-size:12px;color:#8a7a7f">Se você não pediu este e-mail, pode ignorar.</p>'}
   </div></div>`;
 }
 

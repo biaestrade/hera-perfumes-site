@@ -9,6 +9,8 @@ compatibility_date = "2025-09-01"
 [assets]
 directory = "."
 binding = "ASSETS"
+# a página inicial passa pelo Worker para montar a prévia do link (WhatsApp)
+run_worker_first = ["/", "/index.html"]
 
 # Banco de dados (pedidos e cupons). O database_id aparece quando você roda:  npx wrangler d1 create hera-loja
 [[d1_databases]]
@@ -45,3 +47,5 @@ DESCONTO_BASE_NO_ONLINE = "nao"
 COMBINAR_DESCONTOS = "maior"
 # Frete fixo em centavos (0 = sem frete no pagamento online; ex.: "2500" = R$ 25,00)
 FRETE_CENTAVOS = "0"
+# para onde vai o e-mail "Pedido novo pago" (pode ser o e-mail do Fernando)
+AVISO_PEDIDO_EMAIL = "contato@heraevodiaperfumes.com.br"
