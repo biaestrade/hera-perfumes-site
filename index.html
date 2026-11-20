@@ -926,7 +926,7 @@ nav.menu a.link-conta{background-image:none}
         </div>
         <ol class="passos">
           <li><span class="n">1</span>Escolha o perfume no catálogo.</li>
-          <li><span class="n">2</span>Toque em "Adicionar ao carrinho" nos perfumes que quiser e pague online, com Pix ou cartão.</li>
+          <li><span class="n">2</span>Toque em "Adicionar ao carrinho" nos perfumes que quiser.</li>
           <li><span class="n">3</span>Pague no Pix ou no cartão e receba em casa.</li>
         </ol>
       </div>
@@ -940,7 +940,7 @@ nav.menu a.link-conta{background-image:none}
     <div class="wrap">
       <p class="eyebrow">Catálogo</p>
       <h1 style="font-size:34px;margin:10px 0 8px">Todos os perfumes</h1>
-      <p class="muted">Inauguração: descontos em todo o site, no Pix ou no cartão.</p>
+      <p class="muted">Inauguração: descontos em todo o site.</p>
       <div class="ferramentas">
         <label class="sr" for="busca" style="position:absolute;left:-9999px">Buscar perfume</label>
         <input id="busca" type="search" placeholder="Buscar por nome ou marca">
@@ -976,7 +976,7 @@ nav.menu a.link-conta{background-image:none}
         <h1 id="pr-nome"></h1>
         <p class="muted" id="pr-tipo"></p>
         <p class="pr-de" id="pr-de"></p>
-        <p style="margin-top:4px"><span class="preco-grande" id="pr-preco"></span> <span class="muted">no Pix ou no cartão</span></p>
+        <p style="margin-top:4px"><span class="preco-grande" id="pr-preco"></span></p>
         <p class="muted" style="font-size:13px" id="pr-outros"></p>
         <div class="aviso" id="pr-aviso">
           <svg stroke="#88072B"><use href="#i-escudo"/></svg>
@@ -1291,7 +1291,7 @@ nav.menu a.link-conta{background-image:none}
     <button type="button" class="fecha-lista" id="sel-fechar" aria-label="Fechar carrinho">×</button>
   </div>
   <ul id="sel-itens"></ul>
-  <p class="lista-vazia" id="sel-vazia">Toque em <b>Adicionar ao carrinho</b> nos perfumes que você quer. Depois é só pagar online, com Pix ou cartão.</p>
+  <p class="lista-vazia" id="sel-vazia">Toque em <b>Adicionar ao carrinho</b> nos perfumes que quiser.</p>
   <div class="rodape-lista" id="sel-rodape">
     <a class="ver-carrinho" href="#carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>Ver meu carrinho completo</a>
     <div class="linha-tot"><span>Subtotal (preço de tabela)</span><span id="sel-subtotal"></span></div>
@@ -1424,7 +1424,6 @@ function montaCarrinhoPagina(itens,n){
         '<span class="qtd"><button type="button" data-menos="'+p.id+'" aria-label="Diminuir quantidade"'+(x.q<=1?' disabled':'')+'>−</button><b>'+x.q+'</b><button type="button" data-mais="'+p.id+'" aria-label="Aumentar quantidade"'+(x.q>=QTD_MAX?' disabled':'')+'>+</button></span>'+
         '<span class="unit">'+brl(p.preco)+' cada</span>'+
         '<span class="linha">'+brl(p.preco*x.q)+'</span>'+
-        '<span class="wa">'+brl(pix(p)*x.q)+' pelo WhatsApp</span>'+
       '</div></article>';
   }).join('');
 }
