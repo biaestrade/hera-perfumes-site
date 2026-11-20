@@ -33,7 +33,7 @@ PRODUTOS_URL = ""
 
 # "Continuar com Google": ID do cliente OAuth (não é segredo; aparece no site). Vazio = botão escondido.
 # Criado em console.cloud.google.com > APIs e serviços > Credenciais > ID do cliente OAuth (Aplicativo da Web)
-GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_ID = "1011981137223-ffdmtclh76mvoqc3tcoeqcoovvq2qcen.apps.googleusercontent.com"
 
 # Sites que podem usar o servidor (separados por vírgula)
 ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiaperfumes.com.br"
