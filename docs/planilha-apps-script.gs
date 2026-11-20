@@ -4,7 +4,7 @@
  *
  * Como instalar (uma vez só):
  * 1. Abra script.google.com > Novo projeto (ou, na planilha, Extensões > Apps Script). Apague o que estiver lá e cole este arquivo inteiro.
- * 2. Troque COLE_AQUI_O_SEGREDO pela senha combinada (a mesma do segredo PLANILHA_SEGREDO no Cloudflare).
+ * 2. Na linha da constante SEGREDO (logo abaixo deste comentário), troque o texto entre aspas pela senha da planilha (a mesma do segredo PLANILHA_SEGREDO no Cloudflare).
  * 3. Salve. Clique em Implantar > Nova implantação > tipo "App da Web".
  *    Executar como: Eu. Quem pode acessar: Qualquer pessoa. Implantar e autorizar.
  * 4. Copie o "URL do app da Web" e cole no Cloudflare como segredo PLANILHA_URL.
