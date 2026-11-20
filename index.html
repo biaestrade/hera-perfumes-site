@@ -65,9 +65,8 @@ nav.menu a[aria-current="page"]{color:var(--carmim);text-decoration:underline;te
   nav.menu{display:flex}
   .menu-btn,.gaveta{display:none!important}
   .marca img{width:30px;height:52px}
-  .marca .nome{flex-direction:row;align-items:baseline;gap:10px}
   .marca .nome b{font-size:28px;letter-spacing:4px}
-  .marca .nome small{font-size:10px;letter-spacing:5px}
+  .marca .nome small{font-size:9px;letter-spacing:6.4px;margin-top:4px}
 }
 
 /* páginas */
@@ -707,6 +706,12 @@ nav.menu a.btn-insta{background-image:none}
 .car-item .qtd button:disabled{opacity:.35;cursor:default}
 .car-item .qtd b{min-width:24px;text-align:center}
 .car-vazio{background:#fff;border:1px solid var(--linha);border-radius:20px;padding:40px 24px;text-align:center}
+/* ---- botão Ver todos ---- */
+.btn-ver-todos{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--bordo);border-radius:999px;padding:10px 20px;font:600 14px var(--sans);color:var(--bordo);text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.btn-ver-todos:hover{background:var(--bordo);color:var(--off)}
+.btn-ver-todos.cheio{background:var(--bordo);color:var(--off);padding:15px 34px;font-size:15px}
+.btn-ver-todos.cheio:hover{background:var(--carmim,#88072B);border-color:var(--carmim,#88072B)}
+.ver-todos-baixo{display:flex;justify-content:center;margin-top:34px}
 /* ---- Minha conta ---- */
 .link-conta{display:inline-flex;align-items:center;gap:6px;color:var(--bordo);text-decoration:none;font:500 14px var(--sans);white-space:nowrap}
 .link-conta svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5}
@@ -812,6 +817,7 @@ nav.menu a.link-conta{background-image:none}
       <span class="nome"><b>HERA</b><small>PERFUMES</small></span>
     </a>
     <nav class="menu" aria-label="Principal">
+      <a href="#inicio">Início</a>
       <a href="#catalogo">Catálogo</a>
       <a href="#quem-somos">Quem somos</a>
       <a href="#originalidade">Originalidade</a>
@@ -907,8 +913,9 @@ nav.menu a.link-conta{background-image:none}
 
   <section class="bloco">
     <div class="wrap">
-      <div class="cab-secao"><h2>Destaques</h2><a href="#catalogo" style="font-weight:600;font-size:14px">Ver todos</a></div>
+      <div class="cab-secao"><h2>Destaques</h2><a class="btn-ver-todos" href="#catalogo">Ver todos <span aria-hidden="true">→</span></a></div>
       <div class="grade quatro" id="grade-destaques"></div>
+      <div class="ver-todos-baixo"><a class="btn-ver-todos cheio" href="#catalogo">Ver todos os perfumes <span aria-hidden="true">→</span></a></div>
 
       <div class="caixa info-box">
         <div>
