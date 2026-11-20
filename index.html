@@ -795,6 +795,7 @@ nav.menu a.link-conta{background-image:none}
 .pol-secao{padding:28px 0;border-bottom:1px solid var(--linha);scroll-margin-top:120px}
 .pol-secao h2{font-family:Marcellus,serif;font-size:24px;color:var(--bordo);margin-bottom:12px}
 .pol-secao p{margin-bottom:10px;line-height:1.65}
+.pol-secao ul{margin:0 0 12px 18px;line-height:1.65}.pol-secao li{margin-bottom:6px}
 .pol-secao .tabela>div{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--linha)}
 .pol-secao .tabela>div:last-child{border-bottom:0}
 .link-news{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline}
@@ -1164,10 +1165,23 @@ nav.menu a.link-conta{background-image:none}
       <div class="pol-secao" id="pol-originalidade"><h2>Originalidade</h2>
         <p>Todos os perfumes são originais e vendidos com nota fiscal. <a href="#originalidade" style="font-weight:600">Veja como comprovamos a origem</a>.</p>
         <p><span class="pending">Lorem ipsum: regra para perfumes tester (sem caixa ou sem tampa), se forem vendidos.</span></p></div>
-      <div class="pol-secao" id="pol-privacidade"><h2>Privacidade</h2>
-        <p>Usamos seus dados (nome, e-mail, telefone e endereço) só para processar o pedido, fazer a entrega e, se você autorizar, enviar nossas promoções. Não vendemos nem compartilhamos seus dados com terceiros, a não ser os necessários para pagamento (Mercado Pago) e entrega.</p>
-        <p>Você pode pedir a qualquer momento para sair da lista de promoções ou para apagarmos seus dados, pelo e-mail <a href="mailto:contato@heraevodiaperfumes.com.br">contato@heraevodiaperfumes.com.br</a>.</p>
-        <p><span class="pending">Lorem ipsum: revisar este texto com um advogado (LGPD).</span></p></div>
+      <div class="pol-secao" id="pol-privacidade"><h2>Privacidade e seus dados</h2>
+        <p>Cuidamos dos seus dados conforme a Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018). Aqui explicamos, de forma simples, o que guardamos e por quê.</p>
+        <p><strong>O que guardamos e para quê</strong></p>
+        <ul>
+          <li><strong>Nome completo e CPF:</strong> para emitir a nota fiscal do seu pedido, que é obrigatória por lei.</li>
+          <li><strong>Endereço de entrega:</strong> para enviar o pedido e calcular o frete. Cada pedido guarda uma cópia do endereço usado naquela compra.</li>
+          <li><strong>WhatsApp e e-mail:</strong> para entrar na sua conta, confirmar o pedido e avisar sobre pagamento, envio e entrega.</li>
+          <li><strong>Data de nascimento (opcional):</strong> para mandar um mimo ou cupom no seu aniversário. Você pode deixar em branco ou apagar quando quiser.</li>
+          <li><strong>Promoções:</strong> só enviamos novidades e ofertas se você marcar que aceita. Dá para sair da lista a qualquer momento.</li>
+        </ul>
+        <p><strong>Com quem compartilhamos</strong></p>
+        <p>Não vendemos seus dados. Repassamos apenas o necessário para o pedido acontecer: ao Mercado Pago (pagamento e análise antifraude) e à transportadora ou aos Correios (entrega). Sua senha é guardada de forma criptografada e nem a nossa equipe consegue vê-la. Não guardamos dados do seu cartão: eles ficam só com o Mercado Pago.</p>
+        <p><strong>Por quanto tempo</strong></p>
+        <p>Mantemos seus dados enquanto sua conta existir. Os dados ligados às notas fiscais precisam ser guardados pelo prazo que a lei fiscal exige, mesmo depois que a conta for apagada.</p>
+        <p><strong>Seus direitos</strong></p>
+        <p>Você pode ver e corrigir seus dados em <a href="#minha-conta/dados">Minha conta › Meus dados</a>. Também pode pedir uma cópia dos seus dados, sair da lista de promoções ou pedir que sua conta seja apagada pelo e-mail <a href="mailto:contato@heraevodiaperfumes.com.br">contato@heraevodiaperfumes.com.br</a> ou pelo WhatsApp 11 91318-4495. Respondemos em até 15 dias.</p>
+        <p><span class="pending">Revisar este texto com o advogado ou o contador antes de publicar no site oficial.</span></p></div>
       <div class="pol-secao"><h2>Quem vende</h2>
         <p>Hera Perfumes · CNPJ 68.454.334/0001-79<br>WhatsApp 11 91318-4495 · contato@heraevodiaperfumes.com.br<br><span class="pending">[Endereço]</span></p></div>
     </section>
@@ -1243,7 +1257,7 @@ nav.menu a.link-conta{background-image:none}
               <label class="c2">Nome completo<input name="nome" autocomplete="name" maxlength="120" required></label>
               <label><span>CPF <small>(para a nota fiscal)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required></label>
               <label>WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="15" required></label>
-              <label><span>Data de nascimento <small>(opcional)</small></span><input name="nascimento" type="date"></label>
+              <label><span>Data de nascimento <small>(opcional, para um mimo no seu aniversário)</small></span><input name="nascimento" type="date"></label>
               <label>E-mail<input name="email" disabled></label>
             </fieldset>
             <fieldset><legend>Endereço de entrega</legend>
