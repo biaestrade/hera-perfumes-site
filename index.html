@@ -813,6 +813,7 @@ nav.menu a.link-conta{background-image:none}
 #news-form input[type=text],#news-form input[type=email]{min-height:48px;border:1px solid var(--linha);border-radius:12px;padding:0 14px;font:inherit;background:#fff}
 .news-aceite{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.4;color:#5a4a4f}
 .news-aceite input{margin-top:2px;accent-color:var(--bordo)}
+.news-aceite small{color:#8a7a7f;font-size:11px}
 .news-mel{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 #news-msg{font-size:13px;min-height:1em}
 #news-msg.erro{color:#a1122f}#news-msg.ok{color:#1f6b3a}
@@ -1172,7 +1173,7 @@ nav.menu a.link-conta{background-image:none}
           <li><strong>Nome completo e CPF:</strong> para emitir a nota fiscal do seu pedido, que é obrigatória por lei.</li>
           <li><strong>Endereço de entrega:</strong> para enviar o pedido e calcular o frete. Cada pedido guarda uma cópia do endereço usado naquela compra.</li>
           <li><strong>WhatsApp e e-mail:</strong> para entrar na sua conta, confirmar o pedido e avisar sobre pagamento, envio e entrega.</li>
-          <li><strong>Data de nascimento (opcional):</strong> para mandar um mimo ou cupom no seu aniversário. Você pode deixar em branco ou apagar quando quiser.</li>
+          <li><strong>Data de nascimento (opcional):</strong> para conhecer melhor nossas clientes e personalizar nossas comunicações. Você pode deixar em branco ou apagar quando quiser.</li>
           <li><strong>Promoções:</strong> só enviamos novidades e ofertas se você marcar que aceita. Dá para sair da lista a qualquer momento.</li>
         </ul>
         <p><strong>Com quem compartilhamos</strong></p>
@@ -1217,8 +1218,8 @@ nav.menu a.link-conta{background-image:none}
           <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required maxlength="254">
           <input type="password" name="senha" placeholder="Crie uma senha (mínimo 8 caracteres)" autocomplete="new-password" required minlength="8" maxlength="128">
           <input type="password" name="senha2" placeholder="Repita a senha" autocomplete="new-password" required maxlength="128">
-          <label class="news-aceite"><input type="checkbox" name="aceite" required><span>Li e aceito a <a href="#politica">política de compra</a> e a <a href="#politica/privacidade">política de privacidade</a>, e autorizo a Hera a usar meus dados para processar meus pedidos e fazer a entrega.</span></label>
-          <label class="news-aceite"><input type="checkbox" name="promocoes"><span>Quero receber promoções e novidades da Hera por e-mail (opcional).</span></label>
+          <label class="news-aceite"><input type="checkbox" name="aceite" required><span><strong>Concordo com os termos</strong> da <a href="#politica">política de compra</a> e da <a href="#politica/privacidade">política de privacidade</a>, e autorizo a Hera a usar meus dados para processar meus pedidos, emitir a nota fiscal e fazer a entrega. <small>(obrigatório)</small></span></label>
+          <label class="news-aceite"><input type="checkbox" name="promocoes"><span><strong>Autorizo a Hera a me enviar e-mails</strong> com ofertas, lançamentos, cupons e novidades. Posso cancelar quando quiser. <small>(opcional)</small></span></label>
           <button type="submit" class="btn" style="background:var(--bordo);color:var(--off)">Criar minha conta</button>
         </form>
         <form id="conta-form" class="conta-form" novalidate hidden>
@@ -1257,7 +1258,7 @@ nav.menu a.link-conta{background-image:none}
               <label class="c2">Nome completo<input name="nome" autocomplete="name" maxlength="120" required></label>
               <label><span>CPF <small>(para a nota fiscal)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required></label>
               <label>WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="15" required></label>
-              <label><span>Data de nascimento <small>(opcional, para um mimo no seu aniversário)</small></span><input name="nascimento" type="date"></label>
+              <label><span>Data de nascimento <small>(opcional)</small></span><input name="nascimento" type="date"></label>
               <label>E-mail<input name="email" disabled></label>
             </fieldset>
             <fieldset><legend>Endereço de entrega</legend>
@@ -1268,6 +1269,9 @@ nav.menu a.link-conta{background-image:none}
               <label>Bairro<input name="bairro" maxlength="80" required></label>
               <label>Cidade<input name="cidade" autocomplete="address-level2" maxlength="80" required></label>
               <label>Estado<select name="uf" required><option value="">UF</option></select></label>
+            </fieldset>
+            <fieldset><legend>Ofertas e novidades</legend>
+              <label class="news-aceite c2" style="font-weight:400;color:#5a4a4f;display:flex"><input type="checkbox" name="promocoes" style="min-height:0;width:18px;height:18px;padding:0"><span>Autorizo a Hera a me enviar e-mails com ofertas, lançamentos, cupons e novidades. Posso cancelar quando quiser.</span></label>
             </fieldset>
             <button type="submit" class="btn" style="background:var(--bordo);color:var(--off);min-height:52px">Salvar meus dados</button>
             <p class="conta-msg" id="perfil-msg" aria-live="polite"></p>
@@ -2048,7 +2052,7 @@ function carregaPerfil(){
 function preencheFormPerfil(p,email){
   var f=document.getElementById('perfil-form'); p=p||{};
   ['nome','nascimento','logradouro','numero','complemento','bairro','cidade','uf'].forEach(function(k){ f[k].value=p[k]||''; });
-  f.cpf.value=fmtCPF(p.cpf); f.telefone.value=fmtTel(p.telefone); f.cep.value=fmtCEP(p.cep); f.email.value=email||'';
+  f.promocoes.checked=!!p.promocoes; f.cpf.value=fmtCPF(p.cpf); f.telefone.value=fmtTel(p.telefone); f.cep.value=fmtCEP(p.cep); f.email.value=email||'';
 }
 function abaPainel(qual){
   document.querySelectorAll('[data-aba-painel]').forEach(function(b){ var on=b.dataset.abaPainel===qual; b.classList.toggle('ativa',on); b.setAttribute('aria-selected',on); });
@@ -2080,7 +2084,7 @@ document.querySelectorAll('[data-aba-painel]').forEach(function(b){ b.addEventLi
     e.preventDefault();
     var m=document.getElementById('perfil-msg'), b=f.querySelector('button[type=submit]');
     var d={nome:f.nome.value.trim(),cpf:soNum(f.cpf.value),telefone:soNum(f.telefone.value),nascimento:f.nascimento.value,cep:soNum(f.cep.value),
-      logradouro:f.logradouro.value.trim(),numero:f.numero.value.trim(),complemento:f.complemento.value.trim(),bairro:f.bairro.value.trim(),cidade:f.cidade.value.trim(),uf:f.uf.value};
+      logradouro:f.logradouro.value.trim(),numero:f.numero.value.trim(),complemento:f.complemento.value.trim(),bairro:f.bairro.value.trim(),cidade:f.cidade.value.trim(),uf:f.uf.value,promocoes:f.promocoes.checked};
     var erro = d.nome.split(/\s+/).length<2 ? 'Digite seu nome completo.' : d.cpf.length!==11 ? 'Confira o CPF.' : d.telefone.length<10 ? 'Confira o WhatsApp com DDD.' :
       d.cep.length!==8 ? 'Confira o CEP.' : !(d.logradouro&&d.numero&&d.bairro&&d.cidade&&d.uf) ? 'Preencha o endereço completo.' : '';
     if(erro){ m.textContent=erro; m.className='conta-msg erro'; return; }

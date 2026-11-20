@@ -85,7 +85,7 @@ export default {
           return json(await lerPerfil(request, env), 200, cors);
         case 'POST /api/perfil':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
-          return json(await salvarPerfil(request, env), 200, cors);
+          return json(await salvarPerfil(request, env, ctx), 200, cors);
         case 'POST /api/senha':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await trocarSenha(request, env), 200, cors);
@@ -928,7 +928,7 @@ function perfilCompleto(p) {
 function perfilPublico(p) {
   if (!p) return {};
   const campos = ['nome', 'cpf', 'telefone', 'nascimento', 'cep', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf'];
-  const o = {}; campos.forEach(k => { o[k] = p[k] || ''; }); return o;
+  const o = {}; campos.forEach(k => { o[k] = p[k] || ''; }); o.promocoes = !!p.aceite_promocoes; return o;
 }
 function entregaDe(p) {
   const end = `${p.logradouro}, ${p.numero}${p.complemento ? ' - ' + p.complemento : ''} · ${p.bairro} · ${p.cidade}/${p.uf} · CEP ${p.cep.replace(/(\d{5})(\d{3})/, '$1-$2')}`;
@@ -940,7 +940,7 @@ async function lerPerfil(request, env) {
   const p = await env.DB.prepare('SELECT * FROM clientes WHERE email = ?1').bind(s.email).first();
   return { ok: true, email: s.email, perfil: perfilPublico(p), completo: perfilCompleto(p) };
 }
-async function salvarPerfil(request, env) {
+async function salvarPerfil(request, env, ctx) {
   const s = await sessaoAtual(request, env);
   if (!s) throw new ErroCliente('Entre na sua conta de novo para salvar seus dados.');
   const d = await lerCorpo(request);
@@ -963,5 +963,17 @@ async function salvarPerfil(request, env) {
      VALUES (?1, ?2, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?2)
      ON CONFLICT(email) DO UPDATE SET nome=?3, cpf=?4, telefone=?5, nascimento=?6, cep=?7, logradouro=?8, numero=?9, complemento=?10, bairro=?11, cidade=?12, uf=?13, atualizado_em=?2`
   ).bind(s.email, agora, p.nome, p.cpf, p.telefone, p.nascimento, p.cep, p.logradouro, p.numero, p.complemento, p.bairro, p.cidade, p.uf).run();
+  if (typeof d.promocoes === 'boolean') { // caixinha "Autorizo a Hera a me enviar e-mails"
+    const antes = await env.DB.prepare('SELECT aceite_promocoes FROM clientes WHERE email = ?1').bind(s.email).first();
+    await env.DB.prepare('UPDATE clientes SET aceite_promocoes = ?2 WHERE email = ?1').bind(s.email, d.promocoes ? 1 : 0).run();
+    if (d.promocoes) {
+      await env.DB.prepare(`INSERT INTO newsletter (email, nome, origem, aceite_em, criado_em, ativo) VALUES (?1, ?2, 'minha conta', ?3, ?3, 1)
+        ON CONFLICT(email) DO UPDATE SET ativo = 1, aceite_em = ?3`).bind(s.email, p.nome, agora).run();
+      if (!(antes && antes.aceite_promocoes)) paraPlanilha(env, ctx, { aba: 'newsletter', email: s.email, nome: p.nome, origem: 'minha conta' });
+    } else {
+      await env.DB.prepare('UPDATE newsletter SET ativo = 0 WHERE email = ?1').bind(s.email).run();
+    }
+    p.promocoes = d.promocoes;
+  }
   return { ok: true, mensagem: 'Dados salvos.', perfil: p, completo: true };
 }
