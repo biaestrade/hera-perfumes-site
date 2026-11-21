@@ -127,6 +127,7 @@ section.bloco{padding:40px 0 8px}
 
 /* grade de produtos */
 .grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}
+.ver-mais-cat{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:36px;text-align:center}.ver-mais-cat[hidden]{display:none}.ver-mais-cat p{font-size:12px;margin:0}
 @media(min-width:700px){.grade{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 24px}}
 @media(min-width:1050px){.grade.quatro{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .card{display:flex;flex-direction:column;gap:8px}
@@ -994,6 +995,7 @@ nav.menu a.link-conta{background-image:none}
       </div>
       <p class="muted" style="font-size:12px;margin-bottom:18px" id="contagem" aria-live="polite"></p>
       <div class="grade" id="grade-catalogo"></div>
+      <div class="ver-mais-cat" id="ver-mais-cat" hidden><p class="muted" id="ver-mais-info"></p><button type="button" class="btn-ver-todos" id="btn-ver-mais" style="background:none;cursor:pointer">Ver mais</button></div>
 
       <div class="caixa" style="margin-top:40px;background:var(--rosado);border:0">
         <h2 style="font-size:22px">Não achou o que procura?</h2>
@@ -1644,18 +1646,33 @@ function renderCatalogo(){
     return (!filtroGen || (filtroGen === 'cofre' ? p.tipo === 'cofre' : p.genero === filtroGen)) && (!filtroMarca || p.marca === filtroMarca) &&
       (!b || semAcento(p.marca + ' ' + p.nome).indexOf(b) >= 0);
   });
-  render('grade-catalogo', lista, true);
+  // mostra 5 linhas por vez; "Ver mais" abre mais 5
+  var mostrar = Math.min(lista.length, colunasCatalogo() * linhasCat);
+  render('grade-catalogo', lista.slice(0, mostrar), true);
   document.getElementById('contagem').textContent = lista.length + (lista.length === 1 ? ' perfume' : ' perfumes');
+  document.getElementById('ver-mais-cat').hidden = mostrar >= lista.length;
+  document.getElementById('ver-mais-info').textContent = 'Mostrando ' + mostrar + ' de ' + lista.length + ' perfumes';
 }
+var linhasCat = 5;
+// mesmas colunas do CSS da .grade: 2 no celular, 3 a partir de 700px
+var telaLarga = window.matchMedia('(min-width:700px)');
+function colunasCatalogo(){ return telaLarga.matches ? 3 : 2; }
+if (telaLarga.addEventListener) telaLarga.addEventListener('change', function(){ renderCatalogo(); });
+document.getElementById('btn-ver-mais').addEventListener('click', function(){
+  var antes = document.querySelectorAll('#grade-catalogo .card').length;
+  linhasCat += 5; renderCatalogo();
+  var prox = document.querySelectorAll('#grade-catalogo .card')[antes];
+  if (prox) { var a = prox.querySelector('a'); if (a) a.focus({preventScroll:true}); }
+});
 var selMarca = document.getElementById('filtro-marca');
 function montaMarcas(){ PERFUMES.map(function(p){return p.marca;}).filter(function(m,i,a){return a.indexOf(m)===i;}).sort().forEach(function(m){
   var o = document.createElement('option'); o.value = m; o.textContent = m; selMarca.appendChild(o);
 }); }
-selMarca.addEventListener('change', function(){ filtroMarca = selMarca.value; renderCatalogo(); });
-document.getElementById('busca').addEventListener('input', function(e){ filtroBusca = e.target.value; renderCatalogo(); });
+selMarca.addEventListener('change', function(){ filtroMarca = selMarca.value; linhasCat = 5; renderCatalogo(); });
+document.getElementById('busca').addEventListener('input', function(e){ filtroBusca = e.target.value; linhasCat = 5; renderCatalogo(); });
 document.querySelectorAll('.segmento button').forEach(function(btn){
   btn.addEventListener('click', function(){
-    filtroGen = btn.getAttribute('data-g');
+    filtroGen = btn.getAttribute('data-g'); linhasCat = 5;
     document.querySelectorAll('.segmento button').forEach(function(x){x.setAttribute('aria-pressed', x === btn ? 'true' : 'false');});
     renderCatalogo();
   });
