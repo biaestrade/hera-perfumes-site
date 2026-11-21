@@ -1415,6 +1415,7 @@ nav.menu a.link-conta{background-image:none}
       <label for="sel-cep">Frete e prazo</label>
       <div><input id="sel-cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="Seu CEP"><button type="submit">Calcular</button></div>
       <div class="fretes" id="sel-fretes" role="radiogroup" aria-label="Forma de envio"></div>
+      <small id="sel-cep-local" class="ok"></small>
       <small id="sel-frete-msg" aria-live="polite"></small>
     </form>
     <div class="bloco-online" id="sel-online">
@@ -1590,6 +1591,8 @@ function montaFrete(){
   box.innerHTML=L.map(function(x){
     return '<label><input type="radio" name="servico-frete" value="'+x.id+'"'+(x.id===COTACAO.servico?' checked':'')+'><span class="fr-nome">'+esc(x.nome)+'<em>'+esc(prazoTxt(x.prazo))+'</em></span><b>'+(x.gratis?'Grátis':centavos(x.preco))+'</b></label>';
   }).join('');
+  var loc=document.getElementById('sel-cep-local');
+  if(CEP_FRETE.length===8){ buscaCep(CEP_FRETE).then(function(d){ loc.textContent=d&&!d.erro?'Entrega em '+[d.bairro,(d.localidade||'')+(d.uf?'/'+d.uf:'')].filter(Boolean).join(', '):''; }); } else loc.textContent='';
   m.className=COTACAO.frete_erro?'erro':'';
   m.textContent=COTACAO.frete_erro || (!CEP_FRETE ? 'Digite seu CEP para ver o valor do frete.' : '');
 }
@@ -2156,10 +2159,28 @@ function carregaPerfil(){
   if(!lojaOnline()){ PERFIL=leDemo(); EMAIL_CONTA=EMAIL_CONTA||'cliente@exemplo.com'; return Promise.resolve({perfil:PERFIL,completo:perfilOk(PERFIL)}); }
   return api('/api/perfil').then(function(j){ PERFIL=j.perfil||{}; if(j.email) EMAIL_CONTA=j.email; return j; });
 }
+var CEP_CACHE={};
+function buscaCep(cep){ cep=String(cep||'').replace(/\D/g,''); if(cep.length!==8) return Promise.resolve(null);
+  if(CEP_CACHE[cep]) return Promise.resolve(CEP_CACHE[cep]);
+  return fetch('https://viacep.com.br/ws/'+cep+'/json/').then(function(r){ return r.json(); }).then(function(d){ if(d && !d.erro){ CEP_CACHE[cep]=d; return d; } return {erro:true}; }).catch(function(){ return null; });
+}
 function preencheFormPerfil(p,email){
   var f=document.getElementById('perfil-form'); p=p||{};
   ['nome','nascimento','logradouro','numero','complemento','bairro','cidade','uf'].forEach(function(k){ f[k].value=p[k]||''; });
   f.promocoes.checked=!!p.promocoes; f.cpf.value=fmtCPF(p.cpf); f.telefone.value=fmtTel(p.telefone); f.cep.value=fmtCEP(p.cep); f.email.value=email||'';
+  // sem CEP na conta: usa o CEP que a pessoa já digitou no carrinho e completa o endereço
+  if(!p.cep && CEP_FRETE && CEP_FRETE.length===8){ f.cep.value=fmtCEP(CEP_FRETE); completaEndereco(f, CEP_FRETE); }
+}
+function completaEndereco(f, cep){
+  var m=document.getElementById('perfil-msg');
+  buscaCep(cep).then(function(d){
+    if(!d) return;
+    if(d.erro){ m.textContent='CEP não encontrado. Preencha o endereço à mão.'; return; }
+    if(d.logradouro) f.logradouro.value=d.logradouro; if(d.bairro) f.bairro.value=d.bairro;
+    if(d.localidade) f.cidade.value=d.localidade; if(d.uf) f.uf.value=d.uf;
+    if(!f.complemento.value && d.complemento && !/^(até|de) /i.test(d.complemento)) f.complemento.placeholder=d.complemento;
+    m.textContent=''; if(!f.numero.value) f.numero.focus();
+  });
 }
 function abaPainel(qual){
   document.querySelectorAll('[data-aba-painel]').forEach(function(b){ var on=b.dataset.abaPainel===qual; b.classList.toggle('ativa',on); b.setAttribute('aria-selected',on); });
@@ -2177,16 +2198,13 @@ document.querySelectorAll('[data-aba-painel]').forEach(function(b){ b.addEventLi
   var f=document.getElementById('perfil-form');
   f.cpf.addEventListener('input',function(){ this.value=fmtCPF(this.value); });
   f.telefone.addEventListener('input',function(){ this.value=fmtTel(this.value); });
-  f.cep.addEventListener('input',function(){
-    this.value=fmtCEP(this.value);
-    var cep=soNum(this.value); if(cep.length!==8) return;
-    fetch('https://viacep.com.br/ws/'+cep+'/json/').then(function(r){ return r.json(); }).then(function(d){
-      if(d.erro) { document.getElementById('perfil-msg').textContent='CEP não encontrado. Preencha o endereço à mão.'; return; }
-      if(d.logradouro) f.logradouro.value=d.logradouro; if(d.bairro) f.bairro.value=d.bairro;
-      if(d.localidade) f.cidade.value=d.localidade; if(d.uf) f.uf.value=d.uf;
-      document.getElementById('perfil-msg').textContent=''; f.numero.focus();
-    }).catch(function(){});
-  });
+  var ultimoCep='';
+  function cepMudou(){
+    f.cep.value=fmtCEP(f.cep.value);
+    var cep=soNum(f.cep.value); if(cep.length!==8 || cep===ultimoCep) return;
+    ultimoCep=cep; completaEndereco(f, cep);
+  }
+  f.cep.addEventListener('input',cepMudou); f.cep.addEventListener('change',cepMudou);
   f.addEventListener('submit',function(e){
     e.preventDefault();
     var m=document.getElementById('perfil-msg'), b=f.querySelector('button[type=submit]');
