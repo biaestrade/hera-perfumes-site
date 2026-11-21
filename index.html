@@ -1192,6 +1192,7 @@ nav.menu a.link-conta{background-image:none}
           <li><strong>Endereço de entrega:</strong> para enviar o pedido e calcular o frete. Cada pedido guarda uma cópia do endereço usado naquela compra.</li>
           <li><strong>WhatsApp e e-mail:</strong> para entrar na sua conta, confirmar o pedido e avisar sobre pagamento, envio e entrega.</li>
           <li><strong>Data de nascimento (opcional):</strong> para conhecer melhor nossas clientes e personalizar nossas comunicações. Você pode deixar em branco ou apagar quando quiser.</li>
+          <li><strong>Visitas ao site:</strong> contamos as visitas de forma anônima (Cloudflare Web Analytics), sem cookies e sem identificar quem você é.</li>
           <li><strong>Promoções:</strong> só enviamos novidades e ofertas se você marcar que aceita. Dá para sair da lista a qualquer momento.</li>
         </ul>
         <p><strong>Com quem compartilhamos</strong></p>
@@ -2138,5 +2139,7 @@ document.getElementById('conf-fundo').addEventListener('click',fechaConfirmacao)
 document.getElementById('conf-editar').addEventListener('click',function(){ fechaConfirmacao(); pedeDadosParaComprar(); });
 document.getElementById('conf-ok').addEventListener('click',pagarAgora);
 </script>
+<!-- Cloudflare Web Analytics: conta visitas de forma anônima, sem cookies -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b3e69f26ab594bacac9a51bbd2e6c20a"}'></script>
 </body>
 </html>
