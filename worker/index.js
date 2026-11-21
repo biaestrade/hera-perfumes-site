@@ -645,6 +645,8 @@ export async function avisarPedidoPago(env, origem, pedidoId) {
   const divergente = p.status === 'aprovado_valor_divergente'
     ? '<br><b style="color:#B00020">Atenção: o valor pago é diferente do total do pedido. Confira no Mercado Pago antes de enviar.</b>' : '';
   const fone = ent && ent.telefone ? String(ent.telefone).replace(/\D/g, '') : '';
+  // copia a venda para a aba "Vendas do site" da planilha (o Painel da Hera lê de lá)
+  await vendaParaPlanilha(env, p, itens, ent);
   const paraHera = env.AVISO_PEDIDO_EMAIL || 'contato@heraevodiaperfumes.com.br';
   const textoHera = `<b>${escHtml(p.id)}</b> · pago ${reais(p.valor_pago_centavos)}${p.cupom ? ' · cupom ' + escHtml(p.cupom) + ' (' + escHtml(p.representante || '') + ')' : ''}${divergente}<br><br>
     ${lista}${descLinha}${freteLinha}<br><br>
@@ -658,6 +660,28 @@ export async function avisarPedidoPago(env, origem, pedidoId) {
       moldeEmail('Pedido confirmado', `${nome}ecebemos o pagamento do seu pedido <b>${escHtml(p.id)}</b>. Agora vamos separar seus perfumes com todo o cuidado.<br><br>${lista}${descLinha}${freteLinha}<br><br>Total pago: <b>${reais(p.valor_pago_centavos)}</b>${ent ? `<br>Entrega: ${escHtml(ent.endereco)}` : ''}<br><br>Você acompanha o envio e o rastreio em Minha conta.`,
         'Ver meu pedido', site + '/#minha-conta', true));
   }
+}
+
+// Uma linha por pedido pago na aba "Vendas do site". Se a planilha falhar, o pedido continua salvo no banco.
+async function vendaParaPlanilha(env, p, itens, ent) {
+  if (!env.PLANILHA_URL || !env.PLANILHA_SEGREDO) return;
+  const r = c => Math.round(c || 0) / 100;
+  try {
+    await fetch(env.PLANILHA_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      redirect: 'follow',
+      body: JSON.stringify({
+        segredo: env.PLANILHA_SEGREDO, aba: 'vendas',
+        pedido: p.id, data: p.pago_em || p.criado_em, modo: p.modo || env.MODO || 'teste', situacao: p.status,
+        nome: ent && ent.nome || '', telefone: ent && ent.telefone || '', email: p.email_cliente || '',
+        itens: itens.map(i => ({ id: i.id, nome: i.titulo || i.id, qtd: i.quantidade, preco: r(i.unitario_centavos) })),
+        subtotal: r(p.subtotal_centavos), desconto: r(p.desconto_centavos), frete: r(p.frete_centavos),
+        total: r(p.valor_pago_centavos || p.total_centavos), cupom: p.cupom || '', representante: p.representante || '',
+        comissao: r(p.comissao_centavos),
+      }),
+    });
+  } catch (e) { console.error('planilha de vendas falhou', e && e.message); }
 }
 
 async function mandarEmail(env, para, assunto, html) {
