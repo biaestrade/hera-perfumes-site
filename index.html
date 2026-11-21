@@ -641,6 +641,14 @@ body.lista-aberta{overflow:hidden}
 .cupom small{margin:6px 2px 0!important}
 .cupom small.ok{color:#2F6B3A}
 .cupom small.erro{color:var(--carmim)}
+.frete input{text-transform:none}
+.fretes{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.fretes:empty{display:none}
+.fretes label{display:flex;align-items:center;gap:10px;margin:0;padding:10px 14px;border:1px solid var(--linha);border-radius:14px;cursor:pointer;font:500 13px var(--sans);letter-spacing:0;text-transform:none;color:var(--bordo);background:var(--off)}
+.fretes label:has(input:checked){border-color:var(--bordo);background:#fff}
+.fretes input{accent-color:var(--bordo);width:16px;height:16px;flex:none}
+.fretes .fr-nome{flex:1}.fretes .fr-nome em{display:block;font-style:normal;font-weight:400;font-size:12px;color:var(--suave)}
+.fretes b{font-weight:600;white-space:nowrap}
 .bloco-online{padding:14px 0 16px;margin-bottom:14px;border-bottom:1px solid var(--linha)}
 .btn-pagar{width:100%;min-height:52px;background:var(--bordo);color:var(--off)}
 .btn-pagar[disabled]{opacity:.6;cursor:wait}
@@ -1402,6 +1410,12 @@ nav.menu a.link-conta{background-image:none}
       <div><input id="sel-cupom" name="cupom" maxlength="30" placeholder="Opcional" autocapitalize="characters" spellcheck="false"><button type="submit">Aplicar</button></div>
       <small id="sel-cupom-msg" aria-live="polite"></small>
     </form>
+    <form class="cupom frete" id="sel-cep-form" autocomplete="off" hidden>
+      <label for="sel-cep">Frete e prazo</label>
+      <div><input id="sel-cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="Seu CEP"><button type="submit">Calcular</button></div>
+      <div class="fretes" id="sel-fretes" role="radiogroup" aria-label="Forma de envio"></div>
+      <small id="sel-frete-msg" aria-live="polite"></small>
+    </form>
     <div class="bloco-online" id="sel-online">
       <div class="tot"><span>Total no site</span><b id="sel-total-online"></b></div>
       <small id="sel-detalhe-online"></small>
@@ -1437,7 +1451,9 @@ SEL=(Array.isArray(SEL)?SEL:[]).map(function(x){ return typeof x==='string'?{id:
 var CUPOM=''; try{ CUPOM=localStorage.getItem('hera-cupom')||''; }catch(e){}
 var COTACAO=null;   // resposta do servidor (preços, descontos e cupom conferidos lá)
 var QTD_MAX=10;
-function salvaSel(){ try{ localStorage.setItem('hera-selecao',JSON.stringify(SEL)); localStorage.setItem('hera-cupom',CUPOM); }catch(e){} }
+function salvaSel(){ try{ localStorage.setItem('hera-selecao',JSON.stringify(SEL)); localStorage.setItem('hera-cupom',CUPOM); localStorage.setItem('hera-cep',CEP_FRETE); localStorage.setItem('hera-servico',String(SERVICO_FRETE||'')); }catch(e){} }
+var CEP_FRETE='', SERVICO_FRETE=0;
+try{ CEP_FRETE=(localStorage.getItem('hera-cep')||'').replace(/\D/g,'').slice(0,8); SERVICO_FRETE=Number(localStorage.getItem('hera-servico'))||0; }catch(e){}
 function naSel(id){ for(var i=0;i<SEL.length;i++){ if(SEL[i].id===id) return i; } return -1; }
 function botaoLista(id, grande){
   var on=naSel(id)>=0;
@@ -1494,10 +1510,16 @@ function atualizaSel(){
     var tot=document.getElementById('sel-total-online'), det=document.getElementById('sel-detalhe-online');
     if(COTACAO && !COTACAO.erro){
       tot.textContent=centavos(COTACAO.total);
-      det.textContent=COTACAO.descontos && COTACAO.descontos.length ? COTACAO.descontos.map(function(d){return d.nome+': −'+centavos(d.valor);}).join(' · ') : 'Pix ou cartão pelo Mercado Pago.';
+      var partes=COTACAO.descontos && COTACAO.descontos.length ? COTACAO.descontos.map(function(d){return d.nome+': −'+centavos(d.valor);}) : [];
+      if(COTACAO.frete_ativo){
+        var fe=(COTACAO.fretes||[]).filter(function(x){return x.id===COTACAO.servico;})[0];
+        partes.push(COTACAO.frete_calculado && fe ? 'Frete '+fe.nome+': '+(fe.gratis?'grátis':centavos(fe.preco)) : 'Mais o frete (digite o CEP)');
+      }
+      det.textContent=partes.length ? partes.join(' · ') : 'Pix ou cartão pelo Mercado Pago.';
     } else if(COTACAO && COTACAO.erro){ tot.textContent='—'; det.textContent=COTACAO.erro; }
     else { tot.textContent='calculando…'; det.textContent=''; }
   }
+  montaFrete();
   var msgCupom=document.getElementById('sel-cupom-msg');
   if(CUPOM && COTACAO && !COTACAO.erro){ msgCupom.textContent=COTACAO.mensagem_cupom||''; msgCupom.className=COTACAO.cupom_valido?'ok':'erro'; }
   else if(!CUPOM){ msgCupom.textContent=''; msgCupom.className=''; }
@@ -1545,15 +1567,46 @@ function api(caminho,dados){
   return fetch(API_LOJA+caminho,{method:dados===undefined?'GET':'POST',headers:h,body:dados===undefined?undefined:JSON.stringify(dados)})
     .then(function(r){ return r.json().catch(function(){return {};}).then(function(j){ if(!r.ok) throw new Error(j.erro||'Não foi possível falar com a loja agora.'); return j; }); });
 }
-function pedidoAtual(){ return {itens:SEL.filter(function(s){return porId(s.id);}).map(function(s){return {id:s.id,quantidade:s.q};}), cupom:CUPOM}; }
+function pedidoAtual(){ return {itens:SEL.filter(function(s){return porId(s.id);}).map(function(s){return {id:s.id,quantidade:s.q};}), cupom:CUPOM, cep:CEP_FRETE, servico:SERVICO_FRETE||undefined}; }
 var tCotar=null, nCotar=0;
 function cotar(){ clearTimeout(tCotar); tCotar=setTimeout(cotarAgora,350); }
 function cotarAgora(){
-  if(!lojaOnline() || !SEL.length){ return; }
+  if(!lojaOnline() || !SEL.length){ return Promise.resolve(); }
   var n=++nCotar;
-  api('/api/cotacao',pedidoAtual()).then(function(j){ if(n===nCotar){ COTACAO=j; atualizaSel(); } })
+  return api('/api/cotacao',pedidoAtual()).then(function(j){ if(n===nCotar){ COTACAO=j; if(j.servico) SERVICO_FRETE=j.servico; atualizaSel(); } })
     .catch(function(e){ if(n===nCotar){ COTACAO={erro:e.message}; atualizaSel(); } });
 }
+/* ---- frete: CEP e escolha entre PAC e SEDEX ---- */
+function fmtCepFrete(c){ c=String(c||'').replace(/\D/g,''); return c.length>5?c.slice(0,5)+'-'+c.slice(5,8):c; }
+function prazoTxt(d){ return d ? 'até '+d+(d>1?' dias úteis':' dia útil') : ''; }
+function montaFrete(){
+  var f=document.getElementById('sel-cep-form'); if(!f) return;
+  var ativo=!!(COTACAO && COTACAO.frete_ativo);
+  f.hidden=!ativo; if(!ativo) return;
+  var inp=document.getElementById('sel-cep'); if(document.activeElement!==inp) inp.value=fmtCepFrete(CEP_FRETE);
+  var box=document.getElementById('sel-fretes'), m=document.getElementById('sel-frete-msg');
+  var L=COTACAO.fretes||[];
+  box.innerHTML=L.map(function(x){
+    return '<label><input type="radio" name="servico-frete" value="'+x.id+'"'+(x.id===COTACAO.servico?' checked':'')+'><span class="fr-nome">'+esc(x.nome)+'<em>'+esc(prazoTxt(x.prazo))+'</em></span><b>'+(x.gratis?'Grátis':centavos(x.preco))+'</b></label>';
+  }).join('');
+  m.className=COTACAO.frete_erro?'erro':'';
+  m.textContent=COTACAO.frete_erro || (!CEP_FRETE ? 'Digite seu CEP para ver o valor do frete.' : '');
+}
+document.getElementById('sel-cep-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var c=document.getElementById('sel-cep').value.replace(/\D/g,'');
+  var m=document.getElementById('sel-frete-msg');
+  if(c.length!==8){ m.textContent='Digite os 8 números do CEP.'; m.className='erro'; return; }
+  CEP_FRETE=c; salvaSel(); m.textContent='Calculando o frete…'; m.className=''; cotarAgora();
+});
+document.getElementById('sel-cep').addEventListener('input',function(){
+  var c=this.value.replace(/\D/g,'').slice(0,8); this.value=fmtCepFrete(c);
+  if(c.length===8 && c!==CEP_FRETE){ CEP_FRETE=c; salvaSel(); document.getElementById('sel-frete-msg').textContent='Calculando o frete…'; cotarAgora(); }
+});
+document.getElementById('sel-fretes').addEventListener('change',function(e){
+  if(e.target.name!=='servico-frete') return;
+  SERVICO_FRETE=Number(e.target.value)||0; salvaSel(); cotarAgora();
+});
 document.getElementById('sel-cupom-form').addEventListener('submit',function(e){
   e.preventDefault();
   CUPOM=document.getElementById('sel-cupom').value.trim().toUpperCase().replace(/\s+/g,'');
@@ -2140,12 +2193,22 @@ function pedeDadosParaComprar(){
   if(location.hash==='#minha-conta/dados') rota(); else location.hash='#minha-conta/dados';
 }
 function abreConfirmacao(p){
+  // o frete vale para o endereço da conta: recalcula com esse CEP antes de mostrar o total
+  if(COTACAO && COTACAO.frete_ativo && p.cep && (p.cep!==CEP_FRETE || !COTACAO.frete_calculado)){
+    CEP_FRETE=p.cep; salvaSel(); COTACAO=null; atualizaSel();
+    cotarAgora().then(function(){
+      if(COTACAO && !COTACAO.erro && (!COTACAO.frete_ativo || COTACAO.frete_calculado)) abreConfirmacao(p);
+      else { var m=document.getElementById('sel-pagar-msg'); m.textContent=(COTACAO&&(COTACAO.erro||COTACAO.frete_erro))||'Não conseguimos calcular o frete para o CEP da sua conta.'; }
+    });
+    return;
+  }
   var tot=document.getElementById('sel-total-online').textContent;
   document.getElementById('conf-dados').innerHTML=
     '<dt>Nome</dt><dd>'+esc(p.nome)+'</dd><dt>CPF</dt><dd>'+esc(fmtCPF(p.cpf))+'</dd><dt>WhatsApp</dt><dd>'+esc(fmtTel(p.telefone))+'</dd>'+
     '<dt>E-mail</dt><dd>'+esc(EMAIL_CONTA||document.getElementById('conta-email').textContent||'')+'</dd><dt>Entrega</dt><dd>'+esc(enderecoTexto(p))+'</dd>';
   var n=SEL.reduce(function(s,x){return s+x.q;},0);
-  document.getElementById('conf-resumo').innerHTML='<span>'+n+(n>1?' perfumes':' perfume')+'</span><b>'+esc(tot)+'</b>';
+  var fe=COTACAO && COTACAO.frete_calculado ? (COTACAO.fretes||[]).filter(function(x){return x.id===COTACAO.servico;})[0] : null;
+  document.getElementById('conf-resumo').innerHTML='<span>'+n+(n>1?' perfumes':' perfume')+(fe?' + frete '+esc(fe.nome)+' ('+esc(prazoTxt(fe.prazo))+')':'')+'</span><b>'+esc(tot)+'</b>';
   document.getElementById('conf-msg').textContent='';
   var b=document.getElementById('conf-ok'); b.disabled=false; b.textContent='Confirmar e pagar';
   document.getElementById('conf').hidden=false; document.getElementById('conf-fundo').hidden=false;

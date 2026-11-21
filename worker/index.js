@@ -115,6 +115,7 @@ export default {
             mercado_pago_configurado: !!env.MP_ACCESS_TOKEN,
             assinatura_webhook_configurada: !!env.MP_WEBHOOK_SECRET,
             relatorio_configurado: !!env.RELATORIO_SENHA,
+            frete_configurado: !!env.SUPERFRETE_TOKEN && String(env.FRETE_CEP_ORIGEM || '').replace(/\D/g, '').length === 8,
             email_configurado: !!env.RESEND_API_KEY,
             google_configurado: !!env.GOOGLE_CLIENT_ID,
             planilha_configurada: !!(env.PLANILHA_URL && env.PLANILHA_SEGREDO),
@@ -149,6 +150,67 @@ function regras(env) {
     freteCentavos: Math.max(0, Math.round(num(env.FRETE_CENTAVOS, 0))),
     descontoMaxPct: 90,
   };
+}
+
+/* ------------------------------------------------------------------- frete */
+// Cotação pela SuperFrete (PAC e SEDEX dos Correios, sem contrato). Sem o segredo SUPERFRETE_TOKEN, vale o frete fixo FRETE_CENTAVOS.
+// Caixas simuladas pelo Fernando (cm) e peso estimado já embalado (kg): frasco + caixinha do perfume + caixa de envio e proteção.
+const CAIXAS = {
+  P: { width: 16.5, length: 11, height: 7, weight: 0.3 },  // 30 a 50 ml
+  M: { width: 19, length: 14, height: 10, weight: 0.55 },  // 70 a 125 ml
+  G: { width: 27, length: 18, height: 9, weight: 0.85 },   // mais de 125 ml (até 200 ml) e kits
+};
+const SERVICOS_FRETE = { 1: 'PAC', 2: 'SEDEX' };
+function caixaDoPerfume(p) {
+  if (!p || p.tipo === 'cofre') return CAIXAS.G;
+  const ml = p.ml || 100;
+  return ml <= 50 ? CAIXAS.P : ml <= 125 ? CAIXAS.M : CAIXAS.G;
+}
+const cacheFrete = new Map(); // mesma cotação por 15 minutos, para não chamar a SuperFrete a cada clique
+async function cotarFrete(env, cep, linhas, produtos, totalProdutos) {
+  const destino = String(cep || '').replace(/\D/g, '');
+  if (destino.length !== 8 || !env.SUPERFRETE_TOKEN) return null;
+  const origem = String(env.FRETE_CEP_ORIGEM || '').replace(/\D/g, '');
+  if (origem.length !== 8) throw new Error('FRETE_CEP_ORIGEM não configurado');
+  const products = linhas.map(l => ({ quantity: l.quantidade, ...caixaDoPerfume(produtos.get(l.id)) }));
+  const chave = destino + '|' + JSON.stringify(products);
+  const guardado = cacheFrete.get(chave);
+  let lista;
+  if (guardado && Date.now() - guardado.quando < 15 * 60_000) lista = guardado.lista;
+  else {
+    const base = (env.SUPERFRETE_URL || 'https://api.superfrete.com').replace(/\/+$/, '');
+    const r = await fetch(base + '/api/v0/calculator', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.SUPERFRETE_TOKEN}`,
+        'User-Agent': 'HeraPerfumes/1.0 (contato@heraevodiaperfumes.com.br)',
+        'Content-Type': 'application/json', accept: 'application/json',
+      },
+      body: JSON.stringify({
+        from: { postal_code: origem }, to: { postal_code: destino }, services: '1,2',
+        options: { own_hand: false, receipt: false, insurance_value: 0, use_insurance_value: false },
+        products,
+      }),
+    });
+    if (!r.ok) {
+      console.error('SuperFrete recusou a cotação', r.status, (await r.text()).slice(0, 300));
+      throw new ErroCliente('Não conseguimos calcular o frete agora. Tente de novo em instantes.');
+    }
+    const j = await r.json();
+    lista = (Array.isArray(j) ? j : [])
+      .filter(x => x && !x.has_error && !x.error && SERVICOS_FRETE[x.id] && Number(x.price) > 0)
+      .map(x => ({ id: x.id, nome: SERVICOS_FRETE[x.id], centavos: Math.round(Number(x.price) * 100), prazo: Number(x.delivery_time) || 0 }));
+    cacheFrete.set(chave, { quando: Date.now(), lista });
+    if (cacheFrete.size > 500) cacheFrete.clear();
+  }
+  // prazo: dias da transportadora + dias para a Hera separar e postar
+  const extra = Math.max(0, Math.round(Number(env.FRETE_PRAZO_EXTRA_DIAS || 1)) || 0);
+  // frete grátis na opção mais barata a partir de FRETE_GRATIS_ACIMA (em reais; 0 = desligado)
+  const gratisAcima = Math.round((Number(env.FRETE_GRATIS_ACIMA) || 0) * 100);
+  return lista.slice().sort((a, b) => a.centavos - b.centavos).map((x, i) => {
+    const gratis = gratisAcima > 0 && totalProdutos >= gratisAcima && i === 0;
+    return { ...x, prazo: x.prazo + extra, gratis, cobrado: gratis ? 0 : x.centavos };
+  });
 }
 
 /* ---------------------------------------------------------------- produtos */
@@ -222,6 +284,8 @@ async function produtosOficiais(env) {
       precoCentavos: preco,
       ativo: p.ativo !== false,
       estoque: Number.isInteger(p.estoque) ? p.estoque : null, // controle de estoque: preparado, ainda não usado
+      ml: parseInt(String(p.vol || ''), 10) || null, // para escolher a caixa do frete
+      tipo: p.tipo || '',
     });
   }
   cacheProdutos = { quando: Date.now(), mapa };
@@ -258,7 +322,7 @@ function lerItens(corpo) {
   return [...junto].map(([id, quantidade]) => ({ id, quantidade }));
 }
 
-async function calcular(env, corpo) {
+async function calcular(env, corpo, cepEntrega) {
   const r = regras(env);
   const itens = lerItens(corpo);
   const produtos = await produtosOficiais(env);
@@ -281,7 +345,28 @@ async function calcular(env, corpo) {
   const subtotal = linhas.reduce((s, l) => s + l.precoCentavos * l.quantidade, 0);
   const totalProdutos = linhas.reduce((s, l) => s + l.totalCentavos, 0);
   const desconto = subtotal - totalProdutos;
-  const frete = r.freteCentavos;
+
+  // frete: com a SuperFrete ligada, depende do CEP (no pagamento, sempre o CEP do endereço da conta)
+  let frete = r.freteCentavos, fretes = null, freteEscolhido = null, freteErro = '';
+  const cep = cepEntrega || (corpo && corpo.cep);
+  if (env.SUPERFRETE_TOKEN) {
+    frete = 0;
+    if (String(cep || '').replace(/\D/g, '').length === 8) {
+      try {
+        fretes = await cotarFrete(env, cep, linhas, produtos, totalProdutos);
+      } catch (e) {
+        if (cepEntrega) throw e;
+        console.error('frete', e && e.message);
+        freteErro = e instanceof ErroCliente ? e.message : 'Não conseguimos calcular o frete agora.';
+      }
+      if (fretes && !fretes.length) freteErro = 'Não encontramos entrega para esse CEP. Confira o número.';
+      if (fretes && fretes.length) {
+        const pedido = Number(corpo && corpo.servico);
+        freteEscolhido = fretes.find(x => x.id === pedido) || fretes[0];
+        frete = freteEscolhido.cobrado;
+      }
+    }
+  }
 
   let nomeDesconto = '';
   if (pct > 0) {
@@ -297,7 +382,8 @@ async function calcular(env, corpo) {
 
   const comissaoPct = cupom ? Number(cupom.comissao_pct) || 0 : 0;
   return {
-    linhas, subtotal, desconto, frete, totalProdutos,
+    linhas, subtotal, desconto, frete, totalProdutos, fretes, freteEscolhido, freteErro,
+    freteAtivo: !!env.SUPERFRETE_TOKEN,
     total: totalProdutos + frete,
     pct, nomeDesconto, mensagemCupom, codigo, cupom,
     comissaoPct,
@@ -321,6 +407,11 @@ async function cotacao(request, env) {
     desconto: c.desconto,
     frete: c.frete,
     total: c.total,
+    frete_ativo: c.freteAtivo,
+    frete_calculado: !!c.freteEscolhido,
+    frete_erro: c.freteErro,
+    fretes: c.fretes ? c.fretes.map(x => ({ id: x.id, nome: x.nome, preco: x.cobrado, preco_cheio: x.centavos, prazo: x.prazo, gratis: x.gratis })) : null,
+    servico: c.freteEscolhido ? c.freteEscolhido.id : null,
     descontos: c.desconto > 0 ? [{ nome: c.nomeDesconto, valor: c.desconto }] : [],
     cupom: c.cupom ? c.cupom.codigo : null,
     cupom_valido: !!c.cupom,
@@ -340,7 +431,8 @@ async function pagar(request, env) {
   if (!env.MP_ACCESS_TOKEN) throw new Error('MP_ACCESS_TOKEN não configurado');
   if (!env.DB) throw new Error('banco D1 não configurado');
   const corpo = await lerCorpo(request);
-  const c = await calcular(env, corpo);
+  const c = await calcular(env, corpo, perfil.cep);
+  if (c.freteAtivo && !c.freteEscolhido) throw new ErroCliente('Não conseguimos calcular o frete para o CEP da sua conta. Confira o CEP em Minha conta ou fale com a Hera pelo WhatsApp.');
   if (corpo.cupom && !c.cupom) throw new ErroCliente('Esse código de representante não é válido. Corrija ou apague o código.');
 
   const pedidoId = 'HERA-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + crypto.randomUUID().slice(0, 8).toUpperCase();
@@ -356,7 +448,8 @@ async function pagar(request, env) {
     JSON.stringify(c.linhas.map(l => ({ id: l.id, titulo: l.titulo, quantidade: l.quantidade, unitario_centavos: l.unitarioCentavos }))),
     c.subtotal, c.desconto, c.frete, c.total,
     c.cupom ? c.cupom.codigo : null, c.cupom ? c.cupom.representante : null,
-    c.comissaoPct, c.comissaoCentavos, emailCliente, JSON.stringify(entregaDe(perfil))
+    c.comissaoPct, c.comissaoCentavos, emailCliente,
+    JSON.stringify({ ...entregaDe(perfil), ...(c.freteEscolhido ? { envio: c.freteEscolhido.nome, prazo_dias: c.freteEscolhido.prazo } : {}) })
   ).run();
 
   const origemApi = new URL(request.url).origin;
@@ -365,7 +458,7 @@ async function pagar(request, env) {
     id: l.id, title: l.titulo.slice(0, 250), quantity: l.quantidade,
     unit_price: l.unitarioCentavos / 100, currency_id: 'BRL',
   }));
-  if (c.frete > 0) itensMp.push({ id: 'frete', title: 'Frete', quantity: 1, unit_price: c.frete / 100, currency_id: 'BRL' });
+  if (c.frete > 0) itensMp.push({ id: 'frete', title: c.freteEscolhido ? `Frete ${c.freteEscolhido.nome}` : 'Frete', quantity: 1, unit_price: c.frete / 100, currency_id: 'BRL' });
 
   const preferencia = {
     items: itensMp,
@@ -650,7 +743,7 @@ export async function avisarPedidoPago(env, origem, pedidoId) {
   const paraHera = env.AVISO_PEDIDO_EMAIL || 'contato@heraevodiaperfumes.com.br';
   const textoHera = `<b>${escHtml(p.id)}</b> · pago ${reais(p.valor_pago_centavos)}${p.cupom ? ' · cupom ' + escHtml(p.cupom) + ' (' + escHtml(p.representante || '') + ')' : ''}${divergente}<br><br>
     ${lista}${descLinha}${freteLinha}<br><br>
-    ${ent ? `<b>Entregar para:</b> ${escHtml(ent.nome)} · CPF ${escHtml(cpfFmt(ent.cpf))}<br>${escHtml(ent.endereco)}<br>
+    ${ent && ent.envio ? `<b>Envio:</b> ${escHtml(ent.envio)}${ent.prazo_dias ? ' (até ' + ent.prazo_dias + ' dias úteis)' : ''}<br>` : ''}${ent ? `<b>Entregar para:</b> ${escHtml(ent.nome)} · CPF ${escHtml(cpfFmt(ent.cpf))}<br>${escHtml(ent.endereco)}<br>
     WhatsApp: ${fone ? `<a href="https://wa.me/55${fone}">${escHtml(ent.telefone)}</a>` : '-'}` : ''}${p.email_cliente ? '<br>E-mail: ' + escHtml(p.email_cliente) : ''}`;
   await mandarEmail(env, paraHera, `Pedido pago${teste}: ${p.id} · ${reais(p.valor_pago_centavos)}`,
     moldeEmail('Pedido novo pago', textoHera, 'Abrir o painel de pedidos', site + '/admin', true));

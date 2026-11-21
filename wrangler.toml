@@ -38,6 +38,14 @@ GOOGLE_CLIENT_ID = "1011981137223-ffdmtclh76mvoqc3tcoeqcoovvq2qcen.apps.googleus
 # Sites que podem usar o servidor (separados por vírgula)
 ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiaperfumes.com.br"
 
+# ---- FRETE (SuperFrete: PAC e SEDEX). O token fica só como segredo SUPERFRETE_TOKEN no Cloudflare. ----
+# CEP de onde os perfumes saem
+FRETE_CEP_ORIGEM = "04649000"
+# Dias para a Hera separar e postar, somados ao prazo dos Correios
+FRETE_PRAZO_EXTRA_DIAS = "1"
+# Frete grátis (na opção mais barata) a partir deste valor em reais. "0" = sem frete grátis (ponto a decidir)
+FRETE_GRATIS_ACIMA = "0"
+
 # ---- REGRAS DE DESCONTO (pontos em aberto: troque aqui quando decidir) ----
 # Desconto do site, em %
 DESCONTO_BASE_PCT = "0"
