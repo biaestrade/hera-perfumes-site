@@ -19,6 +19,10 @@ database_name = "hera-loja"
 database_id = "5ca699eb-06ec-417d-9a76-c464707e0cfa"
 migrations_dir = "worker/migrations"
 
+# A cada 30 minutos: manda o arquivo hera-site-dados.json para o Drive (o Painel da Hera lê de lá)
+[triggers]
+crons = ["*/30 * * * *"]
+
 [vars]
 # "teste" enquanto usar as credenciais de teste do Mercado Pago; "producao" quando for para valer
 MODO = "teste"

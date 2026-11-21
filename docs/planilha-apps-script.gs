@@ -20,6 +20,7 @@ function doPost(e) {
   if (!SEGREDO || SEGREDO === 'COLE_AQUI_O_SEGREDO' || d.segredo !== SEGREDO) return saida({ ok: false });
 
   if (d.aba === 'vendas') return saida({ ok: gravaVenda(d) });
+  if (d.aba === 'painel') return saida({ ok: gravaDadosPainel(d.dados) });
 
   const clientes = d.aba === 'clientes';
   const aba = SpreadsheetApp.openById(PLANILHA_ID).getSheetByName(clientes ? 'Clientes' : 'Newsletter');
@@ -64,6 +65,14 @@ function gravaVenda(d) {
       valor(d.total), limpa(d.cupom || ''), limpa(d.representante || ''), valor(d.comissao), JSON.stringify(itens).slice(0, 45000)]);
     return true;
   } finally { trava.releaseLock(); }
+}
+
+// Arquivo hera-site-dados.json no Drive (o Painel da Hera lê): o site manda de 30 em 30 minutos
+const DADOS_PAINEL_ID = '1kzgphlvfNi6w1vSIj74eHS4bX8OiqDHV';
+function gravaDadosPainel(dados) {
+  if (!dados || typeof dados !== 'object') return false;
+  DriveApp.getFileById(DADOS_PAINEL_ID).setContent(JSON.stringify(dados));
+  return true;
 }
 
 // evita que um texto vire fórmula na planilha

@@ -1202,11 +1202,12 @@ nav.menu a.link-conta{background-image:none}
           <li><strong>Endereço de entrega:</strong> para enviar o pedido e calcular o frete. Cada pedido guarda uma cópia do endereço usado naquela compra.</li>
           <li><strong>WhatsApp e e-mail:</strong> para entrar na sua conta, confirmar o pedido e avisar sobre pagamento, envio e entrega.</li>
           <li><strong>Data de nascimento (opcional):</strong> para conhecer melhor nossas clientes e personalizar nossas comunicações. Você pode deixar em branco ou apagar quando quiser.</li>
+          <li><strong>Carrinho:</strong> se você estiver conectada na sua conta, guardamos os perfumes do seu carrinho para ele aparecer em qualquer aparelho e para a Hera poder lembrar você de uma compra que ficou pela metade.</li>
           <li><strong>Visitas ao site:</strong> contamos as visitas de forma anônima (Cloudflare Web Analytics), sem cookies e sem identificar quem você é.</li>
           <li><strong>Promoções:</strong> só enviamos novidades e ofertas se você marcar que aceita. Dá para sair da lista a qualquer momento.</li>
         </ul>
         <p><strong>Com quem compartilhamos</strong></p>
-        <p>Não vendemos seus dados. Repassamos apenas o necessário para o pedido acontecer: ao Mercado Pago (pagamento e análise antifraude) e à transportadora ou aos Correios (entrega). Sua senha é guardada de forma criptografada e nem a nossa equipe consegue vê-la. Não guardamos dados do seu cartão: eles ficam só com o Mercado Pago.</p>
+        <p>Não vendemos seus dados. Repassamos apenas o necessário para o pedido acontecer: ao Mercado Pago (pagamento e análise antifraude), à SuperFrete e à transportadora ou aos Correios (cálculo do frete e entrega). Para organizar os pedidos, a equipe da Hera usa planilhas no Google Drive, de acesso restrito. Sua senha é guardada de forma criptografada e nem a nossa equipe consegue vê-la. Não guardamos dados do seu cartão: eles ficam só com o Mercado Pago.</p>
         <p><strong>Por quanto tempo</strong></p>
         <p>Mantemos seus dados enquanto sua conta existir. Os dados ligados às notas fiscais precisam ser guardados pelo prazo que a lei fiscal exige, mesmo depois que a conta for apagada.</p>
         <p><strong>Seus direitos</strong></p>
@@ -1461,7 +1462,7 @@ function botaoLista(id, grande){
 }
 function porId(id){ return PERFUMES.filter(function(x){return x.id===id;})[0]; }
 function pulaContador(){ document.querySelectorAll('.qtd-lista').forEach(function(q){ q.classList.remove('pulo'); void q.offsetWidth; q.classList.add('pulo'); }); }
-function mudouSel(){ salvaSel(); COTACAO=null; atualizaSel(); cotar(); }
+function mudouSel(){ salvaSel(); COTACAO=null; atualizaSel(); cotar(); guardaCarrinhoNaConta(); }
 function alternaSel(id){
   var i=naSel(id); if(i>=0) SEL.splice(i,1); else SEL.push({id:id,q:1});
   mudouSel(); pulaContador();
@@ -1955,7 +1956,22 @@ window.addEventListener('hashchange',irSecaoPolitica); irSecaoPolitica();
 
 /* ---- Minha conta: entrar por link no e-mail e acompanhar o pedido ---- */
 function sessaoConta(){ try{ return localStorage.getItem('hera_sessao')||''; }catch(e){ return ''; } }
-function guardaSessao(v){ try{ if(v) localStorage.setItem('hera_sessao',v); else localStorage.removeItem('hera_sessao'); }catch(e){} }
+function guardaSessao(v){ try{ if(v) localStorage.setItem('hera_sessao',v); else localStorage.removeItem('hera_sessao'); }catch(e){} if(v) juntaCarrinhoDaConta(); }
+/* ---- carrinho guardado na conta: segue a cliente em outro aparelho ---- */
+var tCarrinho=null;
+function guardaCarrinhoNaConta(){
+  if(!sessaoConta() || !lojaOnline()) return;
+  clearTimeout(tCarrinho);
+  tCarrinho=setTimeout(function(){ api('/api/carrinho',{itens:pedidoAtual().itens, cupom:CUPOM}).catch(function(){}); },1500);
+}
+function juntaCarrinhoDaConta(){
+  if(!lojaOnline()) return;
+  api('/api/carrinho').then(function(j){
+    var srv=(j.itens||[]).filter(function(i){ return porId(i.id); });
+    if(!SEL.length && srv.length){ SEL=srv.map(function(i){ return {id:i.id,q:Math.min(QTD_MAX,i.quantidade||1)}; }); if(!CUPOM && j.cupom) CUPOM=j.cupom; salvaSel(); COTACAO=null; atualizaSel(); cotar(); }
+    else if(SEL.length) guardaCarrinhoNaConta();
+  }).catch(function(){});
+}
 function marcaConta(){
   document.querySelectorAll('.txt-conta').forEach(function(s){ s.textContent=sessaoConta()?'Minha conta':'Entrar'; });
   var a=document.getElementById('sel-aviso-login'); if(a) a.hidden=!!sessaoConta();

@@ -30,6 +30,10 @@
  *   PLANILHA_URL       endereço do Apps Script da planilha Google de e-mails (newsletter e clientes)
  *   PLANILHA_SEGREDO   senha combinada com o Apps Script (a mesma escrita lá)
  *   RESEND_API_KEY     chave do Resend (resend.com), que manda os e-mails de entrada e de "pedido enviado"
+ *   SUPERFRETE_TOKEN   chave da SuperFrete (cotação de PAC, SEDEX, Jadlog e Loggi)
+ *
+ * A cada 30 minutos (cron em wrangler.toml) o Worker manda para o Drive o arquivo hera-site-dados.json,
+ * que o Painel da Hera lê: cadastros, carrinhos e checkouts abandonados e a situação de entrega dos pedidos.
  *
  * Regras ajustáveis ficam em wrangler.toml, na seção [vars].
  * Os cupons ficam na tabela "cupons" do banco D1 (não no código, porque o repositório é público).
@@ -40,6 +44,9 @@ const MAX_ITENS = 30;
 const MAX_QTD = 10;
 
 export default {
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(enviarDadosPainel(env).catch(e => console.error('dados do painel', e && e.message)));
+  },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname === '/admin') return await painelAdmin(request, env);
@@ -98,6 +105,12 @@ export default {
         case 'POST /api/entrar/confirmar':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await confirmarEntrada(request, env, ctx), 200, cors);
+        case 'POST /api/carrinho':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await salvarCarrinho(request, env), 200, cors);
+        case 'GET /api/carrinho':
+          if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
+          return json(await lerCarrinho(request, env), 200, cors);
         case 'GET /api/minha-conta':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await minhaConta(request, env), 200, cors);
@@ -559,7 +572,8 @@ async function webhook(request, env, url, ctx) {
   const virouPago = status.startsWith('aprovado') && !String(pedido.status || '').startsWith('aprovado')
     && atualizou.meta && atualizou.meta.changes > 0;
   if (virouPago) {
-    const tarefa = avisarPedidoPago(env, new URL(request.url).origin, pedidoId).catch(e => console.error('aviso de pedido', e));
+    const tarefa = avisarPedidoPago(env, new URL(request.url).origin, pedidoId).catch(e => console.error('aviso de pedido', e))
+      .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message));
     if (ctx && ctx.waitUntil) ctx.waitUntil(tarefa); else await tarefa;
   }
 
@@ -939,6 +953,81 @@ async function sessaoAtual(request, env) {
   const s = await env.DB.prepare('SELECT email, expira_em FROM sessoes WHERE hash = ?1').bind(await hashDe(m[1])).first();
   if (!s || s.expira_em < new Date().toISOString()) return null;
   return s;
+}
+
+/* ---------------- Carrinho guardado (cliente conectada) ---------------- */
+async function salvarCarrinho(request, env) {
+  const s = await sessaoAtual(request, env);
+  if (!s) return { ok: false };
+  const corpo = await lerCorpo(request);
+  const itens = (Array.isArray(corpo.itens) ? corpo.itens : []).slice(0, MAX_ITENS)
+    .map(i => ({ id: String(i && i.id || '').slice(0, 100), quantidade: Math.min(MAX_QTD, Math.max(1, parseInt(i && i.quantidade, 10) || 1)) }))
+    .filter(i => i.id);
+  if (!itens.length) {
+    await env.DB.prepare('DELETE FROM carrinhos WHERE email = ?1').bind(s.email).run();
+    return { ok: true };
+  }
+  await env.DB.prepare(
+    `INSERT INTO carrinhos (email, itens, cupom, atualizado_em) VALUES (?1, ?2, ?3, ?4)
+     ON CONFLICT(email) DO UPDATE SET itens = excluded.itens, cupom = excluded.cupom, atualizado_em = excluded.atualizado_em`
+  ).bind(s.email, JSON.stringify(itens), normalizaCupom(corpo.cupom) || null, new Date().toISOString()).run();
+  return { ok: true };
+}
+async function lerCarrinho(request, env) {
+  const s = await sessaoAtual(request, env);
+  if (!s) return { itens: [] };
+  const c = await env.DB.prepare('SELECT itens, cupom FROM carrinhos WHERE email = ?1').bind(s.email).first();
+  let itens = []; try { itens = c ? JSON.parse(c.itens) : []; } catch (e) {}
+  return { itens, cupom: c && c.cupom || '' };
+}
+
+/* ---------------- Dados para o Painel da Hera (arquivo no Drive) ---------------- */
+async function enviarDadosPainel(env) {
+  if (!env.PLANILHA_URL || !env.PLANILHA_SEGREDO || !env.DB) return;
+  const agora = Date.now(), iso = d => new Date(d).toISOString();
+  const produtos = await produtosOficiais(env).catch(() => new Map());
+  const titulo = id => (produtos.get(id) || {}).titulo || id;
+  const resumo = itensJson => { try { return JSON.parse(itensJson || '[]').map(i => `${i.quantidade}x ${i.titulo || titulo(i.id)}`).join(' | '); } catch (e) { return ''; } };
+  const entregaNome = e => { try { const j = JSON.parse(e || 'null'); return j ? { nome: j.nome || '', telefone: j.telefone || '' } : {}; } catch (x) { return {}; } };
+
+  const cad = (await env.DB.prepare(
+    `SELECT email, nome, telefone, cidade, uf, criado_em, ultimo_acesso, aceite_promocoes FROM clientes ORDER BY criado_em DESC LIMIT 500`
+  ).all()).results || [];
+  // carrinho parado há mais de 1 hora, sem pedido pago depois dele
+  const car = (await env.DB.prepare(
+    `SELECT c.email, c.itens, c.cupom, c.atualizado_em, cl.nome, cl.telefone FROM carrinhos c LEFT JOIN clientes cl ON cl.email = c.email
+     WHERE c.atualizado_em < ?1 AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.email_cliente = c.email AND p.status LIKE 'aprovado%' AND p.criado_em >= c.atualizado_em)
+     ORDER BY c.atualizado_em DESC LIMIT 200`
+  ).bind(iso(agora - 3600_000)).all()).results || [];
+  // foi até o Mercado Pago e não pagou (últimos 30 dias), sem compra paga depois
+  const chk = (await env.DB.prepare(
+    `SELECT id, criado_em, status, email_cliente, entrega, itens, total_centavos, cupom, modo FROM pedidos p
+     WHERE status NOT LIKE 'aprovado%' AND criado_em >= ?1 AND criado_em < ?2
+       AND NOT EXISTS (SELECT 1 FROM pedidos q WHERE q.email_cliente = p.email_cliente AND q.status LIKE 'aprovado%' AND q.criado_em >= p.criado_em)
+     ORDER BY criado_em DESC LIMIT 200`
+  ).bind(iso(agora - 30 * 86400_000), iso(agora - 1800_000)).all()).results || [];
+  const ped = (await env.DB.prepare(
+    `SELECT id, pago_em, status, status_envio, transportadora, rastreio_codigo, rastreio_url, enviado_em, entregue_em, modo FROM pedidos
+     WHERE status LIKE 'aprovado%' ORDER BY criado_em DESC LIMIT 300`
+  ).all()).results || [];
+
+  const dados = {
+    gerado_em: iso(agora), modo: env.MODO || 'teste',
+    cadastros: cad.map(c => ({ email: c.email, nome: c.nome || '', telefone: c.telefone || '', cidade: c.cidade ? `${c.cidade}/${c.uf || ''}` : '', criado_em: c.criado_em, ultimo_acesso: c.ultimo_acesso || '', promocoes: !!c.aceite_promocoes })),
+    carrinhos: car.map(c => {
+      let itens = []; try { itens = JSON.parse(c.itens); } catch (e) {}
+      const total = itens.reduce((t, i) => t + ((produtos.get(i.id) || {}).precoCentavos || 0) * (i.quantidade || 1), 0);
+      return { email: c.email, nome: c.nome || '', telefone: c.telefone || '', atualizado_em: c.atualizado_em, cupom: c.cupom || '', itens: itens.map(i => `${i.quantidade}x ${titulo(i.id)}`).join(' | '), valor: total / 100 };
+    }),
+    checkouts: chk.map(p => ({ pedido: p.id, criado_em: p.criado_em, status: p.status, email: p.email_cliente || '', ...entregaNome(p.entrega), itens: resumo(p.itens), valor: (p.total_centavos || 0) / 100, cupom: p.cupom || '', modo: p.modo })),
+    pedidos: ped.map(p => ({ pedido: p.id, pago_em: p.pago_em || '', status: p.status, envio: p.status_envio || 'aguardando', transportadora: p.transportadora || '', rastreio: p.rastreio_codigo || '', rastreio_url: p.rastreio_url || '', enviado_em: p.enviado_em || '', entregue_em: p.entregue_em || '', modo: p.modo })),
+  };
+  const r = await fetch(env.PLANILHA_URL, {
+    method: 'POST', redirect: 'follow',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ segredo: env.PLANILHA_SEGREDO, aba: 'painel', dados }),
+  });
+  if (!r.ok) throw new Error('Apps Script respondeu ' + r.status);
 }
 
 async function minhaConta(request, env) {
