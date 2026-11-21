@@ -251,11 +251,16 @@
   "preco": 795.42,
   "preco_de": 819.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Floral Frutado",
+  "acordes": [
+   "floral",
+   "baunilha",
+   "amêndoa",
+   "doce"
+  ],
+  "topo": "Bergamota, amêndoa amarga",
+  "coracao": "Peônia, ylang-ylang",
+  "fundo": "Baunilha, fava tonka",
   "destaque": false
  },
  {
@@ -268,11 +273,16 @@
   "preco": 781.14,
   "preco_de": 829.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Chipre Floral",
+  "acordes": [
+   "rosa",
+   "almiscarado",
+   "frutado",
+   "floral branco"
+  ],
+  "topo": "Pera, bergamota, pimenta rosa",
+  "coracao": "Rosa, jasmim",
+  "fundo": "Almíscar branco, baunilha, patchouli, cedro",
   "destaque": false
  },
  {
@@ -307,11 +317,16 @@
   "preco": 588.0,
   "preco_de": 629.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Aromático",
+  "acordes": [
+   "baunilha",
+   "âmbar",
+   "doce",
+   "lavanda"
+  ],
+  "topo": "Pimenta rosa, limão",
+  "coracao": "Olíbano, lavanda",
+  "fundo": "Baunilha, fava tonka, âmbar",
   "destaque": false
  },
  {
@@ -324,11 +339,16 @@
   "preco": 972.7,
   "preco_de": 1099.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "especiado fresco",
+   "aromático"
+  ],
+  "topo": "Toranja, limão, menta, pimenta rosa",
+  "coracao": "Gengibre, noz-moscada, jasmim",
+  "fundo": "Incenso, cedro, vetiver, sândalo, patchouli, ládano",
   "destaque": false
  },
  {
@@ -363,11 +383,16 @@
   "preco": 538.53,
   "preco_de": 599.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Amadeirado",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "baunilha",
+   "amadeirado"
+  ],
+  "topo": "Menta, maçã do amor, limão, mandarina",
+  "coracao": "Ambroxan, gerânio, sálvia esclareia",
+  "fundo": "Baunilha, cedro, sândalo, laranja amarga, patchouli, couro",
   "destaque": false
  },
  {
@@ -402,11 +427,16 @@
   "preco": 637.32,
   "preco_de": 669.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral",
+  "acordes": [
+   "floral branco",
+   "cítrico",
+   "almiscarado",
+   "frutado"
+  ],
+  "topo": "Néroli, pera, bergamota, toranja, limão",
+  "coracao": "Flor de laranjeira, estefanótis, rosa, pêssego, cassis",
+  "fundo": "Almíscar, cedro, cashmeran, patchouli",
   "destaque": false
  },
  {
@@ -419,11 +449,16 @@
   "preco": 595.48,
   "preco_de": 659.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Amadeirado",
+  "acordes": [
+   "caramelo",
+   "doce",
+   "aromático",
+   "amadeirado"
+  ],
+  "topo": "Mandarina, sálvia esclareia",
+  "coracao": "Caramelo, fava tonka",
+  "fundo": "Vetiver",
   "destaque": false
  },
  {
@@ -436,11 +471,16 @@
   "preco": 619.86,
   "preco_de": 649.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "coco",
+   "baunilha",
+   "doce",
+   "cítrico"
+  ],
+  "topo": "Bergamota",
+  "coracao": "Coco",
+  "fundo": "Fava tonka",
   "destaque": false
  },
  {
@@ -497,11 +537,16 @@
   "preco": 849.6,
   "preco_de": 889.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Amadeirado Floral",
+  "acordes": [
+   "cítrico",
+   "floral branco",
+   "patchouli",
+   "amadeirado"
+  ],
+  "topo": "Bergamota da Calábria",
+  "coracao": "Flor de laranjeira da Tunísia",
+  "fundo": "Ambrofix, patchouli",
   "destaque": false
  },
  {
@@ -514,11 +559,16 @@
   "preco": 874.72,
   "preco_de": 949.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Baunilhado",
+  "acordes": [
+   "caramelo",
+   "atalcado",
+   "âmbar",
+   "baunilha"
+  ],
+  "topo": "Caramelo",
+  "coracao": "Notas atalcadas, almíscar",
+  "fundo": "Benjoim, baunilha",
   "destaque": false
  },
  {
@@ -531,11 +581,16 @@
   "preco": 945.2,
   "preco_de": 1019.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Fougère",
+  "acordes": [
+   "especiado fresco",
+   "âmbar",
+   "aromático",
+   "baunilha"
+  ],
+  "topo": "Bergamota",
+  "coracao": "Pimenta de Sichuan, lavanda, pimenta-preta, anis-estrelado, noz-moscada",
+  "fundo": "Ambroxan, baunilha",
   "destaque": false
  },
  {
@@ -548,11 +603,16 @@
   "preco": 993.6,
   "preco_de": 1079.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Âmbar",
+  "acordes": [
+   "atalcado",
+   "baunilha",
+   "rosa",
+   "frutado"
+  ],
+  "topo": "Íris, peônia, lírio-do-vale",
+  "coracao": "Rosa, damasco, pêssego",
+  "fundo": "Baunilha, almíscar, fava tonka, sândalo, benjoim",
   "destaque": false
  },
  {
@@ -565,11 +625,16 @@
   "preco": 769.86,
   "preco_de": 819.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado Âmbar",
+  "acordes": [
+   "frutado",
+   "floral",
+   "baunilha",
+   "doce"
+  ],
+  "topo": "Pitaya, abacaxi, mandarina",
+  "coracao": "Peônia-cereja, frangipani vermelho, flor de laranjeira, jasmim sambac",
+  "fundo": "Baunilha solar, Ambrofix, patchouli, fava tonka tostada",
   "destaque": false
  },
  {
@@ -582,11 +647,16 @@
   "preco": 792.0,
   "preco_de": 829.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Gourmand",
+  "acordes": [
+   "doce",
+   "floral branco",
+   "amêndoa",
+   "caramelo"
+  ],
+  "topo": "Cassis, mandarina",
+  "coracao": "Jasmim, amêndoa amarga",
+  "fundo": "Toffee, fava tonka",
   "destaque": false
  },
  {
@@ -599,11 +669,16 @@
   "preco": 593.45,
   "preco_de": 619.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Floral",
+  "acordes": [
+   "baunilha",
+   "salgado",
+   "floral branco",
+   "âmbar"
+  ],
+  "topo": "Mandarina verde, jasmim d'água",
+  "coracao": "Flor de gengibre",
+  "fundo": "Baunilha salgada, âmbar cinza, madeira de caxemira",
   "destaque": false
  },
  {
@@ -616,11 +691,16 @@
   "preco": 766.8,
   "preco_de": 809.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral",
+  "acordes": [
+   "floral branco",
+   "tuberosa",
+   "baunilha",
+   "cítrico"
+  ],
+  "topo": "Bergamota, flor de laranjeira",
+  "coracao": "Tuberosa, jasmim",
+  "fundo": "Baunilha bourbon, cedro, almíscar branco",
   "destaque": false
  },
  {
@@ -655,11 +735,16 @@
   "preco": 822.25,
   "preco_de": 859.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Baunilhado",
+  "acordes": [
+   "baunilha",
+   "amêndoa",
+   "doce",
+   "frutado"
+  ],
+  "topo": "Coco, ameixa, damasco",
+  "coracao": "Jacarandá, jasmim, tuberosa, alcaravia, rosa, lírio-do-vale",
+  "fundo": "Baunilha, amêndoa, sândalo, almíscar",
   "destaque": false
  },
  {
@@ -672,11 +757,16 @@
   "preco": 642.4,
   "preco_de": 679.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "amadeirado",
+   "aromático",
+   "lavanda",
+   "balsâmico"
+  ],
+  "topo": "Cedro",
+  "coracao": "Lavanda",
+  "fundo": "Benjoim",
   "destaque": false
  },
  {
@@ -689,11 +779,16 @@
   "preco": 598.2,
   "preco_de": 639.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "âmbar",
+   "balsâmico",
+   "amadeirado",
+   "couro"
+  ],
+  "topo": "Incenso, couro",
+  "coracao": "Patchouli, mirra",
+  "fundo": "Cedro, davana",
   "destaque": false
  },
  {
@@ -706,11 +801,16 @@
   "preco": 597.28,
   "preco_de": 639.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Amadeirado Floral Almiscarado",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "floral branco",
+   "fresco"
+  ],
+  "topo": "Bergamota, mandarina verde, figo, pera",
+  "coracao": "Cardamomo, lírio, jasmim, narciso",
+  "fundo": "Cedro, almíscar, oliveira, sândalo",
   "destaque": false
  },
  {
@@ -723,11 +823,16 @@
   "preco": 528.26,
   "preco_de": 619.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral",
+  "acordes": [
+   "floral",
+   "frutado",
+   "almiscarado",
+   "patchouli"
+  ],
+  "topo": "Cassis, mandarina, pimenta rosa",
+  "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
+  "fundo": "Almíscar, patchouli, baunilha",
   "destaque": false
  },
  {
@@ -740,11 +845,16 @@
   "preco": 493.9,
   "preco_de": 589.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Aromático Aquático",
+  "acordes": [
+   "aromático",
+   "cítrico",
+   "aquático",
+   "amadeirado"
+  ],
+  "topo": "Bergamota, lavanda, pimenta rosa",
+  "coracao": "Gerânio, sálvia, água do mar",
+  "fundo": "Âmbar cinza, patchouli, vetiver",
   "destaque": false
  },
  {
@@ -757,11 +867,16 @@
   "preco": 644.91,
   "preco_de": 799.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado",
+  "acordes": [
+   "floral",
+   "frutado",
+   "baunilha",
+   "âmbar"
+  ],
+  "topo": "Flor de pera, cassis",
+  "coracao": "Peônia, flor de laranjeira",
+  "fundo": "Baunilha de Madagascar, ambroxan, madeira ambarada",
   "destaque": false
  },
  {
@@ -774,11 +889,16 @@
   "preco": 692.32,
   "preco_de": 889.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Cítrico Aromático",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "especiado fresco",
+   "almiscarado"
+  ],
+  "topo": "Limão, lima, toranja, laranja sanguínea, bergamota, mandarina",
+  "coracao": "Pimenta rosa, âmbar branco, cassis",
+  "fundo": "Almíscar, musgo de carvalho, patchouli",
   "destaque": false
  },
  {
@@ -791,11 +911,16 @@
   "preco": 672.85,
   "preco_de": 829.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Floral Gourmand",
+  "acordes": [
+   "doce",
+   "atalcado",
+   "caramelo",
+   "baunilha"
+  ],
+  "topo": "Pimenta rosa, mandarina, bergamota",
+  "coracao": "Algodão-doce, gardênia, gerânio, rosa",
+  "fundo": "Baunilha, almíscar, sândalo, caramelo, violeta, patchouli",
   "destaque": false
  },
  {
@@ -808,11 +933,16 @@
   "preco": 755.51,
   "preco_de": 859.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Especiado",
+  "acordes": [
+   "especiado quente",
+   "âmbar",
+   "frutado",
+   "lavanda"
+  ],
+  "topo": "Ameixa, canela, cardamomo, bergamota",
+  "coracao": "Lavanda, davana, artemísia",
+  "fundo": "Fava tonka, benjoim, ambreta, patchouli, ládano",
   "destaque": false
  },
  {
@@ -825,11 +955,16 @@
   "preco": 1059.66,
   "preco_de": 1129.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado Gourmand",
+  "acordes": [
+   "cereja",
+   "amadeirado",
+   "verde",
+   "oud"
+  ],
+  "topo": "Cereja negra",
+  "coracao": "Folha de violeta",
+  "fundo": "Oud, manteiga de cacau, baunilha",
   "destaque": false
  },
  {
@@ -842,11 +977,16 @@
   "preco": 891.75,
   "preco_de": 919.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Almiscarado",
+  "acordes": [
+   "almiscarado",
+   "frutado",
+   "floral",
+   "âmbar"
+  ],
+  "topo": "Pêssego, bergamota da Calábria",
+  "coracao": "Almíscar, flores brancas, lírio-aranha vermelho",
+  "fundo": "Âmbar, baunilha, musgo, vetiver",
   "destaque": false
  },
  {
@@ -859,11 +999,16 @@
   "preco": 681.07,
   "preco_de": 829.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado",
+  "acordes": [
+   "cítrico",
+   "âmbar",
+   "floral",
+   "especiado quente"
+  ],
+  "topo": "Limão siciliano, bergamota da Calábria, pimenta rosa",
+  "coracao": "Frangipani, calêndula, canela",
+  "fundo": "Madeira ambarada, benjoim",
   "destaque": false
  },
  {
@@ -876,11 +1021,16 @@
   "preco": 538.74,
   "preco_de": 619.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Aromático Amadeirado",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "amadeirado",
+   "floral"
+  ],
+  "topo": "Bergamota, néroli, cidra, folhas de laranja amarga",
+  "coracao": "Gerânio, sálvia esclareia, jacinto azul",
+  "fundo": "Madeira de oud, âmbar mineral, cedro",
   "destaque": false
  },
  {
@@ -915,11 +1065,16 @@
   "preco": 805.8,
   "preco_de": 899.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Chipre Âmbar Floral",
+  "acordes": [
+   "rosa",
+   "baunilha",
+   "patchouli",
+   "amêndoa"
+  ],
+  "topo": "Bergamota, amêndoa amarga",
+  "coracao": "Rosa, ylang-ylang",
+  "fundo": "Baunilha, patchouli",
   "destaque": false
  },
  {
@@ -932,11 +1087,16 @@
   "preco": 793.5,
   "preco_de": 859.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Floral Especiado",
+  "acordes": [
+   "baunilha",
+   "floral amarelo",
+   "doce",
+   "especiado quente"
+  ],
+  "topo": "Cardamomo",
+  "coracao": "Ylang-ylang",
+  "fundo": "Absoluto de baunilha",
   "destaque": false
  },
  {
@@ -949,11 +1109,16 @@
   "preco": 665.53,
   "preco_de": 709.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Aromático Amadeirado",
+  "acordes": [
+   "especiado",
+   "cacau",
+   "amadeirado",
+   "fava tonka"
+  ],
+  "topo": "Sálvia, gengibre",
+  "coracao": "Vetiver, cacau",
+  "fundo": "Fava tonka, patchouli",
   "destaque": false
  },
  {
@@ -988,11 +1153,16 @@
   "preco": 649.59,
   "preco_de": 689.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Floral",
+  "acordes": [
+   "amadeirado",
+   "especiado quente",
+   "caramelo",
+   "floral branco"
+  ],
+  "topo": "Especiarias, pimenta rosa, cassis",
+  "coracao": "Caramelo, tuberosa, lírio-do-vale",
+  "fundo": "Âmbar, sândalo, akigalawood, baunilha, orquídea",
   "destaque": false
  },
  {
@@ -1005,11 +1175,16 @@
   "preco": 679.56,
   "preco_de": 749.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Almiscarado",
+  "acordes": [
+   "almiscarado",
+   "frutado",
+   "cítrico",
+   "atalcado"
+  ],
+  "topo": "Bergamota, pêssego, pimenta rosa",
+  "coracao": "Botão de rosa verde, jasmim, sorbet de framboesa",
+  "fundo": "Almíscar branco, incenso, fava tonka",
   "destaque": false
  },
  {
@@ -1022,11 +1197,16 @@
   "preco": 512.86,
   "preco_de": 579.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Aromático Fougère",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "aquático",
+   "amadeirado"
+  ],
+  "topo": "Notas aquáticas, folha de figo, bergamota, toranja",
+  "coracao": "Folha de violeta, patchouli, papiro, pimenta-preta, ambroxan",
+  "fundo": "Almíscar, fava tonka, açafrão, incenso",
   "destaque": false
  },
  {
@@ -1039,11 +1219,16 @@
   "preco": 593.37,
   "preco_de": 679.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado",
+  "acordes": [
+   "frutado",
+   "floral",
+   "verde",
+   "rosa"
+  ],
+  "topo": "Maçã verde, cassis, trevo, miosótis, shiso",
+  "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
+  "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
   "destaque": false
  },
  {
@@ -1056,11 +1241,16 @@
   "preco": 593.3,
   "preco_de": 689.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "frutado",
+   "almiscarado"
+  ],
+  "topo": "Limão, mandarina, pimenta rosa",
+  "coracao": "Goiaba, frésia, cassis, jasmim",
+  "fundo": "Almíscar, Clearwood, cedro",
   "destaque": false
  },
  {
@@ -1073,11 +1263,16 @@
   "preco": 562.5,
   "preco_de": 629.0,
   "estoque": 0,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Cítrico Aromático",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "especiado fresco",
+   "almiscarado"
+  ],
+  "topo": "Limão, lima, toranja, laranja sanguínea, bergamota, mandarina",
+  "coracao": "Pimenta rosa, âmbar branco, cassis",
+  "fundo": "Almíscar, musgo de carvalho, patchouli",
   "destaque": false
  },
  {
@@ -1090,11 +1285,16 @@
   "preco": 455.85,
   "preco_de": 479.04,
   "estoque": 1,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Fougère",
+  "acordes": [
+   "aromático",
+   "baunilha",
+   "cítrico",
+   "menta"
+  ],
+  "topo": "Limão, mandarina, menta, maçã do amor",
+  "coracao": "Gerânio, sálvia esclareia, AmberMax",
+  "fundo": "Cedro, vetiver, patchouli, sândalo, baunilha",
   "destaque": false
  },
  {
@@ -1107,11 +1307,16 @@
   "preco": 292.2,
   "preco_de": 328.0,
   "estoque": 2,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Aromático Frutado",
+  "acordes": [
+   "aromático",
+   "coco",
+   "especiado fresco",
+   "amadeirado"
+  ],
+  "topo": "Zimbro, pimenta de Sichuan, limão",
+  "coracao": "Coco, lavanda",
+  "fundo": "Cardamomo, cedro da Virgínia, patchouli",
   "destaque": false
  },
  {
@@ -1148,11 +1353,16 @@
   "preco": 339.8,
   "preco_de": 367.0,
   "estoque": 2,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral",
+  "acordes": [
+   "floral branco",
+   "verde",
+   "especiado",
+   "âmbar"
+  ],
+  "topo": "Notas verdes, frésia, sálvia, mandarina",
+  "coracao": "Cravo, lírio, lírio-do-vale, narciso, calêndula, violeta, rosa, jasmim",
+  "fundo": "Heliotrópio, almíscar, sândalo, âmbar, patchouli",
   "destaque": false
  },
  {
@@ -1167,11 +1377,16 @@
   "preco": 664.4,
   "preco_de": 713.0,
   "estoque": 1,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral",
+  "acordes": [
+   "floral",
+   "frutado",
+   "almiscarado",
+   "patchouli"
+  ],
+  "topo": "Cassis, mandarina, pimenta rosa",
+  "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
+  "fundo": "Almíscar, patchouli, baunilha",
   "destaque": false
  },
  {
@@ -1186,11 +1401,16 @@
   "preco": 624.24,
   "preco_de": 658.0,
   "estoque": 1,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Floral Frutado",
+  "acordes": [
+   "frutado",
+   "floral",
+   "verde",
+   "rosa"
+  ],
+  "topo": "Maçã verde, cassis, trevo, miosótis, shiso",
+  "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
+  "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
   "destaque": false
  },
  {
@@ -1205,11 +1425,16 @@
   "preco": 738.99,
   "preco_de": 775.0,
   "estoque": 2,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Âmbar Baunilhado",
+  "acordes": [
+   "baunilha",
+   "doce",
+   "floral branco",
+   "lactônico"
+  ],
+  "topo": "Limão confitado",
+  "coracao": "Panna cotta, flor de laranjeira, rum",
+  "fundo": "Baunilha",
   "destaque": false
  },
  {
@@ -1224,11 +1449,16 @@
   "preco": 300.9,
   "preco_de": 318.0,
   "estoque": 1,
-  "familia": "",
-  "acordes": [],
-  "topo": "",
-  "coracao": "",
-  "fundo": "",
+  "familia": "Cítrico Aromático",
+  "acordes": [
+   "cítrico",
+   "verde",
+   "atalcado",
+   "amadeirado"
+  ],
+  "topo": "Limão, bergamota, mandarina, abacaxi, cardamomo, mamão",
+  "coracao": "Lírio-do-vale, jasmim, violeta, rosa, noz-moscada, frésia, raiz de íris",
+  "fundo": "Almíscar, cedro, chá verde, sândalo, musgo de carvalho, âmbar",
   "destaque": false
  }
 ]
