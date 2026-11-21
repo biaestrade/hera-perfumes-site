@@ -172,7 +172,7 @@ ol.passos .n{flex:none;width:36px;height:36px;border-radius:18px;background:var(
 .ferramentas{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px;align-items:center}
 .ferramentas input,.ferramentas select{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--rosa-antigo);background:#fff;font-family:var(--sans);font-size:14px;color:var(--bordo)}
 .ferramentas input{flex:1 1 220px}
-.segmento{display:flex;gap:6px}
+.segmento{display:flex;flex-wrap:wrap;gap:6px}
 .segmento button{min-height:44px;padding:0 16px;border-radius:22px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--bordo);border:1px solid var(--rosa-antigo)}
 .segmento button[aria-pressed="true"]{background:var(--bordo);color:var(--off);border-color:var(--bordo)}
 .card .de{font-size:12px;color:var(--texto);text-decoration:line-through}
@@ -998,7 +998,7 @@ nav.menu a.link-conta{background-image:none}
           <button type="button" data-g="" aria-pressed="true">Todos</button>
           <button type="button" data-g="Feminino" aria-pressed="false">Feminino</button>
           <button type="button" data-g="Masculino" aria-pressed="false">Masculino</button>
-          <button type="button" data-g="cofre" aria-pressed="false">Cofres</button>
+          <button type="button" data-g="cofre" aria-pressed="false">Kits para presente</button>
         </div>
       </div>
       <p class="muted" style="font-size:12px;margin-bottom:18px" id="contagem" aria-live="polite"></p>
@@ -1669,7 +1669,7 @@ function selos(p){
   var s = [];
   if (offPct(p)) s.push('<span class="etq etq-off">-' + offPct(p) + '%</span>');
   if (p.estoque > 0) s.push('<span class="etq etq-pronta">Pronta entrega</span>');
-  if (p.tipo === 'cofre') s.push('<span class="etq etq-cofre">Cofre</span>');
+  if (p.tipo === 'cofre') s.push('<span class="etq etq-cofre">Kit para presente</span>');
   return s.length ? '<span class="etqs">' + s.join('') + '</span>' : '';
 }
 function precoHTML(p){
@@ -1681,7 +1681,7 @@ function card(p, comBotao){
     (FOTOS[p.id] ? '<div class="ph tem-foto"><img src="' + FOTOS[p.id] + '" alt="' + esc(p.marca + ' ' + p.nome) + '" loading="lazy"></div>' : '<div class="ph"><svg><use href="#i-frasco"/></svg>Foto real do frasco</div>') +
     '<span class="marca-p">' + esc(p.marca.toUpperCase()) + '</span>' +
     '<span class="nome-p">' + esc(p.nome) + '</span>' +
-    '<span class="tipo">' + (p.tipo === 'cofre' ? 'Cofre · ' + esc(p.genero) : esc(p.conc) + (p.vol ? ' · ' + esc(p.vol) : '')) + '</span>' +
+    '<span class="tipo">' + (p.tipo === 'cofre' ? 'Kit para presente · ' + esc(p.genero) : esc(p.conc) + (p.vol ? ' · ' + esc(p.vol) : '')) + '</span>' +
     precoHTML(p) + '</a>' +
     (comBotao ? '<div class="acoes-card">' + botaoLista(p.id, true) + '</div>' : botaoLista(p.id)) +
     '</div>';
@@ -1741,10 +1741,10 @@ function mostrarProduto(id){
   document.getElementById('pr-trilha').textContent = p.nome;
   document.getElementById('pr-marca').textContent = p.marca.toUpperCase();
   document.getElementById('pr-nome').textContent = p.nome;
-  document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Cofre' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
+  document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Kit para presente' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
   document.getElementById('pr-preco').textContent = brl(p.preco);
   document.getElementById('pr-de').innerHTML = offPct(p) ? 'De <s>' + brl(p.preco_de) + '</s> <span class="etq etq-off">-' + offPct(p) + '%</span>' : '';
-  document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No cofre:</b> ' + esc(p.composicao || '') : '');
+  document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No kit:</b> ' + esc(p.composicao || '') : '');
   document.getElementById('pr-conc').textContent = p.tipo === 'cofre' ? 'Kit' : p.conc;
   document.getElementById('pr-vol').textContent = p.tipo === 'cofre' ? (p.composicao || 'Consultar') : (p.vol || 'Consultar');
   document.getElementById('pr-gen').textContent = p.genero;

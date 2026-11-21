@@ -253,7 +253,7 @@ async function paginaComPrevia(env, url) {
     } catch (e) {}
     if (!p) return Response.redirect(url.origin + '/#catalogo', 302);
     const preco = n => 'R$ ' + Number(n).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    const tipo = p.tipo === 'cofre' ? 'Cofre' : [p.conc, p.vol].filter(Boolean).join(' ');
+    const tipo = p.tipo === 'cofre' ? 'Kit para presente' : [p.conc, p.vol].filter(Boolean).join(' ');
     const de = Number(p.preco_de) > Number(p.preco) ? `De ${preco(p.preco_de)} por ${preco(p.preco)}` : preco(p.preco);
     meta = {
       titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
