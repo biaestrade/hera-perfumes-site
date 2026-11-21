@@ -128,6 +128,8 @@ export default {
             mercado_pago_configurado: !!env.MP_ACCESS_TOKEN,
             assinatura_webhook_configurada: !!env.MP_WEBHOOK_SECRET,
             relatorio_configurado: !!env.RELATORIO_SENHA,
+            frete_embutido: Number(env.FRETE_EMBUTIDO) || 0,
+            frete_cliente_pct: Number(env.FRETE_CLIENTE_PCT ?? 100),
             frete_configurado: !!env.SUPERFRETE_TOKEN && String(env.FRETE_CEP_ORIGEM || '').replace(/\D/g, '').length === 8,
             email_configurado: !!env.RESEND_API_KEY,
             google_configurado: !!env.GOOGLE_CLIENT_ID,
@@ -227,7 +229,9 @@ async function cotarFrete(env, cep, linhas, produtos, totalProdutos) {
   const gratisAcima = Math.round((Number(env.FRETE_GRATIS_ACIMA) || 0) * 100);
   return lista.slice().sort((a, b) => a.centavos - b.centavos).map((x, i) => {
     const gratis = gratisAcima > 0 && totalProdutos >= gratisAcima && i === 0;
-    return { ...x, prazo: x.prazo + extra, gratis, cobrado: gratis ? 0 : x.centavos };
+    // o cliente paga só FRETE_CLIENTE_PCT % do frete (a Hera paga o resto)
+    const pct = Math.min(100, Math.max(0, Number(env.FRETE_CLIENTE_PCT ?? 100)));
+    return { ...x, prazo: x.prazo + extra, gratis, cobrado: gratis ? 0 : Math.round(x.centavos * pct / 100) };
   });
 }
 
@@ -254,7 +258,8 @@ async function paginaComPrevia(env, url) {
     if (!p) return Response.redirect(url.origin + '/#catalogo', 302);
     const preco = n => 'R$ ' + Number(n).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     const tipo = p.tipo === 'cofre' ? 'Kit para presente' : [p.conc, p.vol].filter(Boolean).join(' ');
-    const de = Number(p.preco_de) > Number(p.preco) ? `De ${preco(p.preco_de)} por ${preco(p.preco)}` : preco(p.preco);
+    const por = Number(p.preco) + (Number(env.FRETE_EMBUTIDO) || 0); // mesmo preço que o site mostra
+    const de = Number(p.preco_de) > por ? `De ${preco(p.preco_de)} por ${preco(por)}` : preco(por);
     meta = {
       titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
       desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original, com nota fiscal. Pague com Pix ou cartão.`,
@@ -294,8 +299,10 @@ async function produtosOficiais(env) {
   const lista = await resp.json();
   const mapa = new Map();
   for (const p of lista) {
-    const preco = Math.round(Number(p.preco) * 100);
-    if (!p.id || !Number.isInteger(preco) || preco <= 0) continue;
+    const base = Math.round(Number(p.preco) * 100);
+    if (!p.id || !Number.isInteger(base) || base <= 0) continue;
+    // metade do frete por conta da Hera: FRETE_EMBUTIDO (reais) vai somado ao preço de cada perfume (o site mostra o mesmo)
+    const preco = base + Math.max(0, Math.round((Number(env.FRETE_EMBUTIDO) || 0) * 100));
     mapa.set(String(p.id), {
       id: String(p.id),
       titulo: [p.marca, p.nome, p.conc, p.vol].filter(Boolean).join(' '),

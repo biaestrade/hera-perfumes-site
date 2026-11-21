@@ -49,6 +49,11 @@ FRETE_CEP_ORIGEM = "04649000"
 FRETE_SERVICOS = "1,2,17,3,31,33"
 # Dias para a Hera separar e postar, somados ao prazo dos Correios
 FRETE_PRAZO_EXTRA_DIAS = "1"
+# Metade do frete por conta da Hera (decidido em 20/11/2026):
+# R$ somados ao preço de cada perfume. TEM QUE SER O MESMO de FRETE_EMBUTIDO no index.html
+FRETE_EMBUTIDO = "12"
+# % do frete que o cliente paga no carrinho
+FRETE_CLIENTE_PCT = "50"
 # Frete grátis (na opção mais barata) a partir deste valor em reais. "0" = sem frete grátis (ponto a decidir)
 FRETE_GRATIS_ACIMA = "0"
 
