@@ -451,7 +451,7 @@ async function pagar(request, env) {
   const corpo = await lerCorpo(request);
   const c = await calcular(env, corpo, perfil.cep);
   if (c.freteAtivo && !c.freteEscolhido) throw new ErroCliente('Não conseguimos calcular o frete para o CEP da sua conta. Confira o CEP em Minha conta ou fale com a Hera pelo WhatsApp.');
-  if (corpo.cupom && !c.cupom) throw new ErroCliente('Esse código de representante não é válido. Corrija ou apague o código.');
+  if (corpo.cupom && !c.cupom) throw new ErroCliente('Esse código promocional não é válido. Corrija ou apague o código.');
 
   const pedidoId = 'HERA-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '-' + crypto.randomUUID().slice(0, 8).toUpperCase();
   const agora = new Date().toISOString();

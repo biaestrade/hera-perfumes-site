@@ -1093,7 +1093,7 @@ nav.menu a.link-conta{background-image:none}
       <div class="grade-2">
         <ol class="linha">
           <li><span class="col"><span class="num">1</span><span class="traco"></span></span><span class="txt"><b>Escolha no catálogo</b><span class="muted">Veja foto, notas e preço de cada perfume.</span></span></li>
-          <li><span class="col"><span class="num">2</span><span class="traco"></span></span><span class="txt"><b>Adicione ao carrinho</b><span class="muted">Escolha a quantidade e, se tiver, coloque o código do seu representante.</span></span></li>
+          <li><span class="col"><span class="num">2</span><span class="traco"></span></span><span class="txt"><b>Adicione ao carrinho</b><span class="muted">Escolha a quantidade e, se tiver, coloque seu código promocional.</span></span></li>
           <li><span class="col"><span class="num">3</span><span class="traco"></span></span><span class="txt"><b>Pague pelo Mercado Pago</b><span class="muted">Pix ou cartão, num ambiente seguro.</span></span></li>
           <li><span class="col"><span class="num">4</span></span><span class="txt"><b>Receba</b><span class="muted">Você recebe o código de rastreio e o vídeo do seu frasco.</span></span></li>
         </ol>
@@ -1177,9 +1177,9 @@ nav.menu a.link-conta{background-image:none}
         <p>O pagamento é feito pelo Mercado Pago, em ambiente seguro. Aceitamos Pix e cartão de crédito. Os dados do seu cartão não passam pelo nosso site.</p>
         <p>Cartão de crédito em até <span class="pending">[número de parcelas]</span>. <span class="pending">Lorem ipsum: regra de parcelas sem juros e valor mínimo da parcela.</span></p>
         <p>O pedido é confirmado assim que o Mercado Pago aprova o pagamento. Pix costuma ser aprovado na hora.</p></div>
-      <div class="pol-secao" id="pol-descontos"><h2>Descontos e códigos de representante</h2>
-        <p>Na inauguração, os perfumes estão com o desconto mostrado em cada produto (o preço "De" é o preço de mercado). Se você recebeu o código de um representante Hera, digite no carrinho antes de pagar.</p>
-        <p><span class="pending">Lorem ipsum: se o código do representante soma com o desconto de inauguração ou se vale o maior, validade dos códigos e se valem em promoções.</span></p></div>
+      <div class="pol-secao" id="pol-descontos"><h2>Descontos e códigos promocionais</h2>
+        <p>Na inauguração, os perfumes estão com o desconto mostrado em cada produto (o preço "De" é o preço de mercado). Se você recebeu um código promocional da Hera, digite no carrinho antes de pagar.</p>
+        <p><span class="pending">Lorem ipsum: se o código promocional soma com o desconto de inauguração ou se vale o maior, validade dos códigos e se valem em promoções.</span></p></div>
       <div class="pol-secao" id="pol-envio"><h2>Envio e prazos</h2>
         <p>Enviamos para todo o Brasil. Depois que o pagamento é aprovado, o pedido é separado e enviado em até <span class="pending">[X] dias úteis</span>, e você recebe o código de rastreio.</p>
         <div class="tabela" style="margin-top:14px">
@@ -1407,7 +1407,7 @@ nav.menu a.link-conta{background-image:none}
     <a class="ver-carrinho" href="#carrinho"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 4h2.3l2.2 10.3a1.6 1.6 0 0 0 1.6 1.2h8.3a1.6 1.6 0 0 0 1.5-1.1L20.6 8H5.7"/><circle cx="9.6" cy="19.6" r="1.4"/><circle cx="17" cy="19.6" r="1.4"/></svg>Ver meu carrinho completo</a>
     <div class="linha-tot"><span>Subtotal (preço de tabela)</span><span id="sel-subtotal"></span></div>
     <form class="cupom" id="sel-cupom-form" autocomplete="off">
-      <label for="sel-cupom">Código do representante</label>
+      <label for="sel-cupom">Código promocional</label>
       <div><input id="sel-cupom" name="cupom" maxlength="30" placeholder="Opcional" autocapitalize="characters" spellcheck="false"><button type="submit">Aplicar</button></div>
       <small id="sel-cupom-msg" aria-live="polite"></small>
     </form>
@@ -1529,7 +1529,7 @@ function atualizaSel(){
   else if(!CUPOM){ msgCupom.textContent=''; msgCupom.className=''; }
   var msg='Olá! Quero fazer um pedido:\n'+itens.map(function(x){var p=x.p;return '• '+(x.q>1?x.q+'x ':'')+p.marca+' '+p.nome+' '+p.conc+(p.vol?' '+p.vol:'');}).join('\n')+
     '\n\nTotal: '+brl(tWa)+'.'+
-    (CUPOM?'\nCódigo do representante: '+CUPOM:'');
+    (CUPOM?'\nCódigo promocional: '+CUPOM:'');
   document.getElementById('sel-enviar').href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent(msg);
 }
 /* ---- página do carrinho, com todos os detalhes ---- */
