@@ -160,11 +160,16 @@ const CAIXAS = {
   M: { width: 19, length: 14, height: 10, weight: 0.55 },  // 70 a 125 ml
   G: { width: 27, length: 18, height: 9, weight: 0.85 },   // mais de 125 ml (até 200 ml) e kits
 };
-const SERVICOS_FRETE = { 1: 'PAC', 2: 'SEDEX' };
+const SERVICOS_FRETE = { 1: 'PAC', 2: 'SEDEX', 17: 'Mini Envios', 3: 'Jadlog', 31: 'Loggi', 33: 'J&T Express' };
 function caixaDoPerfume(p) {
   if (!p || p.tipo === 'cofre') return CAIXAS.G;
   const ml = p.ml || 100;
   return ml <= 50 ? CAIXAS.P : ml <= 125 ? CAIXAS.M : CAIXAS.G;
+}
+// quais formas de envio aparecem no site (códigos da SuperFrete), em FRETE_SERVICOS no wrangler.toml
+function servicosFrete(env) {
+  const L = String(env.FRETE_SERVICOS || '1,2').split(',').map(x => Number(x.trim())).filter(x => SERVICOS_FRETE[x]);
+  return L.length ? L : [1, 2];
 }
 const cacheFrete = new Map(); // mesma cotação por 15 minutos, para não chamar a SuperFrete a cada clique
 async function cotarFrete(env, cep, linhas, produtos, totalProdutos) {
@@ -187,7 +192,7 @@ async function cotarFrete(env, cep, linhas, produtos, totalProdutos) {
         'Content-Type': 'application/json', accept: 'application/json',
       },
       body: JSON.stringify({
-        from: { postal_code: origem }, to: { postal_code: destino }, services: '1,2',
+        from: { postal_code: origem }, to: { postal_code: destino }, services: servicosFrete(env).join(','),
         options: { own_hand: false, receipt: false, insurance_value: 0, use_insurance_value: false },
         products,
       }),
