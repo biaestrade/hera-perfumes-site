@@ -30,6 +30,10 @@ MODO = "teste"
 # Endereço do site para onde a cliente volta depois de pagar. Vazio = o próprio endereço do Worker (teste).
 # No site oficial:  SITE_URL = "https://heraevodiaperfumes.com.br"
 SITE_URL = ""
+# endereço do servidor da loja (Worker), usado nos links dos e-mails automáticos (ex.: "não quero receber")
+LOJA_URL = "https://hera-loja.hera-loja.workers.dev"
+# lembrete de carrinho abandonado: quantas horas depois
+LEMBRETE_CARRINHO_HORAS = "24"
 
 # De onde o servidor lê os preços oficiais. Vazio = o produtos.json publicado junto com o Worker (teste).
 # No site oficial:  PRODUTOS_URL = "https://heraevodiaperfumes.com.br/produtos.json"

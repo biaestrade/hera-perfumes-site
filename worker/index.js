@@ -46,6 +46,7 @@ const MAX_QTD = 10;
 export default {
   async scheduled(event, env, ctx) {
     ctx.waitUntil(enviarDadosPainel(env).catch(e => console.error('dados do painel', e && e.message)));
+    ctx.waitUntil(lembrarCarrinhos(env).catch(e => console.error('lembrete de carrinho', e && e.message)));
   },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -108,6 +109,8 @@ export default {
         case 'POST /api/carrinho':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await salvarCarrinho(request, env), 200, cors);
+        case 'GET /api/lembrete/sair':
+          return await sairDosLembretes(url, env);
         case 'GET /api/carrinho':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await lerCarrinho(request, env), 200, cors);
@@ -1023,6 +1026,63 @@ async function lerCarrinho(request, env) {
 }
 
 /* ---------------- Dados para o Painel da Hera (arquivo no Drive) ---------------- */
+/* ---------------- Lembrete de carrinho abandonado (24 horas depois) ---------------- */
+// Roda junto com o relógio de 30 em 30 minutos. Um e-mail só por carrinho: se a cliente mexer no carrinho de novo,
+// conta outra vez do zero. Carrinhos com mais de 3 dias não recebem (evita lembrar coisa velha).
+async function lembrarCarrinhos(env) {
+  if (!env.DB || !env.RESEND_API_KEY) return;
+  const horas = Math.max(1, Number(env.LEMBRETE_CARRINHO_HORAS || 24));
+  const agora = Date.now(), iso = d => new Date(d).toISOString();
+  const car = (await env.DB.prepare(
+    `SELECT c.email, c.itens, c.cupom, c.atualizado_em, cl.nome FROM carrinhos c LEFT JOIN clientes cl ON cl.email = c.email
+     WHERE c.atualizado_em < ?1 AND c.atualizado_em >= ?2
+       AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.email_cliente = c.email AND p.status LIKE 'aprovado%' AND p.criado_em >= c.atualizado_em)
+       AND NOT EXISTS (SELECT 1 FROM lembretes l WHERE l.email = c.email AND l.carrinho_em = c.atualizado_em)
+       AND NOT EXISTS (SELECT 1 FROM sem_lembrete s WHERE s.email = c.email)
+     ORDER BY c.atualizado_em LIMIT 20`
+  ).bind(iso(agora - horas * 3600e3), iso(agora - (horas + 48) * 3600e3)).all()).results || [];
+  if (!car.length) return;
+  const produtos = await produtosOficiais(env);
+  const pixPct = regras(env).pixDescontoPct;
+  const reais = c => 'R$ ' + ((c || 0) / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const site = (env.SITE_URL || env.LOJA_URL || '').replace(/\/+$/, '');
+  const loja = (env.LOJA_URL || env.SITE_URL || '').replace(/\/+$/, '');
+  if (!site) return;
+  for (const c of car) {
+    let itens = []; try { itens = JSON.parse(c.itens) || []; } catch (e) {}
+    const linhas = itens.map(i => ({ p: produtos.get(i.id), q: i.quantidade || 1 })).filter(x => x.p && x.p.ativo);
+    if (!linhas.length) continue;
+    const total = linhas.reduce((t, x) => t + x.p.precoCentavos * x.q, 0);
+    const lista = linhas.map(x => `${x.q > 1 ? x.q + 'x ' : ''}${escHtml(x.p.titulo)} · ${reais(x.p.precoCentavos)}`).join('<br>');
+    const token = tokenNovo();
+    const primeiro = String(c.nome || '').trim().split(/\s+/)[0];
+    const texto = `${primeiro ? escHtml(primeiro) + ', s' : 'S'}eus perfumes ainda estão esperando por você no carrinho da Hera:<br><br>${lista}<br><br>` +
+      `Total: <b>${reais(total)}</b>${pixPct ? ` · no Pix, ${pixPct}% off nos perfumes` : ''}${c.cupom ? `<br>Seu código ${escHtml(c.cupom)} continua guardado.` : ''}<br><br>` +
+      `Ficou com alguma dúvida? Responda este e-mail ou chame a Hera no WhatsApp (11) 91318-4495.` +
+      `<br><br><span style="font-size:12px;color:#8a7a7f">Não quer mais receber este lembrete? <a href="${loja}/api/lembrete/sair?t=${token}" style="color:#8a7a7f">Clique aqui</a>.</span>`;
+    let enviado = false;
+    try { enviado = await mandarEmail(env, c.email, 'Seus perfumes ficaram no carrinho', moldeEmail('Seu carrinho está guardado', texto, 'Voltar ao meu carrinho', `${site}/#carrinho`, true)); } catch (e) { console.error('lembrete', c.email, e && e.message); }
+    if (enviado) {
+      await env.DB.prepare('INSERT OR IGNORE INTO lembretes (email, carrinho_em, enviado_em, token_hash) VALUES (?1, ?2, ?3, ?4)')
+        .bind(c.email, c.atualizado_em, new Date().toISOString(), await hashDe(token)).run();
+    }
+  }
+}
+
+async function sairDosLembretes(url, env) {
+  const t = String(url.searchParams.get('t') || '').slice(0, 200);
+  let ok = false;
+  if (t && env.DB) {
+    const l = await env.DB.prepare('SELECT email FROM lembretes WHERE token_hash = ?1').bind(await hashDe(t)).first();
+    if (l) {
+      await env.DB.prepare('INSERT OR IGNORE INTO sem_lembrete (email, em) VALUES (?1, ?2)').bind(l.email, new Date().toISOString()).run();
+      ok = true;
+    }
+  }
+  const corpo = moldeEmail(ok ? 'Pronto' : 'Link inválido', ok ? 'Você não vai mais receber lembretes de carrinho da Hera. Os e-mails do seu pedido (pagamento e envio) continuam chegando normalmente.' : 'Esse link não funciona mais. Se quiser, peça pelo e-mail contato@heraevodiaperfumes.com.br.', '', '', true);
+  return new Response(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hera Perfumes</title><body style="margin:0">${corpo}</body>`, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+}
+
 async function enviarDadosPainel(env) {
   if (!env.PLANILHA_URL || !env.PLANILHA_SEGREDO || !env.DB) return;
   const agora = Date.now(), iso = d => new Date(d).toISOString();
