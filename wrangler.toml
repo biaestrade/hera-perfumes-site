@@ -49,6 +49,9 @@ FRETE_CEP_ORIGEM = "04649000"
 FRETE_SERVICOS = "1,2,17,3,31,33"
 # Dias para a Hera separar e postar, somados ao prazo dos Correios
 FRETE_PRAZO_EXTRA_DIAS = "1"
+# Dias úteis para a Hera postar, somados ao prazo da transportadora (perfumes 2 a 3 dias, kits 1 dia)
+FRETE_POSTAGEM_PERFUME_DIAS = "3"
+FRETE_POSTAGEM_KIT_DIAS = "1"
 # Metade do frete por conta da Hera (decidido em 20/11/2026):
 # R$ somados ao preço de cada perfume. TEM QUE SER O MESMO de FRETE_EMBUTIDO no index.html
 FRETE_EMBUTIDO = "12"

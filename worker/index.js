@@ -225,8 +225,11 @@ async function cotarFrete(env, cep, linhas, produtos, totalProdutos) {
     cacheFrete.set(chave, { quando: Date.now(), lista });
     if (cacheFrete.size > 500) cacheFrete.clear();
   }
-  // prazo: dias da transportadora + dias para a Hera separar e postar
-  const extra = Math.max(0, Math.round(Number(env.FRETE_PRAZO_EXTRA_DIAS || 1)) || 0);
+  // prazo: dias da transportadora + dias para a Hera postar (perfumes 2 a 3 dias úteis, kits 1 dia útil;
+  // com perfume e kit juntos, vale o prazo maior)
+  const temPerfume = linhas.some(l => { const p = produtos.get(l.id); return !p || p.tipo !== 'cofre'; });
+  const dias = temPerfume ? env.FRETE_POSTAGEM_PERFUME_DIAS : env.FRETE_POSTAGEM_KIT_DIAS;
+  const extra = Math.max(0, Math.round(Number(dias ?? env.FRETE_PRAZO_EXTRA_DIAS ?? 1)) || 0);
   // frete grátis na opção mais barata a partir de FRETE_GRATIS_ACIMA (em reais; 0 = desligado)
   const gratisAcima = Math.round((Number(env.FRETE_GRATIS_ACIMA) || 0) * 100);
   return lista.slice().sort((a, b) => a.centavos - b.centavos).map((x, i) => {
@@ -264,7 +267,7 @@ async function paginaComPrevia(env, url) {
     const de = Number(p.preco_de) > por ? `De ${preco(p.preco_de)} por ${preco(por)}` : preco(por);
     meta = {
       titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
-      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original, com nota fiscal. Pague com Pix ou cartão.`,
+      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. 5% off no Pix ou em até 4x sem juros.`,
       imagem: `${origem}/assets/compartilhar/${encodeURIComponent(p.id)}.jpg`,
       url: `${origem}/p/${encodeURIComponent(p.id)}`,
       alt: `${p.marca} ${p.nome}`,
@@ -328,9 +331,13 @@ function normalizaCupom(c) {
 async function buscaCupom(env, codigo) {
   if (!codigo || !env.DB) return null;
   const c = await env.DB.prepare(
-    'SELECT codigo, representante, desconto_pct, comissao_pct FROM cupons WHERE codigo = ?1 AND ativo = 1'
+    'SELECT * FROM cupons WHERE codigo = ?1 AND ativo = 1'
   ).bind(codigo).first();
-  return c || null;
+  if (!c) return null;
+  // código com data final: depois do dia, para de valer (horário de Brasília)
+  const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
+  if (c.valido_ate && String(c.valido_ate).slice(0, 10) < hoje) return null;
+  return c;
 }
 
 /* ----------------------------------------------------------------- cálculo */
@@ -461,6 +468,7 @@ async function cotacao(request, env) {
     cupom: c.cupom ? c.cupom.codigo : null,
     cupom_valido: !!c.cupom,
     mensagem_cupom: c.mensagemCupom,
+    cupom_condicoes: c.cupom ? [c.cupom.condicoes, c.cupom.valido_ate ? `Válido até ${String(c.cupom.valido_ate).slice(0, 10).split('-').reverse().join('/')}.` : ''].filter(Boolean).join(' ') : '',
     itens: c.linhas.map(l => ({ id: l.id, quantidade: l.quantidade, unitario: l.unitarioCentavos, total: l.totalCentavos })),
   };
 }
@@ -521,7 +529,8 @@ async function pagar(request, env) {
     // Cartão: só cartão (sem Pix, que tem o preço menor, e sem boleto).
     payment_methods: c.metodo === 'pix'
       ? { excluded_payment_types: [{ id: 'credit_card' }, { id: 'debit_card' }, { id: 'ticket' }, { id: 'atm' }, { id: 'prepaid_card' }], installments: 1 }
-      : { excluded_payment_types: [{ id: 'bank_transfer' }, { id: 'ticket' }, { id: 'atm' }] },
+      // até 8x no cartão (2x a 4x sem juros para o cliente é configurado na conta do Mercado Pago)
+      : { excluded_payment_types: [{ id: 'bank_transfer' }, { id: 'ticket' }, { id: 'atm' }], installments: 8 },
   };
   const nomes = String(perfil.nome || '').trim().split(/\s+/);
   preferencia.payer = {
