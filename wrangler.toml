@@ -64,6 +64,8 @@ DESCONTO_BASE_PCT = "0"
 DESCONTO_BASE_NO_ONLINE = "nao"
 # Com código de representante:  "maior" = vale o maior desconto (5% OU cupom);  "somar" = soma os dois (5% + cupom)
 COMBINAR_DESCONTOS = "maior"
+# Desconto pagando com Pix pelo site, em % (só nos perfumes, não no frete; soma com o código promocional). "0" desliga.
+PIX_DESCONTO_PCT = "5"
 # Frete fixo em centavos (0 = sem frete no pagamento online; ex.: "2500" = R$ 25,00)
 FRETE_CENTAVOS = "0"
 # para onde vai o e-mail "Pedido novo pago" (pode ser o e-mail do Fernando)

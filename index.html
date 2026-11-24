@@ -622,6 +622,14 @@ body.tem-selecao .wa-flutuante{bottom:110px}
 .rodape-lista{padding:18px 24px 24px;border-top:1px solid var(--linha);background:#fff}
 .rodape-lista .tot{display:flex;justify-content:space-between;align-items:baseline;color:var(--bordo)}
 .rodape-lista .tot b{font-size:22px;color:var(--carmim)}
+.rodape-lista .tot-pix span em{font-style:normal;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--off);background:var(--carmim);border-radius:20px;padding:2px 8px;margin-left:6px;vertical-align:2px}
+.rodape-lista .tot-cartao{margin-top:6px;font-size:14px}
+.rodape-lista .tot-cartao b{font-size:16px;color:var(--bordo)}
+.pr-pix{margin-top:6px;font-size:15px;color:var(--bordo)}
+.pr-pix b{color:var(--carmim)}
+.conf-acoes #conf-pix{flex-direction:column;gap:2px;padding-top:10px;padding-bottom:10px;height:auto}
+.conf-acoes .btn-pagar small{display:block;font-size:11px;font-weight:500;opacity:.85;letter-spacing:.02em}
+.conf-acoes .btn-cartao{background:transparent;color:var(--bordo);border:1px solid var(--bordo)}
 .rodape-lista small{display:block;color:var(--texto);margin:2px 0 14px;font-size:12px}
 body.lista-aberta{overflow:hidden}
 /* carrinho: quantidade, cupom, pagamento online */
@@ -857,7 +865,7 @@ nav.menu a.link-conta{background-image:none}
   <symbol id="i-frasco" viewBox="0 0 46 70"><g fill="none" stroke="#C7848C" stroke-width="1.5"><rect x="16" y="2" width="14" height="10" rx="2"/><rect x="19" y="12" width="8" height="6"/><rect x="4" y="18" width="38" height="50" rx="8"/></g></symbol>
 </svg>
 
-<div class="faixa-topo"><a href="#catalogo" style="color:inherit;text-decoration:none">INAUGURAÇÃO<span class="fx-longo">: DESCONTOS EM TODO O SITE</span></a><span class="fx-wa"> · <a href="https://wa.me/5511913184495" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">5% OFF PEDINDO PELO WHATSAPP</a></span><span class="sep"> · ENVIO PARA TODO O BRASIL</span></div>
+<div class="faixa-topo"><a href="#catalogo" style="color:inherit;text-decoration:none">INAUGURAÇÃO<span class="fx-longo">: DESCONTOS EM TODO O SITE</span></a><span class="fx-wa"> · <a href="https://wa.me/5511913184495" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">7% OFF PEDINDO PELO WHATSAPP</a> · 5% OFF NO PIX PELO SITE</span><span class="sep"> · ENVIO PARA TODO O BRASIL</span></div>
 <header class="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="Hera Perfumes — início">
@@ -1026,6 +1034,7 @@ nav.menu a.link-conta{background-image:none}
         <p class="muted" id="pr-tipo"></p>
         <p class="pr-de" id="pr-de"></p>
         <p style="margin-top:4px"><span class="preco-grande" id="pr-preco"></span></p>
+        <p class="pr-pix" id="pr-pix"></p>
         <p class="muted" style="font-size:13px" id="pr-outros"></p>
         <div class="aviso" id="pr-aviso">
           <svg stroke="#88072B"><use href="#i-escudo"/></svg>
@@ -1373,7 +1382,8 @@ nav.menu a.link-conta{background-image:none}
   <dl class="conf-dados" id="conf-dados"></dl>
   <div class="conf-resumo" id="conf-resumo"></div>
   <div class="conf-acoes">
-    <button type="button" class="btn btn-pagar" id="conf-ok">Confirmar e pagar</button>
+    <button type="button" class="btn btn-pagar" id="conf-pix">Pagar com Pix</button>
+    <button type="button" class="btn btn-pagar btn-cartao" id="conf-ok">Pagar com cartão</button>
     <button type="button" class="btn-ver-todos" id="conf-editar">Alterar dados</button>
   </div>
   <small id="conf-msg" class="conta-msg" aria-live="polite"></small>
@@ -1419,7 +1429,8 @@ nav.menu a.link-conta{background-image:none}
       <small id="sel-frete-msg" aria-live="polite"></small>
     </form>
     <div class="bloco-online" id="sel-online">
-      <div class="tot"><span>Total no site</span><b id="sel-total-online"></b></div>
+      <div class="tot tot-pix"><span>No Pix<em id="sel-pix-pct">5% OFF</em></span><b id="sel-total-pix"></b></div>
+      <div class="tot tot-cartao"><span>No cartão</span><b id="sel-total-online"></b></div>
       <small id="sel-detalhe-online"></small>
       <button type="button" class="btn btn-pagar" id="sel-pagar"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Finalizar compra</button>
       <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
@@ -1428,7 +1439,7 @@ nav.menu a.link-conta{background-image:none}
     <div class="tot tot-wa" hidden><span>Pelo WhatsApp</span><b id="sel-total"></b></div>
     <small id="sel-outros" hidden></small>
     <p class="aviso-offline" id="sel-offline" hidden>O pagamento online abre em breve. Enquanto isso, fale com a Hera pelo <a href="https://wa.me/5511913184495" target="_blank" rel="noopener">WhatsApp</a>.</p>
-    <a class="link-wa" id="sel-enviar" target="_blank" rel="noopener" href="#">Ficou com dúvida? Mandar o carrinho para a Hera no WhatsApp →</a>
+    <a class="link-wa" id="sel-enviar" target="_blank" rel="noopener" href="#">Prefere pedir pelo WhatsApp? Lá é 7% off. Mandar o carrinho para a Hera →</a>
   </div>
 </aside>
 <script>
@@ -1439,7 +1450,9 @@ var WHATSAPP = '5511913184495';
 // Vazio = o servidor está no mesmo endereço do site (é assim no ambiente de teste do Cloudflare).
 // No site oficial (GitHub Pages), o botão "Pagar agora" só aparece depois que API_LOJA for preenchido.
 var API_LOJA = '';
-var DESCONTO_WHATSAPP = 0; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
+var DESCONTO_WHATSAPP = 7; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
+var DESCONTO_PIX = 5; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
+function precoPix(v){ return Math.round(v * (100 - DESCONTO_PIX)) / 100; }
 function lojaOnline(){ return !!API_LOJA || /\.workers\.dev$/.test(location.hostname) || location.hostname === 'localhost' || location.hostname === '127.0.0.1'; }
 var PERFUMES = []; // a lista oficial fica em produtos.json (o site e o servidor leem o mesmo arquivo)
 // Metade do frete fica por conta da Hera: este valor (em reais) já vai somado ao preço "Por" de cada perfume,
@@ -1511,20 +1524,26 @@ function atualizaSel(){
     montaFrete();
     var fp=COTACAO_PREVIA&&(COTACAO_PREVIA.fretes||[]).filter(function(x){return x.id===COTACAO_PREVIA.servico;})[0];
     document.getElementById('sel-total-online').textContent=brl(cheio+(fp?fp.preco/100:0));
-    document.getElementById('sel-detalhe-online').textContent=(fp?'Frete '+fp.nome+': '+centavos(fp.preco)+' (exemplo) · ':'')+'Pix ou cartão pelo Mercado Pago, em ambiente seguro.'+(CUPOM?' O código '+CUPOM+' é conferido no pagamento.':'');
+    document.getElementById('sel-total-pix').textContent=brl(precoPix(cheio)+(fp?fp.preco/100:0));
+    document.getElementById('sel-detalhe-online').textContent=(fp?'Frete '+fp.nome+': '+centavos(fp.preco)+' (exemplo) · ':'')+'O desconto do Pix vale nos perfumes, não no frete. Pagamento pelo Mercado Pago, em ambiente seguro.'+(CUPOM?' O código '+CUPOM+' é conferido no pagamento.':'');
   }
   if(on){
-    var tot=document.getElementById('sel-total-online'), det=document.getElementById('sel-detalhe-online');
+    var tot=document.getElementById('sel-total-online'), totPix=document.getElementById('sel-total-pix'), det=document.getElementById('sel-detalhe-online');
+    var temPix=!!(COTACAO && !COTACAO.erro && COTACAO.pix);
+    document.querySelector('#sel-online .tot-pix').hidden=COTACAO && !COTACAO.erro && !COTACAO.pix;
+    if(temPix) document.getElementById('sel-pix-pct').textContent=COTACAO.pix.pct+'% OFF';
     if(COTACAO && !COTACAO.erro){
-      tot.textContent=centavos(COTACAO.total);
+      tot.textContent=centavos(COTACAO.cartao?COTACAO.cartao.total:COTACAO.total);
+      totPix.textContent=temPix?centavos(COTACAO.pix.total):'';
       var partes=COTACAO.descontos && COTACAO.descontos.length ? COTACAO.descontos.map(function(d){return d.nome+': −'+centavos(d.valor);}) : [];
+      if(temPix) partes.push('No Pix, mais −'+centavos(COTACAO.pix.desconto)+' (só nos perfumes)');
       if(COTACAO.frete_ativo){
         var fe=(COTACAO.fretes||[]).filter(function(x){return x.id===COTACAO.servico;})[0];
         partes.push(COTACAO.frete_calculado && fe ? 'Frete '+fe.nome+': '+(fe.gratis?'grátis':centavos(fe.preco)) : 'Mais o frete (digite o CEP)');
       }
       det.textContent=partes.length ? partes.join(' · ') : 'Pix ou cartão pelo Mercado Pago.';
-    } else if(COTACAO && COTACAO.erro){ tot.textContent='—'; det.textContent=COTACAO.erro; }
-    else { tot.textContent='calculando…'; det.textContent=''; }
+    } else if(COTACAO && COTACAO.erro){ tot.textContent='—'; totPix.textContent='—'; det.textContent=COTACAO.erro; }
+    else { tot.textContent='calculando…'; totPix.textContent='calculando…'; det.textContent=''; }
   }
   montaFrete();
   var msgCupom=document.getElementById('sel-cupom-msg');
@@ -1641,14 +1660,17 @@ document.getElementById('sel-pagar').addEventListener('click',function(){
     abreConfirmacao(r.perfil);
   }).catch(function(e){ if(/Entre na sua conta/.test(e.message)){ guardaSessao(''); marcaConta(); pedeLoginParaComprar(); return; } m.textContent=e.message; });
 });
-function pagarAgora(){
-  var b=document.getElementById('conf-ok'), m=document.getElementById('conf-msg');
-  if(!lojaOnline()){ m.textContent=window.HERA_PREVIA?'Prévia: no site de teste, este botão abre o pagamento do Mercado Pago.':'O pagamento online abre em breve. Enquanto isso, fale com a Hera pelo WhatsApp.'; return; }
-  b.disabled=true; b.textContent='Abrindo o Mercado Pago…'; m.textContent='';
-  api('/api/pagar',pedidoAtual()).then(function(j){
+function pagarAgora(metodo){
+  var b=document.getElementById(metodo==='pix'?'conf-pix':'conf-ok'), m=document.getElementById('conf-msg');
+  if(!lojaOnline()){ m.textContent=window.HERA_PREVIA?'Prévia: no site de teste, este botão abre o pagamento do Mercado Pago'+(metodo==='pix'?' só com Pix.':' só com cartão.'):'O pagamento online abre em breve. Enquanto isso, fale com a Hera pelo WhatsApp.'; return; }
+  var antes=b.innerHTML;
+  document.getElementById('conf-pix').disabled=true; document.getElementById('conf-ok').disabled=true;
+  b.textContent='Abrindo o Mercado Pago…'; m.textContent='';
+  var dados=pedidoAtual(); dados.metodo=metodo;
+  api('/api/pagar',dados).then(function(j){
     if(!j.url) throw new Error('Não foi possível abrir o pagamento.');
     location.href=j.url;
-  }).catch(function(e){ b.disabled=false; b.textContent='Confirmar e pagar';
+  }).catch(function(e){ b.innerHTML=antes; document.getElementById('conf-pix').disabled=false; document.getElementById('conf-ok').disabled=false;
     if(/Entre na sua conta/.test(e.message)){ fechaConfirmacao(); guardaSessao(''); marcaConta(); pedeLoginParaComprar(); return; }
     if(/Complete seus dados/.test(e.message)){ fechaConfirmacao(); pedeDadosParaComprar(); return; }
     m.textContent=e.message+' Se precisar, fale com a Hera pelo WhatsApp.'; });
@@ -1758,6 +1780,7 @@ function mostrarProduto(id){
   document.getElementById('pr-nome').textContent = p.nome;
   document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Kit para presente' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
   document.getElementById('pr-preco').textContent = brl(p.preco);
+  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? '<b>' + brl(precoPix(p.preco)) + '</b> no Pix pelo site (' + DESCONTO_PIX + '% off) · ou ' + DESCONTO_WHATSAPP + '% off pedindo pelo WhatsApp' : '';
   document.getElementById('pr-de').innerHTML = offPct(p) ? 'De <s>' + brl(p.preco_de) + '</s> <span class="etq etq-off">-' + offPct(p) + '%</span>' : '';
   document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No kit:</b> ' + esc(p.composicao || '') : '');
   document.getElementById('pr-conc').textContent = p.tipo === 'cofre' ? 'Kit' : p.conc;
@@ -2248,22 +2271,30 @@ function abreConfirmacao(p){
     });
     return;
   }
-  var tot=document.getElementById('sel-total-online').textContent;
+  var tot=document.getElementById('sel-total-online').textContent, totPix=document.getElementById('sel-total-pix').textContent;
+  var temPix=!document.querySelector('#sel-online .tot-pix').hidden && totPix && totPix!=='—';
   document.getElementById('conf-dados').innerHTML=
     '<dt>Nome</dt><dd>'+esc(p.nome)+'</dd><dt>CPF</dt><dd>'+esc(fmtCPF(p.cpf))+'</dd><dt>WhatsApp</dt><dd>'+esc(fmtTel(p.telefone))+'</dd>'+
     '<dt>E-mail</dt><dd>'+esc(EMAIL_CONTA||document.getElementById('conta-email').textContent||'')+'</dd><dt>Entrega</dt><dd>'+esc(enderecoTexto(p))+'</dd>';
   var n=SEL.reduce(function(s,x){return s+x.q;},0);
   var fe=COTACAO && COTACAO.frete_calculado ? (COTACAO.fretes||[]).filter(function(x){return x.id===COTACAO.servico;})[0] : null;
-  document.getElementById('conf-resumo').innerHTML='<span>'+n+(n>1?' perfumes':' perfume')+(fe?' + frete '+esc(fe.nome)+' ('+esc(prazoTxt(fe.prazo))+')':'')+'</span><b>'+esc(tot)+'</b>';
+  document.getElementById('conf-resumo').innerHTML='<span>'+n+(n>1?' perfumes':' perfume')+(fe?' + frete '+esc(fe.nome)+' ('+esc(prazoTxt(fe.prazo))+')':'')+'</span><b>'+esc(temPix?totPix:tot)+'</b>';
   document.getElementById('conf-msg').textContent='';
-  var b=document.getElementById('conf-ok'); b.disabled=false; b.textContent='Confirmar e pagar';
+  rotulosPagar(temPix,totPix,tot);
   document.getElementById('conf').hidden=false; document.getElementById('conf-fundo').hidden=false;
+}
+function rotulosPagar(temPix,totPix,tot){
+  var bp=document.getElementById('conf-pix'), bc=document.getElementById('conf-ok');
+  bp.hidden=!temPix; bp.disabled=false; bc.disabled=false;
+  bp.innerHTML='Pagar com Pix · '+esc(totPix)+'<small>'+DESCONTO_PIX+'% off nos perfumes · aprovado na hora</small>';
+  bc.innerHTML='Pagar com cartão · '+esc(tot);
 }
 function fechaConfirmacao(){ document.getElementById('conf').hidden=true; document.getElementById('conf-fundo').hidden=true; }
 document.getElementById('conf-fechar').addEventListener('click',fechaConfirmacao);
 document.getElementById('conf-fundo').addEventListener('click',fechaConfirmacao);
 document.getElementById('conf-editar').addEventListener('click',function(){ fechaConfirmacao(); pedeDadosParaComprar(); });
-document.getElementById('conf-ok').addEventListener('click',pagarAgora);
+document.getElementById('conf-ok').addEventListener('click',function(){ pagarAgora('cartao'); });
+document.getElementById('conf-pix').addEventListener('click',function(){ pagarAgora('pix'); });
 </script>
 <!-- Cloudflare Web Analytics: conta visitas de forma anônima, sem cookies -->
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b3e69f26ab594bacac9a51bbd2e6c20a"}'></script>

@@ -163,6 +163,8 @@ function regras(env) {
     // "maior": vale o maior desconto entre os 5% e o cupom; "somar": soma os dois
     combinar: String(env.COMBINAR_DESCONTOS || 'maior').toLowerCase() === 'somar' ? 'somar' : 'maior',
     freteCentavos: Math.max(0, Math.round(num(env.FRETE_CENTAVOS, 0))),
+    // desconto extra pagando com Pix pelo site (só nos perfumes, não no frete; soma com o código promocional)
+    pixDescontoPct: Math.min(Math.max(num(env.PIX_DESCONTO_PCT, 5), 0), 50),
     descontoMaxPct: 90,
   };
 }
@@ -367,8 +369,19 @@ async function calcular(env, corpo, cepEntrega) {
     return { id, titulo: p.titulo, quantidade, precoCentavos: p.precoCentavos, unitarioCentavos: unitario, totalCentavos: unitario * quantidade };
   });
 
+  // Pix: mais X% em cima do preço já com o código, por unidade (o total do Mercado Pago bate exatamente)
+  const pixPct = r.pixDescontoPct;
+  const metodo = corpo && corpo.metodo === 'pix' && pixPct > 0 ? 'pix' : 'cartao';
+  for (const l of linhas) {
+    l.unitarioPixCentavos = Math.round(l.unitarioCentavos * (100 - pixPct) / 100);
+    l.totalPixCentavos = l.unitarioPixCentavos * l.quantidade;
+  }
   const subtotal = linhas.reduce((s, l) => s + l.precoCentavos * l.quantidade, 0);
-  const totalProdutos = linhas.reduce((s, l) => s + l.totalCentavos, 0);
+  const totalCartaoProdutos = linhas.reduce((s, l) => s + l.totalCentavos, 0);
+  const totalPixProdutos = linhas.reduce((s, l) => s + l.totalPixCentavos, 0);
+  const descontoPix = totalCartaoProdutos - totalPixProdutos;
+  if (metodo === 'pix') for (const l of linhas) { l.unitarioCentavos = l.unitarioPixCentavos; l.totalCentavos = l.totalPixCentavos; }
+  const totalProdutos = metodo === 'pix' ? totalPixProdutos : totalCartaoProdutos;
   const desconto = subtotal - totalProdutos;
 
   // frete: com a SuperFrete ligada, depende do CEP (no pagamento, sempre o CEP do endereço da conta)
@@ -378,7 +391,7 @@ async function calcular(env, corpo, cepEntrega) {
     frete = 0;
     if (String(cep || '').replace(/\D/g, '').length === 8) {
       try {
-        fretes = await cotarFrete(env, cep, linhas, produtos, totalProdutos);
+        fretes = await cotarFrete(env, cep, linhas, produtos, totalCartaoProdutos);
       } catch (e) {
         if (cepEntrega) throw e;
         console.error('frete', e && e.message);
@@ -399,6 +412,8 @@ async function calcular(env, corpo, cepEntrega) {
     else if (cupom && pctCupom >= pctBase) nomeDesconto = `Código ${cupom.codigo} (${pctCupom}%)`;
     else nomeDesconto = `Desconto do site (${pctBase}%)`;
   }
+  if (metodo === 'pix') nomeDesconto = nomeDesconto ? `${nomeDesconto} + Pix (${pixPct}%)` : `Pix (${pixPct}%)`;
+  const descontoCodigo = subtotal - totalCartaoProdutos;
 
   let mensagemCupom = '';
   if (codigo && !cupom) mensagemCupom = 'Código não encontrado ou inativo.';
@@ -410,6 +425,8 @@ async function calcular(env, corpo, cepEntrega) {
     linhas, subtotal, desconto, frete, totalProdutos, fretes, freteEscolhido, freteErro,
     freteAtivo: !!env.SUPERFRETE_TOKEN,
     total: totalProdutos + frete,
+    metodo, pixPct, descontoPix, descontoCodigo,
+    totalPix: totalPixProdutos + frete, totalCartao: totalCartaoProdutos + frete,
     pct, nomeDesconto, mensagemCupom, codigo, cupom,
     comissaoPct,
     // comissão calculada sobre o valor dos produtos já com desconto (sem frete)
@@ -438,6 +455,9 @@ async function cotacao(request, env) {
     fretes: c.fretes ? c.fretes.map(x => ({ id: x.id, nome: x.nome, preco: x.cobrado, preco_cheio: x.centavos, prazo: x.prazo, gratis: x.gratis })) : null,
     servico: c.freteEscolhido ? c.freteEscolhido.id : null,
     descontos: c.desconto > 0 ? [{ nome: c.nomeDesconto, valor: c.desconto }] : [],
+    // os dois jeitos de pagar no site (o carrinho mostra os dois)
+    pix: c.pixPct > 0 ? { pct: c.pixPct, desconto: c.descontoPix, total: c.totalPix } : null,
+    cartao: { total: c.totalCartao, desconto: c.descontoCodigo },
     cupom: c.cupom ? c.cupom.codigo : null,
     cupom_valido: !!c.cupom,
     mensagem_cupom: c.mensagemCupom,
@@ -474,7 +494,7 @@ async function pagar(request, env) {
     c.subtotal, c.desconto, c.frete, c.total,
     c.cupom ? c.cupom.codigo : null, c.cupom ? c.cupom.representante : null,
     c.comissaoPct, c.comissaoCentavos, emailCliente,
-    JSON.stringify({ ...entregaDe(perfil), ...(c.freteEscolhido ? { envio: c.freteEscolhido.nome, prazo_dias: c.freteEscolhido.prazo } : {}) })
+    JSON.stringify({ ...entregaDe(perfil), ...(c.freteEscolhido ? { envio: c.freteEscolhido.nome, prazo_dias: c.freteEscolhido.prazo } : {}), pagamento: c.metodo === 'pix' ? 'Pix' : 'Cartão' })
   ).run();
 
   const origemApi = new URL(request.url).origin;
@@ -496,7 +516,12 @@ async function pagar(request, env) {
     auto_return: 'approved',
     notification_url: `${origemApi}/api/mp-webhook?source_news=webhooks`,
     statement_descriptor: 'HERA PERFUMES',
-    metadata: { pedido_id: pedidoId, cupom: c.cupom ? c.cupom.codigo : null },
+    metadata: { pedido_id: pedidoId, cupom: c.cupom ? c.cupom.codigo : null, metodo: c.metodo },
+    // Pix com desconto: o Mercado Pago só mostra Pix (o saldo em conta do Mercado Pago não pode ser tirado).
+    // Cartão: só cartão (sem Pix, que tem o preço menor, e sem boleto).
+    payment_methods: c.metodo === 'pix'
+      ? { excluded_payment_types: [{ id: 'credit_card' }, { id: 'debit_card' }, { id: 'ticket' }, { id: 'atm' }, { id: 'prepaid_card' }], installments: 1 }
+      : { excluded_payment_types: [{ id: 'bank_transfer' }, { id: 'ticket' }, { id: 'atm' }] },
   };
   const nomes = String(perfil.nome || '').trim().split(/\s+/);
   preferencia.payer = {
