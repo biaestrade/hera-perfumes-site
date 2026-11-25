@@ -13,8 +13,9 @@ def main(caminho):
     lista = json.load(open('produtos.json', encoding='utf-8'))
     mudou = []
     for p in lista:
-        v = mapa.get(p.get('id'))
-        if not v or p['id'] in bloqueados:
+        chave = p.get('painel_id') or p.get('id')  # painel_id: quando o código no Painel é diferente do código no site
+        v = mapa.get(chave)
+        if not v or chave in bloqueados or p['id'] in bloqueados:
             continue
         preco = round(float(v.get('preco') or 0), 2)
         if preco <= 0:

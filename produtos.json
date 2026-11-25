@@ -727,6 +727,7 @@
  },
  {
   "id": "dl-des-144",
+  "painel_id": "dl-des-145",
   "marca": "Dior",
   "nome": "Hypnotic Poison",
   "conc": "Eau de Toilette",
@@ -1277,6 +1278,7 @@
  },
  {
   "id": "dl-tes-92",
+  "painel_id": "off-0008568",
   "marca": "Versace",
   "nome": "Eros",
   "conc": "Eau de Toilette",
@@ -1343,6 +1345,7 @@
  },
  {
   "id": "kit-calvin-klein-eternity-feminino",
+  "painel_id": "off-0012706",
   "tipo": "cofre",
   "marca": "Calvin Klein",
   "nome": "Eternity Feminino",
@@ -1367,6 +1370,7 @@
  },
  {
   "id": "kit-michael-kors-pour-femme",
+  "painel_id": "off-0013833",
   "tipo": "cofre",
   "marca": "Michael Kors",
   "nome": "Pour Femme",
@@ -1391,6 +1395,7 @@
  },
  {
   "id": "kit-versace-dylan-blue-pour-femme",
+  "painel_id": "off-0013840",
   "tipo": "cofre",
   "marca": "Versace",
   "nome": "Dylan Blue Pour Femme",
@@ -1415,6 +1420,7 @@
  },
  {
   "id": "kit-dolce-gabbana-devotion-feminino",
+  "painel_id": "off-0013415",
   "tipo": "cofre",
   "marca": "Dolce & Gabbana",
   "nome": "Devotion Feminino",
@@ -1439,6 +1445,7 @@
  },
  {
   "id": "kit-calvin-klein-ck-one",
+  "painel_id": "off-0003405",
   "tipo": "cofre",
   "marca": "Calvin Klein",
   "nome": "CK One",
