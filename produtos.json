@@ -19,7 +19,8 @@
   "topo": "Groselha preta, pera",
   "coracao": "Íris, jasmim, flor de laranjeira",
   "fundo": "Pralinê, baunilha, patchouli, fava tonka",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "doces"
  },
  {
   "id": "hv1d9xc31jlcntw1kgdn",
@@ -41,7 +42,8 @@
   "topo": "Amêndoa, café, bergamota e limão",
   "coracao": "Nardo, jasmim sambac, flor de laranjeira, rosa e íris",
   "fundo": "Fava tonka, cacau, baunilha, praliné, sândalo, âmbar",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "doces"
  },
  {
   "id": "j8mf6hvfedjlowzqlstr",
@@ -63,7 +65,8 @@
   "topo": "Pera, melão, magnólia, pêssego, mandarina e bergamota",
   "coracao": "Jasmim, lírio-do-vale, tuberosa, frésia, rosa, orquídea",
   "fundo": "Almíscar, baunilha, cedro e amora",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "florais"
  },
  {
   "id": "qvqp0f9cdgqbzw9lht1t",
@@ -85,7 +88,8 @@
   "topo": "Tangerina sanguínea, toranja e hortelã",
   "coracao": "Canela, notas especiadas e rosa",
   "fundo": "Âmbar, couro, notas amadeiradas e patchouli indiano",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-83",
@@ -107,7 +111,8 @@
   "topo": "Absinto, anis",
   "coracao": "Lavanda",
   "fundo": "Almíscar negro, madeiras, baunilha",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "wq7vx81sq15ad4707q03",
@@ -129,7 +134,8 @@
   "topo": "Bergamota da Calábria",
   "coracao": "Pimenta Sichuan, lavanda, resina de elemi",
   "fundo": "Ambroxan, elemi e resinas amadeiradas",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "azuis"
  },
  {
   "id": "yd20a31zwz7gwi694vgu",
@@ -151,7 +157,8 @@
   "topo": "Champanhe rosé, pimenta rosa",
   "coracao": "Flor de pêssego, rosa",
   "fundo": "Almíscar branco, notas amadeiradas",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "florais"
  },
  {
   "id": "6d3apso22g8oq2jri9bf",
@@ -173,7 +180,8 @@
   "topo": "Laranja sanguínea, mandarina",
   "coracao": "Mel, jasmim, pêssego, flor de laranjeira, gardênia",
   "fundo": "Patchouli, caramelo, cera de abelha, alcaçuz",
-  "destaque": true
+  "destaque": true,
+  "familia_hera": "doces"
  },
  {
   "id": "gxg4djks2i3enmbosk4u",
@@ -195,7 +203,8 @@
   "topo": "Lavanda, mandarina, groselha preta e petitgrain",
   "coracao": "Lavanda, flor de laranjeira e jasmim",
   "fundo": "Baunilha de Madagascar, almíscar, cedro e âmbar cinzento",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-prada-paradoxe",
@@ -217,7 +226,8 @@
   "topo": "Bergamota da Calábria, tangerina, pera",
   "coracao": "Neroli, flor de laranjeira, jasmim sambac",
   "fundo": "Âmbar, benjoim, baunilha Bourbon, almíscar branco",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "j5mvdqz387n7zwukrl9g",
@@ -239,7 +249,8 @@
   "topo": "Lima, limão, bergamota, jasmim, laranja, mandarina e néroli",
   "coracao": "Notas oceânicas, jasmim, pêssego, frésia, alecrim, jacinto, violeta",
   "fundo": "Almíscar branco, cedro, musgo de carvalho, patchouli e âmbar",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "azuis"
  },
  {
   "id": "dl-des-113",
@@ -261,7 +272,8 @@
   "topo": "Bergamota, amêndoa amarga",
   "coracao": "Peônia, ylang-ylang",
   "fundo": "Baunilha, fava tonka",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-322",
@@ -283,7 +295,8 @@
   "topo": "Pera, bergamota, pimenta rosa",
   "coracao": "Rosa, jasmim",
   "fundo": "Almíscar branco, baunilha, patchouli, cedro",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-82",
@@ -305,7 +318,8 @@
   "topo": "Vodka, Limão, Maçã Verde, Gengibre, Pimenta Rosa",
   "coracao": "Hortelã, Cardamomo, Gengibre",
   "fundo": "Fava Tonka, Âmbar, Couro, Madeira de Gaiac",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-401",
@@ -327,7 +341,8 @@
   "topo": "Pimenta rosa, limão",
   "coracao": "Olíbano, lavanda",
   "fundo": "Baunilha, fava tonka, âmbar",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-126",
@@ -349,7 +364,8 @@
   "topo": "Toranja, limão, menta, pimenta rosa",
   "coracao": "Gengibre, noz-moscada, jasmim",
   "fundo": "Incenso, cedro, vetiver, sândalo, patchouli, ládano",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "azuis"
  },
  {
   "id": "dl-des-81",
@@ -371,7 +387,8 @@
   "topo": "Bergamota, Limão, Grapefruit, Gengibre, Folhas de Violeta",
   "coracao": "Gengibre, Noz-moscada, Sálvia, Cedro",
   "fundo": "Almíscar, Sândalo, Vetiver, Cedro, Cumaru",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "dl-des-457",
@@ -393,7 +410,8 @@
   "topo": "Menta, maçã do amor, limão, mandarina",
   "coracao": "Ambroxan, gerânio, sálvia esclareia",
   "fundo": "Baunilha, cedro, sândalo, laranja amarga, patchouli, couro",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "amadeirados"
  },
  {
   "id": "light-blue-eau-intense",
@@ -415,7 +433,8 @@
   "topo": "Limão siciliano, maçã Granny Smith, cedro, campânula",
   "coracao": "Jasmim, bambu, rosa",
   "fundo": "Cedro, almíscar, âmbar",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  },
  {
   "id": "dl-des-134",
@@ -437,7 +456,8 @@
   "topo": "Néroli, pera, bergamota, toranja, limão",
   "coracao": "Flor de laranjeira, estefanótis, rosa, pêssego, cassis",
   "fundo": "Almíscar, cedro, cashmeran, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-279",
@@ -459,7 +479,8 @@
   "topo": "Mandarina, sálvia esclareia",
   "coracao": "Caramelo, fava tonka",
   "fundo": "Vetiver",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-277",
@@ -481,7 +502,8 @@
   "topo": "Bergamota",
   "coracao": "Coco",
   "fundo": "Fava tonka",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "amadeirados"
  },
  {
   "id": "dl-versace-crystal-noir",
@@ -503,7 +525,8 @@
   "topo": "Pimenta, gengibre e cardamomo",
   "coracao": "Coco, gardênia, flor de laranjeira e peônia",
   "fundo": "Sândalo, almíscar e âmbar",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-givenchy-l-interdit",
@@ -525,7 +548,8 @@
   "topo": "Pera, bergamota",
   "coracao": "Tuberosa, flor de laranjeira, jasmim sambac",
   "fundo": "Patchouli, baunilha, ambroxan, vetiver",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-483",
@@ -547,7 +571,8 @@
   "topo": "Bergamota da Calábria",
   "coracao": "Flor de laranjeira da Tunísia",
   "fundo": "Ambrofix, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "amadeirados"
  },
  {
   "id": "dl-des-385",
@@ -569,7 +594,8 @@
   "topo": "Caramelo",
   "coracao": "Notas atalcadas, almíscar",
   "fundo": "Benjoim, baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-154",
@@ -591,7 +617,8 @@
   "topo": "Bergamota",
   "coracao": "Pimenta de Sichuan, lavanda, pimenta-preta, anis-estrelado, noz-moscada",
   "fundo": "Ambroxan, baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "dl-des-155",
@@ -613,7 +640,8 @@
   "topo": "Íris, peônia, lírio-do-vale",
   "coracao": "Rosa, damasco, pêssego",
   "fundo": "Baunilha, almíscar, fava tonka, sândalo, benjoim",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-114",
@@ -635,7 +663,8 @@
   "topo": "Pitaya, abacaxi, mandarina",
   "coracao": "Peônia-cereja, frangipani vermelho, flor de laranjeira, jasmim sambac",
   "fundo": "Baunilha solar, Ambrofix, patchouli, fava tonka tostada",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-116",
@@ -657,7 +686,8 @@
   "topo": "Cassis, mandarina",
   "coracao": "Jasmim, amêndoa amarga",
   "fundo": "Toffee, fava tonka",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-400",
@@ -679,7 +709,8 @@
   "topo": "Mandarina verde, jasmim d'água",
   "coracao": "Flor de gengibre",
   "fundo": "Baunilha salgada, âmbar cinza, madeira de caxemira",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-209",
@@ -701,7 +732,8 @@
   "topo": "Bergamota, flor de laranjeira",
   "coracao": "Tuberosa, jasmim",
   "fundo": "Baunilha bourbon, cedro, almíscar branco",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-72",
@@ -723,7 +755,8 @@
   "topo": "Verde, mandarina, bergamota, frésia, lima, folhas verdes",
   "coracao": "Lírio-do-vale, lírio, narciso, rosa, jasmim, gengibre, violeta, manjericão",
   "fundo": "Sândalo, âmbar, almíscar, cedro, heliotrópio, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-144",
@@ -746,7 +779,8 @@
   "topo": "Coco, ameixa, damasco",
   "coracao": "Jacarandá, jasmim, tuberosa, alcaravia, rosa, lírio-do-vale",
   "fundo": "Baunilha, amêndoa, sândalo, almíscar",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-406",
@@ -768,7 +802,8 @@
   "topo": "Cedro",
   "coracao": "Lavanda",
   "fundo": "Benjoim",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "amadeirados"
  },
  {
   "id": "dl-des-260",
@@ -790,7 +825,8 @@
   "topo": "Incenso, couro",
   "coracao": "Patchouli, mirra",
   "fundo": "Cedro, davana",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "amadeirados"
  },
  {
   "id": "dl-des-463",
@@ -812,7 +848,8 @@
   "topo": "Bergamota, mandarina verde, figo, pera",
   "coracao": "Cardamomo, lírio, jasmim, narciso",
   "fundo": "Cedro, almíscar, oliveira, sândalo",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  },
  {
   "id": "dl-des-331",
@@ -834,7 +871,8 @@
   "topo": "Cassis, mandarina, pimenta rosa",
   "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
   "fundo": "Almíscar, patchouli, baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-330",
@@ -856,7 +894,8 @@
   "topo": "Bergamota, lavanda, pimenta rosa",
   "coracao": "Gerânio, sálvia, água do mar",
   "fundo": "Âmbar cinza, patchouli, vetiver",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "azuis"
  },
  {
   "id": "dl-des-189",
@@ -878,7 +917,8 @@
   "topo": "Flor de pera, cassis",
   "coracao": "Peônia, flor de laranjeira",
   "fundo": "Baunilha de Madagascar, ambroxan, madeira ambarada",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-473",
@@ -900,7 +940,8 @@
   "topo": "Limão, lima, toranja, laranja sanguínea, bergamota, mandarina",
   "coracao": "Pimenta rosa, âmbar branco, cassis",
   "fundo": "Almíscar, musgo de carvalho, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  },
  {
   "id": "dl-des-115",
@@ -922,7 +963,8 @@
   "topo": "Pimenta rosa, mandarina, bergamota",
   "coracao": "Algodão-doce, gardênia, gerânio, rosa",
   "fundo": "Baunilha, almíscar, sândalo, caramelo, violeta, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-295",
@@ -944,7 +986,8 @@
   "topo": "Ameixa, canela, cardamomo, bergamota",
   "coracao": "Lavanda, davana, artemísia",
   "fundo": "Fava tonka, benjoim, ambreta, patchouli, ládano",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-326",
@@ -966,7 +1009,8 @@
   "topo": "Cereja negra",
   "coracao": "Folha de violeta",
   "fundo": "Oud, manteiga de cacau, baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-372",
@@ -988,7 +1032,8 @@
   "topo": "Pêssego, bergamota da Calábria",
   "coracao": "Almíscar, flores brancas, lírio-aranha vermelho",
   "fundo": "Âmbar, baunilha, musgo, vetiver",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-190",
@@ -1010,7 +1055,8 @@
   "topo": "Limão siciliano, bergamota da Calábria, pimenta rosa",
   "coracao": "Frangipani, calêndula, canela",
   "fundo": "Madeira ambarada, benjoim",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  },
  {
   "id": "dl-des-458",
@@ -1032,7 +1078,8 @@
   "topo": "Bergamota, néroli, cidra, folhas de laranja amarga",
   "coracao": "Gerânio, sálvia esclareia, jacinto azul",
   "fundo": "Madeira de oud, âmbar mineral, cedro",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "dl-azzaro-wanted",
@@ -1054,7 +1101,8 @@
   "topo": "Limão, gengibre, lavanda e hortelã",
   "coracao": "Cardamomo da Guatemala, zimbro, maçã e gerânio",
   "fundo": "Fava tonka, amberwood e vetiver do Haiti",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "dl-des-120",
@@ -1076,7 +1124,8 @@
   "topo": "Bergamota, amêndoa amarga",
   "coracao": "Rosa, ylang-ylang",
   "fundo": "Baunilha, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-296",
@@ -1098,7 +1147,8 @@
   "topo": "Cardamomo",
   "coracao": "Ylang-ylang",
   "fundo": "Absoluto de baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "dl-des-99",
@@ -1120,7 +1170,8 @@
   "topo": "Sálvia, gengibre",
   "coracao": "Vetiver, cacau",
   "fundo": "Fava tonka, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "px90uamcx0zim01i0u0x",
@@ -1142,7 +1193,8 @@
   "topo": "Jasmim",
   "coracao": "Pêssego, rosa",
   "fundo": "Âmbar, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-468",
@@ -1164,7 +1216,8 @@
   "topo": "Especiarias, pimenta rosa, cassis",
   "coracao": "Caramelo, tuberosa, lírio-do-vale",
   "fundo": "Âmbar, sândalo, akigalawood, baunilha, orquídea",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "dl-des-472",
@@ -1186,7 +1239,8 @@
   "topo": "Bergamota, pêssego, pimenta rosa",
   "coracao": "Botão de rosa verde, jasmim, sorbet de framboesa",
   "fundo": "Almíscar branco, incenso, fava tonka",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-456",
@@ -1208,7 +1262,8 @@
   "topo": "Notas aquáticas, folha de figo, bergamota, toranja",
   "coracao": "Folha de violeta, patchouli, papiro, pimenta-preta, ambroxan",
   "fundo": "Almíscar, fava tonka, açafrão, incenso",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "azuis"
  },
  {
   "id": "dl-des-466",
@@ -1230,7 +1285,8 @@
   "topo": "Maçã verde, cassis, trevo, miosótis, shiso",
   "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
   "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "dl-des-467",
@@ -1252,7 +1308,8 @@
   "topo": "Limão, mandarina, pimenta rosa",
   "coracao": "Goiaba, frésia, cassis, jasmim",
   "fundo": "Almíscar, Clearwood, cedro",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  },
  {
   "id": "dl-des-459",
@@ -1274,7 +1331,8 @@
   "topo": "Limão, lima, toranja, laranja sanguínea, bergamota, mandarina",
   "coracao": "Pimenta rosa, âmbar branco, cassis",
   "fundo": "Almíscar, musgo de carvalho, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  },
  {
   "id": "dl-tes-92",
@@ -1297,7 +1355,8 @@
   "topo": "Limão, mandarina, menta, maçã do amor",
   "coracao": "Gerânio, sálvia esclareia, AmberMax",
   "fundo": "Cedro, vetiver, patchouli, sândalo, baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "orientais"
  },
  {
   "id": "off-0012694",
@@ -1319,7 +1378,8 @@
   "topo": "Zimbro, pimenta de Sichuan, limão",
   "coracao": "Coco, lavanda",
   "fundo": "Cardamomo, cedro da Virgínia, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "67d0v9rhp4nl2vqbcfbt",
@@ -1341,7 +1401,8 @@
   "topo": "Alcaravia, íris, lavanda, sálvia esclareia, manjericão, anis, bergamota, limão",
   "coracao": "Sândalo, bagas de zimbro, patchouli, vetiver, cedro, cardamomo",
   "fundo": "Couro, fava tonka, âmbar, almíscar, musgo de carvalho",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "aromaticos"
  },
  {
   "id": "kit-calvin-klein-eternity-feminino",
@@ -1366,7 +1427,8 @@
   "topo": "Notas verdes, frésia, sálvia, mandarina",
   "coracao": "Cravo, lírio, lírio-do-vale, narciso, calêndula, violeta, rosa, jasmim",
   "fundo": "Heliotrópio, almíscar, sândalo, âmbar, patchouli",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "kit-michael-kors-pour-femme",
@@ -1391,7 +1453,8 @@
   "topo": "Cassis, mandarina, pimenta rosa",
   "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
   "fundo": "Almíscar, patchouli, baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "kit-versace-dylan-blue-pour-femme",
@@ -1416,7 +1479,8 @@
   "topo": "Maçã verde, cassis, trevo, miosótis, shiso",
   "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
   "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "florais"
  },
  {
   "id": "kit-dolce-gabbana-devotion-feminino",
@@ -1441,7 +1505,8 @@
   "topo": "Limão confitado",
   "coracao": "Panna cotta, flor de laranjeira, rum",
   "fundo": "Baunilha",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "doces"
  },
  {
   "id": "kit-calvin-klein-ck-one",
@@ -1466,6 +1531,7 @@
   "topo": "Limão, bergamota, mandarina, abacaxi, cardamomo, mamão",
   "coracao": "Lírio-do-vale, jasmim, violeta, rosa, noz-moscada, frésia, raiz de íris",
   "fundo": "Almíscar, cedro, chá verde, sândalo, musgo de carvalho, âmbar",
-  "destaque": false
+  "destaque": false,
+  "familia_hera": "citricos"
  }
 ]

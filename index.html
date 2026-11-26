@@ -735,6 +735,18 @@ nav.menu .btn-insta,nav.menu .btn-wa,nav.menu .link-conta,nav.menu .abre-lista,.
 .car-info .tipo{font-size:13px;color:#6b5a5f}
 .car-acordes{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 8px}
 .car-acordes span{font-size:11px;background:#f6eef0;color:var(--bordo);border-radius:999px;padding:4px 10px}
+/* famílias olfativas (mesmas cores da categorização do Fernando no Painel) */
+.chips span.fam,.car-acordes span.fam{background:var(--fam);color:var(--fam-txt,#fff);font-weight:600}
+.selo-familia{display:flex;gap:12px;align-items:flex-start;margin:18px 0 4px;padding:12px 14px;border-radius:12px;background:var(--fam);color:var(--fam-txt,#fff)}
+.selo-familia b{display:block;font-family:var(--serif);font-weight:400;font-size:18px}
+.selo-familia span{display:block;font-size:13px;line-height:1.4}
+.selo-familia small{display:block;font-size:12px;opacity:.85;margin-top:2px}
+.familias-filtro{display:flex;flex-wrap:wrap;gap:6px;margin:-6px 0 16px}
+.familias-filtro button{min-height:36px;padding:0 14px;border-radius:18px;font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--bordo);border:1.5px solid var(--fam);display:inline-flex;align-items:center;gap:6px}
+.familias-filtro button i{width:9px;height:9px;border-radius:50%;background:var(--fam);display:inline-block}
+.familias-filtro button[aria-pressed="true"]{background:var(--fam);color:var(--fam-txt,#fff)}
+.familias-filtro button[aria-pressed="true"] i{background:currentColor}
+@media(max-width:600px){.familias-filtro{flex-wrap:nowrap;overflow-x:auto;margin-right:-20px;padding:0 20px 6px 0;scrollbar-width:none}.familias-filtro::-webkit-scrollbar{display:none}.familias-filtro button{flex:0 0 auto}}
 .car-notas{font-size:13px;color:#5a4a4f;line-height:1.55}
 .car-notas b{font-size:10px;letter-spacing:2px;color:var(--carmim);margin-right:6px}
 .car-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px}
@@ -1020,6 +1032,7 @@ nav.menu a.link-conta{background-image:none}
           <button type="button" data-g="cofre" aria-pressed="false">Kits para presente</button>
         </div>
       </div>
+      <div class="familias-filtro" id="familias-filtro" role="group" aria-label="Família olfativa"></div>
       <p class="muted" style="font-size:12px;margin-bottom:18px" id="contagem" aria-live="polite"></p>
       <div class="grade" id="grade-catalogo"></div>
       <div class="ver-mais-cat" id="ver-mais-cat" hidden><p class="muted" id="ver-mais-info"></p><button type="button" class="btn-ver-todos" id="btn-ver-mais" style="background:none;cursor:pointer">Ver mais</button></div>
@@ -1057,6 +1070,7 @@ nav.menu a.link-conta{background-image:none}
 
         <div id="pr-notas-bloco">
         <h2 style="font-size:24px;margin-top:32px">Notas olfativas</h2>
+        <div id="pr-familia"></div>
         <div class="chips" id="pr-acordes"></div>
         <div class="piramide" id="pr-piramide"></div>
         </div>
@@ -1588,7 +1602,7 @@ function montaCarrinhoPagina(itens,n){
       '<a class="car-foto" href="#produto/'+p.id+'">'+(FOTOS[p.id]?'<img src="'+FOTOS[p.id]+'" alt="'+esc(p.marca+' '+p.nome)+'">':'')+'</a>'+
       '<div class="car-info"><span class="marca-p">'+esc(p.marca.toUpperCase())+'</span><h2>'+esc(p.nome)+'</h2>'+
         '<span class="tipo">'+esc(p.conc)+(p.vol?' · '+esc(p.vol):'')+(p.genero?' · '+esc(p.genero):'')+(p.familia?' · '+esc(p.familia):'')+'</span>'+
-        ((p.acordes||[]).length?'<div class="car-acordes">'+p.acordes.slice(0,5).map(function(a){return '<span>'+esc(a)+'</span>';}).join('')+'</div>':'')+
+        ((p.acordes||[]).length?'<div class="car-acordes">'+p.acordes.slice(0,5).map(chipNota).join('')+'</div>':'')+
         (notas.length?'<div class="car-notas">'+notas.map(function(l){return '<div><b>'+l[0]+'</b>'+esc(l[1])+'</div>';}).join('')+'</div>':'')+
         '<div class="car-links"><a href="#produto/'+p.id+'">Ver detalhes do perfume</a><button type="button" data-tirar="'+p.id+'">Tirar do carrinho</button></div></div>'+
       '<div class="car-valores">'+
@@ -1750,12 +1764,65 @@ function render(id, lista, comBotao){
 
 function montaDestaques(){ render('grade-destaques', PERFUMES.filter(function(p){return p.destaque;}), false); }
 
+/* ---- famílias olfativas: as 7 da categorização do Fernando, com as mesmas cores do Painel ---- */
+var FAMILIAS = [
+  {id:'citricos', nome:'Cítricos', cor:'#e3a91b', txt:'#3b2400', clima:'Luz, energia, frescor de verão', ocasiao:'Manhã e tarde · Verão e dias quentes'},
+  {id:'azuis', nome:'Azuis & Aquáticos', cor:'#2f80c0', clima:'Mar, brisa, limpeza, masculino moderno', ocasiao:'Manhã a tarde · Calor e meia-estação'},
+  {id:'aromaticos', nome:'Aromáticos & Especiados', cor:'#5e8c61', clima:'Lavanda, ervas e especiarias; clássico elegante', ocasiao:'Tarde e início da noite · Meia-estação e noites frescas'},
+  {id:'florais', nome:'Florais', cor:'#d4638a', clima:'Romance, feminilidade, elegância', ocasiao:'Manhã a início da noite · Primavera, verão e meia-estação'},
+  {id:'doces', nome:'Doces & Gourmand', cor:'#c07a3f', clima:'Aconchego, sedução, cheirinho de comida boa', ocasiao:'Noite · Outono, inverno e noites'},
+  {id:'orientais', nome:'Orientais & Âmbar', cor:'#9a3a22', clima:'Noite, mistério, poder e intensidade', ocasiao:'Noite · Outono e inverno'},
+  {id:'amadeirados', nome:'Amadeirados', cor:'#6b4c34', clima:'Sofisticação, estrutura e maturidade', ocasiao:'Tarde e noite · Meia-estação e dias frios'}
+];
+var FAM = {}; FAMILIAS.forEach(function(f){ FAM[f.id]=f; });
+// cada nota (acorde) cai numa família
+var NOTA_FAM = {
+  'cítrico':'citricos','citrico':'citricos','verde':'citricos','fresco':'citricos','menta':'citricos',
+  'aquático':'azuis','aquatico':'azuis','marinho':'azuis','salgado':'azuis','ozônico':'azuis',
+  'aromático':'aromaticos','aromatico':'aromaticos','lavanda':'aromaticos','fresco especiado':'aromaticos','especiado fresco':'aromaticos','especiado':'aromaticos','anisado':'aromaticos','anis':'aromaticos',
+  'floral':'florais','floral branco':'florais','floral amarelo':'florais','rosa':'florais','tuberosa':'florais','atalcado':'florais','almiscarado':'florais',
+  'doce':'doces','baunilha':'doces','caramelo':'doces','amêndoa':'doces','coco':'doces','mel':'doces','cacau':'doces','fava tonka':'doces','lactônico':'doces','frutado':'doces','cereja':'doces',
+  'âmbar':'orientais','ambar':'orientais','balsâmico':'orientais','oud':'orientais','couro':'orientais','alcoólico':'orientais','especiado quente':'orientais','quente especiado':'orientais','canela':'orientais',
+  'amadeirado':'amadeirados','patchouli':'amadeirados'
+};
+function famNota(a){ return FAM[NOTA_FAM[String(a||'').toLowerCase().trim()]] || null; }
+// família principal do perfume: a 1ª palavra da família olfativa pesa mais, depois as notas em ordem
+function familiaDe(p){
+  if (p._fam !== undefined) return p._fam;
+  // família definida no produtos.json (categorização do Fernando); se faltar, o site calcula pelas notas
+  if (p.familia_hera && FAM[p.familia_hera]) { p._fam = FAM[p.familia_hera]; return p._fam; }
+  var pontos = {}, f = semAcento(String(p.familia||'')), add = function(id,n){ if(id) pontos[id]=(pontos[id]||0)+n; };
+  var primeira = f.split(/\s+/)[0] || '';
+  var porPalavra = {floral:'florais',floriental:'florais',chipre:'florais',citrico:'citricos',citrica:'citricos',aromatico:'aromaticos',aromatica:'aromaticos',fougere:'aromaticos',aquatico:'azuis',amadeirado:'amadeirados',amadeirada:'amadeirados',ambar:'orientais',oriental:'orientais',gourmand:'doces'};
+  add(porPalavra[primeira], 4);
+  if (/gourmand|baunilhad/.test(f)) add('doces', 3);
+  if (/aquatic/.test(f)) add('azuis', 3);
+  (p.acordes||[]).forEach(function(a,i){ var x=NOTA_FAM[String(a).toLowerCase().trim()]; add(x, Math.max(1, 3-i)); });
+  var melhor = null; Object.keys(pontos).forEach(function(k){ if(!melhor || pontos[k]>pontos[melhor]) melhor=k; });
+  p._fam = melhor ? FAM[melhor] : null; return p._fam;
+}
+function estiloFam(f){ return '--fam:'+f.cor+(f.txt?';--fam-txt:'+f.txt:''); }
+function chipNota(a){ var f=famNota(a); return f ? '<span class="fam" style="'+estiloFam(f)+'" title="'+esc(f.nome)+'">'+esc(a)+'</span>' : '<span>'+esc(a)+'</span>'; }
+var filtroFam = '';
+function montaFiltroFamilias(){
+  var c = document.getElementById('familias-filtro'); if (!c) return;
+  c.innerHTML = FAMILIAS.map(function(f){
+    var n = PERFUMES.filter(function(p){ return familiaDe(p) === f; }).length;
+    return n ? '<button type="button" data-fam="'+f.id+'" aria-pressed="false" style="'+estiloFam(f)+'" title="'+esc(f.clima)+'"><i></i>'+esc(f.nome)+'</button>' : '';
+  }).join('');
+  c.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){
+    filtroFam = filtroFam === b.getAttribute('data-fam') ? '' : b.getAttribute('data-fam'); linhasCat = 5;
+    c.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed', x.getAttribute('data-fam') === filtroFam ? 'true' : 'false'); });
+    renderCatalogo();
+  }); });
+}
 var filtroGen = '', filtroMarca = '', filtroBusca = '';
 function semAcento(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
 function renderCatalogo(){
   var b = semAcento(filtroBusca.trim());
   var lista = PERFUMES.filter(function(p){
     return (!filtroGen || (filtroGen === 'cofre' ? p.tipo === 'cofre' : p.genero === filtroGen)) && (!filtroMarca || p.marca === filtroMarca) &&
+      (!filtroFam || (familiaDe(p) && familiaDe(p).id === filtroFam)) &&
       (!b || semAcento(p.marca + ' ' + p.nome).indexOf(b) >= 0);
   });
   // mostra 5 linhas por vez; "Ver mais" abre mais 5
@@ -1808,7 +1875,9 @@ function mostrarProduto(id){
   document.getElementById('pr-vol').textContent = p.tipo === 'cofre' ? (p.composicao || 'Consultar') : (p.vol || 'Consultar');
   document.getElementById('pr-gen').textContent = p.genero;
   document.getElementById('pr-fam').textContent = p.familia || 'Consultar';
-  document.getElementById('pr-acordes').innerHTML = (p.acordes || []).map(function(a){return '<span>' + esc(a) + '</span>';}).join('');
+  document.getElementById('pr-acordes').innerHTML = (p.acordes || []).map(chipNota).join('');
+  var fp = familiaDe(p);
+  document.getElementById('pr-familia').innerHTML = fp ? '<div class="selo-familia" style="'+estiloFam(fp)+'"><div><b>'+esc(fp.nome)+'</b><span>'+esc(fp.clima)+'</span><small>'+esc(fp.ocasiao)+'</small></div></div>' : '';
   var linhas = [];
   if (p.topo && !p.coracao && !p.fundo) linhas.push(['NOTAS', p.topo]);
   else { if (p.topo) linhas.push(['TOPO', p.topo]); if (p.coracao) linhas.push(['CORAÇÃO', p.coracao]); if (p.fundo) linhas.push(['FUNDO', p.fundo]); }
@@ -1967,7 +2036,7 @@ fetch('produtos.json', {cache: 'no-cache'})
   .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
   .then(function(lista){
     PERFUMES = lista.map(function(p){ if (p.preco > 0) p.preco = Math.round((p.preco + FRETE_EMBUTIDO) * 100) / 100; return p; });
-    montaDestaques(); montaMarcas(); renderCatalogo(); atualizaSel(); rota(); cotar();
+    montaDestaques(); montaMarcas(); montaFiltroFamilias(); renderCatalogo(); atualizaSel(); rota(); cotar();
   })
   .catch(function(){
     rota();
