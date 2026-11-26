@@ -901,7 +901,7 @@
   "coracao": "Peônia, ylang-ylang",
   "fundo": "Baunilha, fava tonka",
   "destaque": false,
-  "familia_hera": "doces",
+  "familia_hera": "florais",
   "acordes_fragrantica": [
    [
     "floral",
@@ -1654,7 +1654,7 @@
   "coracao": "Caramelo, fava tonka",
   "fundo": "Vetiver",
   "destaque": false,
-  "familia_hera": "orientais",
+  "familia_hera": "doces",
   "acordes_fragrantica": [
    [
     "caramelo",
@@ -2274,7 +2274,7 @@
   "coracao": "Peônia-cereja, frangipani vermelho, flor de laranjeira, jasmim sambac",
   "fundo": "Baunilha solar, Ambrofix, patchouli, fava tonka tostada",
   "destaque": false,
-  "familia_hera": "doces",
+  "familia_hera": "florais",
   "acordes_fragrantica": [
    [
     "floral",
@@ -2414,7 +2414,7 @@
   "coracao": "Flor de gengibre",
   "fundo": "Baunilha salgada, âmbar cinza, madeira de caxemira",
   "destaque": false,
-  "familia_hera": "florais",
+  "familia_hera": "doces",
   "acordes_fragrantica": [
    [
     "baunilha",
@@ -3708,33 +3708,57 @@
    ],
    [
     "especiado fresco",
-    86,
+    85.2,
     "#83C928",
     "#000000"
    ],
    [
     "fresco",
-    74,
+    65.8,
     "#9be5ed",
     "#000000"
    ],
    [
     "cítrico",
-    64,
+    65.4,
     "#F9FF52",
     "#000000"
    ],
    [
     "âmbar",
-    56,
+    64.1,
     "#bc4d10",
     "#FFFFFF"
    ],
    [
     "amadeirado",
-    49,
+    63.6,
     "#774414",
     "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    60,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "frutado",
+    55.4,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "verde",
+    52.8,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    51.3,
+    "#FFFEC0",
+    "#000000"
    ]
   ]
  },
@@ -4538,7 +4562,7 @@
   "coracao": "Gerânio, sálvia esclareia, AmberMax",
   "fundo": "Cedro, vetiver, patchouli, sândalo, baunilha",
   "destaque": false,
-  "familia_hera": "orientais",
+  "familia_hera": "aromaticos",
   "acordes_fragrantica": [
    [
     "baunilha",
