@@ -996,7 +996,7 @@ nav.menu a.link-conta{background-image:none}
   <section class="confianca" aria-label="Por que confiar">
     <div class="wrap">
       <div><svg stroke="#88072B"><use href="#i-escudo"/></svg>100% original</div>
-      <div><svg stroke="#88072B"><use href="#i-lote"/></svg>Código do lote e vídeo do frasco</div>
+      <div><svg stroke="#88072B"><use href="#i-lote"/></svg>Foto ou vídeo pelo WhatsApp, se quiser</div>
       <div><svg stroke="#88072B"><use href="#i-envio"/></svg>Envio para todo o Brasil</div>
     </div>
   </section>
@@ -1117,14 +1117,14 @@ nav.menu a.link-conta{background-image:none}
     <section class="bloco">
       <div class="cab-secao"><h2>Como a Hera comprova</h2></div>
       <div class="provas">
-        <div><svg stroke="#88072B"><use href="#i-lote"/></svg><span><b>Código do lote</b><p>Todo frasco tem um código de fabricação. Mandamos a foto para você conferir.</p></span></div>
-        <div><svg stroke="#88072B"><use href="#i-video"/></svg><span><b>Vídeo do seu frasco</b><p>Antes de enviar, gravamos o frasco do seu pedido.</p></span></div>
+        <div><svg stroke="#88072B"><use href="#i-lote"/></svg><span><b>Código do lote</b><p>Todo frasco original tem um código de fabricação impresso na caixa e no frasco.</p></span></div>
+        <div><svg stroke="#88072B"><use href="#i-video"/></svg><span><b>Quer ver o perfume antes?</b><p>Se quiser, fale com a gente pelo <a href="https://wa.me/5511913184495?text=Ol%C3%A1!%20Gostaria%20de%20receber%20uma%20foto%20ou%20um%20v%C3%ADdeo%20do%20perfume." target="_blank" rel="noopener" style="font-weight:600">WhatsApp</a> e peça uma foto ou um vídeo do perfume.</p></span></div>
       </div>
     </section>
     <section class="bloco">
       <div class="cab-secao"><h2>Perguntas frequentes</h2></div>
-      <details open><summary>Como sei que o perfume é original?</summary><p>Antes do envio, você recebe a foto do código do lote e um vídeo do seu frasco.</p></details>
-      <details><summary>Posso conferir o código do lote?</summary><p>Pode. Todo frasco tem um código de fabricação, e mandamos a foto dele para você.</p></details>
+      <details open><summary>Como sei que o perfume é original?</summary><p>Todos os perfumes da Hera são originais. Se quiser, fale com a gente pelo WhatsApp e peça uma foto ou um vídeo do perfume antes de comprar.</p></details>
+      <details><summary>Posso conferir o código do lote?</summary><p>Pode. Todo frasco tem um código de fabricação. Se quiser ver antes, é só pedir uma foto pelo WhatsApp.</p></details>
       <details><summary>Vocês embalam para presente?</summary><p>No lançamento, ainda não oferecemos embalagem de presente.</p></details>
       <details><summary>E se eu não gostar?</summary><p>Pelo Código de Defesa do Consumidor, compras feitas pela internet podem ser devolvidas em até 7 dias corridos depois do recebimento, com o perfume lacrado, sem uso e na embalagem original. Se chegar com defeito, você tem 30 dias para avisar. Para pedir a troca, mande um e-mail para <a href="mailto:contato@heraevodiaperfumes.com.br">contato@heraevodiaperfumes.com.br</a>. O frete de volta é por conta da Hera.</p></details>
       <p style="margin-top:24px"><a class="btn btn-wa" href="https://wa.me/5511913184495" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Tirar uma dúvida no WhatsApp</a></p>
@@ -1143,7 +1143,7 @@ nav.menu a.link-conta{background-image:none}
           <li><span class="col"><span class="num">1</span><span class="traco"></span></span><span class="txt"><b>Escolha no catálogo</b><span class="muted">Veja foto, notas e preço de cada perfume.</span></span></li>
           <li><span class="col"><span class="num">2</span><span class="traco"></span></span><span class="txt"><b>Adicione ao carrinho</b><span class="muted">Escolha a quantidade e, se tiver, coloque seu código promocional.</span></span></li>
           <li><span class="col"><span class="num">3</span><span class="traco"></span></span><span class="txt"><b>Pague pelo Mercado Pago</b><span class="muted">Pix ou cartão, num ambiente seguro.</span></span></li>
-          <li><span class="col"><span class="num">4</span></span><span class="txt"><b>Receba</b><span class="muted">Você recebe o código de rastreio e o vídeo do seu frasco.</span></span></li>
+          <li><span class="col"><span class="num">4</span></span><span class="txt"><b>Receba</b><span class="muted">Você recebe o código de rastreio para acompanhar a entrega.</span></span></li>
         </ol>
         <div style="display:flex;flex-direction:column;gap:28px">
           <div>
@@ -1916,7 +1916,7 @@ function mostrarProduto(id){
   document.getElementById('pr-piramide').style.display = 'none'; // pirâmide escondida a pedido (os dados continuam no produtos.json)
   document.getElementById('pr-notas-bloco').style.display = (linhas.length || (p.acordes||[]).length) ? '' : 'none';
   document.getElementById('pr-aviso-t').textContent = 'Perfume original';
-  document.getElementById('pr-aviso-p').innerHTML = 'Com foto do código do lote e vídeo do seu frasco. <a href="#originalidade" style="font-weight:600">Entenda</a>';
+  document.getElementById('pr-aviso-p').innerHTML = 'Quer uma foto ou vídeo do perfume? <a href="https://wa.me/5511913184495?text='+encodeURIComponent('Olá! Gostaria de receber uma foto ou um vídeo do '+p.marca+' '+p.nome+'.')+'" target="_blank" rel="noopener" style="font-weight:600">Peça pelo WhatsApp</a>';
   document.getElementById('pr-lista').dataset.lista = p.id; atualizaSel();
   var rel = PERFUMES.filter(function(x){return x.id !== p.id && x.genero === p.genero && x.familia && x.familia === p.familia;});
   if (rel.length < 4) rel = rel.concat(PERFUMES.filter(function(x){return x.id !== p.id && x.genero === p.genero && rel.indexOf(x) < 0 && x.marca === p.marca;}));
