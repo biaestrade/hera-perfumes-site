@@ -1814,7 +1814,13 @@ function familiaDe(p){
   p._fam = melhor ? FAM[melhor] : null; return p._fam;
 }
 function estiloFam(f){ return '--fam:'+f.cor+(f.txt?';--fam-txt:'+f.txt:''); }
-function chipNota(a){ var f=famNota(a); return f ? '<span class="fam" style="'+estiloFam(f)+'" title="'+esc(f.nome)+'">'+esc(a)+'</span>' : '<span>'+esc(a)+'</span>'; }
+// cores dos acordes iguais às do Fragrantica (tiradas do produtos.json)
+var COR_FRA = null, APELIDO_FRA = {'anisado':'anis','especiado':'especiado quente','fresco especiado':'especiado fresco','quente especiado':'especiado quente'};
+function corFra(a){
+  if (!COR_FRA || !COR_FRA._ok) { COR_FRA = {_ok: (window.PERFUMES||[]).length > 0}; (window.PERFUMES||[]).forEach(function(p){ (p.acordes_fragrantica||[]).forEach(function(x){ if (x[2] && !COR_FRA[x[0]]) COR_FRA[x[0]] = [x[2], x[3]||'#000']; }); }); }
+  var k = String(a||'').toLowerCase().trim(); return COR_FRA[APELIDO_FRA[k]||k] || null;
+}
+function chipNota(a){ var c=corFra(a); if (c) return '<span class="fam" style="--fam:'+c[0]+';--fam-txt:'+c[1]+';box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)">'+esc(a)+'</span>'; var f=famNota(a); return f ? '<span class="fam" style="'+estiloFam(f)+'" title="'+esc(f.nome)+'">'+esc(a)+'</span>' : '<span>'+esc(a)+'</span>'; }
 var filtroFam = '';
 function montaFiltroFamilias(){
   var c = document.getElementById('familias-filtro'); if (!c) return;
@@ -1897,7 +1903,7 @@ function mostrarProduto(id){
   if (p.topo && !p.coracao && !p.fundo) linhas.push(['NOTAS', p.topo]);
   else { if (p.topo) linhas.push(['TOPO', p.topo]); if (p.coracao) linhas.push(['CORAÇÃO', p.coracao]); if (p.fundo) linhas.push(['FUNDO', p.fundo]); }
   document.getElementById('pr-piramide').innerHTML = linhas.map(function(l){return '<div><span>' + l[0] + '</span>' + esc(l[1]) + '</div>';}).join('');
-  document.getElementById('pr-piramide').style.display = linhas.length ? '' : 'none';
+  document.getElementById('pr-piramide').style.display = 'none'; // pirâmide escondida a pedido (os dados continuam no produtos.json)
   document.getElementById('pr-notas-bloco').style.display = (linhas.length || (p.acordes||[]).length) ? '' : 'none';
   document.getElementById('pr-aviso-t').textContent = 'Perfume original';
   document.getElementById('pr-aviso-p').innerHTML = 'Com foto do código do lote e vídeo do seu frasco. <a href="#originalidade" style="font-weight:600">Entenda</a>';
