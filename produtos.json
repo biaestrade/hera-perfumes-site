@@ -20,7 +20,33 @@
   "coracao": "Íris, jasmim, flor de laranjeira",
   "fundo": "Pralinê, baunilha, patchouli, fava tonka",
   "destaque": true,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100
+   ],
+   [
+    "baunilha",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "patchouli",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "floral branco",
+    49
+   ]
+  ]
  },
  {
   "id": "hv1d9xc31jlcntw1kgdn",
@@ -43,7 +69,33 @@
   "coracao": "Nardo, jasmim sambac, flor de laranjeira, rosa e íris",
   "fundo": "Fava tonka, cacau, baunilha, praliné, sândalo, âmbar",
   "destaque": true,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "baunilha",
+    74
+   ],
+   [
+    "especiado quente",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "cacau",
+    49
+   ]
+  ]
  },
  {
   "id": "j8mf6hvfedjlowzqlstr",
@@ -66,7 +118,33 @@
   "coracao": "Jasmim, lírio-do-vale, tuberosa, frésia, rosa, orquídea",
   "fundo": "Almíscar, baunilha, cedro e amora",
   "destaque": true,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100
+   ],
+   [
+    "floral",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "doce",
+    64
+   ],
+   [
+    "fresco",
+    56
+   ],
+   [
+    "cítrico",
+    49
+   ]
+  ]
  },
  {
   "id": "qvqp0f9cdgqbzw9lht1t",
@@ -89,7 +167,33 @@
   "coracao": "Canela, notas especiadas e rosa",
   "fundo": "Âmbar, couro, notas amadeiradas e patchouli indiano",
   "destaque": true,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado quente",
+    100
+   ],
+   [
+    "canela",
+    86
+   ],
+   [
+    "cítrico",
+    74
+   ],
+   [
+    "âmbar",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "couro",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-83",
@@ -112,7 +216,33 @@
   "coracao": "Lavanda",
   "fundo": "Almíscar negro, madeiras, baunilha",
   "destaque": true,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100
+   ],
+   [
+    "baunilha",
+    86
+   ],
+   [
+    "especiado suave",
+    74
+   ],
+   [
+    "lavanda",
+    64
+   ],
+   [
+    "anis",
+    56
+   ],
+   [
+    "almiscarado",
+    49
+   ]
+  ]
  },
  {
   "id": "wq7vx81sq15ad4707q03",
@@ -135,7 +265,33 @@
   "coracao": "Pimenta Sichuan, lavanda, resina de elemi",
   "fundo": "Ambroxan, elemi e resinas amadeiradas",
   "destaque": true,
-  "familia_hera": "azuis"
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100
+   ],
+   [
+    "âmbar",
+    86
+   ],
+   [
+    "cítrico",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "almiscarado",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "yd20a31zwz7gwi694vgu",
@@ -158,7 +314,33 @@
   "coracao": "Flor de pêssego, rosa",
   "fundo": "Almíscar branco, notas amadeiradas",
   "destaque": true,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100
+   ],
+   [
+    "almiscarado",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "amadeirado",
+    64
+   ],
+   [
+    "atalcado",
+    56
+   ],
+   [
+    "rosa",
+    49
+   ]
+  ]
  },
  {
   "id": "6d3apso22g8oq2jri9bf",
@@ -181,7 +363,33 @@
   "coracao": "Mel, jasmim, pêssego, flor de laranjeira, gardênia",
   "fundo": "Patchouli, caramelo, cera de abelha, alcaçuz",
   "destaque": true,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "mel",
+    100
+   ],
+   [
+    "doce",
+    86
+   ],
+   [
+    "floral branco",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "caramelo",
+    56
+   ],
+   [
+    "animálico",
+    49
+   ]
+  ]
  },
  {
   "id": "gxg4djks2i3enmbosk4u",
@@ -204,7 +412,33 @@
   "coracao": "Lavanda, flor de laranjeira e jasmim",
   "fundo": "Baunilha de Madagascar, almíscar, cedro e âmbar cinzento",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100
+   ],
+   [
+    "cítrico",
+    86
+   ],
+   [
+    "lavanda",
+    74
+   ],
+   [
+    "baunilha",
+    64
+   ],
+   [
+    "aromático",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-prada-paradoxe",
@@ -227,7 +461,33 @@
   "coracao": "Neroli, flor de laranjeira, jasmim sambac",
   "fundo": "Âmbar, benjoim, baunilha Bourbon, almíscar branco",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100
+   ],
+   [
+    "cítrico",
+    86
+   ],
+   [
+    "doce",
+    74
+   ],
+   [
+    "âmbar",
+    64
+   ],
+   [
+    "baunilha",
+    56
+   ],
+   [
+    "frutado",
+    49
+   ]
+  ]
  },
  {
   "id": "j5mvdqz387n7zwukrl9g",
@@ -250,7 +510,33 @@
   "coracao": "Notas oceânicas, jasmim, pêssego, frésia, alecrim, jacinto, violeta",
   "fundo": "Almíscar branco, cedro, musgo de carvalho, patchouli e âmbar",
   "destaque": false,
-  "familia_hera": "azuis"
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "marinho",
+    74
+   ],
+   [
+    "especiado fresco",
+    64
+   ],
+   [
+    "floral",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-113",
@@ -273,7 +559,33 @@
   "coracao": "Peônia, ylang-ylang",
   "fundo": "Baunilha, fava tonka",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100
+   ],
+   [
+    "baunilha",
+    86
+   ],
+   [
+    "fresco",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "doce",
+    56
+   ],
+   [
+    "floral amarelo",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-322",
@@ -296,7 +608,33 @@
   "coracao": "Rosa, jasmim",
   "fundo": "Almíscar branco, baunilha, patchouli, cedro",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "rosa",
+    100
+   ],
+   [
+    "almiscarado",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "doce",
+    64
+   ],
+   [
+    "floral branco",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-82",
@@ -319,7 +657,33 @@
   "coracao": "Hortelã, Cardamomo, Gengibre",
   "fundo": "Fava Tonka, Âmbar, Couro, Madeira de Gaiac",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "vodka",
+    74
+   ],
+   [
+    "amadeirado",
+    64
+   ],
+   [
+    "verde",
+    56
+   ],
+   [
+    "tropical",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-401",
@@ -342,7 +706,33 @@
   "coracao": "Olíbano, lavanda",
   "fundo": "Baunilha, fava tonka, âmbar",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "âmbar",
+    86
+   ],
+   [
+    "doce",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "especiado suave",
+    56
+   ],
+   [
+    "lavanda",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-126",
@@ -365,7 +755,33 @@
   "coracao": "Gengibre, noz-moscada, jasmim",
   "fundo": "Incenso, cedro, vetiver, sândalo, patchouli, ládano",
   "destaque": false,
-  "familia_hera": "azuis"
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "amadeirado",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "esfumaçado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-81",
@@ -388,7 +804,33 @@
   "coracao": "Gengibre, Noz-moscada, Sálvia, Cedro",
   "fundo": "Almíscar, Sândalo, Vetiver, Cedro, Cumaru",
   "destaque": false,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "verde",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-457",
@@ -411,7 +853,33 @@
   "coracao": "Ambroxan, gerânio, sálvia esclareia",
   "fundo": "Baunilha, cedro, sândalo, laranja amarga, patchouli, couro",
   "destaque": false,
-  "familia_hera": "amadeirados"
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "verde",
+    74
+   ],
+   [
+    "baunilha",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "light-blue-eau-intense",
@@ -434,7 +902,33 @@
   "coracao": "Jasmim, bambu, rosa",
   "fundo": "Cedro, almíscar, âmbar",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "amadeirado",
+    86
+   ],
+   [
+    "fresco",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "aromático",
+    56
+   ],
+   [
+    "almiscarado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-134",
@@ -457,7 +951,33 @@
   "coracao": "Flor de laranjeira, estefanótis, rosa, pêssego, cassis",
   "fundo": "Almíscar, cedro, cashmeran, patchouli",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100
+   ],
+   [
+    "cítrico",
+    86
+   ],
+   [
+    "almiscarado",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "especiado fresco",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-279",
@@ -480,7 +1000,33 @@
   "coracao": "Caramelo, fava tonka",
   "fundo": "Vetiver",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "caramelo",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "doce",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "baunilha",
+    56
+   ],
+   [
+    "âmbar",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-277",
@@ -503,7 +1049,33 @@
   "coracao": "Coco",
   "fundo": "Fava tonka",
   "destaque": false,
-  "familia_hera": "amadeirados"
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "coco",
+    100
+   ],
+   [
+    "baunilha",
+    86
+   ],
+   [
+    "doce",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "lactônico",
+    56
+   ],
+   [
+    "aromático",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-versace-crystal-noir",
@@ -526,7 +1098,33 @@
   "coracao": "Coco, gardênia, flor de laranjeira e peônia",
   "fundo": "Sândalo, almíscar e âmbar",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100
+   ],
+   [
+    "especiado quente",
+    86
+   ],
+   [
+    "floral branco",
+    74
+   ],
+   [
+    "coco",
+    64
+   ],
+   [
+    "lactônico",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-givenchy-l-interdit",
@@ -549,7 +1147,33 @@
   "coracao": "Tuberosa, flor de laranjeira, jasmim sambac",
   "fundo": "Patchouli, baunilha, ambroxan, vetiver",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100
+   ],
+   [
+    "tuberosa",
+    86
+   ],
+   [
+    "doce",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "patchouli",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-483",
@@ -572,7 +1196,33 @@
   "coracao": "Flor de laranjeira da Tunísia",
   "fundo": "Ambrofix, patchouli",
   "destaque": false,
-  "familia_hera": "amadeirados"
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "patchouli",
+    74
+   ],
+   [
+    "especiado fresco",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-385",
@@ -595,7 +1245,33 @@
   "coracao": "Notas atalcadas, almíscar",
   "fundo": "Benjoim, baunilha",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "caramelo",
+    100
+   ],
+   [
+    "atalcado",
+    86
+   ],
+   [
+    "âmbar",
+    74
+   ],
+   [
+    "doce",
+    64
+   ],
+   [
+    "baunilha",
+    56
+   ],
+   [
+    "almiscarado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-154",
@@ -618,7 +1294,33 @@
   "coracao": "Pimenta de Sichuan, lavanda, pimenta-preta, anis-estrelado, noz-moscada",
   "fundo": "Ambroxan, baunilha",
   "destaque": false,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100
+   ],
+   [
+    "cítrico",
+    86
+   ],
+   [
+    "âmbar",
+    74
+   ],
+   [
+    "lavanda",
+    64
+   ],
+   [
+    "almiscarado",
+    56
+   ],
+   [
+    "aromático",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-155",
@@ -641,7 +1343,33 @@
   "coracao": "Rosa, damasco, pêssego",
   "fundo": "Baunilha, almíscar, fava tonka, sândalo, benjoim",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "atalcado",
+    100
+   ],
+   [
+    "baunilha",
+    86
+   ],
+   [
+    "rosa",
+    74
+   ],
+   [
+    "floral",
+    64
+   ],
+   [
+    "frutado",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-114",
@@ -664,7 +1392,33 @@
   "coracao": "Peônia-cereja, frangipani vermelho, flor de laranjeira, jasmim sambac",
   "fundo": "Baunilha solar, Ambrofix, patchouli, fava tonka tostada",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100
+   ],
+   [
+    "tropical",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "baunilha",
+    64
+   ],
+   [
+    "fresco",
+    56
+   ],
+   [
+    "patchouli",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-116",
@@ -687,7 +1441,33 @@
   "coracao": "Jasmim, amêndoa amarga",
   "fundo": "Toffee, fava tonka",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "amêndoa",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "baunilha",
+    56
+   ],
+   [
+    "caramelo",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-400",
@@ -710,7 +1490,33 @@
   "coracao": "Flor de gengibre",
   "fundo": "Baunilha salgada, âmbar cinza, madeira de caxemira",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "salgado",
+    86
+   ],
+   [
+    "floral branco",
+    74
+   ],
+   [
+    "amadeirado",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-209",
@@ -733,7 +1539,29 @@
   "coracao": "Tuberosa, jasmim",
   "fundo": "Baunilha bourbon, cedro, almíscar branco",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100
+   ],
+   [
+    "tuberosa",
+    86
+   ],
+   [
+    "cítrico",
+    74
+   ],
+   [
+    "animálico",
+    64
+   ],
+   [
+    "baunilha",
+    56
+   ]
+  ]
  },
  {
   "id": "dl-des-72",
@@ -756,7 +1584,33 @@
   "coracao": "Lírio-do-vale, lírio, narciso, rosa, jasmim, gengibre, violeta, manjericão",
   "fundo": "Sândalo, âmbar, almíscar, cedro, heliotrópio, patchouli",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "verde",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "especiado quente",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-144",
@@ -780,7 +1634,33 @@
   "coracao": "Jacarandá, jasmim, tuberosa, alcaravia, rosa, lírio-do-vale",
   "fundo": "Baunilha, amêndoa, sândalo, almíscar",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "doce",
+    86
+   ],
+   [
+    "amêndoa",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "amendoado",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-406",
@@ -803,7 +1683,33 @@
   "coracao": "Lavanda",
   "fundo": "Benjoim",
   "destaque": false,
-  "familia_hera": "amadeirados"
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "especiado quente",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "âmbar",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "lavanda",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-260",
@@ -826,7 +1732,33 @@
   "coracao": "Patchouli, mirra",
   "fundo": "Cedro, davana",
   "destaque": false,
-  "familia_hera": "amadeirados"
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100
+   ],
+   [
+    "balsâmico",
+    86
+   ],
+   [
+    "amadeirado",
+    74
+   ],
+   [
+    "especiado quente",
+    64
+   ],
+   [
+    "esfumaçado",
+    56
+   ],
+   [
+    "patchouli",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-463",
@@ -849,7 +1781,33 @@
   "coracao": "Cardamomo, lírio, jasmim, narciso",
   "fundo": "Cedro, almíscar, oliveira, sândalo",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "amadeirado",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "floral branco",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-331",
@@ -872,7 +1830,33 @@
   "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
   "fundo": "Almíscar, patchouli, baunilha",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "almiscarado",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "especiado suave",
+    56
+   ],
+   [
+    "rosa",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-330",
@@ -895,7 +1879,33 @@
   "coracao": "Gerânio, sálvia, água do mar",
   "fundo": "Âmbar cinza, patchouli, vetiver",
   "destaque": false,
-  "familia_hera": "azuis"
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100
+   ],
+   [
+    "marinho",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "herbal",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-189",
@@ -918,7 +1928,33 @@
   "coracao": "Peônia, flor de laranjeira",
   "fundo": "Baunilha de Madagascar, ambroxan, madeira ambarada",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100
+   ],
+   [
+    "fresco",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "baunilha",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "floral branco",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-473",
@@ -941,7 +1977,29 @@
   "coracao": "Pimenta rosa, âmbar branco, cassis",
   "fundo": "Almíscar, musgo de carvalho, patchouli",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "almiscarado",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ]
+  ]
  },
  {
   "id": "dl-des-115",
@@ -964,7 +2022,33 @@
   "coracao": "Algodão-doce, gardênia, gerânio, rosa",
   "fundo": "Baunilha, almíscar, sândalo, caramelo, violeta, patchouli",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100
+   ],
+   [
+    "atalcado",
+    86
+   ],
+   [
+    "almiscarado",
+    74
+   ],
+   [
+    "especiado suave",
+    64
+   ],
+   [
+    "caramelo",
+    56
+   ],
+   [
+    "baunilha",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-295",
@@ -987,7 +2071,33 @@
   "coracao": "Lavanda, davana, artemísia",
   "fundo": "Fava tonka, benjoim, ambreta, patchouli, ládano",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado quente",
+    100
+   ],
+   [
+    "âmbar",
+    86
+   ],
+   [
+    "aromático",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "doce",
+    56
+   ],
+   [
+    "baunilha",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-326",
@@ -1010,7 +2120,29 @@
   "coracao": "Folha de violeta",
   "fundo": "Oud, manteiga de cacau, baunilha",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "cereja",
+    100
+   ],
+   [
+    "ozônico",
+    86
+   ],
+   [
+    "aquático",
+    74
+   ],
+   [
+    "oud",
+    64
+   ],
+   [
+    "verde",
+    56
+   ]
+  ]
  },
  {
   "id": "dl-des-372",
@@ -1033,7 +2165,33 @@
   "coracao": "Almíscar, flores brancas, lírio-aranha vermelho",
   "fundo": "Âmbar, baunilha, musgo, vetiver",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "almiscarado",
+    100
+   ],
+   [
+    "atalcado",
+    86
+   ],
+   [
+    "baunilha",
+    74
+   ],
+   [
+    "floral branco",
+    64
+   ],
+   [
+    "frutado",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-190",
@@ -1056,7 +2214,33 @@
   "coracao": "Frangipani, calêndula, canela",
   "fundo": "Madeira ambarada, benjoim",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "âmbar",
+    86
+   ],
+   [
+    "floral",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "especiado quente",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-458",
@@ -1079,7 +2263,33 @@
   "coracao": "Gerânio, sálvia esclareia, jacinto azul",
   "fundo": "Madeira de oud, âmbar mineral, cedro",
   "destaque": false,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "floral",
+    64
+   ],
+   [
+    "rosa",
+    56
+   ],
+   [
+    "verde",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-azzaro-wanted",
@@ -1102,7 +2312,33 @@
   "coracao": "Cardamomo da Guatemala, zimbro, maçã e gerânio",
   "fundo": "Fava tonka, amberwood e vetiver do Haiti",
   "destaque": false,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100
+   ],
+   [
+    "especiado fresco",
+    86
+   ],
+   [
+    "fresco",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-120",
@@ -1125,7 +2361,33 @@
   "coracao": "Rosa, ylang-ylang",
   "fundo": "Baunilha, patchouli",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "amadeirado",
+    86
+   ],
+   [
+    "floral amarelo",
+    74
+   ],
+   [
+    "patchouli",
+    64
+   ],
+   [
+    "cítrico",
+    56
+   ],
+   [
+    "rosa",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-296",
@@ -1148,7 +2410,33 @@
   "coracao": "Ylang-ylang",
   "fundo": "Absoluto de baunilha",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "floral amarelo",
+    86
+   ],
+   [
+    "doce",
+    74
+   ],
+   [
+    "especiado quente",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-99",
@@ -1171,7 +2459,33 @@
   "coracao": "Vetiver, cacau",
   "fundo": "Fava tonka, patchouli",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100
+   ],
+   [
+    "especiado quente",
+    86
+   ],
+   [
+    "cacau",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "doce",
+    49
+   ]
+  ]
  },
  {
   "id": "px90uamcx0zim01i0u0x",
@@ -1194,7 +2508,33 @@
   "coracao": "Pêssego, rosa",
   "fundo": "Âmbar, patchouli",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100
+   ],
+   [
+    "patchouli",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "rosa",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ],
+   [
+    "floral branco",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-468",
@@ -1217,7 +2557,33 @@
   "coracao": "Caramelo, tuberosa, lírio-do-vale",
   "fundo": "Âmbar, sândalo, akigalawood, baunilha, orquídea",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "amadeirado",
+    100
+   ],
+   [
+    "especiado quente",
+    86
+   ],
+   [
+    "atalcado",
+    74
+   ],
+   [
+    "âmbar",
+    64
+   ],
+   [
+    "especiado suave",
+    56
+   ],
+   [
+    "baunilha",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-472",
@@ -1240,7 +2606,33 @@
   "coracao": "Botão de rosa verde, jasmim, sorbet de framboesa",
   "fundo": "Almíscar branco, incenso, fava tonka",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "almiscarado",
+    100
+   ],
+   [
+    "doce",
+    86
+   ],
+   [
+    "frutado",
+    74
+   ],
+   [
+    "cítrico",
+    64
+   ],
+   [
+    "atalcado",
+    56
+   ],
+   [
+    "floral branco",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-456",
@@ -1263,7 +2655,33 @@
   "coracao": "Folha de violeta, patchouli, papiro, pimenta-preta, ambroxan",
   "fundo": "Almíscar, fava tonka, açafrão, incenso",
   "destaque": false,
-  "familia_hera": "azuis"
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100
+   ],
+   [
+    "cítrico",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "almiscarado",
+    64
+   ],
+   [
+    "aquático",
+    56
+   ],
+   [
+    "especiado quente",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-466",
@@ -1286,7 +2704,33 @@
   "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
   "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "frutado",
+    100
+   ],
+   [
+    "floral",
+    86
+   ],
+   [
+    "verde",
+    74
+   ],
+   [
+    "rosa",
+    64
+   ],
+   [
+    "fresco",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "dl-des-467",
@@ -1332,7 +2776,29 @@
   "coracao": "Pimenta rosa, âmbar branco, cassis",
   "fundo": "Almíscar, musgo de carvalho, patchouli",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "almiscarado",
+    64
+   ],
+   [
+    "amadeirado",
+    56
+   ]
+  ]
  },
  {
   "id": "dl-tes-92",
@@ -1356,7 +2822,33 @@
   "coracao": "Gerânio, sálvia esclareia, AmberMax",
   "fundo": "Cedro, vetiver, patchouli, sândalo, baunilha",
   "destaque": false,
-  "familia_hera": "orientais"
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "aromático",
+    86
+   ],
+   [
+    "verde",
+    74
+   ],
+   [
+    "especiado fresco",
+    64
+   ],
+   [
+    "âmbar",
+    56
+   ],
+   [
+    "cítrico",
+    49
+   ]
+  ]
  },
  {
   "id": "off-0012694",
@@ -1379,7 +2871,33 @@
   "coracao": "Coco, lavanda",
   "fundo": "Cardamomo, cedro da Virgínia, patchouli",
   "destaque": false,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "coco",
+    100
+   ],
+   [
+    "floral",
+    86
+   ],
+   [
+    "amadeirado",
+    74
+   ],
+   [
+    "lavanda",
+    64
+   ],
+   [
+    "doce",
+    56
+   ],
+   [
+    "marinho",
+    49
+   ]
+  ]
  },
  {
   "id": "67d0v9rhp4nl2vqbcfbt",
@@ -1402,7 +2920,33 @@
   "coracao": "Sândalo, bagas de zimbro, patchouli, vetiver, cedro, cardamomo",
   "fundo": "Couro, fava tonka, âmbar, almíscar, musgo de carvalho",
   "destaque": false,
-  "familia_hera": "aromaticos"
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100
+   ],
+   [
+    "amadeirado",
+    86
+   ],
+   [
+    "especiado fresco",
+    74
+   ],
+   [
+    "terroso",
+    64
+   ],
+   [
+    "lavanda",
+    56
+   ],
+   [
+    "musgo",
+    49
+   ]
+  ]
  },
  {
   "id": "kit-calvin-klein-eternity-feminino",
@@ -1428,7 +2972,33 @@
   "coracao": "Cravo, lírio, lírio-do-vale, narciso, calêndula, violeta, rosa, jasmim",
   "fundo": "Heliotrópio, almíscar, sândalo, âmbar, patchouli",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "verde",
+    74
+   ],
+   [
+    "aromático",
+    64
+   ],
+   [
+    "especiado quente",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "kit-michael-kors-pour-femme",
@@ -1454,7 +3024,33 @@
   "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
   "fundo": "Almíscar, patchouli, baunilha",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "floral branco",
+    86
+   ],
+   [
+    "almiscarado",
+    74
+   ],
+   [
+    "frutado",
+    64
+   ],
+   [
+    "especiado suave",
+    56
+   ],
+   [
+    "rosa",
+    49
+   ]
+  ]
  },
  {
   "id": "kit-versace-dylan-blue-pour-femme",
@@ -1480,7 +3076,33 @@
   "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
   "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
   "destaque": false,
-  "familia_hera": "florais"
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "frutado",
+    100
+   ],
+   [
+    "floral",
+    86
+   ],
+   [
+    "verde",
+    74
+   ],
+   [
+    "rosa",
+    64
+   ],
+   [
+    "fresco",
+    56
+   ],
+   [
+    "amadeirado",
+    49
+   ]
+  ]
  },
  {
   "id": "kit-dolce-gabbana-devotion-feminino",
@@ -1506,7 +3128,33 @@
   "coracao": "Panna cotta, flor de laranjeira, rum",
   "fundo": "Baunilha",
   "destaque": false,
-  "familia_hera": "doces"
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100
+   ],
+   [
+    "doce",
+    86
+   ],
+   [
+    "floral branco",
+    74
+   ],
+   [
+    "lactônico",
+    64
+   ],
+   [
+    "rum",
+    56
+   ],
+   [
+    "atalcado",
+    49
+   ]
+  ]
  },
  {
   "id": "kit-calvin-klein-ck-one",
@@ -1532,6 +3180,32 @@
   "coracao": "Lírio-do-vale, jasmim, violeta, rosa, noz-moscada, frésia, raiz de íris",
   "fundo": "Almíscar, cedro, chá verde, sândalo, musgo de carvalho, âmbar",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100
+   ],
+   [
+    "verde",
+    86
+   ],
+   [
+    "atalcado",
+    74
+   ],
+   [
+    "amadeirado",
+    64
+   ],
+   [
+    "floral branco",
+    56
+   ],
+   [
+    "fresco",
+    49
+   ]
+  ]
  }
 ]

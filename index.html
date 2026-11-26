@@ -159,6 +159,13 @@ ol.passos .n{flex:none;width:36px;height:36px;border-radius:18px;background:var(
 .produto .foto{height:400px}
 .produto .foto svg{width:92px;height:140px}
 @media(min-width:900px){.produto{grid-template-columns:1fr 1fr;gap:56px;padding-top:32px}.produto .foto{height:560px}}
+/* acordes principais (Fragrantica) em barrinhas */
+.pr-esq{display:contents}
+.pr-barras{order:3;border:1px solid var(--linha,#e8dcd8);border-radius:14px;padding:18px 18px 14px;background:#fff}
+.pr-barras h3{font-family:'Marcellus',serif;font-weight:400;font-size:18px;margin:0 0 12px}
+.barra{display:block;margin:0 0 7px;padding:7px 12px;border-radius:7px;background:var(--fam,#999);color:var(--fam-txt,#fff);font-size:13px;font-weight:600;white-space:nowrap;text-transform:lowercase;min-width:max-content}
+.pr-barras small{display:block;margin-top:8px;font-size:11px;color:var(--suave,#8a7470)}
+@media(min-width:900px){.pr-esq{display:flex;flex-direction:column;gap:24px}}
 .produto h1{font-size:32px;margin:6px 0}
 @media(min-width:900px){.produto h1{font-size:44px}}
 .preco-grande{font-size:30px;font-weight:600;color:var(--carmim)}
@@ -1051,7 +1058,10 @@ nav.menu a.link-conta{background-image:none}
   <div class="wrap">
     <nav aria-label="Caminho" style="padding-top:16px;font-size:13px" class="muted"><a href="#catalogo" style="font-weight:600">Catálogo</a> / <span id="pr-trilha"></span></nav>
     <div class="produto">
-      <div class="ph foto" id="pr-foto"><svg><use href="#i-frasco"/></svg>Foto real do frasco</div>
+      <div class="pr-esq">
+        <div class="ph foto" id="pr-foto"><svg><use href="#i-frasco"/></svg>Foto real do frasco</div>
+        <div class="pr-barras" id="pr-barras" hidden></div>
+      </div>
       <div>
         <span class="eyebrow" style="color:var(--suave)" id="pr-marca"></span>
         <h1 id="pr-nome"></h1>
@@ -1783,7 +1793,9 @@ var NOTA_FAM = {
   'floral':'florais','floral branco':'florais','floral amarelo':'florais','rosa':'florais','tuberosa':'florais','atalcado':'florais','almiscarado':'florais',
   'doce':'doces','baunilha':'doces','caramelo':'doces','amêndoa':'doces','coco':'doces','mel':'doces','cacau':'doces','fava tonka':'doces','lactônico':'doces','frutado':'doces','cereja':'doces',
   'âmbar':'orientais','ambar':'orientais','balsâmico':'orientais','oud':'orientais','couro':'orientais','alcoólico':'orientais','especiado quente':'orientais','quente especiado':'orientais','canela':'orientais',
-  'amadeirado':'amadeirados','patchouli':'amadeirados'
+  'amadeirado':'amadeirados','patchouli':'amadeirados','terroso':'amadeirados','musgo':'amadeirados','esfumaçado':'amadeirados','tabaco':'amadeirados',
+  'herbal':'aromaticos','especiado suave':'aromaticos','vodka':'citricos','tropical':'doces','amendoado':'doces','gourmand':'doces','rum':'orientais','animálico':'orientais','café':'doces',
+  'íris':'florais','violeta':'florais','cera de abelha':'doces','metálico':'azuis','mineral':'azuis'
 };
 function famNota(a){ return FAM[NOTA_FAM[String(a||'').toLowerCase().trim()]] || null; }
 // família principal do perfume: a 1ª palavra da família olfativa pesa mais, depois as notas em ordem
@@ -1876,6 +1888,9 @@ function mostrarProduto(id){
   document.getElementById('pr-gen').textContent = p.genero;
   document.getElementById('pr-fam').textContent = p.familia || 'Consultar';
   document.getElementById('pr-acordes').innerHTML = (p.acordes || []).map(chipNota).join('');
+  var bx=document.getElementById('pr-barras'), af=p.acordes_fragrantica||[];
+  bx.hidden = !af.length;
+  bx.innerHTML = af.length ? '<h3>Acordes principais</h3>' + af.map(function(x){ var f=famNota(x[0]); return '<span class="barra" style="width:'+x[1]+'%;'+(f?estiloFam(f):'')+'" title="'+esc(f?f.nome:'')+'">'+esc(x[0])+'</span>'; }).join('') + '<small>Fonte: Fragrantica. Cada cor é uma das 7 famílias olfativas.</small>' : '';
   var fp = familiaDe(p);
   document.getElementById('pr-familia').innerHTML = fp ? '<div class="selo-familia" style="'+estiloFam(fp)+'"><div><b>'+esc(fp.nome)+'</b><span>'+esc(fp.clima)+'</span><small>'+esc(fp.ocasiao)+'</small></div></div>' : '';
   var linhas = [];
