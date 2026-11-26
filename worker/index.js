@@ -31,6 +31,7 @@
  *   PLANILHA_SEGREDO   senha combinada com o Apps Script (a mesma escrita lá)
  *   RESEND_API_KEY     chave do Resend (resend.com), que manda os e-mails de entrada e de "pedido enviado"
  *   SUPERFRETE_TOKEN   chave da SuperFrete (cotação de PAC, SEDEX, Jadlog e Loggi)
+ *   BLING_CLIENT_ID / BLING_CLIENT_SECRET   aplicativo do Bling (pedidos e nota fiscal) — ver worker/bling.js
  *
  * A cada 30 minutos (cron em wrangler.toml) o Worker manda para o Drive o arquivo hera-site-dados.json,
  * que o Painel da Hera lê: cadastros, carrinhos e checkouts abandonados e a situação de entrega dos pedidos.
@@ -39,13 +40,16 @@
  * Os cupons ficam na tabela "cupons" do banco D1 (não no código, porque o repositório é público).
  */
 
+import { blingConfigurado, linkConectar, retornoBling, enviarPedidoBling, rodadaBling, notasParaPainel, statusBling, nomeSituacaoNfe } from './bling.js';
+
 const MP_API = 'https://api.mercadopago.com';
 const MAX_ITENS = 30;
 const MAX_QTD = 10;
 
 export default {
   async scheduled(event, env, ctx) {
-    ctx.waitUntil(enviarDadosPainel(env).catch(e => console.error('dados do painel', e && e.message)));
+    ctx.waitUntil((blingConfigurado(env) ? produtosOficiais(env).then(of => rodadaBling(env, of)).catch(e => console.error('bling', e && e.message)) : Promise.resolve())
+      .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message)));
     ctx.waitUntil(lembrarCarrinhos(env).catch(e => console.error('lembrete de carrinho', e && e.message)));
   },
   async fetch(request, env, ctx) {
@@ -75,6 +79,24 @@ export default {
           return json(await pagar(request, env), 200, cors);
         case 'POST /api/mp-webhook':
           return await webhook(request, env, url, ctx);
+        case 'GET /api/bling/conectar':
+          if (!senhaAdminOk(request, env)) return pedeSenha();
+          if (!blingConfigurado(env)) return new Response('Faltam os segredos BLING_CLIENT_ID e BLING_CLIENT_SECRET no Cloudflare.', { status: 503 });
+          return Response.redirect(await linkConectar(env), 302);
+        case 'GET /api/bling/retorno':
+          return await retornoBling(url, env);
+        case 'GET /api/bling/status':
+          if (!senhaAdminOk(request, env)) return pedeSenha();
+          return json(await statusBling(env));
+        case 'POST /api/bling/reenviar': {
+          if (!senhaAdminOk(request, env)) return pedeSenha();
+          const f = await request.formData();
+          const id = String(f.get('id') || '');
+          await env.DB.prepare('UPDATE pedidos SET bling_tentativas = 0, bling_erro = NULL WHERE id = ?1').bind(id).run();
+          let msg = 'enviado';
+          try { await enviarPedidoBling(env, id, await produtosOficiais(env)); } catch (e) { msg = 'erro'; }
+          return Response.redirect(new URL(`/admin?bling=${encodeURIComponent(id)}&r=${msg}`, request.url).toString(), 303);
+        }
         case 'POST /api/newsletter':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await newsletter(request, env, ctx), 200, cors);
@@ -571,6 +593,15 @@ const STATUS = {
   refunded: 'estornado', charged_back: 'estornado',
 };
 
+// pedido acabou de ser pago: lança no Bling (e emite a nota) se o Bling estiver conectado.
+// Se falhar, a rodada de 30 em 30 minutos tenta de novo.
+async function blingAoPagar(env, pedidoId) {
+  if (!blingConfigurado(env)) return;
+  const t = await env.DB.prepare('SELECT conectado_em, erro FROM bling_tokens WHERE id = 1').first().catch(() => null);
+  if (!t || t.erro) return;
+  await enviarPedidoBling(env, pedidoId, await produtosOficiais(env));
+}
+
 async function webhook(request, env, url, ctx) {
   const corpo = await request.json().catch(() => ({}));
   const tipo = corpo.type || corpo.topic || url.searchParams.get('type') || url.searchParams.get('topic');
@@ -617,6 +648,7 @@ async function webhook(request, env, url, ctx) {
     && atualizou.meta && atualizou.meta.changes > 0;
   if (virouPago) {
     const tarefa = avisarPedidoPago(env, new URL(request.url).origin, pedidoId).catch(e => console.error('aviso de pedido', e))
+      .then(() => blingAoPagar(env, pedidoId)).catch(e => console.error('bling', e && e.message))
       .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message));
     if (ctx && ctx.waitUntil) ctx.waitUntil(tarefa); else await tarefa;
   }
@@ -1108,7 +1140,7 @@ async function enviarDadosPainel(env) {
      ORDER BY criado_em DESC LIMIT 200`
   ).bind(iso(agora - 30 * 86400_000), iso(agora - 1800_000)).all()).results || [];
   const ped = (await env.DB.prepare(
-    `SELECT id, pago_em, status, status_envio, transportadora, rastreio_codigo, rastreio_url, enviado_em, entregue_em, modo FROM pedidos
+    `SELECT * FROM pedidos
      WHERE status LIKE 'aprovado%' ORDER BY criado_em DESC LIMIT 300`
   ).all()).results || [];
 
@@ -1121,7 +1153,11 @@ async function enviarDadosPainel(env) {
       return { email: c.email, nome: c.nome || '', telefone: c.telefone || '', atualizado_em: c.atualizado_em, cupom: c.cupom || '', itens: itens.map(i => `${i.quantidade}x ${titulo(i.id)}`).join(' | '), valor: total / 100 };
     }),
     checkouts: chk.map(p => ({ pedido: p.id, criado_em: p.criado_em, status: p.status, email: p.email_cliente || '', ...entregaNome(p.entrega), itens: resumo(p.itens), valor: (p.total_centavos || 0) / 100, cupom: p.cupom || '', modo: p.modo })),
-    pedidos: ped.map(p => ({ pedido: p.id, pago_em: p.pago_em || '', status: p.status, envio: p.status_envio || 'aguardando', transportadora: p.transportadora || '', rastreio: p.rastreio_codigo || '', rastreio_url: p.rastreio_url || '', enviado_em: p.enviado_em || '', entregue_em: p.entregue_em || '', modo: p.modo })),
+    pedidos: ped.map(p => ({ pedido: p.id, canal: 'Site', pago_em: p.pago_em || '', status: p.status, envio: p.status_envio || 'aguardando', transportadora: p.transportadora || '', rastreio: p.rastreio_codigo || '', rastreio_url: p.rastreio_url || '', enviado_em: p.enviado_em || '', entregue_em: p.entregue_em || '', modo: p.modo,
+      ...entregaNome(p.entrega), email: p.email_cliente || '', valor: (p.total_centavos || 0) / 100,
+      bling: p.bling_pedido_id ? 'no Bling' : (p.bling_erro ? 'erro: ' + p.bling_erro : ''),
+      nota: p.nfe_numero || '', nota_situacao: nomeSituacaoNfe(p.nfe_situacao), nota_link: p.nfe_link || p.nota_fiscal_url || '' })),
+    notas_fiscais: await notasParaPainel(env).catch(() => ({ conectado: false, notas: [] })),
   };
   const r = await fetch(env.PLANILHA_URL, {
     method: 'POST', redirect: 'follow',
@@ -1167,6 +1203,12 @@ function senhaAdminOk(request, env) {
 function pedeSenha() {
   return new Response('Senha necessária', { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Painel Hera", charset="UTF-8"' } });
 }
+function blingLinha(p) {
+  if (!p.bling_pedido_id && !p.bling_erro) return '';
+  const nota = p.nfe_numero ? `Nota nº ${escHtml(p.nfe_numero)} · ${escHtml(nomeSituacaoNfe(p.nfe_situacao))}${p.nfe_link ? ` · <a href="${escHtml(p.nfe_link)}" target="_blank" rel="noopener">ver nota</a>` : ''}` : '';
+  const erro = p.bling_erro ? `<span class="er">Bling: ${escHtml(p.bling_erro)}</span> <button formaction="/api/bling/reenviar" formmethod="post">Tentar de novo</button>` : '';
+  return `<div class="bl">${p.bling_pedido_id ? '<span>✔ no Bling</span>' : ''}${nota ? '<span>' + nota + '</span>' : ''}${erro}</div>`;
+}
 const ENVIO = { aguardando: 'Aguardando', separando: 'Em separação', enviado: 'Enviado', entregue: 'Entregue' };
 
 async function painelAdmin(request, env) {
@@ -1195,9 +1237,16 @@ async function painelAdmin(request, env) {
         <label>Link do rastreio (opcional)<input name="rastreio_url" value="${escHtml(p.rastreio_url || '')}" placeholder="https://…"></label>
         <label>Link da nota fiscal (opcional)<input name="nota_fiscal_url" value="${escHtml(p.nota_fiscal_url || '')}" placeholder="https://…"></label>
         <button>Salvar</button>
-      </div></form>`;
+      </div>${blingLinha(p)}</form>`;
   }).join('') || '<p>Nenhum pedido pago ainda.</p>';
-  const aviso = url.searchParams.get('ok') ? `<p class="ok">Pedido ${escHtml(url.searchParams.get('ok'))} atualizado${url.searchParams.get('email') ? ' e e-mail enviado para a cliente' : ''}.</p>` : '';
+  const bs = await statusBling(env);
+  const blingBox = !bs.configurado
+    ? `<div class="bling">Bling: faltam os segredos <b>BLING_CLIENT_ID</b> e <b>BLING_CLIENT_SECRET</b> no Cloudflare.</div>`
+    : bs.conectado
+      ? `<div class="bling ok2">Bling conectado desde ${escHtml((bs.conectado_em || '').slice(0, 16).replace('T', ' '))} · nota automática: <b>${bs.emissao_automatica ? 'ligada' : 'desligada'}</b>${bs.ncm ? '' : ' · <b>falta o NCM (BLING_NCM)</b>'} · <a href="/api/bling/conectar">reconectar</a></div>`
+      : `<div class="bling">${bs.aviso ? escHtml(bs.aviso) + '<br>' : ''}<a class="btn" href="/api/bling/conectar">Conectar Bling</a></div>`;
+  const blingMsg = url.searchParams.get('bling') ? `<p class="ok">Pedido ${escHtml(url.searchParams.get('bling'))}: ${url.searchParams.get('r') === 'erro' ? 'o Bling recusou de novo (veja o motivo no pedido)' : 'enviado para o Bling'}.</p>` : '';
+  const aviso = blingMsg + (url.searchParams.get('ok') ? `<p class="ok">Pedido ${escHtml(url.searchParams.get('ok'))} atualizado${url.searchParams.get('email') ? ' e e-mail enviado para a cliente' : ''}.</p>` : '');
   const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
 <title>Painel Hera — pedidos</title><style>
 body{font-family:Montserrat,Arial,sans-serif;background:#FBF7F2;color:#3B0B18;margin:0;padding:24px}h1{font-family:Georgia,serif;font-weight:400}
@@ -1205,8 +1254,8 @@ body{font-family:Montserrat,Arial,sans-serif;background:#FBF7F2;color:#3B0B18;ma
 .st{padding:2px 10px;border-radius:999px;background:#f3e6e9;font-size:12px}.st-aprovado{background:#dff2e5;color:#1f6b3a}.itens{font-size:14px;margin-bottom:10px}
 .campos{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}label{display:grid;gap:4px;font-size:12px}
 input,select{min-height:38px;border:1px solid #d9cbc4;border-radius:8px;padding:0 10px;font:inherit}button{min-height:40px;border:0;border-radius:999px;background:#3B0B18;color:#fff;font:inherit;cursor:pointer}
-.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}.ent{margin-top:8px;font-size:13px;background:#fbf7f2;border-radius:8px;padding:8px 10px}</style></head><body>
-<h1>Pedidos · Hera Perfumes</h1><p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
+.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}.bling{background:#fff;border:1px solid #eadfd8;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px}.bling.ok2{border-color:#bfe3cb}.btn{display:inline-block;margin-top:6px;background:#3B0B18;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none}.bl{margin-top:10px;font-size:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}.bl .er{color:#9a1c1c}.bl button{min-height:30px;padding:0 14px;font-size:12px}.ent{margin-top:8px;font-size:13px;background:#fbf7f2;border-radius:8px;padding:8px 10px}</style></head><body>
+<h1>Pedidos · Hera Perfumes</h1>${blingBox}<p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
 
@@ -1331,7 +1380,8 @@ function perfilPublico(p) {
 }
 function entregaDe(p) {
   const end = `${p.logradouro}, ${p.numero}${p.complemento ? ' - ' + p.complemento : ''} · ${p.bairro} · ${p.cidade}/${p.uf} · CEP ${p.cep.replace(/(\d{5})(\d{3})/, '$1-$2')}`;
-  return { nome: p.nome, cpf: p.cpf, telefone: p.telefone, endereco: end };
+  return { nome: p.nome, cpf: p.cpf, telefone: p.telefone, endereco: end,
+    logradouro: p.logradouro, numero: p.numero, complemento: p.complemento || '', bairro: p.bairro, cidade: p.cidade, uf: p.uf, cep: p.cep };
 }
 async function lerPerfil(request, env) {
   const s = await sessaoAtual(request, env);

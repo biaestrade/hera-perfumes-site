@@ -77,3 +77,15 @@ PIX_DESCONTO_PCT = "5"
 FRETE_CENTAVOS = "0"
 # para onde vai o e-mail "Pedido novo pago" (pode ser o e-mail do Fernando)
 AVISO_PEDIDO_EMAIL = "contato@heraevodiaperfumes.com.br"
+
+# ---- BLING (pedidos de venda e nota fiscal). Client ID e Client Secret ficam SÓ como segredos no Cloudflare. ----
+# "1" = depois que o pedido entra no Bling, gera a NF-e, manda para a SEFAZ e o Bling envia por e-mail para a cliente.
+# Comece com o Bling em HOMOLOGAÇÃO (Preferências > Notas fiscais) para testar sem valor fiscal.
+BLING_EMITIR_NFE = "1"
+# NCM dos perfumes ao cadastrar o produto no Bling (só números). CONFIRMAR COM O CONTADOR antes de emitir de verdade.
+BLING_NCM = ""
+# Origem da mercadoria na nota: 0 nacional, 2 estrangeira comprada no mercado interno (perfume importado). Contador confirma.
+BLING_ORIGEM = "2"
+# (opcional) ID das formas de pagamento no Bling (Preferências > Formas de pagamento > abrir > número no endereço)
+BLING_FORMA_PIX = ""
+BLING_FORMA_CARTAO = ""
