@@ -24,27 +24,63 @@
   "acordes_fragrantica": [
    [
     "doce",
-    100
+    100,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "baunilha",
-    86
+    81.8,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "frutado",
-    74
+    65.9,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "patchouli",
-    64
+    58.2,
+    "#63652e",
+    "#FFFFFF"
    ],
    [
     "amadeirado",
-    56
+    57.6,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    49
+    54.6,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    53,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "íris",
+    49.1,
+    "#b7a7d7",
+    "#000000"
+   ],
+   [
+    "terroso",
+    48.9,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    47.9,
+    "#CC3300",
+    "#FFFFFF"
    ]
   ]
  },
@@ -73,27 +109,63 @@
   "acordes_fragrantica": [
    [
     "doce",
-    100
+    100,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    86
+    98.9,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "baunilha",
-    74
+    92.2,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "especiado quente",
-    64
+    91.9,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "âmbar",
-    56
+    69.5,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "cacau",
-    49
+    66.9,
+    "#9a3a0d",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    66.7,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "tuberosa",
+    62.6,
+    "#ebfaf3",
+    "#000000"
+   ],
+   [
+    "amêndoa",
+    61.4,
+    "#f1e3c5",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    61.1,
+    "#EEDDCC",
+    "#000000"
    ]
   ]
  },
@@ -122,27 +194,63 @@
   "acordes_fragrantica": [
    [
     "floral branco",
-    100
+    100,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "floral",
-    86
+    87.2,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "frutado",
-    74
+    81.6,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "doce",
-    64
+    64.5,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "fresco",
-    56
+    63.9,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "cítrico",
-    49
+    54.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aquático",
+    54.9,
+    "#63cce2",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    51.5,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "tuberosa",
+    46.7,
+    "#ebfaf3",
+    "#000000"
+   ],
+   [
+    "ozônico",
+    46.7,
+    "#C9FDFB",
+    "#000000"
    ]
   ]
  },
@@ -171,27 +279,63 @@
   "acordes_fragrantica": [
    [
     "especiado quente",
-    100
+    100,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "canela",
-    86
+    80.8,
+    "#D2691E",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    74
+    73,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "âmbar",
-    64
+    62.7,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "amadeirado",
-    56
+    61.3,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "couro",
-    49
+    57,
+    "#78483A",
+    "#FFFFFF"
+   ],
+   [
+    "rosa",
+    52.5,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "animálico",
+    50,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    46.8,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "patchouli",
+    46,
+    "#63652e",
+    "#FFFFFF"
    ]
   ]
  },
@@ -220,27 +364,63 @@
   "acordes_fragrantica": [
    [
     "aromático",
-    100
+    100,
+    "#37a089",
+    "#000000"
    ],
    [
     "baunilha",
-    86
+    95.8,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "especiado suave",
-    74
+    83,
+    "#E27752",
+    "#000000"
    ],
    [
     "lavanda",
-    64
+    78.1,
+    "#9B7DB8",
+    "#000000"
    ],
    [
     "anis",
-    56
+    77.6,
+    "#c3d7b3",
+    "#000000"
    ],
    [
     "almiscarado",
-    49
+    72.8,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    65.5,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "amargo",
+    61.7,
+    "#C1C316",
+    "#000000"
+   ],
+   [
+    "doce",
+    60,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    44.4,
+    "#83C928",
+    "#000000"
    ]
   ]
  },
@@ -269,27 +449,57 @@
   "acordes_fragrantica": [
    [
     "especiado fresco",
-    100
+    100,
+    "#83C928",
+    "#000000"
    ],
    [
     "âmbar",
-    86
+    70.8,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    74
+    69.4,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "aromático",
-    64
+    63.7,
+    "#37a089",
+    "#000000"
    ],
    [
     "almiscarado",
-    56
+    57.4,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "amadeirado",
-    49
+    54.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "lavanda",
+    46.7,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "herbal",
+    45.7,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    45.4,
+    "#CC3300",
+    "#FFFFFF"
    ]
   ]
  },
@@ -318,27 +528,39 @@
   "acordes_fragrantica": [
    [
     "floral",
-    100
+    100,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "almiscarado",
-    86
+    79.4,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "frutado",
-    74
+    67.1,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "amadeirado",
-    64
+    66,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    56
+    52.3,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "rosa",
-    49
+    51.5,
+    "#FE016B",
+    "#FFFFFF"
    ]
   ]
  },
@@ -367,27 +589,63 @@
   "acordes_fragrantica": [
    [
     "mel",
-    100
+    100,
+    "#FAA907",
+    "#000000"
    ],
    [
     "doce",
-    86
+    81.3,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    74
+    75.4,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "cítrico",
-    64
+    63.8,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "caramelo",
-    56
+    57.3,
+    "#DDA356",
+    "#000000"
    ],
    [
     "animálico",
-    49
+    54.1,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "cera de abelha",
+    53.5,
+    "#F0B642",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    50.3,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    48.4,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    45.1,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -416,27 +674,63 @@
   "acordes_fragrantica": [
    [
     "floral branco",
-    100
+    100,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "cítrico",
-    86
+    81.1,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "lavanda",
-    74
+    75.3,
+    "#9B7DB8",
+    "#000000"
    ],
    [
     "baunilha",
-    64
+    64.3,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "aromático",
-    56
+    57.4,
+    "#37a089",
+    "#000000"
    ],
    [
     "doce",
-    49
+    55.5,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    53.1,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "animálico",
+    52.3,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    50.1,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    49.7,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -465,27 +759,57 @@
   "acordes_fragrantica": [
    [
     "floral branco",
-    100
+    100,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "cítrico",
-    86
+    89.6,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "doce",
-    74
+    61.2,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "âmbar",
-    64
+    60.9,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "baunilha",
-    56
+    58.2,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "frutado",
-    49
+    50.2,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    50,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    47.2,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "fresco",
+    46,
+    "#9be5ed",
+    "#000000"
    ]
   ]
  },
@@ -514,27 +838,45 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    65.9,
+    "#37a089",
+    "#000000"
    ],
    [
     "marinho",
-    74
+    57.9,
+    "#0E529B",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    64
+    50.6,
+    "#83C928",
+    "#000000"
    ],
    [
     "floral",
-    56
+    46.8,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "amadeirado",
-    49
+    45.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    44.7,
+    "#9be5ed",
+    "#000000"
    ]
   ]
  },
@@ -563,27 +905,63 @@
   "acordes_fragrantica": [
    [
     "floral",
-    100
+    100,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "baunilha",
-    86
+    88.1,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "fresco",
-    74
+    75.1,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "cítrico",
-    64
+    71.8,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "doce",
-    56
+    69.7,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "floral amarelo",
-    49
+    58.8,
+    "#FFDC10",
+    "#000000"
+   ],
+   [
+    "rosa",
+    58.2,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amêndoa",
+    54.7,
+    "#f1e3c5",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    54.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    51.7,
+    "#37a089",
+    "#000000"
    ]
   ]
  },
@@ -612,27 +990,63 @@
   "acordes_fragrantica": [
    [
     "rosa",
-    100
+    100,
+    "#FE016B",
+    "#FFFFFF"
    ],
    [
     "almiscarado",
-    86
+    79.5,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "frutado",
-    74
+    69,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "doce",
-    64
+    66.7,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    56
+    65.7,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "atalcado",
-    49
+    62.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "floral",
+    61.6,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    57.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aquático",
+    50.8,
+    "#63cce2",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    49.9,
+    "#FFFEC0",
+    "#000000"
    ]
   ]
  },
@@ -661,27 +1075,63 @@
   "acordes_fragrantica": [
    [
     "especiado fresco",
-    100
+    100,
+    "#83C928",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    91.9,
+    "#37a089",
+    "#000000"
    ],
    [
     "vodka",
-    74
+    86.9,
+    "#F3FAF8",
+    "#000000"
    ],
    [
     "amadeirado",
-    64
+    76.3,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "verde",
-    56
+    71,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "tropical",
-    49
+    66.2,
+    "#f6af09",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    65.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "frutado",
+    64.7,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    64.2,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    62.8,
+    "#9be5ed",
+    "#000000"
    ]
   ]
  },
@@ -710,27 +1160,63 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "âmbar",
-    86
+    98.3,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "doce",
-    74
+    59.1,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "aromático",
-    64
+    56.5,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado suave",
-    56
+    52.7,
+    "#E27752",
+    "#000000"
    ],
    [
     "lavanda",
-    49
+    51,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    48.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    47.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    45.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "balsâmico",
+    44,
+    "#ad8359",
+    "#000000"
    ]
   ]
  },
@@ -759,27 +1245,63 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "amadeirado",
-    86
+    82.2,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    74
+    80.2,
+    "#83C928",
+    "#000000"
    ],
    [
     "aromático",
-    64
+    69.9,
+    "#37a089",
+    "#000000"
    ],
    [
     "âmbar",
-    56
+    66.7,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "esfumaçado",
-    49
+    52.6,
+    "#827487",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    50.2,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    50,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    49.7,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    48.9,
+    "#9be5ed",
+    "#000000"
    ]
   ]
  },
@@ -808,27 +1330,63 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "verde",
-    86
+    90.8,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    74
+    82.6,
+    "#83C928",
+    "#000000"
    ],
    [
     "aromático",
-    64
+    76.5,
+    "#37a089",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    72.9,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    49
+    63.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    58.4,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    53.8,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    52.4,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "herbal",
+    48.8,
+    "#6CA47F",
+    "#000000"
    ]
   ]
  },
@@ -857,27 +1415,63 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    94.2,
+    "#37a089",
+    "#000000"
    ],
    [
     "verde",
-    74
+    80.1,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "baunilha",
-    64
+    74.3,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    72.3,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "doce",
-    49
+    70.6,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    66.3,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "gourmand",
+    62.7,
+    "#f0cb7a",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    54.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "frutado",
+    54.2,
+    "#FC4B29",
+    "#000000"
    ]
   ]
  },
@@ -906,27 +1500,51 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "amadeirado",
-    86
+    74.4,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "fresco",
-    74
+    63.1,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    58.6,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "aromático",
-    56
+    54,
+    "#37a089",
+    "#000000"
    ],
    [
     "almiscarado",
-    49
+    49.6,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    46.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "verde",
+    44.3,
+    "#0E8C1D",
+    "#FFFFFF"
    ]
   ]
  },
@@ -955,27 +1573,63 @@
   "acordes_fragrantica": [
    [
     "floral branco",
-    100
+    100,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "cítrico",
-    86
+    93.8,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "almiscarado",
-    74
+    54.4,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    52.3,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "especiado fresco",
-    56
+    51,
+    "#83C928",
+    "#000000"
    ],
    [
     "doce",
-    49
+    50.4,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    50.4,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "rosa",
+    47.2,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    45.5,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "aromático",
+    45.4,
+    "#37a089",
+    "#000000"
    ]
   ]
  },
@@ -1004,27 +1658,51 @@
   "acordes_fragrantica": [
    [
     "caramelo",
-    100
+    100,
+    "#DDA356",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    83.5,
+    "#37a089",
+    "#000000"
    ],
    [
     "doce",
-    74
+    79.2,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    64
+    66.3,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "baunilha",
-    56
+    60.8,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "âmbar",
-    49
+    52,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "especiado suave",
+    46.4,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    45.7,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1053,27 +1731,57 @@
   "acordes_fragrantica": [
    [
     "coco",
-    100
+    100,
+    "#f1e8d4",
+    "#000000"
    ],
    [
     "baunilha",
-    86
+    83.8,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "doce",
-    74
+    76.7,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    64
+    62.7,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "lactônico",
-    56
+    54.5,
+    "#fbf9f2",
+    "#000000"
    ],
    [
     "aromático",
-    49
+    53.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    53.4,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "tropical",
+    51,
+    "#f6af09",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    46.3,
+    "#83C928",
+    "#000000"
    ]
   ]
  },
@@ -1102,27 +1810,63 @@
   "acordes_fragrantica": [
    [
     "especiado fresco",
-    100
+    100,
+    "#83C928",
+    "#000000"
    ],
    [
     "especiado quente",
-    86
+    93.9,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    74
+    91,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "coco",
-    64
+    83.2,
+    "#f1e8d4",
+    "#000000"
    ],
    [
     "lactônico",
-    56
+    66.4,
+    "#fbf9f2",
+    "#000000"
    ],
    [
     "amadeirado",
-    49
+    62.9,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    62.1,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    59,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "doce",
+    58.7,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    54.7,
+    "#E7D8EA",
+    "#000000"
    ]
   ]
  },
@@ -1151,27 +1895,57 @@
   "acordes_fragrantica": [
    [
     "floral branco",
-    100
+    100,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "tuberosa",
-    86
+    65.5,
+    "#ebfaf3",
+    "#000000"
    ],
    [
     "doce",
-    74
+    50.8,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    64
+    49.6,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    48.7,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "patchouli",
-    49
+    47.2,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    46.9,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "frutado",
+    46.6,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "animálico",
+    45.9,
+    "#8E4B13",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1200,27 +1974,39 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "floral branco",
-    86
+    82.9,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "patchouli",
-    74
+    52.9,
+    "#63652e",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    64
+    51.8,
+    "#83C928",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    48.1,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "doce",
-    49
+    45.9,
+    "#ee363b",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1249,27 +2035,51 @@
   "acordes_fragrantica": [
    [
     "caramelo",
-    100
+    100,
+    "#DDA356",
+    "#000000"
    ],
    [
     "atalcado",
-    86
+    81.4,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "âmbar",
-    74
+    65.7,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "doce",
-    64
+    65.1,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "baunilha",
-    56
+    64.5,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "almiscarado",
-    49
+    57.1,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    47.9,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    47.4,
+    "#ad8359",
+    "#000000"
    ]
   ]
  },
@@ -1298,27 +2108,63 @@
   "acordes_fragrantica": [
    [
     "especiado fresco",
-    100
+    100,
+    "#83C928",
+    "#000000"
    ],
    [
     "cítrico",
-    86
+    82.3,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "âmbar",
-    74
+    72.2,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "lavanda",
-    64
+    57.2,
+    "#9B7DB8",
+    "#000000"
    ],
    [
     "almiscarado",
-    56
+    55.3,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "aromático",
-    49
+    51.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "herbal",
+    50.8,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "anis",
+    48.9,
+    "#c3d7b3",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    48.7,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "floral",
+    48.3,
+    "#FF5F8D",
+    "#000000"
    ]
   ]
  },
@@ -1347,27 +2193,63 @@
   "acordes_fragrantica": [
    [
     "atalcado",
-    100
+    100,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "baunilha",
-    86
+    98.1,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "rosa",
-    74
+    82.7,
+    "#FE016B",
+    "#FFFFFF"
    ],
    [
     "floral",
-    64
+    75.7,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "frutado",
-    56
+    67.3,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "doce",
-    49
+    64.9,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    63,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "íris",
+    60.4,
+    "#b7a7d7",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    58,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    55.8,
+    "#bc4d10",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1396,27 +2278,39 @@
   "acordes_fragrantica": [
    [
     "floral",
-    100
+    100,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "tropical",
-    86
+    89.5,
+    "#f6af09",
+    "#000000"
    ],
    [
     "frutado",
-    74
+    67.7,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "baunilha",
-    64
+    64.9,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "fresco",
-    56
+    55.9,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "patchouli",
-    49
+    47.4,
+    "#63652e",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1445,27 +2339,57 @@
   "acordes_fragrantica": [
    [
     "doce",
-    100
+    100,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    86
+    70.2,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "amêndoa",
-    74
+    60.6,
+    "#f1e3c5",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    60,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "baunilha",
-    56
+    55.9,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "caramelo",
-    49
+    51.7,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    48.5,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "amendoado",
+    48.3,
+    "#b4955f",
+    "#000000"
+   ],
+   [
+    "floral",
+    47.3,
+    "#FF5F8D",
+    "#000000"
    ]
   ]
  },
@@ -1494,27 +2418,63 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "salgado",
-    86
+    86.4,
+    "#e9fff9",
+    "#000000"
    ],
    [
     "floral branco",
-    74
+    77.6,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "amadeirado",
-    64
+    72.1,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "âmbar",
-    56
+    63.4,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    49
+    62.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    61.1,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "balsâmico",
+    59.4,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "marinho",
+    58.2,
+    "#0E529B",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    49.5,
+    "#83C928",
+    "#000000"
    ]
   ]
  },
@@ -1543,23 +2503,33 @@
   "acordes_fragrantica": [
    [
     "floral branco",
-    100
+    100,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "tuberosa",
-    86
+    61.1,
+    "#ebfaf3",
+    "#000000"
    ],
    [
     "cítrico",
-    74
+    58.2,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "animálico",
-    64
+    46.9,
+    "#8E4B13",
+    "#FFFFFF"
    ],
    [
     "baunilha",
-    56
+    44.1,
+    "#FFFEC0",
+    "#000000"
    ]
   ]
  },
@@ -1588,27 +2558,63 @@
   "acordes_fragrantica": [
    [
     "floral",
-    100
+    100,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "floral branco",
-    86
+    82.9,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "verde",
-    74
+    73.7,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "aromático",
-    64
+    67.1,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado quente",
-    56
+    63.2,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    49
+    59.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    49.6,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "herbal",
+    48.8,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    48.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    48.3,
+    "#E27752",
+    "#000000"
    ]
   ]
  },
@@ -1638,27 +2644,63 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "doce",
-    86
+    85.9,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "amêndoa",
-    74
+    85.2,
+    "#f1e3c5",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    74,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "amendoado",
-    56
+    69.1,
+    "#b4955f",
+    "#000000"
    ],
    [
     "atalcado",
-    49
+    68.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    62.2,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "coco",
+    59.9,
+    "#f1e8d4",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    53.2,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "balsâmico",
+    49.7,
+    "#ad8359",
+    "#000000"
    ]
   ]
  },
@@ -1687,27 +2729,63 @@
   "acordes_fragrantica": [
    [
     "especiado quente",
-    100
+    100,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "aromático",
-    86
+    80.1,
+    "#37a089",
+    "#000000"
    ],
    [
     "âmbar",
-    74
+    76.6,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    64
+    74.9,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    68.3,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "lavanda",
-    49
+    60.8,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    48.9,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "herbal",
+    47.6,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    46.5,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    46.3,
+    "#FFFEC0",
+    "#000000"
    ]
   ]
  },
@@ -1736,27 +2814,63 @@
   "acordes_fragrantica": [
    [
     "âmbar",
-    100
+    100,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "balsâmico",
-    86
+    81.3,
+    "#ad8359",
+    "#000000"
    ],
    [
     "amadeirado",
-    74
+    80.9,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "especiado quente",
-    64
+    80.6,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "esfumaçado",
-    56
+    72.4,
+    "#827487",
+    "#FFFFFF"
    ],
    [
     "patchouli",
-    49
+    69.1,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "couro",
+    64.4,
+    "#78483A",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    49.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "animálico",
+    47.2,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    46.1,
+    "#ee363b",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1785,27 +2899,45 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "amadeirado",
-    86
+    65.2,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    74
+    49.8,
+    "#83C928",
+    "#000000"
    ],
    [
     "aromático",
-    64
+    48.7,
+    "#37a089",
+    "#000000"
    ],
    [
     "floral branco",
-    56
+    46.4,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "atalcado",
-    49
+    44.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    44.1,
+    "#9be5ed",
+    "#000000"
    ]
   ]
  },
@@ -1834,27 +2966,63 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "floral branco",
-    86
+    93.1,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "almiscarado",
-    74
+    87.2,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    86.8,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "especiado suave",
-    56
+    71.2,
+    "#E27752",
+    "#000000"
    ],
    [
     "rosa",
-    49
+    63.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    61,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    60.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    60,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    58.9,
+    "#EEDDCC",
+    "#000000"
    ]
   ]
  },
@@ -1883,27 +3051,63 @@
   "acordes_fragrantica": [
    [
     "aromático",
-    100
+    100,
+    "#37a089",
+    "#000000"
    ],
    [
     "marinho",
-    86
+    66.7,
+    "#0E529B",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    74
+    66.7,
+    "#83C928",
+    "#000000"
    ],
    [
     "cítrico",
-    64
+    56.4,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "âmbar",
-    56
+    54.3,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "herbal",
-    49
+    53.4,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    50.6,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "salgado",
+    46.6,
+    "#e9fff9",
+    "#000000"
+   ],
+   [
+    "animálico",
+    44.6,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    44.3,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1932,27 +3136,45 @@
   "acordes_fragrantica": [
    [
     "floral",
-    100
+    100,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "fresco",
-    86
+    66.3,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "frutado",
-    74
+    63.3,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "baunilha",
-    64
+    62.7,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "âmbar",
-    56
+    53.7,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    49
+    51,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "rosa",
+    47.3,
+    "#FE016B",
+    "#FFFFFF"
    ]
   ]
  },
@@ -1981,23 +3203,33 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    42.9,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado fresco",
-    74
+    42.2,
+    "#83C928",
+    "#000000"
    ],
    [
     "almiscarado",
-    64
+    38.8,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    38.3,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2026,27 +3258,63 @@
   "acordes_fragrantica": [
    [
     "doce",
-    100
+    100,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    86
+    78.9,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "almiscarado",
-    74
+    76.6,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "especiado suave",
-    64
+    67.1,
+    "#E27752",
+    "#000000"
    ],
    [
     "caramelo",
-    56
+    67,
+    "#DDA356",
+    "#000000"
    ],
    [
     "baunilha",
-    49
+    66.3,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "floral",
+    58.6,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    55.2,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    53.9,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    51.2,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2075,27 +3343,63 @@
   "acordes_fragrantica": [
    [
     "especiado quente",
-    100
+    100,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "âmbar",
-    86
+    83.8,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "aromático",
-    74
+    81.6,
+    "#37a089",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    81.4,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "doce",
-    56
+    77.5,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "baunilha",
-    49
+    70.2,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    62,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "canela",
+    57.4,
+    "#D2691E",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    47.4,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    46.2,
+    "#83C928",
+    "#000000"
    ]
   ]
  },
@@ -2124,23 +3428,33 @@
   "acordes_fragrantica": [
    [
     "cereja",
-    100
+    100,
+    "#ce1d33",
+    "#FFFFFF"
    ],
    [
     "ozônico",
-    86
+    71.6,
+    "#C9FDFB",
+    "#000000"
    ],
    [
     "aquático",
-    74
+    60.7,
+    "#63cce2",
+    "#000000"
    ],
    [
     "oud",
-    64
+    59.9,
+    "#544136",
+    "#FFFFFF"
    ],
    [
     "verde",
-    56
+    43.1,
+    "#0E8C1D",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2169,27 +3483,63 @@
   "acordes_fragrantica": [
    [
     "almiscarado",
-    100
+    100,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "atalcado",
-    86
+    95.6,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "baunilha",
-    74
+    85.6,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "floral branco",
-    64
+    77.5,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "frutado",
-    56
+    73.5,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "doce",
-    49
+    66.8,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    55.1,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    52.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "animálico",
+    50,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "terroso",
+    47.7,
+    "#544838",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2218,27 +3568,51 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "âmbar",
-    86
+    73.6,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "floral",
-    74
+    65.8,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "aromático",
-    64
+    61.4,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado quente",
-    56
+    57,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "amadeirado",
-    49
+    56.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    52.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "tropical",
+    50.9,
+    "#f6af09",
+    "#000000"
    ]
   ]
  },
@@ -2267,27 +3641,39 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    69.9,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado fresco",
-    74
+    61.7,
+    "#83C928",
+    "#000000"
    ],
    [
     "floral",
-    64
+    49.4,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "rosa",
-    56
+    47,
+    "#FE016B",
+    "#FFFFFF"
    ],
    [
     "verde",
-    49
+    44.2,
+    "#0E8C1D",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2316,27 +3702,39 @@
   "acordes_fragrantica": [
    [
     "aromático",
-    100
+    100,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado fresco",
-    86
+    86,
+    "#83C928",
+    "#000000"
    ],
    [
     "fresco",
-    74
+    74,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "cítrico",
-    64
+    64,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "âmbar",
-    56
+    56,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "amadeirado",
-    49
+    49,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2365,27 +3763,63 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "amadeirado",
-    86
+    92.6,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "floral amarelo",
-    74
+    91.3,
+    "#FFDC10",
+    "#000000"
    ],
    [
     "patchouli",
-    64
+    88.4,
+    "#63652e",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    56
+    88.4,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "rosa",
-    49
+    81.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    77.2,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    59.2,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    58,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "floral",
+    56.3,
+    "#FF5F8D",
+    "#000000"
    ]
   ]
  },
@@ -2414,27 +3848,39 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "floral amarelo",
-    86
+    93.5,
+    "#FFDC10",
+    "#000000"
    ],
    [
     "doce",
-    74
+    75.8,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "especiado quente",
-    64
+    57.5,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "amadeirado",
-    56
+    55.4,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    49
+    51,
+    "#EEDDCC",
+    "#000000"
    ]
   ]
  },
@@ -2463,27 +3909,63 @@
   "acordes_fragrantica": [
    [
     "âmbar",
-    100
+    100,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "especiado quente",
-    86
+    97.5,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "cacau",
-    74
+    83.6,
+    "#9a3a0d",
+    "#FFFFFF"
    ],
    [
     "aromático",
-    64
+    75.7,
+    "#37a089",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    72.9,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "doce",
-    49
+    68.8,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    67.3,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    58.6,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "terroso",
+    54.7,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    52.2,
+    "#FFFEC0",
+    "#000000"
    ]
   ]
  },
@@ -2512,27 +3994,63 @@
   "acordes_fragrantica": [
    [
     "âmbar",
-    100
+    100,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "patchouli",
-    86
+    82.9,
+    "#63652e",
+    "#FFFFFF"
    ],
    [
     "frutado",
-    74
+    77.8,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "rosa",
-    64
+    75.7,
+    "#FE016B",
+    "#FFFFFF"
    ],
    [
     "amadeirado",
-    56
+    61.8,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    49
+    61,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    56.5,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    54.2,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "terroso",
+    51.2,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    50.5,
+    "#ee363b",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2561,27 +4079,63 @@
   "acordes_fragrantica": [
    [
     "amadeirado",
-    100
+    100,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "especiado quente",
-    86
+    91.5,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    74
+    70.6,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "âmbar",
-    64
+    68.9,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "especiado suave",
-    56
+    63.3,
+    "#E27752",
+    "#000000"
    ],
    [
     "baunilha",
-    49
+    62.7,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "oud",
+    61.4,
+    "#544136",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    61.3,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "caramelo",
+    54.6,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    54.3,
+    "#edf2fb",
+    "#000000"
    ]
   ]
  },
@@ -2610,27 +4164,57 @@
   "acordes_fragrantica": [
    [
     "almiscarado",
-    100
+    100,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "doce",
-    86
+    83,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "frutado",
-    74
+    79.3,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "cítrico",
-    64
+    74.1,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "atalcado",
-    56
+    71.3,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "floral branco",
-    49
+    58.1,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    52,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "aromático",
+    45.6,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    44.3,
+    "#E27752",
+    "#000000"
    ]
   ]
  },
@@ -2659,27 +4243,63 @@
   "acordes_fragrantica": [
    [
     "âmbar",
-    100
+    100,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    86
+    92.2,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "especiado fresco",
-    74
+    75,
+    "#83C928",
+    "#000000"
    ],
    [
     "almiscarado",
-    64
+    71.1,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "aquático",
-    56
+    69.8,
+    "#63cce2",
+    "#000000"
    ],
    [
     "especiado quente",
-    49
+    64.6,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    54.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    52.5,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "aromático",
+    51.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "esfumaçado",
+    49.8,
+    "#827487",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2708,27 +4328,51 @@
   "acordes_fragrantica": [
    [
     "frutado",
-    100
+    100,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "floral",
-    86
+    79.6,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "verde",
-    74
+    66.3,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "rosa",
-    64
+    64.9,
+    "#FE016B",
+    "#FFFFFF"
    ],
    [
     "fresco",
-    56
+    62.9,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "amadeirado",
-    49
+    49,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    45,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    45,
+    "#E7D8EA",
+    "#000000"
    ]
   ]
  },
@@ -2753,7 +4397,69 @@
   "coracao": "Goiaba, frésia, cassis, jasmim",
   "fundo": "Almíscar, Clearwood, cedro",
   "destaque": false,
-  "familia_hera": "citricos"
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    81.7,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "frutado",
+    64.8,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    62.5,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    61.9,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "aromático",
+    58,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "floral",
+    55.4,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "fresco",
+    54.6,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    47.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "tropical",
+    46.6,
+    "#f6af09",
+    "#000000"
+   ]
+  ]
  },
  {
   "id": "dl-des-459",
@@ -2780,23 +4486,33 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    42.9,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado fresco",
-    74
+    42.2,
+    "#83C928",
+    "#000000"
    ],
    [
     "almiscarado",
-    64
+    38.8,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "amadeirado",
-    56
+    38.3,
+    "#774414",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2826,27 +4542,63 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "aromático",
-    86
+    93.8,
+    "#37a089",
+    "#000000"
    ],
    [
     "verde",
-    74
+    89.2,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    64
+    66.6,
+    "#83C928",
+    "#000000"
    ],
    [
     "âmbar",
-    56
+    62.2,
+    "#bc4d10",
+    "#FFFFFF"
    ],
    [
     "cítrico",
-    49
+    56.2,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "frutado",
+    56,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    53.3,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    52,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    51.5,
+    "#9be5ed",
+    "#000000"
    ]
   ]
  },
@@ -2875,27 +4627,63 @@
   "acordes_fragrantica": [
    [
     "aromático",
-    100
+    100,
+    "#37a089",
+    "#000000"
    ],
    [
     "coco",
-    86
+    94.4,
+    "#f1e8d4",
+    "#000000"
    ],
    [
     "especiado fresco",
-    74
+    80,
+    "#83C928",
+    "#000000"
    ],
    [
     "amadeirado",
-    64
+    78.4,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "especiado quente",
-    56
+    65.1,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "lavanda",
-    49
+    62.2,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "doce",
+    57.4,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    55.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "lactônico",
+    52.6,
+    "#fbf9f2",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    49.3,
+    "#FFFEC0",
+    "#000000"
    ]
   ]
  },
@@ -2924,27 +4712,63 @@
   "acordes_fragrantica": [
    [
     "aromático",
-    100
+    100,
+    "#37a089",
+    "#000000"
    ],
    [
     "amadeirado",
-    86
+    86.6,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "especiado fresco",
-    74
+    70.8,
+    "#83C928",
+    "#000000"
    ],
    [
     "terroso",
-    64
+    66.6,
+    "#544838",
+    "#FFFFFF"
    ],
    [
     "lavanda",
-    56
+    62.6,
+    "#9B7DB8",
+    "#000000"
    ],
    [
     "musgo",
-    49
+    58,
+    "#5B6B32",
+    "#FFFFFF"
+   ],
+   [
+    "couro",
+    53.5,
+    "#78483A",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    53.1,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    52.7,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    49.6,
+    "#CC3300",
+    "#FFFFFF"
    ]
   ]
  },
@@ -2976,27 +4800,63 @@
   "acordes_fragrantica": [
    [
     "floral",
-    100
+    100,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "floral branco",
-    86
+    82.9,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "verde",
-    74
+    73.7,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "aromático",
-    64
+    67.1,
+    "#37a089",
+    "#000000"
    ],
    [
     "especiado quente",
-    56
+    63.2,
+    "#CC3300",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    49
+    59.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    49.6,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "herbal",
+    48.8,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    48.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    48.3,
+    "#E27752",
+    "#000000"
    ]
   ]
  },
@@ -3028,27 +4888,63 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "floral branco",
-    86
+    93.1,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "almiscarado",
-    74
+    87.2,
+    "#E7D8EA",
+    "#000000"
    ],
    [
     "frutado",
-    64
+    86.8,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "especiado suave",
-    56
+    71.2,
+    "#E27752",
+    "#000000"
    ],
    [
     "rosa",
-    49
+    63.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    61,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    60.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    60,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    58.9,
+    "#EEDDCC",
+    "#000000"
    ]
   ]
  },
@@ -3080,27 +4976,51 @@
   "acordes_fragrantica": [
    [
     "frutado",
-    100
+    100,
+    "#FC4B29",
+    "#000000"
    ],
    [
     "floral",
-    86
+    79.6,
+    "#FF5F8D",
+    "#000000"
    ],
    [
     "verde",
-    74
+    66.3,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "rosa",
-    64
+    64.9,
+    "#FE016B",
+    "#FFFFFF"
    ],
    [
     "fresco",
-    56
+    62.9,
+    "#9be5ed",
+    "#000000"
    ],
    [
     "amadeirado",
-    49
+    49,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    45,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    45,
+    "#E7D8EA",
+    "#000000"
    ]
   ]
  },
@@ -3132,27 +5052,45 @@
   "acordes_fragrantica": [
    [
     "baunilha",
-    100
+    100,
+    "#FFFEC0",
+    "#000000"
    ],
    [
     "doce",
-    86
+    92,
+    "#ee363b",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    74
+    65.5,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "lactônico",
-    64
+    51.7,
+    "#fbf9f2",
+    "#000000"
    ],
    [
     "rum",
-    56
+    51.4,
+    "#AC2005",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    49
+    51,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    47.7,
+    "#F9FF52",
+    "#000000"
    ]
   ]
  },
@@ -3184,27 +5122,63 @@
   "acordes_fragrantica": [
    [
     "cítrico",
-    100
+    100,
+    "#F9FF52",
+    "#000000"
    ],
    [
     "verde",
-    86
+    72.6,
+    "#0E8C1D",
+    "#FFFFFF"
    ],
    [
     "atalcado",
-    74
+    56.1,
+    "#EEDDCC",
+    "#000000"
    ],
    [
     "amadeirado",
-    64
+    55.8,
+    "#774414",
+    "#FFFFFF"
    ],
    [
     "floral branco",
-    56
+    54.2,
+    "#edf2fb",
+    "#000000"
    ],
    [
     "fresco",
-    49
+    53.4,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "aromático",
+    52.6,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    47.9,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "floral",
+    47.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    47.1,
+    "#E7D8EA",
+    "#000000"
    ]
   ]
  }
