@@ -188,7 +188,10 @@ ol.passos .n{flex:none;width:36px;height:36px;border-radius:18px;background:var(
 .ficha div{padding:16px;display:flex;flex-direction:column;gap:4px;font-size:14px;border-bottom:1px solid var(--linha)}
 .ficha div:nth-child(odd){border-right:1px solid var(--linha)}
 .ficha div:nth-last-child(-n+2){border-bottom:0}
-.ficha.sem-perf div:nth-last-child(-n+4){border-bottom:0}
+.ficha.sem-perf div:nth-last-child(-n+3){border-bottom:0}
+.ficha .ficha-larga{grid-column:1 / -1;border-right:0!important}
+.ficha div:nth-last-child(2):not(.ficha-larga),.ficha div:nth-last-child(3):not(.ficha-larga){border-bottom:1px solid var(--linha)}
+.ficha.sem-perf div:nth-last-child(2),.ficha.sem-perf div:nth-last-child(3){border-bottom:0}
 .ficha span{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--suave)}
 
 /* originalidade */
@@ -1090,8 +1093,7 @@ nav.menu a.link-conta{background-image:none}
           <div><span>FAMÍLIA</span><b style="font-weight:400" id="pr-fam"></b></div>
           <div><span>CONCENTRAÇÃO</span><b style="font-weight:400" id="pr-conc"></b></div>
           <div><span>VOLUME</span><b style="font-weight:400" id="pr-vol"></b></div>
-          <div class="ficha-vazio" id="pr-perf-vazio" aria-hidden="true"></div>
-          <div id="pr-perf-cx"><span id="pr-perf-rot">PERFUMISTAS</span><b style="font-weight:400" id="pr-perf"></b></div>
+          <div id="pr-perf-cx" class="ficha-larga"><span id="pr-perf-rot">PERFUMISTAS</span><b style="font-weight:400" id="pr-perf"></b></div>
         </div>
       </div>
     </div>
@@ -1897,7 +1899,7 @@ function mostrarProduto(id){
   var nos = p.perfumistas || [];
   document.getElementById('pr-perf').textContent = nos.join(', ');
   document.getElementById('pr-perf-rot').textContent = nos.length > 1 ? 'PERFUMISTAS' : 'PERFUMISTA';
-  document.getElementById('pr-perf-cx').style.display = document.getElementById('pr-perf-vazio').style.display = nos.length ? '' : 'none';
+  document.getElementById('pr-perf-cx').style.display = nos.length ? '' : 'none';
   document.querySelector('.ficha').classList.toggle('sem-perf', !nos.length);
   document.getElementById('pr-gen').textContent = p.genero;
   document.getElementById('pr-fam').textContent = p.familia || 'Consultar';
