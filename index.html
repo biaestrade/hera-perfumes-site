@@ -1905,7 +1905,7 @@ function mostrarProduto(id){
   document.getElementById('pr-fam').textContent = p.familia || 'Consultar';
   document.getElementById('pr-acordes').innerHTML = (p.acordes || []).map(chipNota).join('');
   var bx=document.getElementById('pr-barras'), af=p.acordes_fragrantica||[];
-  bx.hidden = !af.length;
+  bx.hidden = true; // bloco de barrinhas escondido a pedido (dados continuam no produtos.json)
   bx.innerHTML = af.length ? '<h3>Acordes principais</h3>' + af.map(function(x){ var f=famNota(x[0]); var cor = x[2] ? '--fam:'+x[2]+';--fam-txt:'+(x[3]||'#000') : (f?estiloFam(f):''); return '<span class="barra" style="width:'+x[1]+'%;'+cor+'">'+esc(x[0])+'</span>'; }).join('') + '<small>Fonte e cores: Fragrantica.</small>' : '';
   var fp = familiaDe(p);
   document.getElementById('pr-familia').innerHTML = fp ? '<div class="selo-familia" style="'+estiloFam(fp)+'"><div><b>'+esc(fp.nome)+'</b><span>'+esc(fp.clima)+'</span><small>'+esc(fp.ocasiao)+'</small></div></div>' : '';
