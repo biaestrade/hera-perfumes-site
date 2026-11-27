@@ -1204,8 +1204,14 @@ async function enviarDadosPainel(env) {
      ORDER BY criado_em DESC LIMIT 300`
   ).all()).results || [];
 
+  // códigos promocionais ativos e dentro da validade (o Painel marca "no site" sozinho)
+  const hojeBr = new Date(agora - 3 * 3600e3).toISOString().slice(0, 10);
+  const cuponsAtivos = ((await env.DB.prepare(
+    `SELECT codigo FROM cupons WHERE ativo = 1 AND (valido_ate IS NULL OR valido_ate = '' OR substr(valido_ate, 1, 10) >= ?1) ORDER BY codigo`
+  ).bind(hojeBr).all()).results || []).map(c => c.codigo);
+
   const dados = {
-    gerado_em: iso(agora), modo: env.MODO || 'teste',
+    gerado_em: iso(agora), modo: env.MODO || 'teste', cupons_ativos: cuponsAtivos,
     cadastros: cad.map(c => ({ email: c.email, nome: c.nome || '', telefone: c.telefone || '', cidade: c.cidade ? `${c.cidade}/${c.uf || ''}` : '', criado_em: c.criado_em, ultimo_acesso: c.ultimo_acesso || '', promocoes: !!c.aceite_promocoes })),
     carrinhos: car.map(c => {
       let itens = []; try { itens = JSON.parse(c.itens); } catch (e) {}
@@ -1224,11 +1230,60 @@ async function enviarDadosPainel(env) {
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ segredo: env.PLANILHA_SEGREDO, aba: 'painel', dados }),
   });
-  const txt = (await r.text().catch(() => '')).slice(0, 300);
-  const ok = r.ok && !/"ok"\s*:\s*false|erro|error|exception/i.test(txt);
+  const txt = await r.text().catch(() => '');
+  let resp = null; try { resp = JSON.parse(txt); } catch (e) {}
+  const ok = r.ok && !!resp && resp.ok === true;
+  let cuponsMsg = 'cupons do Painel: arquivo não lido (nada mudou)';
+  if (ok && Array.isArray(resp.cupons)) {
+    try { cuponsMsg = await aplicarCuponsDoPainel(env, resp.cupons); }
+    catch (e) { cuponsMsg = 'cupons do Painel: erro (' + String(e && e.message).slice(0, 80) + '), nada mudou'; }
+  }
   await env.DB.prepare('INSERT OR REPLACE INTO sincronia (nome, em, ok, resultado) VALUES (?1, ?2, ?3, ?4)')
-    .bind('painel', new Date().toISOString(), ok ? 1 : 0, `${r.status} ${txt} · ${dados.cadastros.length} cadastros, ${dados.pedidos.length} pedidos`).run().catch(() => {});
-  if (!ok) throw new Error('Apps Script respondeu ' + r.status + ' ' + txt);
+    .bind('painel', new Date().toISOString(), ok ? 1 : 0,
+      `${r.status} ${ok ? 'ok' : txt.slice(0, 200)} · ${dados.cadastros.length} cadastros, ${dados.pedidos.length} pedidos · ${cuponsMsg}`).run().catch(() => {});
+  if (!ok) throw new Error('Apps Script respondeu ' + r.status + ' ' + txt.slice(0, 200));
+}
+
+// Cupons que vêm do Painel (hera-cupons.json): grava/atualiza na tabela cupons.
+// Formato de cada um: {codigo, tipo:"valor"|"pct", valor, validoAte, representante, comissao, condicoes, ativo}
+// Nunca mexe em nada se a lista vier vazia ou se nenhum cupom for válido.
+// Cupom que veio do Painel e sumiu do arquivo: ativo = 0 (não apaga). Cupons criados no site ficam como estão.
+async function aplicarCuponsDoPainel(env, lista) {
+  const num = v => { const n = Number(String(v ?? '').replace(',', '.')); return Number.isFinite(n) ? n : NaN; };
+  const validos = [];
+  for (const c of Array.isArray(lista) ? lista : []) {
+    if (!c || typeof c !== 'object') continue;
+    const codigo = normalizaCupom(c.codigo);
+    const tipo = c.tipo === 'pct' ? 'pct' : c.tipo === 'valor' ? 'valor' : '';
+    const valor = num(c.valor);
+    if (!codigo || !tipo || !(valor > 0) || (tipo === 'pct' && valor > 90)) continue;
+    const ate = String(c.validoAte || '').slice(0, 10);
+    const comissao = num(c.comissao);
+    validos.push({
+      codigo,
+      desconto_pct: tipo === 'pct' ? valor : 0,
+      desconto_centavos: tipo === 'valor' ? Math.round(valor * 100) : 0,
+      valido_ate: /^\d{4}-\d{2}-\d{2}$/.test(ate) ? ate : null,
+      representante: String(c.representante || '').trim().slice(0, 80) || 'Hera',
+      comissao_pct: comissao >= 0 && comissao <= 100 ? comissao : 0,
+      condicoes: c.condicoes ? String(c.condicoes).trim().slice(0, 300) : null,
+      ativo: c.ativo === false || c.ativo === 0 || c.ativo === 'nao' ? 0 : 1,
+    });
+  }
+  if (!validos.length) return `cupons do Painel: ${Array.isArray(lista) ? lista.length : 0} no arquivo, nenhum válido (nada mudou)`;
+  const stmts = validos.map(v => env.DB.prepare(
+    `INSERT INTO cupons (codigo, representante, desconto_pct, comissao_pct, ativo, desconto_centavos, condicoes, valido_ate, origem)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, 'painel')
+     ON CONFLICT(codigo) DO UPDATE SET representante = ?2, desconto_pct = ?3, comissao_pct = ?4, ativo = ?5,
+       desconto_centavos = ?6, condicoes = ?7, valido_ate = ?8, origem = 'painel'`
+  ).bind(v.codigo, v.representante, v.desconto_pct, v.comissao_pct, v.ativo, v.desconto_centavos, v.condicoes, v.valido_ate));
+  const codigos = validos.map(v => v.codigo);
+  stmts.push(env.DB.prepare(
+    `UPDATE cupons SET ativo = 0 WHERE origem = 'painel' AND ativo = 1 AND codigo NOT IN (${codigos.map((_, i) => '?' + (i + 1)).join(',')})`
+  ).bind(...codigos));
+  const res = await env.DB.batch(stmts);
+  const desligados = (res[res.length - 1] && res[res.length - 1].meta && res[res.length - 1].meta.changes) || 0;
+  return `cupons do Painel: ${validos.length} gravados${desligados ? ', ' + desligados + ' desativados' : ''}`;
 }
 
 async function minhaConta(request, env) {

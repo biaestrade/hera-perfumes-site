@@ -20,7 +20,7 @@ function doPost(e) {
   if (!SEGREDO || SEGREDO === 'COLE_AQUI_O_SEGREDO' || d.segredo !== SEGREDO) return saida({ ok: false });
 
   if (d.aba === 'vendas') return saida({ ok: gravaVenda(d) });
-  if (d.aba === 'painel') return saida({ ok: gravaDadosPainel(d.dados) });
+  if (d.aba === 'painel') { const ok = gravaDadosPainel(d.dados); return saida({ ok: ok, cupons: lerCuponsPainel() }); }
 
   const clientes = d.aba === 'clientes';
   const aba = SpreadsheetApp.openById(PLANILHA_ID).getSheetByName(clientes ? 'Clientes' : 'Newsletter');
@@ -73,6 +73,22 @@ function gravaDadosPainel(dados) {
   if (!dados || typeof dados !== 'object') return false;
   DriveApp.getFileById(DADOS_PAINEL_ID).setContent(JSON.stringify(dados));
   return true;
+}
+
+// Arquivo hera-cupons.json no Drive (o Painel grava; o site lê os cupons daqui de 30 em 30 minutos).
+// Procura na mesma pasta do hera-site-dados.json. Se não achar ou não conseguir ler, devolve null
+// (o site então não mexe em nenhum cupom).
+const CUPONS_ARQUIVO = 'hera-cupons.json';
+function lerCuponsPainel() {
+  try {
+    const pastas = DriveApp.getFileById(DADOS_PAINEL_ID).getParents();
+    let arq = null;
+    while (!arq && pastas.hasNext()) { const it = pastas.next().getFilesByName(CUPONS_ARQUIVO); if (it.hasNext()) arq = it.next(); }
+    if (!arq) { const it = DriveApp.getFilesByName(CUPONS_ARQUIVO); if (it.hasNext()) arq = it.next(); }
+    if (!arq) return null;
+    const j = JSON.parse(arq.getBlob().getDataAsString('UTF-8'));
+    return j && Array.isArray(j.cupons) ? j.cupons : null;
+  } catch (err) { return null; }
 }
 
 // evita que um texto vire fórmula na planilha
