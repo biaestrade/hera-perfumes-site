@@ -238,9 +238,13 @@ footer .rod-marca .logo-rodape{margin-bottom:0}
 footer .rod-marca p{font-size:12px;line-height:1.5;opacity:.85;border-left:1px solid rgba(255,255,255,.2);padding-left:18px}
 footer nav{justify-content:center}
 @media(min-width:1060px){footer.rodape nav{flex-wrap:nowrap;white-space:nowrap}footer .rod-marca p{white-space:nowrap}}
-@media(min-width:901px) and (max-width:1399px){footer .rod-marca p{display:none}}
+@media(min-width:901px) and (max-width:1599px){footer .rod-marca p{display:none}}
 footer .rod-news{background:var(--creme);color:var(--bordo);border:0;border-radius:30px;padding:9px 18px;font:600 13px var(--sans);cursor:pointer;white-space:nowrap}
 footer .rod-news:hover{background:#fff}
+footer .rod-botoes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+@media(min-width:901px){footer .rod-botoes{flex-direction:column;align-items:stretch}footer .rod-botoes .rod-news{text-align:center}}
+footer.rodape a.rod-grupo{background:transparent;color:var(--creme);border:1px solid rgba(245,235,202,.6);text-decoration:none;display:inline-block}
+footer.rodape a.rod-grupo:hover{background:var(--creme);color:var(--bordo)}
 footer .rod-contato{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 22px;border-top:1px solid rgba(255,255,255,.15);padding-top:12px;font-size:12px;line-height:1.6;opacity:.9}
 @media(max-width:900px){footer.rodape .wrap{grid-template-columns:1fr;justify-items:center;text-align:center;padding-bottom:84px}footer .rod-marca{flex-direction:column;gap:8px}footer .rod-marca p{border-left:0;padding-left:0}}
 footer.rodape a{color:var(--creme)}
@@ -1411,7 +1415,7 @@ nav.menu a.link-conta{background-image:none}
       <a href="#politica">Política de compra</a>
       <a href="#politica/privacidade">Privacidade</a>
     </nav>
-    <button type="button" class="rod-news" data-abre-news>Receba nossas promoções</button>
+    <div class="rod-botoes"><a class="rod-news rod-grupo" href="https://chat.whatsapp.com/IaP7yOi1smU4an6lq0VK9G" target="_blank" rel="noopener">Participe do nosso grupo de ofertas</a><button type="button" class="rod-news" data-abre-news>Receba nossas promoções</button></div>
     <div class="rod-contato"><span>WhatsApp <a href="https://wa.me/5511913184495" target="_blank" rel="noopener">11 91318-4495</a></span><span>Instagram <a href="https://www.instagram.com/heraevodia_perfumes/" target="_blank" rel="noopener">@heraevodia_perfumes</a></span><span>E-mail <a href="mailto:contato@heraevodiaperfumes.com.br">contato@heraevodiaperfumes.com.br</a></span><span>Seg a sex, 9h às 18h</span><span>CNPJ 68.454.334/0001-79</span></div>
   </div>
 </footer>
