@@ -156,6 +156,13 @@ export default {
           return await salvarAdmin(request, env);
         case 'GET /api/relatorio.csv':
           return await relatorio(request, env, url);
+        case 'POST /api/painel/sincronizar': {
+          // manda os dados para o Painel agora (no máximo 1 vez por minuto) e mostra só o resultado do envio
+          const ult = await env.DB.prepare("SELECT em FROM sincronia WHERE nome = 'painel'").first().catch(() => null);
+          if (!(ult && Date.now() - Date.parse(ult.em) < 60_000)) { try { await enviarDadosPainel(env); } catch (e) {} }
+          const res = await env.DB.prepare("SELECT em, ok, resultado FROM sincronia WHERE nome = 'painel'").first().catch(() => null);
+          return json(res || { erro: 'ainda não sincronizou' }, 200, cors || {});
+        }
         case 'GET /api/saude':
           return json({
             ok: true,
@@ -1189,7 +1196,11 @@ async function enviarDadosPainel(env) {
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ segredo: env.PLANILHA_SEGREDO, aba: 'painel', dados }),
   });
-  if (!r.ok) throw new Error('Apps Script respondeu ' + r.status);
+  const txt = (await r.text().catch(() => '')).slice(0, 300);
+  const ok = r.ok && !/"ok"\s*:\s*false|erro|error|exception/i.test(txt);
+  await env.DB.prepare('INSERT OR REPLACE INTO sincronia (nome, em, ok, resultado) VALUES (?1, ?2, ?3, ?4)')
+    .bind('painel', new Date().toISOString(), ok ? 1 : 0, `${r.status} ${txt} · ${dados.cadastros.length} cadastros, ${dados.pedidos.length} pedidos`).run().catch(() => {});
+  if (!ok) throw new Error('Apps Script respondeu ' + r.status + ' ' + txt);
 }
 
 async function minhaConta(request, env) {
