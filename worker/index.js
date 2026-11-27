@@ -423,6 +423,32 @@ async function calcular(env, corpo, cepEntrega) {
     return { id, titulo: p.titulo, quantidade, precoCentavos: p.precoCentavos, unitarioCentavos: unitario, totalCentavos: unitario * quantidade };
   });
 
+  // código com desconto em reais (desconto_centavos): sai dos perfumes (não do frete), dividido entre os itens,
+  // por unidade, para o total do Mercado Pago bater; cada unidade fica com pelo menos R$ 1,00
+  const fixoCupom = cupom ? Math.max(0, Math.round(Number(cupom.desconto_centavos) || 0)) : 0;
+  let fixoAplicado = 0;
+  if (fixoCupom > 0) {
+    const totalAntes = linhas.reduce((s, l) => s + l.totalCentavos, 0);
+    const unidades = linhas.reduce((s, l) => s + l.quantidade, 0);
+    let resta = Math.min(fixoCupom, Math.max(0, totalAntes - unidades * 100));
+    const alvo = resta;
+    linhas.forEach((l, idx) => {
+      if (resta <= 0) return;
+      const parte = idx === linhas.length - 1 ? resta : Math.min(resta, Math.round(alvo * l.totalCentavos / totalAntes));
+      const porUnidade = Math.min(Math.floor(parte / l.quantidade), l.unitarioCentavos - 100);
+      if (porUnidade > 0) {
+        l.unitarioCentavos -= porUnidade; l.totalCentavos = l.unitarioCentavos * l.quantidade;
+        resta -= porUnidade * l.quantidade; fixoAplicado += porUnidade * l.quantidade;
+      }
+    });
+    // sobra de centavos que não divide pela quantidade: vai num item com quantidade 1
+    if (resta > 0) {
+      const l = linhas.find(x => x.quantidade === 1 && x.unitarioCentavos - resta >= 100);
+      if (l) { l.unitarioCentavos -= resta; l.totalCentavos = l.unitarioCentavos; fixoAplicado += resta; resta = 0; }
+    }
+  }
+  const reaisTxt = c => 'R$ ' + (c / 100).toFixed(2).replace('.', ',');
+
   // Pix: mais X% em cima do preço já com o código, por unidade (o total do Mercado Pago bate exatamente)
   const pixPct = r.pixDescontoPct;
   const metodo = corpo && corpo.metodo === 'pix' && pixPct > 0 ? 'pix' : 'cartao';
@@ -472,12 +498,14 @@ async function calcular(env, corpo, cepEntrega) {
     else if (cupom && pctCupom >= pctBase) nomeDesconto = `Código ${cupom.codigo} (${pctCupom}%)`;
     else nomeDesconto = `Desconto do site (${pctBase}%)`;
   }
+  if (fixoAplicado > 0) nomeDesconto = nomeDesconto ? `${nomeDesconto} + código ${cupom.codigo} (${reaisTxt(fixoAplicado)})` : `Código ${cupom.codigo} (${reaisTxt(fixoAplicado)})`;
   if (metodo === 'pix') nomeDesconto = nomeDesconto ? `${nomeDesconto} + Pix (${pixPct}%)` : `Pix (${pixPct}%)`;
   const descontoCodigo = subtotal - totalCartaoProdutos;
 
   let mensagemCupom = '';
   if (codigo && !cupom) mensagemCupom = 'Código não encontrado ou inativo.';
   else if (cupom && r.combinar === 'maior' && pctCupom < pctBase) mensagemCupom = `Código aplicado. O desconto do site (${pctBase}%) é maior e foi mantido.`;
+  else if (cupom && fixoCupom > 0) mensagemCupom = fixoAplicado > 0 ? `Código aplicado: ${reaisTxt(fixoAplicado)} de desconto.` : 'Código aplicado, mas o valor do carrinho é baixo demais para o desconto.';
   else if (cupom) mensagemCupom = pctCupom > 0 ? `Código aplicado: ${pctCupom}% de desconto.` : 'Código aplicado.';
 
   const comissaoPct = cupom ? Number(cupom.comissao_pct) || 0 : 0;
