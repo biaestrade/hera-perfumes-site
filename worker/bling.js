@@ -174,7 +174,8 @@ export async function enviarPedidoBling(env, pedidoId, oficiais) {
   if (!p || !String(p.status).startsWith('aprovado')) return null;
   // pedido só com produto de teste: nunca vai para o Bling (não emite nota)
   let itensTeste = []; try { itensTeste = JSON.parse(p.itens || '[]'); } catch (e) {}
-  if (itensTeste.length && itensTeste.every(i => String(i.id).startsWith('teste-'))) {
+  // pedidos feitos em modo de teste (Mercado Pago de teste) também nunca vão para o Bling
+  if (p.modo === 'teste' || (itensTeste.length && itensTeste.every(i => String(i.id).startsWith('teste-')))) {
     await env.DB.prepare('UPDATE pedidos SET bling_tentativas = 99 WHERE id = ?1').bind(p.id).run();
     return null;
   }

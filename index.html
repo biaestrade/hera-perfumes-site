@@ -1531,7 +1531,7 @@ var WHATSAPP = '5511913184495';
 // API_LOJA: endereço do servidor no Cloudflare, ex.: 'https://hera-loja.SEU-NOME.workers.dev'.
 // Vazio = o servidor está no mesmo endereço do site (é assim no ambiente de teste do Cloudflare).
 // No site oficial (GitHub Pages), o botão "Pagar agora" só aparece depois que API_LOJA for preenchido.
-var API_LOJA = '';
+var API_LOJA = 'https://hera-loja.hera-loja.workers.dev'; // loja online ligada no site oficial (lançamento)
 var DESCONTO_WHATSAPP = 0; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
 var DESCONTO_PIX = 5; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
 function precoPix(v){ return Math.round(v * (100 - DESCONTO_PIX)) / 100; }
