@@ -1,0 +1,14 @@
+{
+  "name": "hera-loja",
+  "private": true,
+  "description": "Servidor da loja Hera Perfumes (Cloudflare Worker + Mercado Pago)",
+  "scripts": {
+    "banco:criar-tabelas": "wrangler d1 migrations apply hera-loja --remote",
+    "banco:local": "wrangler d1 migrations apply hera-loja --local",
+    "teste:local": "wrangler dev",
+    "publicar:teste": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}

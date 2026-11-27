@@ -1,0 +1,93 @@
+# Servidor da loja Hera Perfumes (Cloudflare Workers, plano gratuito)
+# Nada aqui é segredo. As chaves (Mercado Pago, senha do relatório) ficam como "secrets" no painel do Cloudflare.
+
+name = "hera-loja"
+main = "worker/index.js"
+compatibility_date = "2025-09-01"
+
+# Ambiente de teste: o Worker também serve as páginas do site (index.html, produtos.json, fotos).
+[assets]
+directory = "."
+binding = "ASSETS"
+# a página inicial passa pelo Worker para montar a prévia do link (WhatsApp)
+run_worker_first = ["/", "/index.html"]
+
+# Banco de dados (pedidos e cupons). O database_id aparece quando você roda:  npx wrangler d1 create hera-loja
+[[d1_databases]]
+binding = "DB"
+database_name = "hera-loja"
+database_id = "5ca699eb-06ec-417d-9a76-c464707e0cfa"
+migrations_dir = "worker/migrations"
+
+# A cada 30 minutos: manda o arquivo hera-site-dados.json para o Drive (o Painel da Hera lê de lá)
+[triggers]
+crons = ["*/30 * * * *"]
+
+[vars]
+# "teste" enquanto usar as credenciais de teste do Mercado Pago; "producao" quando for para valer
+MODO = "producao"
+
+# Endereço do site para onde a cliente volta depois de pagar. Vazio = o próprio endereço do Worker (teste).
+# No site oficial:  SITE_URL = "https://heraevodiaperfumes.com.br"
+SITE_URL = ""
+# endereço do servidor da loja (Worker), usado nos links dos e-mails automáticos (ex.: "não quero receber")
+LOJA_URL = "https://hera-loja.hera-loja.workers.dev"
+# lembrete de carrinho abandonado: quantas horas depois
+LEMBRETE_CARRINHO_HORAS = "24"
+
+# De onde o servidor lê os preços oficiais. Vazio = o produtos.json publicado junto com o Worker (teste).
+# No site oficial:  PRODUTOS_URL = "https://heraevodiaperfumes.com.br/produtos.json"
+PRODUTOS_URL = ""
+
+# "Continuar com Google": ID do cliente OAuth (não é segredo; aparece no site). Vazio = botão escondido.
+# Criado em console.cloud.google.com > APIs e serviços > Credenciais > ID do cliente OAuth (Aplicativo da Web)
+GOOGLE_CLIENT_ID = "1011981137223-ffdmtclh76mvoqc3tcoeqcoovvq2qcen.apps.googleusercontent.com"
+
+# Sites que podem usar o servidor (separados por vírgula)
+ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiaperfumes.com.br"
+
+# ---- FRETE (SuperFrete: PAC e SEDEX). O token fica só como segredo SUPERFRETE_TOKEN no Cloudflare. ----
+# CEP de onde os perfumes saem
+FRETE_CEP_ORIGEM = "04649000"
+# Formas de envio que aparecem no site: 1 PAC, 2 SEDEX, 17 Mini Envios, 3 Jadlog, 31 Loggi, 33 J&T
+FRETE_SERVICOS = "1,2,17,3,31,33"
+# Dias para a Hera separar e postar, somados ao prazo dos Correios
+FRETE_PRAZO_EXTRA_DIAS = "1"
+# Dias úteis para a Hera postar, somados ao prazo da transportadora (perfumes 2 a 3 dias, kits 1 dia)
+FRETE_POSTAGEM_PERFUME_DIAS = "3"
+FRETE_POSTAGEM_KIT_DIAS = "1"
+# Metade do frete por conta da Hera (decidido em 20/11/2026):
+# R$ somados ao preço de cada perfume. TEM QUE SER O MESMO de FRETE_EMBUTIDO no index.html
+FRETE_EMBUTIDO = "12"
+# % do frete que o cliente paga no carrinho
+FRETE_CLIENTE_PCT = "50"
+# Frete grátis (na opção mais barata) a partir deste valor em reais. "0" = sem frete grátis (ponto a decidir)
+FRETE_GRATIS_ACIMA = "0"
+
+# ---- REGRAS DE DESCONTO (pontos em aberto: troque aqui quando decidir) ----
+# Desconto do site, em %
+DESCONTO_BASE_PCT = "0"
+# Os 5% também valem pagando online?  "sim" ou "nao"
+DESCONTO_BASE_NO_ONLINE = "nao"
+# Com código de representante:  "maior" = vale o maior desconto (5% OU cupom);  "somar" = soma os dois (5% + cupom)
+COMBINAR_DESCONTOS = "maior"
+# Desconto pagando com Pix pelo site, em % (só nos perfumes, não no frete; soma com o código promocional). "0" desliga.
+# 5% (27/11/2026). Com desconto, o site mostra 2 botões (Pix e cartão), porque o Mercado Pago não dá desconto só para quem escolhe Pix lá dentro.
+# "0" = um botão só, e a cliente escolhe Pix ou cartão no Mercado Pago, pelo mesmo preço.
+PIX_DESCONTO_PCT = "5"
+# Frete fixo em centavos (0 = sem frete no pagamento online; ex.: "2500" = R$ 25,00)
+FRETE_CENTAVOS = "0"
+# para onde vai o e-mail "Pedido novo pago" (pode ser o e-mail do Fernando)
+AVISO_PEDIDO_EMAIL = "contato@heraevodiaperfumes.com.br"
+
+# ---- BLING (pedidos de venda e nota fiscal). Client ID e Client Secret ficam SÓ como segredos no Cloudflare. ----
+# "1" = depois que o pedido entra no Bling, gera a NF-e, manda para a SEFAZ e o Bling envia por e-mail para a cliente.
+# Comece com o Bling em HOMOLOGAÇÃO (Preferências > Notas fiscais) para testar sem valor fiscal.
+BLING_EMITIR_NFE = "1"
+# NCM dos perfumes ao cadastrar o produto no Bling (só números). CONFIRMAR COM O CONTADOR antes de emitir de verdade.
+BLING_NCM = ""
+# Origem da mercadoria na nota: 0 nacional, 2 estrangeira comprada no mercado interno (perfume importado). Contador confirma.
+BLING_ORIGEM = "2"
+# (opcional) ID das formas de pagamento no Bling (Preferências > Formas de pagamento > abrir > número no endereço)
+BLING_FORMA_PIX = ""
+BLING_FORMA_CARTAO = ""

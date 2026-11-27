@@ -1,0 +1,5426 @@
+[
+ {
+  "id": "uke5p53rhwl1oxoreks1",
+  "marca": "Lancôme",
+  "nome": "La Vie Est Belle",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 709.7,
+  "preco_de": 729.0,
+  "estoque": 0,
+  "familia": "Floral Frutado Gourmand",
+  "acordes": [
+   "doce",
+   "baunilha",
+   "frutado",
+   "patchouli"
+  ],
+  "topo": "Groselha preta, pera",
+  "coracao": "Íris, jasmim, flor de laranjeira",
+  "fundo": "Pralinê, baunilha, patchouli, fava tonka",
+  "destaque": true,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    81.8,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "frutado",
+    65.9,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    58.2,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    57.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    54.6,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    53,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "íris",
+    49.1,
+    "#b7a7d7",
+    "#000000"
+   ],
+   [
+    "terroso",
+    48.9,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    47.9,
+    "#CC3300",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Olivier Polge",
+   "Dominique Ropion",
+   "Anne Flipo"
+  ]
+ },
+ {
+  "id": "hv1d9xc31jlcntw1kgdn",
+  "marca": "Carolina Herrera",
+  "nome": "Good Girl",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 710.4,
+  "preco_de": 730.0,
+  "estoque": 0,
+  "familia": "Âmbar floral",
+  "acordes": [
+   "doce",
+   "floral branco",
+   "baunilha",
+   "quente especiado"
+  ],
+  "topo": "Amêndoa, café, bergamota e limão",
+  "coracao": "Nardo, jasmim sambac, flor de laranjeira, rosa e íris",
+  "fundo": "Fava tonka, cacau, baunilha, praliné, sândalo, âmbar",
+  "destaque": true,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    98.9,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    92.2,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    91.9,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "âmbar",
+    69.5,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "cacau",
+    66.9,
+    "#9a3a0d",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    66.7,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "tuberosa",
+    62.6,
+    "#ebfaf3",
+    "#000000"
+   ],
+   [
+    "amêndoa",
+    61.4,
+    "#f1e3c5",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    61.1,
+    "#EEDDCC",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Louise Turner",
+   "Quentin Bisch"
+  ]
+ },
+ {
+  "id": "j8mf6hvfedjlowzqlstr",
+  "marca": "Dior",
+  "nome": "J'adore",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 964.8,
+  "preco_de": 969.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "floral branco",
+   "floral",
+   "frutado",
+   "doce"
+  ],
+  "topo": "Pera, melão, magnólia, pêssego, mandarina e bergamota",
+  "coracao": "Jasmim, lírio-do-vale, tuberosa, frésia, rosa, orquídea",
+  "fundo": "Almíscar, baunilha, cedro e amora",
+  "destaque": true,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "floral",
+    87.2,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "frutado",
+    81.6,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "doce",
+    64.5,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    63.9,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    54.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aquático",
+    54.9,
+    "#63cce2",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    51.5,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "tuberosa",
+    46.7,
+    "#ebfaf3",
+    "#000000"
+   ],
+   [
+    "ozônico",
+    46.7,
+    "#C9FDFB",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Calice Becker"
+  ]
+ },
+ {
+  "id": "qvqp0f9cdgqbzw9lht1t",
+  "marca": "Paco Rabanne",
+  "nome": "1 Million",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 532.8,
+  "preco_de": 565.09,
+  "estoque": 0,
+  "familia": "Amadeirado Especiado",
+  "acordes": [
+   "quente especiado",
+   "canela",
+   "cítrico",
+   "âmbar"
+  ],
+  "topo": "Tangerina sanguínea, toranja e hortelã",
+  "coracao": "Canela, notas especiadas e rosa",
+  "fundo": "Âmbar, couro, notas amadeiradas e patchouli indiano",
+  "destaque": true,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado quente",
+    100,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "canela",
+    80.8,
+    "#D2691E",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    73,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    62.7,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    61.3,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "couro",
+    57,
+    "#78483A",
+    "#FFFFFF"
+   ],
+   [
+    "rosa",
+    52.5,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "animálico",
+    50,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    46.8,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "patchouli",
+    46,
+    "#63652e",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Christophe Raynaud",
+   "Olivier Pescheux",
+   "Michel Girard"
+  ]
+ },
+ {
+  "id": "dl-des-83",
+  "marca": "Carolina Herrera",
+  "nome": "212 VIP Black",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 549.9,
+  "preco_de": 589.0,
+  "estoque": 0,
+  "familia": "Aromática Fougère",
+  "acordes": [
+   "aromático",
+   "fresco especiado",
+   "anisado",
+   "amadeirado"
+  ],
+  "topo": "Absinto, anis",
+  "coracao": "Lavanda",
+  "fundo": "Almíscar negro, madeiras, baunilha",
+  "destaque": true,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    95.8,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    83,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    78.1,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "anis",
+    77.6,
+    "#c3d7b3",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    72.8,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    65.5,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "amargo",
+    61.7,
+    "#C1C316",
+    "#000000"
+   ],
+   [
+    "doce",
+    60,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    44.4,
+    "#83C928",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Carlos Benaïm",
+   "Anne Flipo"
+  ]
+ },
+ {
+  "id": "wq7vx81sq15ad4707q03",
+  "marca": "Dior",
+  "nome": "Sauvage",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 786.08,
+  "preco_de": 812.5,
+  "estoque": 0,
+  "familia": "Aromático fresco",
+  "acordes": [
+   "fresco especiado",
+   "âmbar",
+   "cítrico",
+   "aromático"
+  ],
+  "topo": "Bergamota da Calábria",
+  "coracao": "Pimenta Sichuan, lavanda, resina de elemi",
+  "fundo": "Ambroxan, elemi e resinas amadeiradas",
+  "destaque": true,
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    70.8,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    69.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aromático",
+    63.7,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    57.4,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    54.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "lavanda",
+    46.7,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "herbal",
+    45.7,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    45.4,
+    "#CC3300",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "François Demachy"
+  ]
+ },
+ {
+  "id": "yd20a31zwz7gwi694vgu",
+  "marca": "Carolina Herrera",
+  "nome": "212 VIP Rosé",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 616.5,
+  "preco_de": 649.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "floral",
+   "almiscarado",
+   "frutado",
+   "amadeirado"
+  ],
+  "topo": "Champanhe rosé, pimenta rosa",
+  "coracao": "Flor de pêssego, rosa",
+  "fundo": "Almíscar branco, notas amadeiradas",
+  "destaque": true,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    79.4,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "frutado",
+    67.1,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    66,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    52.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "rosa",
+    51.5,
+    "#FE016B",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Lucas Sieuzac"
+  ]
+ },
+ {
+  "id": "6d3apso22g8oq2jri9bf",
+  "marca": "Jean Paul Gaultier",
+  "nome": "Scandal",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 656.0,
+  "preco_de": 729.0,
+  "estoque": 0,
+  "familia": "Floral branco e mel",
+  "acordes": [
+   "mel",
+   "doce",
+   "floral branco",
+   "cítrico"
+  ],
+  "topo": "Laranja sanguínea, mandarina",
+  "coracao": "Mel, jasmim, pêssego, flor de laranjeira, gardênia",
+  "fundo": "Patchouli, caramelo, cera de abelha, alcaçuz",
+  "destaque": true,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "mel",
+    100,
+    "#FAA907",
+    "#000000"
+   ],
+   [
+    "doce",
+    81.3,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    75.4,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    63.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "caramelo",
+    57.3,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "animálico",
+    54.1,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "cera de abelha",
+    53.5,
+    "#F0B642",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    50.3,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    48.4,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    45.1,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Daphné Bugey",
+   "Fabrice Pellegrin",
+   "Christophe Raynaud"
+  ]
+ },
+ {
+  "id": "gxg4djks2i3enmbosk4u",
+  "marca": "Yves Saint Laurent",
+  "nome": "Libre",
+  "conc": "Eau de Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 865.15,
+  "preco_de": 879.0,
+  "estoque": 0,
+  "familia": "Âmbar Fougère",
+  "acordes": [
+   "floral branco",
+   "cítrico",
+   "lavanda",
+   "baunilha"
+  ],
+  "topo": "Lavanda, mandarina, groselha preta e petitgrain",
+  "coracao": "Lavanda, flor de laranjeira e jasmim",
+  "fundo": "Baunilha de Madagascar, almíscar, cedro e âmbar cinzento",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    81.1,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    75.3,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    64.3,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "aromático",
+    57.4,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "doce",
+    55.5,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    53.1,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "animálico",
+    52.3,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    50.1,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    49.7,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Anne Flipo",
+   "Carlos Benaïm"
+  ]
+ },
+ {
+  "id": "dl-prada-paradoxe",
+  "marca": "Prada",
+  "nome": "Paradoxe",
+  "conc": "Eau de Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 872.79,
+  "preco_de": 919.0,
+  "estoque": 0,
+  "familia": "Floral Ambarado",
+  "acordes": [
+   "floral branco",
+   "cítrico",
+   "doce",
+   "âmbar"
+  ],
+  "topo": "Bergamota da Calábria, tangerina, pera",
+  "coracao": "Neroli, flor de laranjeira, jasmim sambac",
+  "fundo": "Âmbar, benjoim, baunilha Bourbon, almíscar branco",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    89.6,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "doce",
+    61.2,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "âmbar",
+    60.9,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    58.2,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "frutado",
+    50.2,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    50,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    47.2,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "fresco",
+    46,
+    "#9be5ed",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Nadège Le Garlantezec",
+   "Antoine Maisondieu",
+   "Shyamala Maisondieu"
+  ]
+ },
+ {
+  "id": "j5mvdqz387n7zwukrl9g",
+  "marca": "Giorgio Armani",
+  "nome": "Acqua di Giò Pour Homme",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 646.8,
+  "preco_de": 649.0,
+  "estoque": 0,
+  "familia": "Aromático Aquático",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "marinho",
+   "fresco especiado"
+  ],
+  "topo": "Lima, limão, bergamota, jasmim, laranja, mandarina e néroli",
+  "coracao": "Notas oceânicas, jasmim, pêssego, frésia, alecrim, jacinto, violeta",
+  "fundo": "Almíscar branco, cedro, musgo de carvalho, patchouli e âmbar",
+  "destaque": false,
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aromático",
+    65.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "marinho",
+    57.9,
+    "#0E529B",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    50.6,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "floral",
+    46.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    45.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    44.7,
+    "#9be5ed",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Alberto Morillas",
+   "Annick Menardo",
+   "Christian Dussoulier"
+  ]
+ },
+ {
+  "id": "dl-des-113",
+  "marca": "Carolina Herrera",
+  "nome": "Good Girl Blush",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 802.56,
+  "preco_de": 819.0,
+  "estoque": 0,
+  "familia": "Âmbar Floral Frutado",
+  "acordes": [
+   "floral",
+   "baunilha",
+   "amêndoa",
+   "doce"
+  ],
+  "topo": "Bergamota, amêndoa amarga",
+  "coracao": "Peônia, ylang-ylang",
+  "fundo": "Baunilha, fava tonka",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    88.1,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "fresco",
+    75.1,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    71.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "doce",
+    69.7,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "floral amarelo",
+    58.8,
+    "#FFDC10",
+    "#000000"
+   ],
+   [
+    "rosa",
+    58.2,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amêndoa",
+    54.7,
+    "#f1e3c5",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    54.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    51.7,
+    "#37a089",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Quentin Bisch",
+   "Shyamala Maisondieu",
+   "Christophe Raynaud"
+  ]
+ },
+ {
+  "id": "dl-des-322",
+  "marca": "Lancôme",
+  "nome": "Idôle",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 808.38,
+  "preco_de": 829.0,
+  "estoque": 0,
+  "familia": "Chipre Floral",
+  "acordes": [
+   "rosa",
+   "almiscarado",
+   "frutado",
+   "floral branco"
+  ],
+  "topo": "Pera, bergamota, pimenta rosa",
+  "coracao": "Rosa, jasmim",
+  "fundo": "Almíscar branco, baunilha, patchouli, cedro",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "rosa",
+    100,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    79.5,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "frutado",
+    69,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "doce",
+    66.7,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    65.7,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    62.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "floral",
+    61.6,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    57.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aquático",
+    50.8,
+    "#63cce2",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    49.9,
+    "#FFFEC0",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Shyamala Maisondieu",
+   "Adriana Medina-Baez",
+   "Nadège Le Garlantezec",
+   "Sonia Constant"
+  ]
+ },
+ {
+  "id": "dl-des-82",
+  "marca": "Carolina Herrera",
+  "nome": "212 VIP Men",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 557.49,
+  "preco_de": 569.0,
+  "estoque": 0,
+  "familia": "Oriental Fougère",
+  "acordes": [
+   "alcoólico",
+   "especiado",
+   "amadeirado",
+   "doce"
+  ],
+  "topo": "Vodka, Limão, Maçã Verde, Gengibre, Pimenta Rosa",
+  "coracao": "Hortelã, Cardamomo, Gengibre",
+  "fundo": "Fava Tonka, Âmbar, Couro, Madeira de Gaiac",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "aromático",
+    91.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "vodka",
+    86.9,
+    "#F3FAF8",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    76.3,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    71,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "tropical",
+    66.2,
+    "#f6af09",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    65.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "frutado",
+    64.7,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    64.2,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    62.8,
+    "#9be5ed",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Emilie Coppermann",
+   "Lucas Sieuzac"
+  ]
+ },
+ {
+  "id": "dl-des-401",
+  "marca": "Paco Rabanne",
+  "nome": "Invictus Victory",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 588.0,
+  "preco_de": 629.0,
+  "estoque": 0,
+  "familia": "Âmbar Aromático",
+  "acordes": [
+   "baunilha",
+   "âmbar",
+   "doce",
+   "lavanda"
+  ],
+  "topo": "Pimenta rosa, limão",
+  "coracao": "Olíbano, lavanda",
+  "fundo": "Baunilha, fava tonka, âmbar",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    98.3,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    59.1,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    56.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    52.7,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    51,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    48.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    47.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    45.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "balsâmico",
+    44,
+    "#ad8359",
+    "#000000"
+   ]
+  ]
+ },
+ {
+  "id": "dl-des-126",
+  "marca": "Chanel",
+  "nome": "Bleu de Chanel",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 1068.6,
+  "preco_de": 1099.0,
+  "estoque": 0,
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "especiado fresco",
+   "aromático"
+  ],
+  "topo": "Toranja, limão, menta, pimenta rosa",
+  "coracao": "Gengibre, noz-moscada, jasmim",
+  "fundo": "Incenso, cedro, vetiver, sândalo, patchouli, ládano",
+  "destaque": false,
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    82.2,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    80.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "aromático",
+    69.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    66.7,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "esfumaçado",
+    52.6,
+    "#827487",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    50.2,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    50,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    49.7,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    48.9,
+    "#9be5ed",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Jacques Polge"
+  ]
+ },
+ {
+  "id": "dl-des-81",
+  "marca": "Carolina Herrera",
+  "nome": "212 Men NYC",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 543.4,
+  "preco_de": 569.0,
+  "estoque": 0,
+  "familia": "Amadeirada Aromática",
+  "acordes": [
+   "amadeirado",
+   "cítrico",
+   "aromático",
+   "fresco"
+  ],
+  "topo": "Bergamota, Limão, Grapefruit, Gengibre, Folhas de Violeta",
+  "coracao": "Gengibre, Noz-moscada, Sálvia, Cedro",
+  "fundo": "Almíscar, Sândalo, Vetiver, Cedro, Cumaru",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "verde",
+    90.8,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    82.6,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "aromático",
+    76.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    72.9,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    63.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    58.4,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    53.8,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    52.4,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "herbal",
+    48.8,
+    "#6CA47F",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Alberto Morillas",
+   "Rosendo Mateu",
+   "Ann Gottlieb"
+  ]
+ },
+ {
+  "id": "dl-des-457",
+  "marca": "Versace",
+  "nome": "Eros Eau de Parfum",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 578.67,
+  "preco_de": 599.0,
+  "estoque": 0,
+  "familia": "Âmbar Amadeirado",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "baunilha",
+   "amadeirado"
+  ],
+  "topo": "Menta, maçã do amor, limão, mandarina",
+  "coracao": "Ambroxan, gerânio, sálvia esclareia",
+  "fundo": "Baunilha, cedro, sândalo, laranja amarga, patchouli, couro",
+  "destaque": false,
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aromático",
+    94.2,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "verde",
+    80.1,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    74.3,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    72.3,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    70.6,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    66.3,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "gourmand",
+    62.7,
+    "#f0cb7a",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    54.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "frutado",
+    54.2,
+    "#FC4B29",
+    "#000000"
+   ]
+  ]
+ },
+ {
+  "id": "light-blue-eau-intense",
+  "marca": "Dolce&Gabbana",
+  "nome": "Light Blue",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 496.8,
+  "preco_de": 529.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "fresco",
+   "frutado"
+  ],
+  "topo": "Limão siciliano, maçã Granny Smith, cedro, campânula",
+  "coracao": "Jasmim, bambu, rosa",
+  "fundo": "Cedro, almíscar, âmbar",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    74.4,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    63.1,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "frutado",
+    58.6,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "aromático",
+    54,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    49.6,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    46.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "verde",
+    44.3,
+    "#0E8C1D",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Olivier Cresp"
+  ]
+ },
+ {
+  "id": "dl-des-134",
+  "marca": "Chloé",
+  "nome": "Love Story",
+  "conc": "Eau de Parfum",
+  "vol": "75 ml",
+  "genero": "Feminino",
+  "preco": 668.96,
+  "preco_de": 669.0,
+  "estoque": 0,
+  "familia": "Floral",
+  "acordes": [
+   "floral branco",
+   "cítrico",
+   "almiscarado",
+   "frutado"
+  ],
+  "topo": "Néroli, pera, bergamota, toranja, limão",
+  "coracao": "Flor de laranjeira, estefanótis, rosa, pêssego, cassis",
+  "fundo": "Almíscar, cedro, cashmeran, patchouli",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    93.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    54.4,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "frutado",
+    52.3,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    51,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "doce",
+    50.4,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    50.4,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "rosa",
+    47.2,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    45.5,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "aromático",
+    45.4,
+    "#37a089",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Anne Flipo"
+  ]
+ },
+ {
+  "id": "dl-des-279",
+  "marca": "Jean Paul Gaultier",
+  "nome": "Scandal Pour Homme",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 657.21,
+  "preco_de": 659.0,
+  "estoque": 0,
+  "familia": "Âmbar Amadeirado",
+  "acordes": [
+   "caramelo",
+   "doce",
+   "aromático",
+   "amadeirado"
+  ],
+  "topo": "Mandarina, sálvia esclareia",
+  "coracao": "Caramelo, fava tonka",
+  "fundo": "Vetiver",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "caramelo",
+    100,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "aromático",
+    83.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "doce",
+    79.2,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    66.3,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    60.8,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    52,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "especiado suave",
+    46.4,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    45.7,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Quentin Bisch",
+   "Christophe Raynaud",
+   "Natalie Gracia-Cetto"
+  ]
+ },
+ {
+  "id": "dl-des-277",
+  "marca": "Jean Paul Gaultier",
+  "nome": "Le Beau",
+  "conc": "Eau de Toilette",
+  "vol": "125 ml",
+  "genero": "Masculino",
+  "preco": 619.86,
+  "preco_de": 649.0,
+  "estoque": 0,
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "coco",
+   "baunilha",
+   "doce",
+   "cítrico"
+  ],
+  "topo": "Bergamota",
+  "coracao": "Coco",
+  "fundo": "Fava tonka",
+  "destaque": false,
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "coco",
+    100,
+    "#f1e8d4",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    83.8,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "doce",
+    76.7,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    62.7,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "lactônico",
+    54.5,
+    "#fbf9f2",
+    "#000000"
+   ],
+   [
+    "aromático",
+    53.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    53.4,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "tropical",
+    51,
+    "#f6af09",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    46.3,
+    "#83C928",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Quentin Bisch",
+   "Sonia Constant"
+  ]
+ },
+ {
+  "id": "dl-versace-crystal-noir",
+  "marca": "Versace",
+  "nome": "Crystal Noir",
+  "conc": "Eau de Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 590.17,
+  "preco_de": 629.0,
+  "estoque": 0,
+  "familia": "Oriental Floral",
+  "acordes": [
+   "fresco especiado",
+   "quente especiado",
+   "floral branco",
+   "coco"
+  ],
+  "topo": "Pimenta, gengibre e cardamomo",
+  "coracao": "Coco, gardênia, flor de laranjeira e peônia",
+  "fundo": "Sândalo, almíscar e âmbar",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    93.9,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    91,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "coco",
+    83.2,
+    "#f1e8d4",
+    "#000000"
+   ],
+   [
+    "lactônico",
+    66.4,
+    "#fbf9f2",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    62.9,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    62.1,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    59,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "doce",
+    58.7,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    54.7,
+    "#E7D8EA",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Antoine Lie"
+  ]
+ },
+ {
+  "id": "dl-givenchy-l-interdit",
+  "marca": "Givenchy",
+  "nome": "L'Interdit",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 713.91,
+  "preco_de": 729.0,
+  "estoque": 0,
+  "familia": "Oriental Floral",
+  "acordes": [
+   "floral branco",
+   "tuberosa",
+   "doce",
+   "cítrico"
+  ],
+  "topo": "Pera, bergamota",
+  "coracao": "Tuberosa, flor de laranjeira, jasmim sambac",
+  "fundo": "Patchouli, baunilha, ambroxan, vetiver",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "tuberosa",
+    65.5,
+    "#ebfaf3",
+    "#000000"
+   ],
+   [
+    "doce",
+    50.8,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    49.6,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    48.7,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "patchouli",
+    47.2,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    46.9,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "frutado",
+    46.6,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "animálico",
+    45.9,
+    "#8E4B13",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Dominique Ropion",
+   "Anne Flipo",
+   "Fanny Bal"
+  ]
+ },
+ {
+  "id": "dl-des-483",
+  "marca": "Yves Saint Laurent",
+  "nome": "MYSLF Eau de Parfum",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 879.1,
+  "preco_de": 889.0,
+  "estoque": 0,
+  "familia": "Amadeirado Floral",
+  "acordes": [
+   "cítrico",
+   "floral branco",
+   "patchouli",
+   "amadeirado"
+  ],
+  "topo": "Bergamota da Calábria",
+  "coracao": "Flor de laranjeira da Tunísia",
+  "fundo": "Ambrofix, patchouli",
+  "destaque": false,
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    82.9,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    52.9,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    51.8,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    48.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    45.9,
+    "#ee363b",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Christophe Raynaud",
+   "Antoine Maisondieu",
+   "Daniela Andrier"
+  ]
+ },
+ {
+  "id": "dl-des-385",
+  "marca": "Prada",
+  "nome": "Prada Candy",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 936.32,
+  "preco_de": 949.0,
+  "estoque": 0,
+  "familia": "Âmbar Baunilhado",
+  "acordes": [
+   "caramelo",
+   "atalcado",
+   "âmbar",
+   "baunilha"
+  ],
+  "topo": "Caramelo",
+  "coracao": "Notas atalcadas, almíscar",
+  "fundo": "Benjoim, baunilha",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "caramelo",
+    100,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    81.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    65.7,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    65.1,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    64.5,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    57.1,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    47.9,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    47.4,
+    "#ad8359",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Daniela Andrier"
+  ]
+ },
+ {
+  "id": "dl-des-154",
+  "marca": "Dior",
+  "nome": "Sauvage Eau de Parfum",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 992.8,
+  "preco_de": 1019.0,
+  "estoque": 0,
+  "familia": "Âmbar Fougère",
+  "acordes": [
+   "especiado fresco",
+   "âmbar",
+   "aromático",
+   "baunilha"
+  ],
+  "topo": "Bergamota",
+  "coracao": "Pimenta de Sichuan, lavanda, pimenta-preta, anis-estrelado, noz-moscada",
+  "fundo": "Ambroxan, baunilha",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "especiado fresco",
+    100,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    82.3,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    72.2,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "lavanda",
+    57.2,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    55.3,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "aromático",
+    51.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "herbal",
+    50.8,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "anis",
+    48.9,
+    "#c3d7b3",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    48.7,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "floral",
+    48.3,
+    "#FF5F8D",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "François Demachy"
+  ]
+ },
+ {
+  "id": "dl-des-155",
+  "marca": "Dior",
+  "nome": "Miss Dior Eau de Parfum",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 1072.8,
+  "preco_de": 1079.0,
+  "estoque": 0,
+  "familia": "Floral Âmbar",
+  "acordes": [
+   "atalcado",
+   "baunilha",
+   "rosa",
+   "frutado"
+  ],
+  "topo": "Íris, peônia, lírio-do-vale",
+  "coracao": "Rosa, damasco, pêssego",
+  "fundo": "Baunilha, almíscar, fava tonka, sândalo, benjoim",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "atalcado",
+    100,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    98.1,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "rosa",
+    82.7,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    75.7,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "frutado",
+    67.3,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "doce",
+    64.9,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    63,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "íris",
+    60.4,
+    "#b7a7d7",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    58,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    55.8,
+    "#bc4d10",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "François Demachy"
+  ]
+ },
+ {
+  "id": "dl-des-114",
+  "marca": "Carolina Herrera",
+  "nome": "La Bomba",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 769.86,
+  "preco_de": 819.0,
+  "estoque": 0,
+  "familia": "Floral Frutado Âmbar",
+  "acordes": [
+   "frutado",
+   "floral",
+   "baunilha",
+   "doce"
+  ],
+  "topo": "Pitaya, abacaxi, mandarina",
+  "coracao": "Peônia-cereja, frangipani vermelho, flor de laranjeira, jasmim sambac",
+  "fundo": "Baunilha solar, Ambrofix, patchouli, fava tonka tostada",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "tropical",
+    89.5,
+    "#f6af09",
+    "#000000"
+   ],
+   [
+    "frutado",
+    67.7,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    64.9,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "fresco",
+    55.9,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    47.4,
+    "#63652e",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Christophe Raynaud",
+   "Quentin Bisch",
+   "Louise Turner"
+  ]
+ },
+ {
+  "id": "dl-des-116",
+  "marca": "Carolina Herrera",
+  "nome": "Good Girl Jasmine Absolute",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 792.0,
+  "preco_de": 829.0,
+  "estoque": 0,
+  "familia": "Âmbar Gourmand",
+  "acordes": [
+   "doce",
+   "floral branco",
+   "amêndoa",
+   "caramelo"
+  ],
+  "topo": "Cassis, mandarina",
+  "coracao": "Jasmim, amêndoa amarga",
+  "fundo": "Toffee, fava tonka",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    70.2,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "amêndoa",
+    60.6,
+    "#f1e3c5",
+    "#000000"
+   ],
+   [
+    "frutado",
+    60,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    55.9,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "caramelo",
+    51.7,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    48.5,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "amendoado",
+    48.3,
+    "#b4955f",
+    "#000000"
+   ],
+   [
+    "floral",
+    47.3,
+    "#FF5F8D",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Louise Turner",
+   "Quentin Bisch"
+  ]
+ },
+ {
+  "id": "dl-des-400",
+  "marca": "Paco Rabanne",
+  "nome": "Olympéa",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 593.45,
+  "preco_de": 619.0,
+  "estoque": 0,
+  "familia": "Âmbar Floral",
+  "acordes": [
+   "baunilha",
+   "salgado",
+   "floral branco",
+   "âmbar"
+  ],
+  "topo": "Mandarina verde, jasmim d'água",
+  "coracao": "Flor de gengibre",
+  "fundo": "Baunilha salgada, âmbar cinza, madeira de caxemira",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "salgado",
+    86.4,
+    "#e9fff9",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    77.6,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    72.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "âmbar",
+    63.4,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    62.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    61.1,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "balsâmico",
+    59.4,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "marinho",
+    58.2,
+    "#0E529B",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    49.5,
+    "#83C928",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Loc Dong",
+   "Anne Flipo",
+   "Dominique Ropion"
+  ]
+ },
+ {
+  "id": "dl-des-209",
+  "marca": "Giorgio Armani",
+  "nome": "My Way",
+  "conc": "Eau de Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 768.46,
+  "preco_de": 809.0,
+  "estoque": 0,
+  "familia": "Floral",
+  "acordes": [
+   "floral branco",
+   "tuberosa",
+   "baunilha",
+   "cítrico"
+  ],
+  "topo": "Bergamota, flor de laranjeira",
+  "coracao": "Tuberosa, jasmim",
+  "fundo": "Baunilha bourbon, cedro, almíscar branco",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral branco",
+    100,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "tuberosa",
+    61.1,
+    "#ebfaf3",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    58.2,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "animálico",
+    46.9,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    44.1,
+    "#FFFEC0",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Carlos Benaïm",
+   "Bruno Jovanovic"
+  ]
+ },
+ {
+  "id": "dl-des-72",
+  "marca": "Calvin Klein",
+  "nome": "Eternity for Women",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 468.0,
+  "preco_de": 521.21,
+  "estoque": 0,
+  "familia": "Floral",
+  "acordes": [
+   "floral",
+   "floral branco",
+   "verde",
+   "frutado"
+  ],
+  "topo": "Verde, mandarina, bergamota, frésia, lima, folhas verdes",
+  "coracao": "Lírio-do-vale, lírio, narciso, rosa, jasmim, gengibre, violeta, manjericão",
+  "fundo": "Sândalo, âmbar, almíscar, cedro, heliotrópio, patchouli",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    82.9,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "verde",
+    73.7,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    67.1,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    63.2,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    59.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    49.6,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "herbal",
+    48.8,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    48.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    48.3,
+    "#E27752",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Sophia Grojsman"
+  ]
+ },
+ {
+  "id": "dl-des-144",
+  "painel_id": "dl-des-145",
+  "marca": "Dior",
+  "nome": "Hypnotic Poison",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 856.75,
+  "preco_de": 859.0,
+  "estoque": 0,
+  "familia": "Âmbar Baunilhado",
+  "acordes": [
+   "baunilha",
+   "amêndoa",
+   "doce",
+   "frutado"
+  ],
+  "topo": "Coco, ameixa, damasco",
+  "coracao": "Jacarandá, jasmim, tuberosa, alcaravia, rosa, lírio-do-vale",
+  "fundo": "Baunilha, amêndoa, sândalo, almíscar",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "doce",
+    85.9,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "amêndoa",
+    85.2,
+    "#f1e3c5",
+    "#000000"
+   ],
+   [
+    "frutado",
+    74,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "amendoado",
+    69.1,
+    "#b4955f",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    68.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    62.2,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "coco",
+    59.9,
+    "#f1e8d4",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    53.2,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "balsâmico",
+    49.7,
+    "#ad8359",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Annick Menardo"
+  ]
+ },
+ {
+  "id": "dl-des-406",
+  "marca": "Paco Rabanne",
+  "nome": "1 Million Royal",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 642.4,
+  "preco_de": 679.0,
+  "estoque": 0,
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "amadeirado",
+   "aromático",
+   "lavanda",
+   "balsâmico"
+  ],
+  "topo": "Cedro",
+  "coracao": "Lavanda",
+  "fundo": "Benjoim",
+  "destaque": false,
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "especiado quente",
+    100,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    80.1,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    76.6,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    74.9,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    68.3,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "lavanda",
+    60.8,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    48.9,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "herbal",
+    47.6,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    46.5,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    46.3,
+    "#FFFEC0",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Quentin Bisch",
+   "Christophe Raynaud"
+  ]
+ },
+ {
+  "id": "dl-des-260",
+  "marca": "Hugo Boss",
+  "nome": "Boss Bottled Absolu",
+  "conc": "Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 598.2,
+  "preco_de": 639.0,
+  "estoque": 0,
+  "familia": "Amadeirado Aromático",
+  "acordes": [
+   "âmbar",
+   "balsâmico",
+   "amadeirado",
+   "couro"
+  ],
+  "topo": "Incenso, couro",
+  "coracao": "Patchouli, mirra",
+  "fundo": "Cedro, davana",
+  "destaque": false,
+  "familia_hera": "amadeirados",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    81.3,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    80.9,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    80.6,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "esfumaçado",
+    72.4,
+    "#827487",
+    "#FFFFFF"
+   ],
+   [
+    "patchouli",
+    69.1,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "couro",
+    64.4,
+    "#78483A",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    49.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "animálico",
+    47.2,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    46.1,
+    "#ee363b",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Annick Menardo",
+   "Suzy Le Helley"
+  ]
+ },
+ {
+  "id": "dl-des-463",
+  "marca": "Versace",
+  "nome": "Versense",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 597.28,
+  "preco_de": 639.0,
+  "estoque": 0,
+  "familia": "Amadeirado Floral Almiscarado",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "floral branco",
+   "fresco"
+  ],
+  "topo": "Bergamota, mandarina verde, figo, pera",
+  "coracao": "Cardamomo, lírio, jasmim, narciso",
+  "fundo": "Cedro, almíscar, oliveira, sândalo",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    65.2,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    49.8,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "aromático",
+    48.7,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    46.4,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    44.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    44.1,
+    "#9be5ed",
+    "#000000"
+   ]
+  ]
+ },
+ {
+  "id": "dl-des-331",
+  "marca": "Michael Kors",
+  "nome": "Michael Kors Pour Femme",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 581.93,
+  "preco_de": 619.0,
+  "estoque": 0,
+  "familia": "Floral",
+  "acordes": [
+   "floral",
+   "frutado",
+   "almiscarado",
+   "patchouli"
+  ],
+  "topo": "Cassis, mandarina, pimenta rosa",
+  "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
+  "fundo": "Almíscar, patchouli, baunilha",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    93.1,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    87.2,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "frutado",
+    86.8,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    71.2,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "rosa",
+    63.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    61,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    60.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    60,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    58.9,
+    "#EEDDCC",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Jordi Fernández"
+  ]
+ },
+ {
+  "id": "dl-des-330",
+  "marca": "Michael Kors",
+  "nome": "Michael Kors Pour Homme",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 548.5,
+  "preco_de": 589.0,
+  "estoque": 0,
+  "familia": "Aromático Aquático",
+  "acordes": [
+   "aromático",
+   "cítrico",
+   "aquático",
+   "amadeirado"
+  ],
+  "topo": "Bergamota, lavanda, pimenta rosa",
+  "coracao": "Gerânio, sálvia, água do mar",
+  "fundo": "Âmbar cinza, patchouli, vetiver",
+  "destaque": false,
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "marinho",
+    66.7,
+    "#0E529B",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    66.7,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    56.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    54.3,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "herbal",
+    53.4,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    50.6,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "salgado",
+    46.6,
+    "#e9fff9",
+    "#000000"
+   ],
+   [
+    "animálico",
+    44.6,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    44.3,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Jordi Fernández"
+  ]
+ },
+ {
+  "id": "dl-des-189",
+  "marca": "Dolce&Gabbana",
+  "nome": "My Devotion Eau de Parfum Intense",
+  "conc": "Eau de Parfum",
+  "vol": "50 ml",
+  "genero": "Feminino",
+  "preco": 619.74,
+  "preco_de": 799.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "floral",
+   "frutado",
+   "baunilha",
+   "âmbar"
+  ],
+  "topo": "Flor de pera, cassis",
+  "coracao": "Peônia, flor de laranjeira",
+  "fundo": "Baunilha de Madagascar, ambroxan, madeira ambarada",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "fresco",
+    66.3,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "frutado",
+    63.3,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    62.7,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    53.7,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    51,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "rosa",
+    47.3,
+    "#FE016B",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Olivier Cresp"
+  ]
+ },
+ {
+  "id": "dl-des-473",
+  "marca": "Versace",
+  "nome": "Eros Energy",
+  "conc": "Eau de Parfum",
+  "vol": "200 ml",
+  "genero": "Masculino",
+  "preco": 716.67,
+  "preco_de": 889.0,
+  "estoque": 0,
+  "familia": "Cítrico Aromático",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "especiado fresco",
+   "almiscarado"
+  ],
+  "topo": "Limão, lima, toranja, laranja sanguínea, bergamota, mandarina",
+  "coracao": "Pimenta rosa, âmbar branco, cassis",
+  "fundo": "Almíscar, musgo de carvalho, patchouli",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aromático",
+    42.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    42.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    38.8,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    38.3,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ]
+ },
+ {
+  "id": "dl-des-115",
+  "marca": "Carolina Herrera",
+  "nome": "212 Sexy",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 741.95,
+  "preco_de": 829.0,
+  "estoque": 0,
+  "familia": "Âmbar Floral Gourmand",
+  "acordes": [
+   "doce",
+   "atalcado",
+   "caramelo",
+   "baunilha"
+  ],
+  "topo": "Pimenta rosa, mandarina, bergamota",
+  "coracao": "Algodão-doce, gardênia, gerânio, rosa",
+  "fundo": "Baunilha, almíscar, sândalo, caramelo, violeta, patchouli",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "doce",
+    100,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    78.9,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    76.6,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    67.1,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "caramelo",
+    67,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    66.3,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "floral",
+    58.6,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    55.2,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    53.9,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    51.2,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Rosendo Mateu"
+  ]
+ },
+ {
+  "id": "dl-des-295",
+  "marca": "Jean Paul Gaultier",
+  "nome": "Le Male Elixir Absolu",
+  "conc": "Elixir",
+  "vol": "125 ml",
+  "genero": "Masculino",
+  "preco": 854.45,
+  "preco_de": 859.0,
+  "estoque": 0,
+  "familia": "Âmbar Especiado",
+  "acordes": [
+   "especiado quente",
+   "âmbar",
+   "frutado",
+   "lavanda"
+  ],
+  "topo": "Ameixa, canela, cardamomo, bergamota",
+  "coracao": "Lavanda, davana, artemísia",
+  "fundo": "Fava tonka, benjoim, ambreta, patchouli, ládano",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "especiado quente",
+    100,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "âmbar",
+    83.8,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    81.6,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "frutado",
+    81.4,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "doce",
+    77.5,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    70.2,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "lavanda",
+    62,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "canela",
+    57.4,
+    "#D2691E",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    47.4,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    46.2,
+    "#83C928",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Quentin Bisch"
+  ]
+ },
+ {
+  "id": "dl-des-326",
+  "marca": "Lancôme",
+  "nome": "La Vie Est Belle L'Elixir Very Cherry",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 1059.66,
+  "preco_de": 1129.0,
+  "estoque": 0,
+  "familia": "Floral Frutado Gourmand",
+  "acordes": [
+   "cereja",
+   "amadeirado",
+   "verde",
+   "oud"
+  ],
+  "topo": "Cereja negra",
+  "coracao": "Folha de violeta",
+  "fundo": "Oud, manteiga de cacau, baunilha",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "cereja",
+    100,
+    "#ce1d33",
+    "#FFFFFF"
+   ],
+   [
+    "ozônico",
+    71.6,
+    "#C9FDFB",
+    "#000000"
+   ],
+   [
+    "aquático",
+    60.7,
+    "#63cce2",
+    "#000000"
+   ],
+   [
+    "oud",
+    59.9,
+    "#544136",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    43.1,
+    "#0E8C1D",
+    "#FFFFFF"
+   ]
+  ]
+ },
+ {
+  "id": "dl-des-372",
+  "marca": "Narciso Rodriguez",
+  "nome": "Narciso Rodriguez For Her Intense",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 904.05,
+  "preco_de": 919.0,
+  "estoque": 0,
+  "familia": "Floral Almiscarado",
+  "acordes": [
+   "almiscarado",
+   "frutado",
+   "floral",
+   "âmbar"
+  ],
+  "topo": "Pêssego, bergamota da Calábria",
+  "coracao": "Almíscar, flores brancas, lírio-aranha vermelho",
+  "fundo": "Âmbar, baunilha, musgo, vetiver",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "almiscarado",
+    100,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    95.6,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    85.6,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    77.5,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "frutado",
+    73.5,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "doce",
+    66.8,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    55.1,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    52.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "animálico",
+    50,
+    "#8E4B13",
+    "#FFFFFF"
+   ],
+   [
+    "terroso",
+    47.7,
+    "#544838",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Sonia Constant"
+  ]
+ },
+ {
+  "id": "dl-des-190",
+  "marca": "Dolce&Gabbana",
+  "nome": "Light Blue Eau de Parfum",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 733.46,
+  "preco_de": 829.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "cítrico",
+   "âmbar",
+   "floral",
+   "especiado quente"
+  ],
+  "topo": "Limão siciliano, bergamota da Calábria, pimenta rosa",
+  "coracao": "Frangipani, calêndula, canela",
+  "fundo": "Madeira ambarada, benjoim",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    73.6,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    65.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "aromático",
+    61.4,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    57,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    56.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    52.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "tropical",
+    50.9,
+    "#f6af09",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Olivier Cresp"
+  ]
+ },
+ {
+  "id": "dl-des-458",
+  "marca": "Versace",
+  "nome": "Versace Pour Homme",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 547.72,
+  "preco_de": 619.0,
+  "estoque": 0,
+  "familia": "Aromático Amadeirado",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "amadeirado",
+   "floral"
+  ],
+  "topo": "Bergamota, néroli, cidra, folhas de laranja amarga",
+  "coracao": "Gerânio, sálvia esclareia, jacinto azul",
+  "fundo": "Madeira de oud, âmbar mineral, cedro",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aromático",
+    69.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    61.7,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "floral",
+    49.4,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "rosa",
+    47,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "verde",
+    44.2,
+    "#0E8C1D",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Alberto Morillas"
+  ]
+ },
+ {
+  "id": "dl-azzaro-wanted",
+  "marca": "Azzaro",
+  "nome": "Wanted",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 553.15,
+  "preco_de": 569.0,
+  "estoque": 0,
+  "familia": "Amadeirada especiada",
+  "acordes": [
+   "aromático",
+   "fresco especiado",
+   "fresco",
+   "cítrico"
+  ],
+  "topo": "Limão, gengibre, lavanda e hortelã",
+  "coracao": "Cardamomo da Guatemala, zimbro, maçã e gerânio",
+  "fundo": "Fava tonka, amberwood e vetiver do Haiti",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    85.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "fresco",
+    65.8,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    65.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    64.1,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    63.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    60,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "frutado",
+    55.4,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "verde",
+    52.8,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    51.3,
+    "#FFFEC0",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Fabrice Pellegrin",
+   "Olivier Cresp"
+  ]
+ },
+ {
+  "id": "dl-des-120",
+  "marca": "Carolina Herrera",
+  "nome": "Good Girl Blush Elixir",
+  "conc": "Elixir",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 867.0,
+  "preco_de": 899.0,
+  "estoque": 0,
+  "familia": "Chipre Âmbar Floral",
+  "acordes": [
+   "rosa",
+   "baunilha",
+   "patchouli",
+   "amêndoa"
+  ],
+  "topo": "Bergamota, amêndoa amarga",
+  "coracao": "Rosa, ylang-ylang",
+  "fundo": "Baunilha, patchouli",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    92.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral amarelo",
+    91.3,
+    "#FFDC10",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    88.4,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    88.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "rosa",
+    81.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    77.2,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    59.2,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    58,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "floral",
+    56.3,
+    "#FF5F8D",
+    "#000000"
+   ]
+  ]
+ },
+ {
+  "id": "dl-des-296",
+  "marca": "Jean Paul Gaultier",
+  "nome": "Scandal Intense",
+  "conc": "Eau de Parfum",
+  "vol": "80 ml",
+  "genero": "Feminino",
+  "preco": 833.75,
+  "preco_de": 859.0,
+  "estoque": 0,
+  "familia": "Âmbar Floral Especiado",
+  "acordes": [
+   "baunilha",
+   "floral amarelo",
+   "doce",
+   "especiado quente"
+  ],
+  "topo": "Cardamomo",
+  "coracao": "Ylang-ylang",
+  "fundo": "Absoluto de baunilha",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "floral amarelo",
+    93.5,
+    "#FFDC10",
+    "#000000"
+   ],
+   [
+    "doce",
+    75.8,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    57.5,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    55.4,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    51,
+    "#EEDDCC",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Daphné Bugey",
+   "Fabrice Pellegrin",
+   "Nicolas Bonneville"
+  ]
+ },
+ {
+  "id": "dl-des-99",
+  "marca": "Carolina Herrera",
+  "nome": "Bad Boy Extreme",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 665.53,
+  "preco_de": 709.0,
+  "estoque": 0,
+  "familia": "Âmbar Aromático Amadeirado",
+  "acordes": [
+   "especiado",
+   "cacau",
+   "amadeirado",
+   "fava tonka"
+  ],
+  "topo": "Sálvia, gengibre",
+  "coracao": "Vetiver, cacau",
+  "fundo": "Fava tonka, patchouli",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    97.5,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "cacau",
+    83.6,
+    "#9a3a0d",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    75.7,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    72.9,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    68.8,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "balsâmico",
+    67.3,
+    "#ad8359",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    58.6,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "terroso",
+    54.7,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "baunilha",
+    52.2,
+    "#FFFEC0",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Quentin Bisch",
+   "Louise Turner",
+   "Yann Vasnier"
+  ]
+ },
+ {
+  "id": "px90uamcx0zim01i0u0x",
+  "marca": "Burberry",
+  "nome": "My Burberry Black",
+  "conc": "Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 782.6,
+  "preco_de": 789.0,
+  "estoque": 0,
+  "familia": "Oriental Floral",
+  "acordes": [
+   "âmbar",
+   "patchouli",
+   "frutado",
+   "rosa"
+  ],
+  "topo": "Jasmim",
+  "coracao": "Pêssego, rosa",
+  "fundo": "Âmbar, patchouli",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "patchouli",
+    82.9,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "frutado",
+    77.8,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "rosa",
+    75.7,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    61.8,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    61,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    56.5,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    54.2,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "terroso",
+    51.2,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    50.5,
+    "#ee363b",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Francis Kurkdjian"
+  ]
+ },
+ {
+  "id": "dl-des-468",
+  "marca": "Versace",
+  "nome": "Crystal Noir Parfum",
+  "conc": "Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 649.59,
+  "preco_de": 689.0,
+  "estoque": 0,
+  "familia": "Âmbar Floral",
+  "acordes": [
+   "amadeirado",
+   "especiado quente",
+   "caramelo",
+   "floral branco"
+  ],
+  "topo": "Especiarias, pimenta rosa, cassis",
+  "coracao": "Caramelo, tuberosa, lírio-do-vale",
+  "fundo": "Âmbar, sândalo, akigalawood, baunilha, orquídea",
+  "destaque": false,
+  "familia_hera": "orientais",
+  "acordes_fragrantica": [
+   [
+    "amadeirado",
+    100,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    91.5,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    70.6,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    68.9,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "especiado suave",
+    63.3,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    62.7,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "oud",
+    61.4,
+    "#544136",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    61.3,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "caramelo",
+    54.6,
+    "#DDA356",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    54.3,
+    "#edf2fb",
+    "#000000"
+   ]
+  ]
+ },
+ {
+  "id": "dl-des-472",
+  "marca": "Versace",
+  "nome": "Crystal Emerald",
+  "conc": "Eau de Parfum",
+  "vol": "90 ml",
+  "genero": "Feminino",
+  "preco": 732.15,
+  "preco_de": 749.0,
+  "estoque": 0,
+  "familia": "Floral Almiscarado",
+  "acordes": [
+   "almiscarado",
+   "frutado",
+   "cítrico",
+   "atalcado"
+  ],
+  "topo": "Bergamota, pêssego, pimenta rosa",
+  "coracao": "Botão de rosa verde, jasmim, sorbet de framboesa",
+  "fundo": "Almíscar branco, incenso, fava tonka",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "almiscarado",
+    100,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "doce",
+    83,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "frutado",
+    79.3,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    74.1,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    71.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    58.1,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    52,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "aromático",
+    45.6,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    44.3,
+    "#E27752",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Gaël Montero"
+  ]
+ },
+ {
+  "id": "dl-des-456",
+  "marca": "Versace",
+  "nome": "Versace Pour Homme Dylan Blue",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 539.09,
+  "preco_de": 579.0,
+  "estoque": 0,
+  "familia": "Aromático Fougère",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "aquático",
+   "amadeirado"
+  ],
+  "topo": "Notas aquáticas, folha de figo, bergamota, toranja",
+  "coracao": "Folha de violeta, patchouli, papiro, pimenta-preta, ambroxan",
+  "fundo": "Almíscar, fava tonka, açafrão, incenso",
+  "destaque": false,
+  "familia_hera": "azuis",
+  "acordes_fragrantica": [
+   [
+    "âmbar",
+    100,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    92.2,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    75,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    71.1,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "aquático",
+    69.8,
+    "#63cce2",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    64.6,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    54.1,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    52.5,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "aromático",
+    51.5,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "esfumaçado",
+    49.8,
+    "#827487",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Alberto Morillas"
+  ]
+ },
+ {
+  "id": "dl-des-466",
+  "marca": "Versace",
+  "nome": "Versace Pour Femme Dylan Blue",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 624.24,
+  "preco_de": 679.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "frutado",
+   "floral",
+   "verde",
+   "rosa"
+  ],
+  "topo": "Maçã verde, cassis, trevo, miosótis, shiso",
+  "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
+  "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "frutado",
+    100,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "floral",
+    79.6,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "verde",
+    66.3,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "rosa",
+    64.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    62.9,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    49,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    45,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    45,
+    "#E7D8EA",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Calice Becker",
+   "Natalie Gracia-Cetto"
+  ]
+ },
+ {
+  "id": "dl-des-467",
+  "marca": "Versace",
+  "nome": "Versace Pour Femme Dylan Turquoise",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Feminino",
+  "preco": 656.99,
+  "preco_de": 689.0,
+  "estoque": 0,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "cítrico",
+   "amadeirado",
+   "frutado",
+   "almiscarado"
+  ],
+  "topo": "Limão, mandarina, pimenta rosa",
+  "coracao": "Goiaba, frésia, cassis, jasmim",
+  "fundo": "Almíscar, Clearwood, cedro",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    81.7,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "frutado",
+    64.8,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    62.5,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    61.9,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "aromático",
+    58,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "floral",
+    55.4,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "fresco",
+    54.6,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    47.4,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "tropical",
+    46.6,
+    "#f6af09",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Sophie Labbé"
+  ]
+ },
+ {
+  "id": "dl-des-459",
+  "marca": "Versace",
+  "nome": "Eros Energy",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 617.38,
+  "preco_de": 629.0,
+  "estoque": 0,
+  "familia": "Cítrico Aromático",
+  "acordes": [
+   "cítrico",
+   "aromático",
+   "especiado fresco",
+   "almiscarado"
+  ],
+  "topo": "Limão, lima, toranja, laranja sanguínea, bergamota, mandarina",
+  "coracao": "Pimenta rosa, âmbar branco, cassis",
+  "fundo": "Almíscar, musgo de carvalho, patchouli",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "aromático",
+    42.9,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    42.2,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    38.8,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    38.3,
+    "#774414",
+    "#FFFFFF"
+   ]
+  ]
+ },
+ {
+  "id": "dl-tes-92",
+  "painel_id": "off-0008568",
+  "marca": "Versace",
+  "nome": "Eros",
+  "conc": "Eau de Toilette",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 455.85,
+  "preco_de": 479.04,
+  "estoque": 1,
+  "familia": "Âmbar Fougère",
+  "acordes": [
+   "aromático",
+   "baunilha",
+   "cítrico",
+   "menta"
+  ],
+  "topo": "Limão, mandarina, menta, maçã do amor",
+  "coracao": "Gerânio, sálvia esclareia, AmberMax",
+  "fundo": "Cedro, vetiver, patchouli, sândalo, baunilha",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "aromático",
+    93.8,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "verde",
+    89.2,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    66.6,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "âmbar",
+    62.2,
+    "#bc4d10",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    56.2,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "frutado",
+    56,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    53.3,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    52,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    51.5,
+    "#9be5ed",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Aurélien Guichard"
+  ]
+ },
+ {
+  "id": "off-0012694",
+  "marca": "Calvin Klein",
+  "nome": "Eternity Aromatic Essence",
+  "conc": "Eau de Parfum",
+  "vol": "100 ml",
+  "genero": "Masculino",
+  "preco": 312.65,
+  "preco_de": 328.0,
+  "estoque": 2,
+  "familia": "Aromático Frutado",
+  "acordes": [
+   "aromático",
+   "coco",
+   "especiado fresco",
+   "amadeirado"
+  ],
+  "topo": "Zimbro, pimenta de Sichuan, limão",
+  "coracao": "Coco, lavanda",
+  "fundo": "Cardamomo, cedro da Virgínia, patchouli",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "coco",
+    94.4,
+    "#f1e8d4",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    80,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    78.4,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado quente",
+    65.1,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "lavanda",
+    62.2,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "doce",
+    57.4,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    55.8,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "lactônico",
+    52.6,
+    "#fbf9f2",
+    "#000000"
+   ],
+   [
+    "baunilha",
+    49.3,
+    "#FFFEC0",
+    "#000000"
+   ]
+  ]
+ },
+ {
+  "id": "67d0v9rhp4nl2vqbcfbt",
+  "marca": "Azzaro",
+  "nome": "Azzaro Pour Homme",
+  "conc": "Eau de Toilette",
+  "vol": "50 ml",
+  "genero": "Masculino",
+  "preco": 219.42,
+  "preco_de": 249.0,
+  "estoque": 1,
+  "familia": "Aromático Fougère",
+  "acordes": [
+   "aromático",
+   "lavanda",
+   "anis",
+   "amadeirado"
+  ],
+  "topo": "Alcaravia, íris, lavanda, sálvia esclareia, manjericão, anis, bergamota, limão",
+  "coracao": "Sândalo, bagas de zimbro, patchouli, vetiver, cedro, cardamomo",
+  "fundo": "Couro, fava tonka, âmbar, almíscar, musgo de carvalho",
+  "destaque": false,
+  "familia_hera": "aromaticos",
+  "acordes_fragrantica": [
+   [
+    "aromático",
+    100,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    86.6,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "especiado fresco",
+    70.8,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "terroso",
+    66.6,
+    "#544838",
+    "#FFFFFF"
+   ],
+   [
+    "lavanda",
+    62.6,
+    "#9B7DB8",
+    "#000000"
+   ],
+   [
+    "musgo",
+    58,
+    "#5B6B32",
+    "#FFFFFF"
+   ],
+   [
+    "couro",
+    53.5,
+    "#78483A",
+    "#FFFFFF"
+   ],
+   [
+    "cítrico",
+    53.1,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "atalcado",
+    52.7,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    49.6,
+    "#CC3300",
+    "#FFFFFF"
+   ]
+  ],
+  "perfumistas": [
+   "Gerard Anthony",
+   "Richard Wirtz"
+  ]
+ },
+ {
+  "id": "kit-calvin-klein-eternity-feminino",
+  "painel_id": "off-0012706",
+  "tipo": "cofre",
+  "marca": "Calvin Klein",
+  "nome": "Eternity Feminino",
+  "conc": "Kit para presente",
+  "vol": "",
+  "genero": "Feminino",
+  "composicao": "1 perfume EDP 50 ml + loção corporal 100 ml + gel de banho 100 ml",
+  "preco": 358.49,
+  "preco_de": 367.0,
+  "estoque": 2,
+  "familia": "Floral",
+  "acordes": [
+   "floral branco",
+   "verde",
+   "especiado",
+   "âmbar"
+  ],
+  "topo": "Notas verdes, frésia, sálvia, mandarina",
+  "coracao": "Cravo, lírio, lírio-do-vale, narciso, calêndula, violeta, rosa, jasmim",
+  "fundo": "Heliotrópio, almíscar, sândalo, âmbar, patchouli",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "floral",
+    100,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    82.9,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "verde",
+    73.7,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "aromático",
+    67.1,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado quente",
+    63.2,
+    "#CC3300",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    59.3,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "fresco",
+    49.6,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "herbal",
+    48.8,
+    "#6CA47F",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    48.4,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    48.3,
+    "#E27752",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Sophia Grojsman"
+  ]
+ },
+ {
+  "id": "kit-michael-kors-pour-femme",
+  "painel_id": "off-0013833",
+  "tipo": "cofre",
+  "marca": "Michael Kors",
+  "nome": "Pour Femme",
+  "conc": "Kit para presente",
+  "vol": "",
+  "genero": "Feminino",
+  "composicao": "1 perfume EDP 100 ml + gel de banho 100 ml + loção corporal 100 ml",
+  "preco": 648.2,
+  "preco_de": 713.0,
+  "estoque": 1,
+  "familia": "Floral",
+  "acordes": [
+   "floral",
+   "frutado",
+   "almiscarado",
+   "patchouli"
+  ],
+  "topo": "Cassis, mandarina, pimenta rosa",
+  "coracao": "Jasmim sambac, rosa búlgara, lírio-do-vale",
+  "fundo": "Almíscar, patchouli, baunilha",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "floral branco",
+    93.1,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    87.2,
+    "#E7D8EA",
+    "#000000"
+   ],
+   [
+    "frutado",
+    86.8,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "especiado suave",
+    71.2,
+    "#E27752",
+    "#000000"
+   ],
+   [
+    "rosa",
+    63.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "amadeirado",
+    61,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral",
+    60.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "patchouli",
+    60,
+    "#63652e",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    58.9,
+    "#EEDDCC",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Jordi Fernández"
+  ]
+ },
+ {
+  "id": "kit-versace-dylan-blue-pour-femme",
+  "painel_id": "off-0013840",
+  "tipo": "cofre",
+  "marca": "Versace",
+  "nome": "Dylan Blue Pour Femme",
+  "conc": "Kit para presente",
+  "vol": "",
+  "genero": "Feminino",
+  "composicao": "1 perfume EDP 100 ml + gel de banho + loção corporal + miniatura 5 ml",
+  "preco": 644.82,
+  "preco_de": 658.0,
+  "estoque": 1,
+  "familia": "Floral Frutado",
+  "acordes": [
+   "frutado",
+   "floral",
+   "verde",
+   "rosa"
+  ],
+  "topo": "Maçã verde, cassis, trevo, miosótis, shiso",
+  "coracao": "Pêssego, rosa, rosa-mosqueta, jasmim",
+  "fundo": "Almíscar, madeiras brancas, patchouli, estoraque",
+  "destaque": false,
+  "familia_hera": "florais",
+  "acordes_fragrantica": [
+   [
+    "frutado",
+    100,
+    "#FC4B29",
+    "#000000"
+   ],
+   [
+    "floral",
+    79.6,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "verde",
+    66.3,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "rosa",
+    64.9,
+    "#FE016B",
+    "#FFFFFF"
+   ],
+   [
+    "fresco",
+    62.9,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    49,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "doce",
+    45,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "almiscarado",
+    45,
+    "#E7D8EA",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Calice Becker",
+   "Natalie Gracia-Cetto"
+  ]
+ },
+ {
+  "id": "kit-dolce-gabbana-devotion-feminino",
+  "painel_id": "off-0013415",
+  "tipo": "cofre",
+  "marca": "Dolce & Gabbana",
+  "nome": "Devotion Feminino",
+  "conc": "Kit para presente",
+  "vol": "",
+  "genero": "Feminino",
+  "composicao": "1 perfume EDP 100 ml + gel de banho 50 ml + loção corporal 50 ml",
+  "preco": 773.25,
+  "preco_de": 775.0,
+  "estoque": 2,
+  "familia": "Âmbar Baunilhado",
+  "acordes": [
+   "baunilha",
+   "doce",
+   "floral branco",
+   "lactônico"
+  ],
+  "topo": "Limão confitado",
+  "coracao": "Panna cotta, flor de laranjeira, rum",
+  "fundo": "Baunilha",
+  "destaque": false,
+  "familia_hera": "doces",
+  "acordes_fragrantica": [
+   [
+    "baunilha",
+    100,
+    "#FFFEC0",
+    "#000000"
+   ],
+   [
+    "doce",
+    92,
+    "#ee363b",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    65.5,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "lactônico",
+    51.7,
+    "#fbf9f2",
+    "#000000"
+   ],
+   [
+    "rum",
+    51.4,
+    "#AC2005",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    51,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "cítrico",
+    47.7,
+    "#F9FF52",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Olivier Cresp"
+  ]
+ },
+ {
+  "id": "kit-calvin-klein-ck-one",
+  "painel_id": "off-0003405",
+  "tipo": "cofre",
+  "marca": "Calvin Klein",
+  "nome": "CK One",
+  "conc": "Kit para presente",
+  "vol": "",
+  "genero": "Unissex",
+  "composicao": "1 perfume EDT 100 ml + gel de banho 100 ml",
+  "preco": 300.9,
+  "preco_de": 318.0,
+  "estoque": 1,
+  "familia": "Cítrico Aromático",
+  "acordes": [
+   "cítrico",
+   "verde",
+   "atalcado",
+   "amadeirado"
+  ],
+  "topo": "Limão, bergamota, mandarina, abacaxi, cardamomo, mamão",
+  "coracao": "Lírio-do-vale, jasmim, violeta, rosa, noz-moscada, frésia, raiz de íris",
+  "fundo": "Almíscar, cedro, chá verde, sândalo, musgo de carvalho, âmbar",
+  "destaque": false,
+  "familia_hera": "citricos",
+  "acordes_fragrantica": [
+   [
+    "cítrico",
+    100,
+    "#F9FF52",
+    "#000000"
+   ],
+   [
+    "verde",
+    72.6,
+    "#0E8C1D",
+    "#FFFFFF"
+   ],
+   [
+    "atalcado",
+    56.1,
+    "#EEDDCC",
+    "#000000"
+   ],
+   [
+    "amadeirado",
+    55.8,
+    "#774414",
+    "#FFFFFF"
+   ],
+   [
+    "floral branco",
+    54.2,
+    "#edf2fb",
+    "#000000"
+   ],
+   [
+    "fresco",
+    53.4,
+    "#9be5ed",
+    "#000000"
+   ],
+   [
+    "aromático",
+    52.6,
+    "#37a089",
+    "#000000"
+   ],
+   [
+    "especiado fresco",
+    47.9,
+    "#83C928",
+    "#000000"
+   ],
+   [
+    "floral",
+    47.8,
+    "#FF5F8D",
+    "#000000"
+   ],
+   [
+    "almiscarado",
+    47.1,
+    "#E7D8EA",
+    "#000000"
+   ]
+  ],
+  "perfumistas": [
+   "Alberto Morillas",
+   "Harry Fremont"
+  ]
+ },
+  {"id": "teste-5", "marca": "Hera", "nome": "Produto de teste", "conc": "Teste de pagamento", "vol": "", "genero": "Teste", "preco": 5.0, "familia": "", "acordes": [], "topo": "", "coracao": "", "fundo": "", "destaque": false, "teste": true, "oculto": true}
+]
