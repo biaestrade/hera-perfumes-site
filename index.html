@@ -896,7 +896,8 @@ nav.menu a.link-conta{background-image:none}
 .ped-itens{margin:10px 0 4px;font-size:14px;color:#5a4a4f;line-height:1.6}
 .ped-linha{display:grid;grid-template-columns:repeat(4,1fr);margin:22px 0 6px;position:relative}
 .ped-linha::before{content:"";position:absolute;top:9px;left:12.5%;right:12.5%;height:2px;background:var(--linha)}
-.ped-linha .barra{position:absolute;top:9px;left:12.5%;height:2px;background:var(--carmim,#88072B);transition:width .6s ease}
+.ped-linha .ped-barra{position:absolute;top:9px;left:12.5%;height:2px;background:var(--carmim,#88072B);transition:width .6s ease}
+.ped-aviso{margin:14px 0 4px;padding:10px 14px;border-radius:12px;background:var(--rosado);font-size:13px;color:var(--bordo)}
 .ped-etapa{position:relative;text-align:center;font-size:12px;color:#8a7a7f;padding:0 4px}
 .ped-etapa i{display:block;width:20px;height:20px;border-radius:50%;margin:0 auto 8px;background:#fff;border:2px solid var(--linha);position:relative;z-index:1}
 .ped-etapa.feita{color:var(--bordo);font-weight:600}.ped-etapa.feita i{background:var(--carmim,#88072B);border-color:var(--carmim,#88072B)}
@@ -2252,13 +2253,17 @@ function cardPedido(p){
   var pago=/^aprovado/.test(p.status), env=p.status_envio||'aguardando';
   var nivel=!pago?-1:({aguardando:0,separando:1,enviado:2,entregue:3}[env]||0);
   var datas=[p.pago_em,'',p.enviado_em,p.entregue_em];
-  var selo=pago?'<span class="ped-selo ok">Pago</span>':p.status==='pendente'?'<span class="ped-selo">Pagamento em análise</span>':'<span class="ped-selo">'+esc(p.status)+'</span>';
+  var naoPago=!pago && p.status!=='pendente';
+  var rotulo={recusado:'Pagamento não aprovado',criado:'Aguardando pagamento',erro_ao_criar:'Pagamento não iniciado',estornado:'Pagamento devolvido',em_disputa:'Em análise'}[p.status]||p.status;
+  var selo=pago?'<span class="ped-selo ok">Pago</span>':p.status==='pendente'?'<span class="ped-selo">Pagamento em análise</span>':'<span class="ped-selo">'+esc(rotulo)+'</span>';
   var r=linkRastreio(p);
   return '<article class="ped-card"><div class="ped-cab"><b>Pedido '+esc(p.id)+'</b><span class="muted" style="font-size:13px">'+dataCurta(p.criado_em)+' · '+centavos(p.total_centavos)+'</span>'+selo+'</div>'+
     '<div class="ped-itens">'+(p.itens||[]).map(function(i){ return esc(i.quantidade+'x '+i.titulo); }).join('<br>')+'</div>'+
-    '<div class="ped-linha"><span class="barra" style="width:'+(nivel<=0?0:nivel*25)+'%"></span>'+ETAPAS.map(function(e,k){
-      return '<div class="ped-etapa'+(k<=nivel?' feita':'')+'"><i></i>'+e[1]+(k<=nivel&&datas[k]?'<small>'+dataCurta(datas[k])+'</small>':'')+'</div>';
-    }).join('')+'</div>'+
+    (naoPago
+      ? '<p class="ped-aviso">'+(p.status==='recusado'?'O pagamento não foi aprovado e nada foi cobrado. Se quiser, refaça a compra pelo carrinho.':p.status==='estornado'?'O valor deste pedido foi devolvido.':'Este pedido não foi pago. Se quiser, refaça a compra pelo carrinho.')+'</p>'
+      : '<div class="ped-linha"><span class="ped-barra" style="width:'+(nivel<=0?0:nivel*25)+'%"></span>'+ETAPAS.map(function(e,k){
+          return '<div class="ped-etapa'+(k<=nivel?' feita':'')+'"><i></i>'+e[1]+(k<=nivel&&datas[k]?'<small>'+dataCurta(datas[k])+'</small>':'')+'</div>';
+        }).join('')+'</div>')+
     ((p.rastreio_codigo||p.nota_fiscal_url)?'<div class="ped-rastreio">'+
       (p.rastreio_codigo?'<span>'+(p.transportadora?esc(p.transportadora)+' · ':'')+'Rastreio <b>'+esc(p.rastreio_codigo)+'</b></span>'+(r?'<a href="'+esc(r)+'" target="_blank" rel="noopener">Acompanhar entrega →</a>':''):'')+
       (p.nota_fiscal_url?'<a href="'+esc(p.nota_fiscal_url)+'" target="_blank" rel="noopener">Nota fiscal</a>':'')+'</div>':'')+
