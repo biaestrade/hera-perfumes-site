@@ -1164,7 +1164,7 @@ nav.menu a.link-conta{background-image:none}
             <h2 style="font-size:24px;margin-bottom:12px">Pagamento</h2>
             <div class="duas">
               <div class="caixa" style="padding:16px"><b>Pix</b><p class="muted" style="font-size:13px">À vista, com 5% off nos perfumes. Aprovação na hora</p></div>
-              <div class="caixa" style="padding:16px"><b>Cartão</b><p class="muted" style="font-size:13px">Em até 4x sem juros (5x a 8x com juros)</p></div>
+              <div class="caixa" style="padding:16px"><b>Cartão</b><p class="muted" style="font-size:13px">Em até 3x sem juros (4x a 8x com juros)</p></div>
             </div>
           </div>
           <div>
@@ -1237,7 +1237,7 @@ nav.menu a.link-conta{background-image:none}
       </nav>
       <div class="pol-secao" id="pol-pagamento"><h2>Pagamento</h2>
         <p>O pagamento é feito pelo Mercado Pago, em ambiente seguro. Aceitamos Pix e cartão de crédito. Os dados do seu cartão não passam pelo nosso site.</p>
-        <p>Pix com 5% de desconto, ou cartão de crédito em até 4x sem juros. De 5x a 8x, com os juros do cartão pagos pelo cliente.</p>
+        <p>Pix com 5% de desconto, ou cartão de crédito em até 3x sem juros. De 4x a 8x, com os juros do cartão pagos pelo cliente.</p>
         <p>O pedido é confirmado assim que o Mercado Pago aprova o pagamento. Pix costuma ser aprovado na hora.</p></div>
       <div class="pol-secao" id="pol-descontos"><h2>Descontos e códigos promocionais</h2>
         <p>Todo o site está com descontos especiais na inauguração, por 30 dias ou enquanto durarem os estoques (vale também para o cupom de inauguração). O preço "De" é o preço médio de mercado, e o "Por" é o preço Hera.</p>
@@ -1479,7 +1479,7 @@ nav.menu a.link-conta{background-image:none}
     <div class="bloco-online" id="sel-online">
       <div class="tot tot-pix"><span>No Pix<em id="sel-pix-pct">5% OFF</em></span><b id="sel-total-pix"></b></div>
       <div class="tot tot-cartao"><span>No cartão</span><b id="sel-total-online"></b></div>
-      <small class="juros-cartao">em até 4x sem juros · de 5x a 8x com os juros do cartão</small>
+      <small class="juros-cartao">em até 3x sem juros · de 4x a 8x com os juros do cartão</small>
       <small id="sel-detalhe-online"></small>
       <button type="button" class="btn btn-pagar" id="sel-pagar"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Finalizar compra</button>
       <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
@@ -1908,7 +1908,7 @@ function mostrarProduto(id){
   document.getElementById('pr-nome').textContent = p.nome;
   document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Kit para presente' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
   document.getElementById('pr-preco').innerHTML = DESCONTO_PIX && p.preco > 0 ? brl(precoPix(p.preco)) + ' <small class="pr-no-pix">no Pix (' + DESCONTO_PIX + '% off)</small>' : brl(p.preco);
-  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? 'ou <b>' + brl(p.preco) + '</b> no cartão, em até 4x sem juros' : 'Pix ou até 4x sem juros no cartão') + (DESCONTO_WHATSAPP ? ' · ou ' + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '') : '';
+  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? 'ou <b>' + brl(p.preco) + '</b> no cartão, em até 3x sem juros' : 'Pix ou até 3x sem juros no cartão') + (DESCONTO_WHATSAPP ? ' · ou ' + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '') : '';
   document.getElementById('pr-de').innerHTML = offPct(p) ? 'De <s>' + brl(p.preco_de) + '</s> <span class="etq etq-off">-' + offPct(p) + '%</span>' : '';
   document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No kit:</b> ' + esc(p.composicao || '') : '');
   document.getElementById('pr-conc').textContent = p.tipo === 'cofre' ? 'Kit' : p.conc;
@@ -2426,7 +2426,7 @@ function rotulosPagar(temPix,totPix,tot){
   bp.hidden=!temPix; bp.disabled=false; bc.disabled=false;
   bc.classList.toggle('btn-cartao',!!temPix); // sem Pix separado, o botão do Mercado Pago é o principal
   bp.innerHTML='Pagar com Pix · '+esc(totPix)+'<small>'+DESCONTO_PIX+'% off nos perfumes · aprovado na hora</small>';
-  bc.innerHTML=temPix?'Pagar com cartão · '+esc(tot)+'<small>até 4x sem juros · 5x a 8x com juros do cartão</small>':'Ir para o pagamento · '+esc(tot)+'<small>Pix ou cartão em até 4x sem juros</small>';
+  bc.innerHTML=temPix?'Pagar com cartão · '+esc(tot)+'<small>até 3x sem juros · 4x a 8x com juros do cartão</small>':'Ir para o pagamento · '+esc(tot)+'<small>Pix ou cartão em até 3x sem juros</small>';
 }
 function fechaConfirmacao(){ document.getElementById('conf').hidden=true; document.getElementById('conf-fundo').hidden=true; }
 document.getElementById('conf-fechar').addEventListener('click',fechaConfirmacao);
