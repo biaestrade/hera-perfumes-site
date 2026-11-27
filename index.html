@@ -657,6 +657,7 @@ body.tem-selecao .wa-flutuante{bottom:110px}
 .rodape-lista .tot-pix span em{font-style:normal;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--off);background:var(--carmim);border-radius:20px;padding:2px 8px;margin-left:6px;vertical-align:2px}
 .rodape-lista .tot-cartao{margin-top:6px;font-size:14px}
 .rodape-lista .tot-cartao b{font-size:16px;color:var(--bordo)}
+.rodape-lista .juros-cartao{display:block;font-size:12px;color:var(--texto);margin:2px 0 12px;text-align:right}
 .pr-pix{margin-top:6px;font-size:15px;color:var(--bordo)}
 .pr-pix b{color:var(--carmim)}
 .conf-acoes #conf-pix,.conf-acoes #conf-ok{flex-direction:column;gap:2px;padding-top:10px;padding-bottom:10px;height:auto}
@@ -910,7 +911,7 @@ nav.menu a.link-conta{background-image:none}
   <symbol id="i-frasco" viewBox="0 0 46 70"><g fill="none" stroke="#C7848C" stroke-width="1.5"><rect x="16" y="2" width="14" height="10" rx="2"/><rect x="19" y="12" width="8" height="6"/><rect x="4" y="18" width="38" height="50" rx="8"/></g></symbol>
 </svg>
 
-<div class="faixa-topo" id="faixa-topo" aria-label="Ofertas"><div class="fx-linha"><a class="fx-m" href="#catalogo">DESCONTOS DE INAUGURAÇÃO<span class="fx-longo"> EM TODO O SITE</span></a><span class="fx-s"> · </span><span class="fx-m">ATÉ 4X SEM JUROS NO CARTÃO</span><span class="fx-s"> · </span><a class="fx-m" href="https://wa.me/5511913184495" target="_blank" rel="noopener">7% OFF NO PIX PELO WHATSAPP</a><span class="fx-s"> · </span><span class="fx-m">ENVIO PARA TODO O BRASIL</span></div></div>
+<div class="faixa-topo" id="faixa-topo" aria-label="Ofertas"><div class="fx-linha"><a class="fx-m" href="#catalogo">DESCONTOS DE INAUGURAÇÃO<span class="fx-longo"> EM TODO O SITE</span></a><span class="fx-s"> · </span><span class="fx-m">5% OFF NO PIX PELO SITE</span><span class="fx-s"> · </span><a class="fx-m" href="https://wa.me/5511913184495" target="_blank" rel="noopener">7% OFF NO PIX PELO WHATSAPP</a><span class="fx-s"> · </span><span class="fx-m">ENVIO PARA TODO O BRASIL</span></div></div>
 <header class="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="Hera Perfumes — início">
@@ -1234,7 +1235,7 @@ nav.menu a.link-conta{background-image:none}
       </nav>
       <div class="pol-secao" id="pol-pagamento"><h2>Pagamento</h2>
         <p>O pagamento é feito pelo Mercado Pago, em ambiente seguro. Aceitamos Pix e cartão de crédito. Os dados do seu cartão não passam pelo nosso site.</p>
-        <p>Pix ou cartão de crédito em até 4x sem juros. De 5x a 8x, com os juros do cartão pagos pelo cliente.</p>
+        <p>Pix com 5% de desconto, ou cartão de crédito em até 4x sem juros. De 5x a 8x, com os juros do cartão pagos pelo cliente.</p>
         <p>O pedido é confirmado assim que o Mercado Pago aprova o pagamento. Pix costuma ser aprovado na hora.</p></div>
       <div class="pol-secao" id="pol-descontos"><h2>Descontos e códigos promocionais</h2>
         <p>Todo o site está com descontos especiais na inauguração, por 30 dias ou enquanto durarem os estoques (vale também para o cupom de inauguração). O preço "De" é o preço médio de mercado, e o "Por" é o preço Hera.</p>
@@ -1476,7 +1477,8 @@ nav.menu a.link-conta{background-image:none}
     </form>
     <div class="bloco-online" id="sel-online">
       <div class="tot tot-pix"><span>No Pix<em id="sel-pix-pct">5% OFF</em></span><b id="sel-total-pix"></b></div>
-      <div class="tot tot-cartao"><span>Total</span><b id="sel-total-online"></b></div>
+      <div class="tot tot-cartao"><span>No cartão</span><b id="sel-total-online"></b></div>
+      <small class="juros-cartao">em até 4x sem juros · de 5x a 8x com os juros do cartão</small>
       <small id="sel-detalhe-online"></small>
       <button type="button" class="btn btn-pagar" id="sel-pagar"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Finalizar compra</button>
       <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
@@ -1497,7 +1499,7 @@ var WHATSAPP = '5511913184495';
 // No site oficial (GitHub Pages), o botão "Pagar agora" só aparece depois que API_LOJA for preenchido.
 var API_LOJA = '';
 var DESCONTO_WHATSAPP = 7; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
-var DESCONTO_PIX = 0; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
+var DESCONTO_PIX = 5; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
 function precoPix(v){ return Math.round(v * (100 - DESCONTO_PIX)) / 100; }
 function lojaOnline(){ return !!API_LOJA || /\.workers\.dev$/.test(location.hostname) || location.hostname === 'localhost' || location.hostname === '127.0.0.1'; }
 var PERFUMES = []; // a lista oficial fica em produtos.json (o site e o servidor leem o mesmo arquivo)
@@ -2420,7 +2422,7 @@ function rotulosPagar(temPix,totPix,tot){
   bp.hidden=!temPix; bp.disabled=false; bc.disabled=false;
   bc.classList.toggle('btn-cartao',!!temPix); // sem Pix separado, o botão do Mercado Pago é o principal
   bp.innerHTML='Pagar com Pix · '+esc(totPix)+'<small>'+DESCONTO_PIX+'% off nos perfumes · aprovado na hora</small>';
-  bc.innerHTML=temPix?'Pagar com cartão · '+esc(tot):'Ir para o pagamento · '+esc(tot)+'<small>Pix ou cartão em até 4x sem juros</small>';
+  bc.innerHTML=temPix?'Pagar com cartão · '+esc(tot)+'<small>até 4x sem juros · 5x a 8x com juros do cartão</small>':'Ir para o pagamento · '+esc(tot)+'<small>Pix ou cartão em até 4x sem juros</small>';
 }
 function fechaConfirmacao(){ document.getElementById('conf').hidden=true; document.getElementById('conf-fundo').hidden=true; }
 document.getElementById('conf-fechar').addEventListener('click',fechaConfirmacao);

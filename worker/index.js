@@ -292,7 +292,7 @@ async function paginaComPrevia(env, url) {
     const de = Number(p.preco_de) > por ? `De ${preco(p.preco_de)} por ${preco(por)}` : preco(por);
     meta = {
       titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
-      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. Pix ou até 4x sem juros no cartão.`,
+      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. 5% off no Pix ou em até 4x sem juros.`,
       imagem: `${origem}/assets/compartilhar/${encodeURIComponent(p.id)}.jpg`,
       url: `${origem}/p/${encodeURIComponent(p.id)}`,
       alt: `${p.marca} ${p.nome}`,
