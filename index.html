@@ -659,7 +659,7 @@ body.tem-selecao .wa-flutuante{bottom:110px}
 .rodape-lista .tot-cartao b{font-size:16px;color:var(--bordo)}
 .pr-pix{margin-top:6px;font-size:15px;color:var(--bordo)}
 .pr-pix b{color:var(--carmim)}
-.conf-acoes #conf-pix{flex-direction:column;gap:2px;padding-top:10px;padding-bottom:10px;height:auto}
+.conf-acoes #conf-pix,.conf-acoes #conf-ok{flex-direction:column;gap:2px;padding-top:10px;padding-bottom:10px;height:auto}
 .conf-acoes .btn-pagar small{display:block;font-size:11px;font-weight:500;opacity:.85;letter-spacing:.02em}
 .conf-acoes .btn-cartao{background:transparent;color:var(--bordo);border:1px solid var(--bordo)}
 .rodape-lista small{display:block;color:var(--texto);margin:2px 0 14px;font-size:12px}
@@ -2403,7 +2403,7 @@ function abreConfirmacao(p){
     return;
   }
   var tot=document.getElementById('sel-total-online').textContent, totPix=document.getElementById('sel-total-pix').textContent;
-  var temPix=!document.querySelector('#sel-online .tot-pix').hidden && totPix && totPix!=='—';
+  var temPix=DESCONTO_PIX>0 && !document.querySelector('#sel-online .tot-pix').hidden && totPix && totPix!=='—';
   document.getElementById('conf-dados').innerHTML=
     '<dt>Nome</dt><dd>'+esc(p.nome)+'</dd><dt>CPF</dt><dd>'+esc(fmtCPF(p.cpf))+'</dd><dt>WhatsApp</dt><dd>'+esc(fmtTel(p.telefone))+'</dd>'+
     '<dt>E-mail</dt><dd>'+esc(EMAIL_CONTA||document.getElementById('conta-email').textContent||'')+'</dd><dt>Entrega</dt><dd>'+esc(enderecoTexto(p))+'</dd>';
@@ -2417,6 +2417,7 @@ function abreConfirmacao(p){
 function rotulosPagar(temPix,totPix,tot){
   var bp=document.getElementById('conf-pix'), bc=document.getElementById('conf-ok');
   bp.hidden=!temPix; bp.disabled=false; bc.disabled=false;
+  bc.classList.toggle('btn-cartao',!!temPix); // sem Pix separado, o botão do Mercado Pago é o principal
   bp.innerHTML='Pagar com Pix · '+esc(totPix)+'<small>'+DESCONTO_PIX+'% off nos perfumes · aprovado na hora</small>';
   bc.innerHTML=temPix?'Pagar com cartão · '+esc(tot):'Ir para o pagamento · '+esc(tot)+'<small>Pix ou cartão em até 4x sem juros</small>';
 }
