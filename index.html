@@ -2159,9 +2159,12 @@ window.addEventListener('hashchange',irSecaoPolitica); irSecaoPolitica();
     var d={nome:form.nome.value.trim(), email:form.email.value.trim(), aceite:form.aceite.checked, site:form.site.value, origem:'popup'};
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)){ msg.textContent='Confira o e-mail digitado.'; msg.className='erro'; return; }
     if(!d.aceite){ msg.textContent='Marque a caixinha para aceitar receber os e-mails.'; msg.className='erro'; return; }
-    if(!lojaOnline()){ msg.textContent='Cadastro disponível em breve. Siga a Hera no Instagram!'; msg.className='erro'; return; }
+    // o cadastro de promoções funciona mesmo com a loja online desligada: fala direto com o servidor da loja
+    var base=API_LOJA || (lojaOnline() ? '' : 'https://hera-loja.hera-loja.workers.dev');
     var b=form.querySelector('button[type=submit]'); b.disabled=true; msg.textContent='Enviando…'; msg.className='';
-    api('/api/newsletter',d).then(function(j){
+    fetch(base+'/api/newsletter',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)})
+      .then(function(r){ return r.json().catch(function(){return {};}).then(function(j){ if(!r.ok) throw new Error(j.erro||'Não foi possível cadastrar agora. Tente de novo em instantes.'); return j; }); })
+      .then(function(j){
       grava('hera_news','inscrito'); msg.textContent=j.mensagem||'Pronto! Cadastro feito.'; msg.className='ok';
       setTimeout(fecha,2200);
     }).catch(function(er){ msg.textContent=er.message; msg.className='erro'; }).then(function(){ b.disabled=false; });

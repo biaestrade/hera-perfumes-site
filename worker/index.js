@@ -1312,6 +1312,10 @@ function paraPlanilha(env, ctx, dados) {
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ ...dados, segredo: env.PLANILHA_SEGREDO }),
     redirect: 'follow',
+  }).then(async r => {
+    const txt = (await r.text().catch(() => '')).slice(0, 300);
+    if (!r.ok || /erro|error|exception/i.test(txt)) console.error('planilha respondeu', r.status, txt);
+    else console.log('planilha ok', dados.aba, r.status, txt.slice(0, 120));
   }).catch(e => console.error('planilha falhou', e && e.message));
   if (ctx && ctx.waitUntil) ctx.waitUntil(envio);
 }
