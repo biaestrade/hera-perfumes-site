@@ -791,6 +791,33 @@ nav.menu .btn-insta,nav.menu .btn-wa,nav.menu .link-conta,nav.menu .abre-lista,.
 .familias-filtro button[aria-pressed="true"]{background:var(--fam);color:var(--fam-txt,#fff)}
 .familias-filtro button[aria-pressed="true"] i{background:currentColor}
 @media(max-width:600px){.familias-filtro{flex-wrap:nowrap;overflow-x:auto;margin-right:-20px;padding:0 20px 6px 0;scrollbar-width:none}.familias-filtro::-webkit-scrollbar{display:none}.familias-filtro button{flex:0 0 auto}}
+/* quadro de filtros do catálogo: blocos separados e famílias em cartões */
+.filtros-cat{background:#fff;border:1px solid var(--linha);border-radius:24px;padding:20px;margin:22px 0 18px;display:grid;grid-template-columns:minmax(0,1fr);gap:20px;min-width:0}
+.filtros-cat>*{min-width:0}
+.filtros-cat .ferramentas{margin:0}
+.filtro-grupo{padding-top:18px;border-top:1px solid var(--linha)}
+.filtro-rotulo{display:block;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--carmim);margin-bottom:12px}
+.filtros-cat .segmento{display:inline-flex;flex-wrap:nowrap;gap:4px;padding:4px;background:var(--rosado);border-radius:26px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.filtros-cat .segmento::-webkit-scrollbar{display:none}
+.filtros-cat .segmento button{border:0;min-height:40px;padding:0 18px;white-space:nowrap;background:transparent;transition:background .2s ease,color .2s ease}
+.filtros-cat .segmento button:hover{background:rgba(255,255,255,.7)}
+.filtros-cat .segmento button[aria-pressed="true"]{background:var(--bordo);color:var(--off);box-shadow:0 4px 12px rgba(59,11,24,.18)}
+.filtros-cat .familias-filtro{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:0;padding:0;overflow:visible}
+.filtros-cat .familias-filtro button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;min-height:70px;padding:12px 14px 12px 16px;border-radius:16px;border:1px solid var(--linha);border-left:5px solid var(--fam);background:#fff;color:var(--bordo);text-align:left;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.filtros-cat .familias-filtro button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(59,11,24,.10)}
+.filtros-cat .familias-filtro .fam-nome{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;line-height:1.25}
+.filtros-cat .familias-filtro button i{width:12px;height:12px;flex:0 0 auto}
+.filtros-cat .familias-filtro small{font-size:11.5px;font-weight:500;color:var(--texto)}
+.filtros-cat .familias-filtro button[aria-pressed="true"]{background:var(--fam);color:var(--fam-txt,#fff);border-color:var(--fam);box-shadow:0 8px 18px rgba(59,11,24,.16)}
+.filtros-cat .familias-filtro button[aria-pressed="true"] small{color:inherit;opacity:.85}
+@media(max-width:600px){
+  .filtros-cat{padding:16px;border-radius:20px;gap:16px}
+  .filtro-grupo{padding-top:14px}
+  .filtros-cat .segmento{display:flex}
+  .filtros-cat .segmento button{flex:1 0 auto;padding:0 14px}
+  .filtros-cat .familias-filtro{display:flex;flex-wrap:nowrap;overflow-x:auto;margin-right:-16px;padding:0 16px 6px 0;scrollbar-width:none}
+  .filtros-cat .familias-filtro button{flex:0 0 148px}
+}
 .car-notas{font-size:13px;color:#5a4a4f;line-height:1.55}
 .car-notas b{font-size:10px;letter-spacing:2px;color:var(--carmim);margin-right:6px}
 .car-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px}
@@ -1065,19 +1092,27 @@ nav.menu a.link-conta{background-image:none}
       <p class="eyebrow">Catálogo</p>
       <h1 style="font-size:34px;margin:10px 0 8px">Todos os perfumes</h1>
       <p class="muted">Inauguração: descontos em todo o site.</p>
-      <div class="ferramentas">
-        <label class="sr" for="busca" style="position:absolute;left:-9999px">Buscar perfume</label>
-        <input id="busca" type="search" placeholder="Buscar por nome ou marca">
-        <label for="filtro-marca" style="position:absolute;left:-9999px">Marca</label>
-        <select id="filtro-marca"><option value="">Todas as marcas</option></select>
-        <div class="segmento" role="group" aria-label="Gênero">
-          <button type="button" data-g="" aria-pressed="true">Todos</button>
-          <button type="button" data-g="Feminino" aria-pressed="false">Feminino</button>
-          <button type="button" data-g="Masculino" aria-pressed="false">Masculino</button>
-          <button type="button" data-g="cofre" aria-pressed="false">Kits para presente</button>
+      <div class="filtros-cat">
+        <div class="ferramentas">
+          <label class="sr" for="busca" style="position:absolute;left:-9999px">Buscar perfume</label>
+          <input id="busca" type="search" placeholder="Buscar por nome ou marca">
+          <label for="filtro-marca" style="position:absolute;left:-9999px">Marca</label>
+          <select id="filtro-marca"><option value="">Todas as marcas</option></select>
+        </div>
+        <div class="filtro-grupo">
+          <span class="filtro-rotulo" id="rot-genero">Para quem</span>
+          <div class="segmento" role="group" aria-labelledby="rot-genero">
+            <button type="button" data-g="" aria-pressed="true">Todos</button>
+            <button type="button" data-g="Feminino" aria-pressed="false">Feminino</button>
+            <button type="button" data-g="Masculino" aria-pressed="false">Masculino</button>
+            <button type="button" data-g="cofre" aria-pressed="false">Kits para presente</button>
+          </div>
+        </div>
+        <div class="filtro-grupo">
+          <span class="filtro-rotulo" id="rot-familia">Família olfativa</span>
+          <div class="familias-filtro" id="familias-filtro" role="group" aria-labelledby="rot-familia"></div>
         </div>
       </div>
-      <div class="familias-filtro" id="familias-filtro" role="group" aria-label="Família olfativa"></div>
       <p class="muted" style="font-size:12px;margin-bottom:18px" id="contagem" aria-live="polite"></p>
       <div class="grade" id="grade-catalogo"></div>
       <div class="ver-mais-cat" id="ver-mais-cat" hidden><p class="muted" id="ver-mais-info"></p><button type="button" class="btn-ver-todos" id="btn-ver-mais" style="background:none;cursor:pointer">Ver mais</button></div>
@@ -1882,7 +1917,7 @@ function montaFiltroFamilias(){
   var c = document.getElementById('familias-filtro'); if (!c) return;
   c.innerHTML = FAMILIAS.map(function(f){
     var n = PERFUMES.filter(function(p){ return familiaDe(p) === f; }).length;
-    return n ? '<button type="button" data-fam="'+f.id+'" aria-pressed="false" style="'+estiloFam(f)+'" title="'+esc(f.clima)+'"><i></i>'+esc(f.nome)+'</button>' : '';
+    return n ? '<button type="button" data-fam="'+f.id+'" aria-pressed="false" style="'+estiloFam(f)+'" title="'+esc(f.clima)+'"><span class="fam-nome"><i></i>'+esc(f.nome)+'</span><small>'+n+(n>1?' perfumes':' perfume')+'</small></button>' : '';
   }).join('');
   c.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){
     filtroFam = filtroFam === b.getAttribute('data-fam') ? '' : b.getAttribute('data-fam'); linhasCat = 5;
