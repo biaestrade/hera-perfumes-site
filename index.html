@@ -1602,6 +1602,7 @@ function mudouSel(){ salvaSel(); COTACAO=null; atualizaSel(); cotar(); guardaCar
 function alternaSel(id){
   var i=naSel(id); if(i>=0) SEL.splice(i,1); else SEL.push({id:id,q:1});
   mudouSel(); pulaContador();
+  if(i<0) abreLista(true); // acabou de adicionar: mostra o carrinho na lateral
 }
 function mudaQtd(id,d){
   var i=naSel(id); if(i<0) return;
@@ -1819,7 +1820,8 @@ function abreLista(v){
   l.classList.toggle('aberta',v); l.setAttribute('aria-hidden',!v); f.hidden=!v; document.body.classList.toggle('lista-aberta',v);
   if(v && !COTACAO) cotar();
 }
-document.querySelectorAll('[data-abre-lista]').forEach(function(b){ b.addEventListener('click',function(){ abreLista(true); }); });
+// ícone do carrinho no topo: abre o carrinho em tela inteira
+document.querySelectorAll('[data-abre-lista]').forEach(function(b){ b.addEventListener('click',function(){ abreLista(false); if(location.hash==='#carrinho') rota(); else location.hash='#carrinho'; }); });
 document.getElementById('sel-fechar').addEventListener('click',function(){ abreLista(false); });
 document.getElementById('sel-expandir').addEventListener('click',function(){ abreLista(false); });
 
