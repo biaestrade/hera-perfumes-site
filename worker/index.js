@@ -51,6 +51,7 @@ export default {
     ctx.waitUntil((blingConfigurado(env) ? produtosOficiais(env).then(of => rodadaBling(env, of)).catch(e => console.error('bling', e && e.message)) : Promise.resolve())
       .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message)));
     ctx.waitUntil(lembrarCarrinhos(env).catch(e => console.error('lembrete de carrinho', e && e.message)));
+    ctx.waitUntil(rodadaAvisos(env).catch(e => console.error('avisos', e && e.message)));
     ctx.waitUntil(rodadaEtiquetas(env).catch(e => console.error('etiquetas', e && e.message))
       .then(() => rodadaRastreio(env)).catch(e => console.error('rastreio', e && e.message)));
   },
@@ -142,6 +143,8 @@ export default {
         case 'POST /api/carrinho':
           if (!cors) return json({ erro: 'Origem não permitida.' }, 403);
           return json(await salvarCarrinho(request, env), 200, cors);
+        case 'GET /api/newsletter/sair':
+          return await sairDaNewsletter(url, env);
         case 'GET /api/lembrete/sair':
           return await sairDosLembretes(url, env);
         case 'GET /api/carrinho':
@@ -826,6 +829,7 @@ async function newsletter(request, env, ctx) {
      ON CONFLICT(email) DO UPDATE SET nome = COALESCE(NULLIF(?2, ''), nome), ativo = 1, aceite_em = ?4`
   ).bind(email, nome, String(dados.origem || 'site').slice(0, 30), agora).run();
   paraPlanilha(env, ctx, { aba: 'newsletter', email, nome, origem: String(dados.origem || 'site').slice(0, 30) });
+  await boasVindasNewsletter(env, ctx, email, nome);
   return { ok: true, mensagem: 'Pronto! Você vai receber nossas promoções no seu e-mail.' };
 }
 
@@ -1076,6 +1080,7 @@ async function confirmarEntrada(request, env, ctx) {
       await env.DB.prepare(`INSERT INTO newsletter (email, nome, origem, aceite_em, criado_em, ativo) VALUES (?1, ?2, 'cadastro', ?3, ?3, 1)
         ON CONFLICT(email) DO UPDATE SET ativo = 1, aceite_em = ?3`).bind(link.email, link.nome || '', agora).run();
       paraPlanilha(env, ctx, { aba: 'newsletter', email: link.email, nome: link.nome || '', origem: 'cadastro' });
+      await boasVindasNewsletter(env, ctx, link.email, link.nome || '');
     }
   }
   return { ok: true, sessao: await abrirSessao(env, link.email), email: link.email };
@@ -1138,6 +1143,7 @@ async function lembrarCarrinhos(env) {
        AND NOT EXISTS (SELECT 1 FROM pedidos p WHERE p.email_cliente = c.email AND p.status LIKE 'aprovado%' AND p.criado_em >= c.atualizado_em)
        AND NOT EXISTS (SELECT 1 FROM lembretes l WHERE l.email = c.email AND l.carrinho_em = c.atualizado_em)
        AND NOT EXISTS (SELECT 1 FROM sem_lembrete s WHERE s.email = c.email)
+       AND NOT EXISTS (SELECT 1 FROM pedidos p2 WHERE p2.email_cliente = c.email AND p2.aviso_pagamento_em >= c.atualizado_em)
      ORDER BY c.atualizado_em LIMIT 20`
   ).bind(iso(agora - horas * 3600e3), iso(agora - (horas + 48) * 3600e3)).all()).results || [];
   if (!car.length) return;
@@ -1166,6 +1172,122 @@ async function lembrarCarrinhos(env) {
         .bind(c.email, c.atualizado_em, new Date().toISOString(), await hashDe(token)).run();
     }
   }
+}
+
+/* ---------------- E-mails automáticos (avaliação, pagamento pendente/recusado, boas-vindas) ---------------- */
+const primeiroNome = nome => String(nome || '').trim().split(/\s+/)[0] || '';
+const ehTeste = p => (p.modo || '') === 'teste' || /"id":"teste-/.test(p.itens || '');
+
+// De 30 em 30 minutos (cron). Cada aviso sai uma vez por pedido.
+async function rodadaAvisos(env) {
+  if (!env.DB || !env.RESEND_API_KEY) return;
+  const agora = Date.now(), iso = d => new Date(d).toISOString();
+  const site = (env.SITE_URL || env.LOJA_URL || '').replace(/\/+$/, '');
+  if (!site) return;
+  const reais = c => 'R$ ' + ((c || 0) / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const nomeDe = p => { try { return primeiroNome((JSON.parse(p.entrega || '{}') || {}).nome); } catch (e) { return ''; } };
+  const marca = (id, col) => env.DB.prepare(`UPDATE pedidos SET ${col} = ?2 WHERE id = ?1`).bind(id, iso(Date.now())).run();
+  const pixPct = regras(env).pixDescontoPct;
+
+  // 1) Pix/boleto gerado e não pago: 2 horas depois (até 3 dias), se ela não comprou depois
+  const pend = (await env.DB.prepare(
+    `SELECT * FROM pedidos p WHERE status = 'pendente' AND aviso_pagamento_em IS NULL AND email_cliente IS NOT NULL
+       AND criado_em < ?1 AND criado_em >= ?2
+       AND NOT EXISTS (SELECT 1 FROM pedidos q WHERE q.email_cliente = p.email_cliente AND q.status LIKE 'aprovado%' AND q.criado_em >= p.criado_em)
+     ORDER BY criado_em LIMIT 20`).bind(iso(agora - 2 * 3600e3), iso(agora - 3 * 86400e3)).all()).results || [];
+  for (const p of pend) {
+    if (ehTeste(p)) { await marca(p.id, 'aviso_pagamento_em'); continue; }
+    const n = nomeDe(p);
+    const ok = await mandarEmail(env, p.email_cliente, 'Seu pedido está esperando o pagamento', moldeEmail('Falta só o pagamento',
+      `${n ? escHtml(n) + ', r' : 'R'}ecebemos seu pedido <b>${escHtml(p.id)}</b> (${reais(p.total_centavos)}), mas o pagamento ainda não foi confirmado.<br><br>` +
+      `Se você escolheu Pix, é só pagar o código no app do seu banco: ele também está no e-mail do Mercado Pago. Se o Pix expirou, refaça a compra pelo carrinho, seus perfumes continuam guardados.<br><br>` +
+      `Ficou com alguma dúvida? Responda este e-mail ou chame a Hera no WhatsApp (11) 91318-4495.`,
+      'Voltar ao meu carrinho', `${site}/#carrinho`, true)).catch(() => false);
+    if (ok) await marca(p.id, 'aviso_pagamento_em');
+  }
+
+  // 2) Pagamento recusado: 30 minutos depois (até 2 dias), se ela não conseguiu pagar em seguida
+  const rec = (await env.DB.prepare(
+    `SELECT * FROM pedidos p WHERE status = 'recusado' AND aviso_pagamento_em IS NULL AND email_cliente IS NOT NULL
+       AND COALESCE(atualizado_em, criado_em) < ?1 AND criado_em >= ?2
+       AND NOT EXISTS (SELECT 1 FROM pedidos q WHERE q.email_cliente = p.email_cliente AND (q.status LIKE 'aprovado%' OR q.status = 'pendente') AND q.criado_em >= p.criado_em)
+     ORDER BY criado_em LIMIT 20`).bind(iso(agora - 30 * 60e3), iso(agora - 2 * 86400e3)).all()).results || [];
+  for (const p of rec) {
+    if (ehTeste(p)) { await marca(p.id, 'aviso_pagamento_em'); continue; }
+    const n = nomeDe(p);
+    const ok = await mandarEmail(env, p.email_cliente, 'Seu pagamento não foi aprovado', moldeEmail('O pagamento não deu certo',
+      `${n ? escHtml(n) + ', o' : 'O'} pagamento do pedido <b>${escHtml(p.id)}</b> não foi aprovado, e <b>nada foi cobrado</b>.<br><br>` +
+      `Isso costuma acontecer por limite do cartão ou por uma checagem de segurança do banco. Você pode tentar de novo com outro cartão${pixPct ? ` ou pagar no Pix, com ${pixPct}% de desconto nos perfumes` : ' ou pagar no Pix'}. Seus perfumes continuam no carrinho.<br><br>` +
+      `Precisa de ajuda? Responda este e-mail ou chame a Hera no WhatsApp (11) 91318-4495.`,
+      'Tentar de novo', `${site}/#carrinho`, true)).catch(() => false);
+    if (ok) await marca(p.id, 'aviso_pagamento_em');
+  }
+
+  // 3) Avaliação no Google: 2 dias depois da entrega (até 30 dias). Só com o link GOOGLE_AVALIACAO_URL configurado.
+  const linkGoogle = String(env.GOOGLE_AVALIACAO_URL || '').trim();
+  if (/^https:\/\//.test(linkGoogle)) {
+    const ent = (await env.DB.prepare(
+      `SELECT * FROM pedidos WHERE status LIKE 'aprovado%' AND status_envio = 'entregue' AND avaliacao_pedida_em IS NULL AND email_cliente IS NOT NULL
+         AND entregue_em < ?1 AND entregue_em >= ?2 ORDER BY entregue_em LIMIT 20`
+    ).bind(iso(agora - 2 * 86400e3), iso(agora - 30 * 86400e3)).all()).results || [];
+    for (const p of ent) {
+      if (ehTeste(p)) { await marca(p.id, 'avaliacao_pedida_em'); continue; }
+      let itens = []; try { itens = JSON.parse(p.itens || '[]'); } catch (e) {}
+      const perf = itens.length === 1 ? escHtml(itens[0].titulo || 'seu perfume') : 'seus perfumes';
+      const n = nomeDe(p);
+      const ok = await mandarEmail(env, p.email_cliente, 'Como foi sua experiência com a Hera?', moldeEmail('Seu perfume chegou bem?',
+        `${n ? escHtml(n) + ', e' : 'E'}speramos que você esteja amando ${itens.length === 1 ? 'o ' + perf : perf}!<br><br>` +
+        `A Hera é uma loja nova, e a sua opinião faz muita diferença para outras pessoas comprarem com confiança. Leva menos de 1 minuto para deixar uma avaliação no Google.<br><br>` +
+        `Se algo não saiu como você esperava, responda este e-mail que a gente resolve.`,
+        'Avaliar a Hera no Google', linkGoogle, true)).catch(() => false);
+      if (ok) await marca(p.id, 'avaliacao_pedida_em');
+    }
+  }
+}
+
+// link "sair da lista de promoções" (assinado, sem precisar entrar na conta)
+async function assinaturaNews(env, email) {
+  const segredo = env.PLANILHA_SEGREDO || env.RELATORIO_SENHA || 'hera';
+  const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(segredo), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const m = await crypto.subtle.sign('HMAC', k, new TextEncoder().encode('sair-news:' + email));
+  return [...new Uint8Array(m)].slice(0, 16).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+async function sairDaNewsletter(url, env) {
+  const email = emailValido(url.searchParams.get('e'));
+  const t = String(url.searchParams.get('t') || '');
+  const pagina = (titulo, texto) => new Response(`<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${titulo}</title>
+    <body style="font-family:system-ui,sans-serif;max-width:520px;margin:60px auto;padding:0 20px;color:#3b0b18"><h1 style="font-weight:500">${titulo}</h1><p style="font-size:17px;line-height:1.5">${texto}</p></body>`,
+    { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+  if (!email || !t || !igualSeguro(t, await assinaturaNews(env, email))) return pagina('Link inválido', 'Esse link não é válido. Para sair da lista, responda qualquer e-mail da Hera.');
+  await env.DB.prepare('UPDATE newsletter SET ativo = 0 WHERE email = ?1').bind(email).run();
+  await env.DB.prepare('UPDATE clientes SET aceite_promocoes = 0 WHERE email = ?1').bind(email).run();
+  return pagina('Pronto, você saiu da lista', 'Você não vai mais receber e-mails de promoções da Hera. Os e-mails sobre seus pedidos continuam chegando normalmente.');
+}
+
+// Boas-vindas para quem entrou na lista de promoções (uma vez só). Mostra o cupom de boas-vindas
+// (segredo CUPOM_BOAS_VINDAS no Cloudflare) só se ele estiver ativo e dentro da validade.
+async function boasVindasNewsletter(env, ctx, email, nome) {
+  const tarefa = (async () => {
+    if (!env.RESEND_API_KEY || !env.DB) return;
+    const n = await env.DB.prepare('SELECT boas_vindas_em, ativo FROM newsletter WHERE email = ?1').bind(email).first();
+    if (!n || !n.ativo || n.boas_vindas_em) return;
+    const site = (env.SITE_URL || env.LOJA_URL || '').replace(/\/+$/, '');
+    const loja = (env.LOJA_URL || env.SITE_URL || '').replace(/\/+$/, '');
+    const cod = normalizaCupom(env.CUPOM_BOAS_VINDAS || '');
+    const cupom = cod ? await buscaCupom(env, cod) : null;
+    const reais = c => 'R$ ' + ((c || 0) / 100).toFixed(2).replace('.', ',');
+    const vale = cupom ? (Number(cupom.desconto_centavos) > 0 ? reais(cupom.desconto_centavos) + ' de desconto' : Number(cupom.desconto_pct) > 0 ? cupom.desconto_pct + '% de desconto' : '') : '';
+    const sair = `${loja}/api/newsletter/sair?e=${encodeURIComponent(email)}&t=${await assinaturaNews(env, email)}`;
+    const p = primeiroNome(nome);
+    const ok = await mandarEmail(env, email, 'Boas-vindas à Hera Perfumes', moldeEmail('Que bom ter você aqui',
+      `${p ? escHtml(p) + ', a' : 'A'} partir de agora você fica sabendo antes dos lançamentos, das ofertas e dos perfumes que acabaram de chegar.<br><br>` +
+      (cupom && vale ? `Para começar, um presente: use o código <b style="font-size:18px;letter-spacing:1px">${escHtml(cupom.codigo)}</b> no carrinho e ganhe <b>${vale}</b>${cupom.valido_ate ? ' (válido até ' + String(cupom.valido_ate).slice(0, 10).split('-').reverse().join('/') + ')' : ''}.<br><br>` : '') +
+      `Todos os perfumes são originais, com nota fiscal, e você paga no Pix com 5% de desconto ou no cartão em até 3x sem juros.` +
+      `<br><br><span style="font-size:12px;color:#8a7a7f">Não quer receber nossas promoções? <a href="${sair}" style="color:#8a7a7f">Sair da lista</a>.</span>`,
+      'Ver os perfumes', `${site}/#catalogo`, true)).catch(() => false);
+    if (ok) await env.DB.prepare('UPDATE newsletter SET boas_vindas_em = ?2 WHERE email = ?1').bind(email, new Date().toISOString()).run();
+  })().catch(e => console.error('boas-vindas', e && e.message));
+  if (ctx && ctx.waitUntil) ctx.waitUntil(tarefa); else await tarefa;
 }
 
 async function sairDosLembretes(url, env) {
@@ -1750,7 +1872,7 @@ async function salvarPerfil(request, env, ctx) {
     if (d.promocoes) {
       await env.DB.prepare(`INSERT INTO newsletter (email, nome, origem, aceite_em, criado_em, ativo) VALUES (?1, ?2, 'minha conta', ?3, ?3, 1)
         ON CONFLICT(email) DO UPDATE SET ativo = 1, aceite_em = ?3`).bind(s.email, p.nome, agora).run();
-      if (!(antes && antes.aceite_promocoes)) paraPlanilha(env, ctx, { aba: 'newsletter', email: s.email, nome: p.nome, origem: 'minha conta' });
+      if (!(antes && antes.aceite_promocoes)) { paraPlanilha(env, ctx, { aba: 'newsletter', email: s.email, nome: p.nome, origem: 'minha conta' }); await boasVindasNewsletter(env, ctx, s.email, p.nome); }
     } else {
       await env.DB.prepare('UPDATE newsletter SET ativo = 0 WHERE email = ?1').bind(s.email).run();
     }

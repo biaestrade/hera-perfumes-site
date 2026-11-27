@@ -34,6 +34,8 @@ SITE_URL = "https://heraevodiaperfumes.com.br"
 LOJA_URL = "https://hera-loja.hera-loja.workers.dev"
 # lembrete de carrinho abandonado: quantas horas depois
 LEMBRETE_CARRINHO_HORAS = "24"
+# Link para a cliente avaliar a Hera no Google (Perfil da Empresa > "Pedir avaliações"). Vazio = o e-mail de avaliação não é enviado.
+GOOGLE_AVALIACAO_URL = ""
 
 # De onde o servidor lê os preços oficiais. Vazio = o produtos.json publicado junto com o Worker (teste).
 # No site oficial:  PRODUTOS_URL = "https://heraevodiaperfumes.com.br/produtos.json"
