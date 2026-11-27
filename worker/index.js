@@ -1314,7 +1314,7 @@ function paraPlanilha(env, ctx, dados) {
     redirect: 'follow',
   }).then(async r => {
     const txt = (await r.text().catch(() => '')).slice(0, 300);
-    if (!r.ok || /erro|error|exception/i.test(txt)) console.error('planilha respondeu', r.status, txt);
+    if (!r.ok || /erro|error|exception|"ok"\s*:\s*false/i.test(txt)) console.error('planilha respondeu', r.status, txt);
     else console.log('planilha ok', dados.aba, r.status, txt.slice(0, 120));
   }).catch(e => console.error('planilha falhou', e && e.message));
   if (ctx && ctx.waitUntil) ctx.waitUntil(envio);
