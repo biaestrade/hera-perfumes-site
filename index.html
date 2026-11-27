@@ -681,6 +681,8 @@ body.tem-selecao .wa-flutuante{bottom:110px}
 .rodape-lista .juros-cartao{display:block;font-size:12px;color:var(--texto);margin:2px 0 12px;text-align:right}
 .pr-pix{margin-top:6px;font-size:15px;color:var(--bordo)}
 .pr-pix b{color:var(--bordo)}
+.obg{color:var(--carmim);font-weight:700;margin-left:2px}
+.obg-nota{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--texto);margin-left:6px}
 .preco-grande .pr-no-pix{font-size:14px;font-weight:500;color:var(--texto)}
 .conf-acoes #conf-pix,.conf-acoes #conf-ok{flex-direction:column;gap:2px;padding-top:10px;padding-bottom:10px;height:auto}
 .conf-acoes .btn-pagar small{display:block;font-size:11px;font-weight:500;opacity:.85;letter-spacing:.02em}
@@ -1357,12 +1359,12 @@ nav.menu a.link-conta{background-image:none}
           <button type="button" class="link-news" id="conta-esqueci">Esqueci minha senha / entrar com um link no e-mail</button>
         </form>
         <form id="conta-cadastro" class="conta-form" novalidate hidden>
-          <input type="text" name="nome" placeholder="Seu nome completo" autocomplete="name" maxlength="120" required>
-          <input type="tel" name="telefone" placeholder="WhatsApp com DDD: (11) 90000-0000" inputmode="tel" autocomplete="tel" maxlength="15" required>
-          <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required maxlength="254">
-          <input type="password" name="senha" placeholder="Crie uma senha (mínimo 8 caracteres)" autocomplete="new-password" required minlength="8" maxlength="128">
-          <input type="password" name="senha2" placeholder="Repita a senha" autocomplete="new-password" required maxlength="128">
-          <label class="news-aceite"><input type="checkbox" name="aceite" required><span><strong>Concordo com os termos</strong> da <a href="#politica">política de compra</a> e da <a href="#politica/privacidade">política de privacidade</a>, e autorizo a Hera a usar meus dados para processar meus pedidos, emitir a nota fiscal e fazer a entrega. <small>(obrigatório)</small></span></label>
+          <input type="text" name="nome" placeholder="Seu nome completo *" autocomplete="name" maxlength="120" required>
+          <input type="tel" name="telefone" placeholder="WhatsApp com DDD *" inputmode="tel" autocomplete="tel" maxlength="15" required>
+          <input type="email" name="email" placeholder="Seu e-mail *" autocomplete="email" required maxlength="254">
+          <input type="password" name="senha" placeholder="Crie uma senha (mínimo 8 caracteres) *" autocomplete="new-password" required minlength="8" maxlength="128">
+          <input type="password" name="senha2" placeholder="Repita a senha *" autocomplete="new-password" required maxlength="128">
+          <label class="news-aceite"><input type="checkbox" name="aceite" required><span><strong>Concordo com os termos</strong><span class="obg" aria-hidden="true">*</span> da <a href="#politica">política de compra</a> e da <a href="#politica/privacidade">política de privacidade</a>, e autorizo a Hera a usar meus dados para processar meus pedidos, emitir a nota fiscal e fazer a entrega. <small>(obrigatório)</small></span></label>
           <label class="news-aceite"><input type="checkbox" name="promocoes"><span><strong>Autorizo a Hera a me enviar e-mails</strong> com ofertas, lançamentos, cupons e novidades. Posso cancelar quando quiser. <small>(opcional)</small></span></label>
           <button type="submit" class="btn" style="background:var(--bordo);color:var(--off)">Criar minha conta</button>
         </form>
@@ -1398,14 +1400,14 @@ nav.menu a.link-conta{background-image:none}
         <div id="aba-dados" hidden>
           <p class="conta-msg" id="perfil-aviso" aria-live="polite"></p>
           <form id="perfil-form" class="perfil-form" novalidate>
-            <fieldset><legend>Seus dados</legend>
-              <label class="c2">Nome completo<input name="nome" autocomplete="name" maxlength="120" required></label>
-              <label><span>CPF <small>(para a nota fiscal)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14"></label>
-              <label>WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="15" required></label>
+            <fieldset><legend>Seus dados <small class="obg-nota"><span class="obg">*</span> campo obrigatório</small></legend>
+              <label class="c2"><span>Nome completo<span class="obg" aria-hidden="true">*</span></span><input name="nome" autocomplete="name" maxlength="120" required></label>
+              <label><span>CPF <small>(para a nota fiscal · obrigatório para finalizar a compra)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14"></label>
+              <label><span>WhatsApp com DDD<span class="obg" aria-hidden="true">*</span></span><input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="15" required></label>
               <label><span>Data de nascimento <small>(opcional)</small></span><input name="nascimento" type="date"></label>
               <label>E-mail<input name="email" disabled></label>
             </fieldset>
-            <fieldset><legend>Endereço de entrega</legend>
+            <fieldset><legend>Endereço de entrega <small class="obg-nota">(obrigatório para finalizar a compra)</small></legend>
               <label>CEP<input name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required></label>
               <label class="c2">Rua / avenida<input name="logradouro" autocomplete="address-line1" maxlength="160" required></label>
               <label>Número<input name="numero" maxlength="20" required></label>
