@@ -51,6 +51,7 @@ export default {
     ctx.waitUntil((blingConfigurado(env) ? produtosOficiais(env).then(of => rodadaBling(env, of)).catch(e => console.error('bling', e && e.message)) : Promise.resolve())
       .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message)));
     ctx.waitUntil(lembrarCarrinhos(env).catch(e => console.error('lembrete de carrinho', e && e.message)));
+    ctx.waitUntil(rodadaEtiquetas(env).catch(e => console.error('etiquetas', e && e.message)));
   },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -88,6 +89,15 @@ export default {
         case 'GET /api/bling/status':
           if (!senhaAdminOk(request, env)) return pedeSenha();
           return json(await statusBling(env));
+        case 'POST /api/superfrete/criar': {
+          if (!senhaAdminOk(request, env)) return pedeSenha();
+          const f = await request.formData();
+          const id = String(f.get('id') || '');
+          await env.DB.prepare('UPDATE pedidos SET superfrete_tentativas = 0, superfrete_erro = NULL WHERE id = ?1').bind(id).run();
+          let msg = 'criada';
+          try { const r = await etiquetaSuperFrete(env, id, true); if (!r) msg = 'nada'; } catch (e) { msg = 'erro'; }
+          return Response.redirect(new URL(`/admin?etiqueta=${encodeURIComponent(id)}&r=${msg}`, request.url).toString(), 303);
+        }
         case 'POST /api/bling/reenviar': {
           if (!senhaAdminOk(request, env)) return pedeSenha();
           const f = await request.formData();
@@ -660,6 +670,7 @@ async function webhook(request, env, url, ctx) {
   if (virouPago) {
     const tarefa = avisarPedidoPago(env, new URL(request.url).origin, pedidoId).catch(e => console.error('aviso de pedido', e))
       .then(() => blingAoPagar(env, pedidoId)).catch(e => console.error('bling', e && e.message))
+      .then(() => etiquetaSuperFrete(env, pedidoId)).catch(e => console.error('etiqueta', e && e.message))
       .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message));
     if (ctx && ctx.waitUntil) ctx.waitUntil(tarefa); else await tarefa;
   }
@@ -1216,6 +1227,116 @@ function senhaAdminOk(request, env) {
 function pedeSenha() {
   return new Response('Senha necessária', { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Painel Hera", charset="UTF-8"' } });
 }
+/* ---------------- Etiqueta automática na SuperFrete ---------------- */
+// Quando o pedido é pago, cria a etiqueta na SuperFrete com status "aguardando pagamento".
+// A Hera paga e imprime no painel da SuperFrete (web.superfrete.com > Minhas etiquetas).
+// Pedidos de teste nunca viram etiqueta automática (só pelo botão do /admin, com forcar).
+async function chamarSuperFrete(env, metodo, caminho, corpo) {
+  const base = (env.SUPERFRETE_URL || 'https://api.superfrete.com').replace(/\/+$/, '');
+  const r = await fetch(base + caminho, {
+    method: metodo,
+    headers: {
+      Authorization: `Bearer ${env.SUPERFRETE_TOKEN}`,
+      'User-Agent': 'HeraPerfumes/1.0 (contato@heraevodiaperfumes.com.br)',
+      'Content-Type': 'application/json', accept: 'application/json',
+    },
+    body: corpo ? JSON.stringify(corpo) : undefined,
+  });
+  const txt = await r.text();
+  let j = null; try { j = JSON.parse(txt); } catch (e) {}
+  if (!r.ok) {
+    const det = j && j.errors ? Object.entries(j.errors).map(([k, v]) => `${k}: ${[].concat(v).join(', ')}`).join('; ') : '';
+    throw new Error(`SuperFrete ${r.status}: ${(j && (j.message || j.error)) || txt.slice(0, 200)}${det ? ' (' + det + ')' : ''}`);
+  }
+  return j;
+}
+
+async function etiquetaSuperFrete(env, pedidoId, forcar) {
+  if (!env.SUPERFRETE_TOKEN || String(env.ETIQUETA_SUPERFRETE || 'criar') !== 'criar') return null;
+  const p = await env.DB.prepare('SELECT * FROM pedidos WHERE id = ?1').bind(pedidoId).first();
+  if (!p || !String(p.status).startsWith('aprovado') || p.superfrete_id) return null;
+  let itens = []; try { itens = JSON.parse(p.itens || '[]'); } catch (e) {}
+  const soTeste = itens.length > 0 && itens.every(i => String(i.id).startsWith('teste-'));
+  if (!forcar && (p.modo === 'teste' || soTeste)) return null;
+  let ent = {}; try { ent = JSON.parse(p.entrega || '{}'); } catch (e) {}
+  const grava = msg => env.DB.prepare('UPDATE pedidos SET superfrete_erro = ?2, superfrete_tentativas = COALESCE(superfrete_tentativas, 0) + 1 WHERE id = ?1')
+    .bind(pedidoId, String(msg).slice(0, 300)).run();
+  try {
+    let servico = Number(Object.keys(SERVICOS_FRETE).find(k => SERVICOS_FRETE[k] === ent.envio)) || 0;
+    if (!servico && soTeste) servico = 1; // produto de teste (sem frete escolhido): PAC
+    if (!servico) throw new Error(`forma de envio desconhecida ("${ent.envio || 'nenhuma'}")`);
+    const cep = String(ent.cep || '').replace(/\D/g, '');
+    if (cep.length !== 8 || !ent.logradouro || !ent.cidade || !ent.uf) throw new Error('endereço de entrega incompleto no pedido');
+    const origem = String(env.FRETE_CEP_ORIGEM || '').replace(/\D/g, '');
+    const produtos = await produtosOficiais(env);
+    // cota de novo só para pegar a caixa que a SuperFrete usa (a etiqueta sai com as mesmas medidas da cotação)
+    const caixas = itens.map(l => ({ quantity: l.quantidade, ...caixaDoPerfume(produtos.get(l.id)) }));
+    const cot = await chamarSuperFrete(env, 'POST', '/api/v0/calculator', {
+      from: { postal_code: origem }, to: { postal_code: cep }, services: String(servico),
+      options: { own_hand: false, receipt: false, insurance_value: 0, use_insurance_value: false }, products: caixas,
+    });
+    const q = (Array.isArray(cot) ? cot : []).find(x => Number(x.id) === servico && !x.has_error);
+    if (!q) throw new Error(`${SERVICOS_FRETE[servico]} não atende esse CEP agora`);
+    const pac = q.packages && q.packages[0];
+    const volumes = pac && pac.dimensions
+      ? { height: Number(pac.dimensions.height), width: Number(pac.dimensions.width), length: Number(pac.dimensions.length), weight: Number(pac.weight) }
+      : { height: caixas[0].height, width: caixas[0].width, length: caixas[0].length, weight: caixas.reduce((s, c) => s + c.weight * c.quantity, 0) };
+    const so = v => String(v || '').trim();
+    const fone = so(ent.telefone).replace(/\D/g, '').replace(/^55(?=\d{10,11}$)/, '');
+    const corpo = {
+      from: {
+        name: so(env.FRETE_REMETENTE_NOME) || 'Hera Perfumes',
+        address: so(env.FRETE_REMETENTE_RUA).slice(0, 50), number: so(env.FRETE_REMETENTE_NUMERO).slice(0, 10),
+        complement: so(env.FRETE_REMETENTE_COMPLEMENTO).slice(0, 20), district: so(env.FRETE_REMETENTE_BAIRRO).slice(0, 60),
+        city: so(env.FRETE_REMETENTE_CIDADE).slice(0, 50), state_abbr: so(env.FRETE_REMETENTE_UF).toUpperCase(), postal_code: origem,
+        email: so(env.AVISO_PEDIDO_EMAIL) || 'contato@heraevodiaperfumes.com.br',
+      },
+      to: {
+        name: so(ent.nome).slice(0, 50), address: so(ent.logradouro).slice(0, 50), number: so(ent.numero).slice(0, 10),
+        complement: so(ent.complemento).slice(0, 20), district: so(ent.bairro).slice(0, 50), city: so(ent.cidade).slice(0, 50),
+        state_abbr: so(ent.uf).toUpperCase(), postal_code: cep,
+        email: p.email_cliente || null, document: so(ent.cpf).replace(/\D/g, '') || null,
+        phone: fone.length === 10 || fone.length === 11 ? fone : null,
+      },
+      service: servico,
+      // sem nota fiscal ainda: etiqueta com declaração de conteúdo (lista dos perfumes e valores)
+      products: itens.map(i => ({ name: so(i.titulo || i.id).slice(0, 80), quantity: i.quantidade, unitary_value: Math.round(i.unitario_centavos || 0) / 100 })),
+      volumes,
+      options: { insurance_value: null, use_insurance_value: false, receipt: false, own_hand: false, tags: [{ tag: p.id }] },
+      platform: 'Hera Perfumes',
+    };
+    const r = await chamarSuperFrete(env, 'POST', '/api/v0/cart', corpo);
+    if (!r || !r.id) throw new Error('a SuperFrete não devolveu o número da etiqueta');
+    await env.DB.prepare(
+      `UPDATE pedidos SET superfrete_id = ?2, superfrete_preco_centavos = ?3, superfrete_em = ?4, superfrete_erro = NULL,
+         transportadora = COALESCE(transportadora, ?5) WHERE id = ?1`
+    ).bind(pedidoId, String(r.id), Math.round(Number(r.price || 0) * 100), new Date().toISOString(), SERVICOS_FRETE[servico]).run();
+    return r;
+  } catch (e) {
+    await grava(e.message).catch(() => {}); // aparece no /admin, com o botão "Tentar de novo"
+    throw e;
+  }
+}
+
+// rodada do cron: pedidos pagos nos últimos 15 dias que ficaram sem etiqueta (até 5 tentativas)
+async function rodadaEtiquetas(env) {
+  if (!env.SUPERFRETE_TOKEN || String(env.ETIQUETA_SUPERFRETE || 'criar') !== 'criar') return;
+  const desde = new Date(Date.now() - 15 * 86400_000).toISOString();
+  const { results } = await env.DB.prepare(
+    `SELECT id FROM pedidos WHERE status LIKE 'aprovado%' AND superfrete_id IS NULL AND COALESCE(modo, '') <> 'teste'
+       AND itens NOT LIKE '%"id":"teste-%' AND COALESCE(superfrete_tentativas, 0) < 5 AND COALESCE(pago_em, criado_em) >= ?1
+     ORDER BY criado_em LIMIT 10`
+  ).bind(desde).all();
+  for (const r of results || []) { try { await etiquetaSuperFrete(env, r.id); } catch (e) { console.error('etiqueta', r.id, e.message); } }
+}
+
+function superfreteLinha(p) {
+  const botao = `<button formaction="/api/superfrete/criar" formmethod="post">${p.superfrete_erro ? 'Tentar de novo' : 'Criar etiqueta na SuperFrete'}</button>`;
+  if (p.superfrete_id) return `<div class="bl"><span>✔ Etiqueta na SuperFrete${p.superfrete_preco_centavos ? ' · R$ ' + (p.superfrete_preco_centavos / 100).toFixed(2).replace('.', ',') : ''} · pague e imprima em <a href="https://web.superfrete.com/#/minhas-etiquetas" target="_blank" rel="noopener">Minhas etiquetas</a></span></div>`;
+  if (p.superfrete_erro) return `<div class="bl"><span class="er">SuperFrete: ${escHtml(p.superfrete_erro)}</span> ${botao}</div>`;
+  return String(p.status || '').startsWith('aprovado') ? `<div class="bl">${botao}</div>` : '';
+}
+
 function blingLinha(p) {
   if (!p.bling_pedido_id && !p.bling_erro) return '';
   const nota = p.nfe_numero ? `Nota nº ${escHtml(p.nfe_numero)} · ${escHtml(nomeSituacaoNfe(p.nfe_situacao))}${p.nfe_link ? ` · <a href="${escHtml(p.nfe_link)}" target="_blank" rel="noopener">ver nota</a>` : ''}` : '';
@@ -1250,7 +1371,7 @@ async function painelAdmin(request, env) {
         <label>Link do rastreio (opcional)<input name="rastreio_url" value="${escHtml(p.rastreio_url || '')}" placeholder="https://…"></label>
         <label>Link da nota fiscal (opcional)<input name="nota_fiscal_url" value="${escHtml(p.nota_fiscal_url || '')}" placeholder="https://…"></label>
         <button>Salvar</button>
-      </div>${blingLinha(p)}</form>`;
+      </div>${blingLinha(p)}${superfreteLinha(p)}</form>`;
   }).join('') || '<p>Nenhum pedido pago ainda.</p>';
   const bs = await statusBling(env);
   const blingBox = !bs.configurado

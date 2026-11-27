@@ -49,6 +49,16 @@ ORIGENS_PERMITIDAS = "https://heraevodiaperfumes.com.br,https://www.heraevodiape
 # ---- FRETE (SuperFrete: PAC e SEDEX). O token fica só como segredo SUPERFRETE_TOKEN no Cloudflare. ----
 # CEP de onde os perfumes saem
 FRETE_CEP_ORIGEM = "04649000"
+# Remetente da etiqueta da SuperFrete (o documento que sai na etiqueta é o cadastrado na conta da SuperFrete)
+FRETE_REMETENTE_NOME = "Hera Perfumes"
+FRETE_REMETENTE_RUA = "Rua Ossian Terceiro Teles"
+FRETE_REMETENTE_NUMERO = "431"
+FRETE_REMETENTE_COMPLEMENTO = "cj 1201"
+FRETE_REMETENTE_BAIRRO = "Jardim Prudência"
+FRETE_REMETENTE_CIDADE = "São Paulo"
+FRETE_REMETENTE_UF = "SP"
+# "criar" = quando o pedido é pago, a etiqueta é criada na SuperFrete (aguardando pagamento); "nao" = desligado
+ETIQUETA_SUPERFRETE = "criar"
 # Formas de envio que aparecem no site: 1 PAC, 2 SEDEX, 17 Mini Envios, 3 Jadlog, 31 Loggi, 33 J&T
 FRETE_SERVICOS = "1,2,17,3,31,33"
 # Dias para a Hera separar e postar, somados ao prazo dos Correios
