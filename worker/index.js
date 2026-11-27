@@ -1147,12 +1147,14 @@ async function enviarDadosPainel(env) {
   const chk = (await env.DB.prepare(
     `SELECT id, criado_em, status, email_cliente, entrega, itens, total_centavos, cupom, modo FROM pedidos p
      WHERE status NOT LIKE 'aprovado%' AND criado_em >= ?1 AND criado_em < ?2
+       AND COALESCE(modo, '') <> 'teste' AND itens NOT LIKE '%"id":"teste-%'
        AND NOT EXISTS (SELECT 1 FROM pedidos q WHERE q.email_cliente = p.email_cliente AND q.status LIKE 'aprovado%' AND q.criado_em >= p.criado_em)
      ORDER BY criado_em DESC LIMIT 200`
   ).bind(iso(agora - 30 * 86400_000), iso(agora - 1800_000)).all()).results || [];
   const ped = (await env.DB.prepare(
     `SELECT * FROM pedidos
-     WHERE status LIKE 'aprovado%' ORDER BY criado_em DESC LIMIT 300`
+     WHERE status LIKE 'aprovado%' AND COALESCE(modo, '') <> 'teste' AND itens NOT LIKE '%"id":"teste-%'
+     ORDER BY criado_em DESC LIMIT 300`
   ).all()).results || [];
 
   const dados = {
