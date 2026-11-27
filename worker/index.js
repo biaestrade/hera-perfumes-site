@@ -967,9 +967,9 @@ async function entrar(request, env) {
 async function enviarLink(request, env, email, txt, extra = {}) {
   const agora = new Date();
   const token = tokenNovo();
-  await env.DB.prepare('INSERT INTO login_links (hash, email, criado_em, expira_em, senha_hash, aceite_promocoes, nome) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)')
+  await env.DB.prepare('INSERT INTO login_links (hash, email, criado_em, expira_em, senha_hash, aceite_promocoes, nome, telefone) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)')
     .bind(await hashDe(token), email, agora.toISOString(), new Date(+agora + LINK_MINUTOS * 60e3).toISOString(),
-      extra.senha_hash || null, extra.aceite_promocoes ? 1 : 0, extra.nome || null).run();
+      extra.senha_hash || null, extra.aceite_promocoes ? 1 : 0, extra.nome || null, extra.telefone || null).run();
   const site = (env.SITE_URL || new URL(request.url).origin).replace(/\/+$/, '');
   const link = `${site}/#minha-conta/entrar/${token}`;
   const enviado = await mandarEmail(env, email, txt.assunto, moldeEmail(txt.titulo, txt.texto, txt.botao, link));
@@ -1011,6 +1011,10 @@ async function cadastrar(request, env) {
   const email = emailValido(corpo.email);
   if (!email) throw new ErroCliente('Confira o e-mail digitado.');
   const senha = senhaValida(corpo.senha);
+  const nome = String(corpo.nome || '').trim().replace(/\s+/g, ' ').slice(0, 120);
+  if (nome.split(' ').length < 2) throw new ErroCliente('Digite seu nome completo (nome e sobrenome).');
+  const telefone = soNumeros(corpo.telefone);
+  if (telefone.length < 10 || telefone.length > 11) throw new ErroCliente('Confira o WhatsApp com DDD.');
   if (corpo.aceite !== true) throw new ErroCliente('Para criar a conta, aceite a política de compra e de privacidade.');
   if (await muitosLinks(env, email)) throw new ErroCliente('Já mandamos alguns e-mails agora há pouco. Confira sua caixa de entrada (e o spam) ou tente de novo em 15 minutos.');
   const existe = await env.DB.prepare('SELECT senha_hash FROM clientes WHERE email = ?1').bind(email).first();
@@ -1019,7 +1023,7 @@ async function cadastrar(request, env) {
     assunto: 'Confirme seu e-mail para criar sua conta Hera', titulo: 'Falta só confirmar seu e-mail',
     texto: `Toque no botão para confirmar seu e-mail e ativar sua conta. O link vale por ${LINK_MINUTOS} minutos.`,
     botao: 'Confirmar e entrar', mensagem: `Quase lá! Enviamos um link para ${email}. Abra o e-mail e toque em "Confirmar e entrar" para ativar sua conta.`,
-  }, { senha_hash: await hashSenha(senha), aceite_promocoes: corpo.promocoes === true, nome: String(corpo.nome || '').trim().slice(0, 80) });
+  }, { senha_hash: await hashSenha(senha), aceite_promocoes: corpo.promocoes === true, nome, telefone });
 }
 
 async function login(request, env) {
@@ -1060,6 +1064,10 @@ async function confirmarEntrada(request, env, ctx) {
   if (!jaCliente) paraPlanilha(env, ctx, { aba: 'clientes', email: link.email, origem: 'minha conta' });
   await env.DB.prepare('INSERT INTO clientes (email, criado_em, ultimo_acesso) VALUES (?1, ?2, ?2) ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2')
     .bind(link.email, agora).run();
+  if (link.nome || link.telefone) {
+    await env.DB.prepare(`UPDATE clientes SET nome = COALESCE(NULLIF(nome, ''), ?2), telefone = COALESCE(NULLIF(telefone, ''), ?3) WHERE email = ?1`)
+      .bind(link.email, link.nome || null, link.telefone || null).run();
+  }
   if (link.senha_hash) { // veio do "Criar conta": a senha passa a valer agora que o e-mail foi confirmado
     await env.DB.prepare('UPDATE clientes SET senha_hash = ?2, aceite_termos_em = ?3, aceite_promocoes = ?4 WHERE email = ?1')
       .bind(link.email, link.senha_hash, agora, link.aceite_promocoes ? 1 : 0).run();
@@ -1586,7 +1594,11 @@ async function loginGoogle(request, env, ctx) {
   // ao entrar pelo botão, a cliente aceita a política (o aviso fica logo abaixo do botão)
   await env.DB.prepare(`INSERT INTO clientes (email, criado_em, ultimo_acesso, aceite_termos_em) VALUES (?1, ?2, ?2, ?2)
     ON CONFLICT(email) DO UPDATE SET ultimo_acesso = ?2, aceite_termos_em = COALESCE(aceite_termos_em, ?2)`).bind(email, agora).run();
-  return { ok: true, sessao: await abrirSessao(env, email), email, nome: dados.given_name || '' };
+  const nomeGoogle = String(dados.name || [dados.given_name, dados.family_name].filter(Boolean).join(' ') || '').trim().slice(0, 120);
+  if (nomeGoogle) await env.DB.prepare(`UPDATE clientes SET nome = COALESCE(NULLIF(nome, ''), ?2) WHERE email = ?1`).bind(email, nomeGoogle).run();
+  const c = await env.DB.prepare('SELECT telefone FROM clientes WHERE email = ?1').bind(email).first();
+  // o Google não manda telefone: no primeiro acesso, o site pede o WhatsApp
+  return { ok: true, sessao: await abrirSessao(env, email), email, nome: dados.given_name || '', precisa_telefone: !(c && c.telefone) };
 }
 
 
@@ -1633,12 +1645,16 @@ async function salvarPerfil(request, env, ctx) {
     bairro: txt(d.bairro, 80), cidade: txt(d.cidade, 80), uf: txt(d.uf, 2).toUpperCase(),
   };
   if (p.nome.split(' ').length < 2) throw new ErroCliente('Digite seu nome completo (nome e sobrenome).');
-  if (!cpfValido(p.cpf)) throw new ErroCliente('Confira o CPF: ele precisa ser válido para emitir a nota fiscal.');
   if (p.telefone.length < 10 || p.telefone.length > 11) throw new ErroCliente('Confira o WhatsApp com DDD.');
+  // CPF e endereço podem ficar para depois (são pedidos na hora de pagar); se preenchidos, precisam estar certos
+  if (p.cpf && !cpfValido(p.cpf)) throw new ErroCliente('Confira o CPF: ele precisa ser válido para emitir a nota fiscal.');
   if (p.nascimento && !/^\d{4}-\d{2}-\d{2}$/.test(p.nascimento)) p.nascimento = '';
-  if (p.cep.length !== 8) throw new ErroCliente('Confira o CEP (8 números).');
-  if (!p.logradouro || !p.numero || !p.bairro || !p.cidade) throw new ErroCliente('Preencha o endereço completo: rua, número, bairro e cidade.');
-  if (!UFS.includes(p.uf)) throw new ErroCliente('Confira o estado (UF).');
+  const temEndereco = !!(p.cep || p.logradouro || p.numero || p.bairro || p.cidade);
+  if (temEndereco) {
+    if (p.cep.length !== 8) throw new ErroCliente('Confira o CEP (8 números).');
+    if (!p.logradouro || !p.numero || !p.bairro || !p.cidade) throw new ErroCliente('Preencha o endereço completo: rua, número, bairro e cidade.');
+    if (!UFS.includes(p.uf)) throw new ErroCliente('Confira o estado (UF).');
+  } else p.uf = '';
   const agora = new Date().toISOString();
   await env.DB.prepare(
     `INSERT INTO clientes (email, criado_em, ultimo_acesso, nome, cpf, telefone, nascimento, cep, logradouro, numero, complemento, bairro, cidade, uf, atualizado_em)
@@ -1657,5 +1673,6 @@ async function salvarPerfil(request, env, ctx) {
     }
     p.promocoes = d.promocoes;
   }
-  return { ok: true, mensagem: 'Dados salvos.', perfil: p, completo: true };
+  const completo = perfilCompleto(p);
+  return { ok: true, mensagem: completo ? 'Dados salvos.' : 'Dados salvos. O CPF e o endereço de entrega são pedidos na hora de pagar.', perfil: p, completo };
 }

@@ -1357,7 +1357,8 @@ nav.menu a.link-conta{background-image:none}
           <button type="button" class="link-news" id="conta-esqueci">Esqueci minha senha / entrar com um link no e-mail</button>
         </form>
         <form id="conta-cadastro" class="conta-form" novalidate hidden>
-          <input type="text" name="nome" placeholder="Seu nome" autocomplete="name" maxlength="80">
+          <input type="text" name="nome" placeholder="Seu nome completo" autocomplete="name" maxlength="120" required>
+          <input type="tel" name="telefone" placeholder="WhatsApp com DDD: (11) 90000-0000" inputmode="tel" autocomplete="tel" maxlength="15" required>
           <input type="email" name="email" placeholder="Seu e-mail" autocomplete="email" required maxlength="254">
           <input type="password" name="senha" placeholder="Crie uma senha (mínimo 8 caracteres)" autocomplete="new-password" required minlength="8" maxlength="128">
           <input type="password" name="senha2" placeholder="Repita a senha" autocomplete="new-password" required maxlength="128">
@@ -1399,7 +1400,7 @@ nav.menu a.link-conta{background-image:none}
           <form id="perfil-form" class="perfil-form" novalidate>
             <fieldset><legend>Seus dados</legend>
               <label class="c2">Nome completo<input name="nome" autocomplete="name" maxlength="120" required></label>
-              <label><span>CPF <small>(para a nota fiscal)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required></label>
+              <label><span>CPF <small>(para a nota fiscal)</small></span><input name="cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14"></label>
               <label>WhatsApp com DDD<input name="telefone" inputmode="tel" autocomplete="tel" placeholder="(11) 90000-0000" maxlength="15" required></label>
               <label><span>Data de nascimento <small>(opcional)</small></span><input name="nascimento" type="date"></label>
               <label>E-mail<input name="email" disabled></label>
@@ -2323,7 +2324,13 @@ function abaConta(qual){
 }
 document.querySelectorAll('[data-aba-conta]').forEach(function(b){ b.addEventListener('click',function(){ abaConta(b.dataset.abaConta); }); });
 document.getElementById('conta-esqueci').addEventListener('click',function(){ abaConta('link'); });
-function entrouConta(j){ guardaSessao(j.sessao); marcaConta(); if(!voltaDepoisDoLogin()) carregaConta(); }
+var PEDE_WHATS=false;
+function entrouConta(j){
+  guardaSessao(j.sessao); marcaConta();
+  // login com Google não traz telefone: no primeiro acesso, pede o WhatsApp em "Meus dados" (o carrinho continua guardado)
+  if(j.precisa_telefone){ PEDE_WHATS=true; if(location.hash==='#minha-conta/dados') rota(); else location.hash='#minha-conta/dados'; return; }
+  if(!voltaDepoisDoLogin()) carregaConta();
+}
 document.getElementById('conta-login').addEventListener('submit',function(e){
   e.preventDefault();
   var f=this, b=f.querySelector('button[type=submit]'), d={email:f.email.value.trim(), senha:f.senha.value};
@@ -2333,10 +2340,13 @@ document.getElementById('conta-login').addEventListener('submit',function(e){
   api('/api/login',d).then(function(j){ f.senha.value=''; entrouConta(j); })
     .catch(function(er){ mostraEntrar(esc(er.message),'erro'); }).then(function(){ b.disabled=false; });
 });
+document.getElementById('conta-cadastro').telefone.addEventListener('input',function(){ this.value=fmtTel(this.value); });
 document.getElementById('conta-cadastro').addEventListener('submit',function(e){
   e.preventDefault();
   var f=this, b=f.querySelector('button[type=submit]');
-  var d={nome:f.nome.value.trim(), email:f.email.value.trim(), senha:f.senha.value, aceite:f.aceite.checked, promocoes:f.promocoes.checked};
+  var d={nome:f.nome.value.trim().replace(/\s+/g,' '), telefone:soNum(f.telefone.value), email:f.email.value.trim(), senha:f.senha.value, aceite:f.aceite.checked, promocoes:f.promocoes.checked};
+  if(d.nome.split(' ').length<2){ mostraEntrar('Digite seu nome completo (nome e sobrenome).','erro'); return; }
+  if(d.telefone.length<10||d.telefone.length>11){ mostraEntrar('Confira o WhatsApp com DDD.','erro'); return; }
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.email)){ mostraEntrar('Confira o e-mail digitado.','erro'); return; }
   if(d.senha.length<8){ mostraEntrar('A senha precisa ter pelo menos 8 caracteres.','erro'); return; }
   if(d.senha!==f.senha2.value){ mostraEntrar('As duas senhas estão diferentes.','erro'); return; }
@@ -2445,7 +2455,8 @@ function abaPainel(qual){
   document.getElementById('conta-h1').textContent=qual==='dados'?'Meus dados':'Meus pedidos';
   if(qual==='dados'){
     var av=document.getElementById('perfil-aviso');
-    av.textContent=querComprar()?'Complete seus dados de entrega para finalizar a compra. Seu carrinho fica guardado.':''; av.className='conta-msg'+(querComprar()?' ok':'');
+    av.textContent=PEDE_WHATS?'Bem-vinda! Para terminar seu cadastro, informe seu WhatsApp com DDD. O CPF e o endereço podem ficar para a hora da compra.':querComprar()?'Complete seus dados de entrega para finalizar a compra. Seu carrinho fica guardado.':''; av.className='conta-msg'+((PEDE_WHATS||querComprar())?' ok':'');
+    if(PEDE_WHATS) setTimeout(function(){ var t=document.getElementById('perfil-form').telefone; if(t&&!t.value) t.focus(); },400);
     carregaPerfil().then(function(r){ preencheFormPerfil(r.perfil,document.getElementById('conta-email').textContent); }).catch(function(){});
   }
 }
@@ -2466,14 +2477,19 @@ document.querySelectorAll('[data-aba-painel]').forEach(function(b){ b.addEventLi
     var m=document.getElementById('perfil-msg'), b=f.querySelector('button[type=submit]');
     var d={nome:f.nome.value.trim(),cpf:soNum(f.cpf.value),telefone:soNum(f.telefone.value),nascimento:f.nascimento.value,cep:soNum(f.cep.value),
       logradouro:f.logradouro.value.trim(),numero:f.numero.value.trim(),complemento:f.complemento.value.trim(),bairro:f.bairro.value.trim(),cidade:f.cidade.value.trim(),uf:f.uf.value,promocoes:f.promocoes.checked};
-    var erro = d.nome.split(/\s+/).length<2 ? 'Digite seu nome completo.' : d.cpf.length!==11 ? 'Confira o CPF.' : d.telefone.length<10 ? 'Confira o WhatsApp com DDD.' :
-      d.cep.length!==8 ? 'Confira o CEP.' : !(d.logradouro&&d.numero&&d.bairro&&d.cidade&&d.uf) ? 'Preencha o endereço completo.' : '';
+    var temEnd = !!(d.cep||d.logradouro||d.numero||d.bairro||d.cidade);
+    var erro = d.nome.split(/\s+/).length<2 ? 'Digite seu nome completo.' : (d.telefone.length<10||d.telefone.length>11) ? 'Confira o WhatsApp com DDD.' :
+      (d.cpf && d.cpf.length!==11) ? 'Confira o CPF.' :
+      (temEnd && d.cep.length!==8) ? 'Confira o CEP.' : (temEnd && !(d.logradouro&&d.numero&&d.bairro&&d.cidade&&d.uf)) ? 'Preencha o endereço completo.' : '';
+    // indo pagar: aí o CPF e o endereço são obrigatórios
+    if(!erro && querComprar() && !(d.cpf && temEnd)) erro='Para finalizar a compra, preencha também o CPF e o endereço de entrega.';
     if(erro){ m.textContent=erro; m.className='conta-msg erro'; return; }
     var salva = lojaOnline() ? api('/api/perfil',d) : new Promise(function(ok){ try{ localStorage.setItem('hera_perfil_demo',JSON.stringify(d)); }catch(x){} ok({perfil:d}); });
     b.disabled=true; m.textContent='Salvando…'; m.className='conta-msg';
     salva.then(function(j){
-      PERFIL=j.perfil||d; m.textContent='Dados salvos.'; m.className='conta-msg ok';
-      if(voltaDepoisDoLogin()) setTimeout(function(){ abreConfirmacao(PERFIL); },500);
+      PERFIL=j.perfil||d; m.textContent=j.mensagem||'Dados salvos.'; m.className='conta-msg ok';
+      if(PEDE_WHATS){ PEDE_WHATS=false; var av=document.getElementById('perfil-aviso'); av.textContent=''; av.className='conta-msg'; }
+      if(perfilOk(PERFIL) && voltaDepoisDoLogin()) setTimeout(function(){ abreConfirmacao(PERFIL); },500);
     }).catch(function(er){ m.textContent=er.message; m.className='conta-msg erro'; }).then(function(){ b.disabled=false; });
   });
 })();
