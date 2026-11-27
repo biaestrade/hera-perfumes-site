@@ -140,6 +140,7 @@ section.bloco{padding:40px 0 8px}
 .card .tipo{font-size:12px;color:var(--texto)}
 .card .preco{font-size:16px;font-weight:600;color:var(--carmim)}
 .card .preco small{font-size:11px;font-weight:500;color:var(--texto)}
+.card .preco-cartao{display:block;font-size:12px;color:var(--texto);margin-top:2px}
 .card .btn{min-height:44px;font-size:13px;padding:0 14px}
 @media(min-width:700px){.card .nome-p{font-size:21px}.card .preco{font-size:18px}}
 
@@ -659,7 +660,8 @@ body.tem-selecao .wa-flutuante{bottom:110px}
 .rodape-lista .tot-cartao b{font-size:16px;color:var(--bordo)}
 .rodape-lista .juros-cartao{display:block;font-size:12px;color:var(--texto);margin:2px 0 12px;text-align:right}
 .pr-pix{margin-top:6px;font-size:15px;color:var(--bordo)}
-.pr-pix b{color:var(--carmim)}
+.pr-pix b{color:var(--bordo)}
+.preco-grande .pr-no-pix{font-size:14px;font-weight:500;color:var(--texto)}
 .conf-acoes #conf-pix,.conf-acoes #conf-ok{flex-direction:column;gap:2px;padding-top:10px;padding-bottom:10px;height:auto}
 .conf-acoes .btn-pagar small{display:block;font-size:11px;font-weight:500;opacity:.85;letter-spacing:.02em}
 .conf-acoes .btn-cartao{background:transparent;color:var(--bordo);border:1px solid var(--bordo)}
@@ -1763,7 +1765,7 @@ function linkWA(p){
   var msg = 'Olá! Quero o ' + p.marca + ' ' + p.nome + ' ' + p.conc + (p.vol ? ' ' + p.vol : '') + '.';
   return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg);
 }
-function offPct(p){ return p.preco_de && p.preco_de > p.preco ? Math.round((1 - p.preco / p.preco_de) * 100) : 0; }
+function offPct(p){ var v = DESCONTO_PIX && p.preco > 0 ? precoPix(p.preco) : p.preco; return p.preco_de && p.preco_de > v ? Math.round((1 - v / p.preco_de) * 100) : 0; } // compara com o preço que aparece em destaque (Pix)
 function selos(p){
   var s = [];
   if (offPct(p)) s.push('<span class="etq etq-off">-' + offPct(p) + '%</span>');
@@ -1772,8 +1774,11 @@ function selos(p){
   return s.length ? '<span class="etqs">' + s.join('') + '</span>' : '';
 }
 function precoHTML(p){
+  // com desconto no Pix, o preço principal é o do Pix; o do cartão fica embaixo, menor
+  var principal = DESCONTO_PIX && p.preco > 0 ? precoPix(p.preco) : p.preco;
   return (offPct(p) ? '<span class="de-preco">De ' + brl(p.preco_de) + '</span>' : '') +
-    '<span class="preco">' + (offPct(p) ? '<small>por </small>' : '') + brl(p.preco) + '</span>';
+    '<span class="preco">' + (offPct(p) ? '<small>por </small>' : '') + brl(principal) + (DESCONTO_PIX && p.preco > 0 ? ' <small>no Pix</small>' : '') + '</span>' +
+    (DESCONTO_PIX && p.preco > 0 ? '<span class="preco-cartao">ou ' + brl(p.preco) + ' no cartão</span>' : '');
 }
 function card(p, comBotao){
   return '<div class="card">' + selos(p) + '<a class="link" href="#produto/' + p.id + '">' +
@@ -1902,8 +1907,8 @@ function mostrarProduto(id){
   document.getElementById('pr-marca').textContent = p.marca.toUpperCase();
   document.getElementById('pr-nome').textContent = p.nome;
   document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Kit para presente' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
-  document.getElementById('pr-preco').textContent = brl(p.preco);
-  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? '<b>' + brl(precoPix(p.preco)) + '</b> no Pix pelo site (' + DESCONTO_PIX + '% off)' : 'Pix ou até 4x sem juros no cartão') + (DESCONTO_WHATSAPP ? ' · ou ' + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '') : '';
+  document.getElementById('pr-preco').innerHTML = DESCONTO_PIX && p.preco > 0 ? brl(precoPix(p.preco)) + ' <small class="pr-no-pix">no Pix (' + DESCONTO_PIX + '% off)</small>' : brl(p.preco);
+  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? 'ou <b>' + brl(p.preco) + '</b> no cartão, em até 4x sem juros' : 'Pix ou até 4x sem juros no cartão') + (DESCONTO_WHATSAPP ? ' · ou ' + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '') : '';
   document.getElementById('pr-de').innerHTML = offPct(p) ? 'De <s>' + brl(p.preco_de) + '</s> <span class="etq etq-off">-' + offPct(p) + '%</span>' : '';
   document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No kit:</b> ' + esc(p.composicao || '') : '');
   document.getElementById('pr-conc').textContent = p.tipo === 'cofre' ? 'Kit' : p.conc;

@@ -289,10 +289,12 @@ async function paginaComPrevia(env, url) {
     const preco = n => 'R$ ' + Number(n).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     const tipo = p.tipo === 'cofre' ? 'Kit para presente' : [p.conc, p.vol].filter(Boolean).join(' ');
     const por = Number(p.preco) + (Number(env.FRETE_EMBUTIDO) || 0); // mesmo preço que o site mostra
-    const de = Number(p.preco_de) > por ? `De ${preco(p.preco_de)} por ${preco(por)}` : preco(por);
+    const pixPct = Math.min(Math.max(Number(env.PIX_DESCONTO_PCT) || 0, 0), 50);
+    const noPix = Math.round(por * (100 - pixPct)) / 100;
+    const de = (Number(p.preco_de) > por ? `De ${preco(p.preco_de)} por ` : '') + (pixPct ? `${preco(noPix)} no Pix ou ${preco(por)} no cartão` : preco(por));
     meta = {
       titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
-      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. 5% off no Pix ou em até 4x sem juros.`,
+      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. Em até 4x sem juros no cartão.`,
       imagem: `${origem}/assets/compartilhar/${encodeURIComponent(p.id)}.jpg`,
       url: `${origem}/p/${encodeURIComponent(p.id)}`,
       alt: `${p.marca} ${p.nome}`,
