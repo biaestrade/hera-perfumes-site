@@ -1220,6 +1220,11 @@ async function enviarDadosPainel(env) {
 
   const dados = {
     gerado_em: iso(agora), modo: env.MODO || 'teste', cupons_ativos: cuponsAtivos,
+    // vendas pagas agrupadas pelo código promocional ('' = sem código), valores em reais
+    vendas_por_codigo: (await resumoPorCodigo(env).catch(() => [])).map(r => ({
+      codigo: r.codigo, representante: r.codigo ? r.representante || '' : '', pedidos: r.pedidos,
+      vendido: (r.vendido_centavos || 0) / 100, desconto: (r.desconto_centavos || 0) / 100, comissao: (r.comissao_centavos || 0) / 100,
+      ultima_venda: r.ultima_venda || '' })),
     cadastros: cad.map(c => ({ email: c.email, nome: c.nome || '', telefone: c.telefone || '', cidade: c.cidade ? `${c.cidade}/${c.uf || ''}` : '', criado_em: c.criado_em, ultimo_acesso: c.ultimo_acesso || '', promocoes: !!c.aceite_promocoes })),
     carrinhos: car.map(c => {
       let itens = []; try { itens = JSON.parse(c.itens); } catch (e) {}
@@ -1448,14 +1453,43 @@ function blingLinha(p) {
 }
 const ENVIO = { aguardando: 'Aguardando', separando: 'Em separação', enviado: 'Enviado', entregue: 'Entregue' };
 
+// Vendas pagas agrupadas pelo código promocional (pedidos de teste ficam de fora)
+async function resumoPorCodigo(env) {
+  const { results } = await env.DB.prepare(
+    `SELECT COALESCE(NULLIF(cupom, ''), '') AS codigo, MAX(representante) AS representante, COUNT(*) AS pedidos,
+       SUM(COALESCE(valor_pago_centavos, total_centavos)) AS vendido_centavos, SUM(COALESCE(desconto_centavos, 0)) AS desconto_centavos,
+       SUM(COALESCE(comissao_centavos, 0)) AS comissao_centavos, MAX(COALESCE(pago_em, criado_em)) AS ultima_venda
+     FROM pedidos WHERE status LIKE 'aprovado%' AND COALESCE(modo, '') <> 'teste' AND itens NOT LIKE '%"id":"teste-%'
+     GROUP BY COALESCE(NULLIF(cupom, ''), '') ORDER BY vendido_centavos DESC`
+  ).all();
+  return results || [];
+}
+
 async function painelAdmin(request, env) {
   if (!env.RELATORIO_SENHA) return new Response('Defina o segredo RELATORIO_SENHA no Cloudflare.', { status: 503 });
   if (!senhaAdminOk(request, env)) return pedeSenha();
   const url = new URL(request.url);
-  const { results } = await env.DB.prepare(
-    `SELECT * FROM pedidos WHERE status LIKE 'aprovado%' OR status = 'pendente' ORDER BY criado_em DESC LIMIT 100`
+  // ?codigo=XXX mostra só os pedidos daquele código; ?codigo=sem mostra os pedidos sem código
+  const pedeCodigo = url.searchParams.get('codigo');
+  const filtroCodigo = pedeCodigo === 'sem' ? 'sem' : normalizaCupom(pedeCodigo || '');
+  const { results } = await (filtroCodigo
+    ? env.DB.prepare(
+        `SELECT * FROM pedidos WHERE (status LIKE 'aprovado%' OR status = 'pendente') AND ${filtroCodigo === 'sem' ? "COALESCE(cupom, '') = ''" : 'cupom = ?1'}
+         ORDER BY criado_em DESC LIMIT 200`).bind(...(filtroCodigo === 'sem' ? [] : [filtroCodigo]))
+    : env.DB.prepare(`SELECT * FROM pedidos WHERE status LIKE 'aprovado%' OR status = 'pendente' ORDER BY criado_em DESC LIMIT 100`)
   ).all();
   const reais = c => 'R$ ' + ((c || 0) / 100).toFixed(2).replace('.', ',');
+  const resumo = await resumoPorCodigo(env).catch(() => []);
+  const linkCod = c => '/admin?codigo=' + encodeURIComponent(c || 'sem');
+  const resumoHtml = `<div class="porcod"><h2>Vendas por código promocional</h2>${resumo.length ? `<table>
+    <tr><th>Código</th><th>Representante</th><th>Pedidos</th><th>Vendido</th><th>Desconto dado</th><th>Comissão</th><th>Última venda</th></tr>
+    ${resumo.map(r => `<tr${(filtroCodigo === 'sem' ? !r.codigo : filtroCodigo === r.codigo) ? ' class="sel"' : ''}>
+      <td><a href="${linkCod(r.codigo)}">${r.codigo ? escHtml(r.codigo) : 'sem código'}</a></td><td>${escHtml(r.codigo ? r.representante || '-' : '-')}</td>
+      <td>${r.pedidos}</td><td>${reais(r.vendido_centavos)}</td><td>${reais(r.desconto_centavos)}</td><td>${reais(r.comissao_centavos)}</td>
+      <td>${escHtml(String(r.ultima_venda || '').slice(0, 10).split('-').reverse().join('/'))}</td></tr>`).join('')}
+    <tr class="tot"><td>Total</td><td></td><td>${resumo.reduce((t, r) => t + r.pedidos, 0)}</td><td>${reais(resumo.reduce((t, r) => t + (r.vendido_centavos || 0), 0))}</td>
+      <td>${reais(resumo.reduce((t, r) => t + (r.desconto_centavos || 0), 0))}</td><td>${reais(resumo.reduce((t, r) => t + (r.comissao_centavos || 0), 0))}</td><td></td></tr>
+  </table>` : '<p>Ainda não há vendas pagas.</p>'}${filtroCodigo ? `<p class="filtro">Mostrando só os pedidos ${filtroCodigo === 'sem' ? 'sem código' : 'com o código <b>' + escHtml(filtroCodigo) + '</b>'} · <a href="/admin">ver todos</a></p>` : ''}</div>`;
   const linhas = results.map(p => {
     let itens = '';
     try { itens = JSON.parse(p.itens).map(i => `${i.quantidade}x ${i.titulo}`).join('<br>'); } catch {}
@@ -1491,8 +1525,12 @@ body{font-family:Montserrat,Arial,sans-serif;background:#FBF7F2;color:#3B0B18;ma
 .st{padding:2px 10px;border-radius:999px;background:#f3e6e9;font-size:12px}.st-aprovado{background:#dff2e5;color:#1f6b3a}.itens{font-size:14px;margin-bottom:10px}
 .campos{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end}label{display:grid;gap:4px;font-size:12px}
 input,select{min-height:38px;border:1px solid #d9cbc4;border-radius:8px;padding:0 10px;font:inherit}button{min-height:40px;border:0;border-radius:999px;background:#3B0B18;color:#fff;font:inherit;cursor:pointer}
-.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}.bling{background:#fff;border:1px solid #eadfd8;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px}.bling.ok2{border-color:#bfe3cb}.btn{display:inline-block;margin-top:6px;background:#3B0B18;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none}.bl{margin-top:10px;font-size:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}.bl .er{color:#9a1c1c}.bl button{min-height:30px;padding:0 14px;font-size:12px}.ent{margin-top:8px;font-size:13px;background:#fbf7f2;border-radius:8px;padding:8px 10px}</style></head><body>
-<h1>Pedidos · Hera Perfumes</h1>${blingBox}<p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
+.ok{background:#dff2e5;color:#1f6b3a;padding:10px 14px;border-radius:10px}
+.porcod{background:#fff;border:1px solid #eadfd8;border-radius:14px;padding:16px;margin:0 0 16px;overflow-x:auto}.porcod h2{font-family:Georgia,serif;font-weight:400;font-size:20px;margin:0 0 10px}
+.porcod table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}.porcod th,.porcod td{text-align:left;padding:8px 10px;border-bottom:1px solid #f0e6e0}
+.porcod th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#88072B}.porcod td:nth-child(n+3),.porcod th:nth-child(n+3){text-align:right}
+.porcod tr.sel td{background:#fbf0f2;font-weight:600}.porcod tr.tot td{font-weight:700;border-bottom:0}.porcod a{color:#88072B;font-weight:600}.porcod .filtro{margin:12px 0 0;font-size:14px}.bling{background:#fff;border:1px solid #eadfd8;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px}.bling.ok2{border-color:#bfe3cb}.btn{display:inline-block;margin-top:6px;background:#3B0B18;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none}.bl{margin-top:10px;font-size:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}.bl .er{color:#9a1c1c}.bl button{min-height:30px;padding:0 14px;font-size:12px}.ent{margin-top:8px;font-size:13px;background:#fbf7f2;border-radius:8px;padding:8px 10px}</style></head><body>
+<h1>Pedidos · Hera Perfumes</h1>${blingBox}${resumoHtml}<p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
 
