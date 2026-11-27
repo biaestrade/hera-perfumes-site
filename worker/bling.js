@@ -147,6 +147,14 @@ async function contatoDoPedido(env, ent, cliente, email) {
   return { id: novo.data.id, ...dados };
 }
 
+// NCM por concentração (decidido em 27/11/2026): Eau de Toilette / Eau de Cologne = águas-de-colônia;
+// Parfum, Elixir, Eau de Parfum e kits = perfumes (extratos). BLING_NCM continua valendo como reserva.
+function ncmDoProduto(env, of, item) {
+  const texto = `${of.conc || ''} ${of.titulo || item.titulo || ''}`;
+  if (of.tipo !== 'cofre' && /toilette|cologne|col[oô]nia/i.test(texto)) return so(env.BLING_NCM_COLONIA) || so(env.BLING_NCM);
+  return so(env.BLING_NCM_PERFUME) || so(env.BLING_NCM);
+}
+
 async function produtoNoBling(env, item, oficiais) {
   const codigo = String(item.id).slice(0, 60);
   const cache = await env.DB.prepare('SELECT bling_id FROM bling_produtos WHERE codigo = ?1').bind(codigo).first();
@@ -159,7 +167,7 @@ async function produtoNoBling(env, item, oficiais) {
       nome: (of.titulo || item.titulo || codigo).slice(0, 120), codigo, tipo: 'P', situacao: 'A', formato: 'S',
       preco: (of.precoCentavos || item.unitario_centavos || 0) / 100, unidade: 'UN', condicao: 1,
       marca: of.marca || '', pesoBruto: of.pesoKg || 0.5, pesoLiquido: of.pesoKg || 0.4,
-      tributacao: { origem: Number(env.BLING_ORIGEM || 0), ...(so(env.BLING_NCM) ? { ncm: so(env.BLING_NCM) } : {}) },
+      tributacao: { origem: Number(env.BLING_ORIGEM || 0), ...(ncmDoProduto(env, of, item) ? { ncm: ncmDoProduto(env, of, item) } : {}) },
     });
     id = criado.data.id;
   }

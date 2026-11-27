@@ -354,6 +354,7 @@ async function produtosOficiais(env) {
       estoque: Number.isInteger(p.estoque) ? p.estoque : null, // controle de estoque: preparado, ainda não usado
       ml: parseInt(String(p.vol || ''), 10) || null, // para escolher a caixa do frete
       tipo: p.tipo || '',
+      conc: p.conc || '',
       teste: !!p.teste,
     });
   }
