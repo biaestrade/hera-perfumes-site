@@ -2002,7 +2002,7 @@ function mostrarProduto(id){
   document.getElementById('pr-piramide').style.display = 'none'; // pirâmide escondida a pedido (os dados continuam no produtos.json)
   document.getElementById('pr-notas-bloco').style.display = (linhas.length || (p.acordes||[]).length) ? '' : 'none';
   document.getElementById('pr-aviso-t').textContent = 'Perfume original';
-  document.getElementById('pr-aviso-p').innerHTML = 'Quer uma foto ou vídeo do perfume? <a href="https://wa.me/5511913184495?text='+encodeURIComponent('Olá! Gostaria de receber uma foto ou um vídeo do '+p.marca+' '+p.nome+'.')+'" target="_blank" rel="noopener" style="font-weight:600">Peça pelo WhatsApp</a>';
+  document.getElementById('pr-aviso-p').innerHTML = 'Pague pelo site com Pix ou cartão e receba em casa. <a href="#como-comprar" style="font-weight:600">Veja como comprar</a>';
   document.getElementById('pr-lista').dataset.lista = p.id; atualizaSel();
   var rel = PERFUMES.filter(function(x){return x.id !== p.id && x.genero === p.genero && x.familia && x.familia === p.familia;});
   if (rel.length < 4) rel = rel.concat(PERFUMES.filter(function(x){return x.id !== p.id && x.genero === p.genero && rel.indexOf(x) < 0 && x.marca === p.marca;}));
