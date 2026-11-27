@@ -911,7 +911,7 @@ nav.menu a.link-conta{background-image:none}
   <symbol id="i-frasco" viewBox="0 0 46 70"><g fill="none" stroke="#C7848C" stroke-width="1.5"><rect x="16" y="2" width="14" height="10" rx="2"/><rect x="19" y="12" width="8" height="6"/><rect x="4" y="18" width="38" height="50" rx="8"/></g></symbol>
 </svg>
 
-<div class="faixa-topo" id="faixa-topo" aria-label="Ofertas"><div class="fx-linha"><a class="fx-m" href="#catalogo">DESCONTOS DE INAUGURAÇÃO<span class="fx-longo"> EM TODO O SITE</span></a><span class="fx-s"> · </span><span class="fx-m">5% OFF NO PIX PELO SITE</span><span class="fx-s"> · </span><a class="fx-m" href="https://wa.me/5511913184495" target="_blank" rel="noopener">7% OFF NO PIX PELO WHATSAPP</a><span class="fx-s"> · </span><span class="fx-m">ENVIO PARA TODO O BRASIL</span></div></div>
+<div class="faixa-topo" id="faixa-topo" aria-label="Ofertas"><div class="fx-linha"><a class="fx-m" href="#catalogo">DESCONTOS DE INAUGURAÇÃO<span class="fx-longo"> EM TODO O SITE</span></a><span class="fx-s"> · </span><span class="fx-m">5% OFF NO PIX PELO SITE</span><span class="fx-s"> · </span><span class="fx-m">ENVIO PARA TODO O BRASIL</span></div></div>
 <header class="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="Hera Perfumes — início">
@@ -1240,8 +1240,7 @@ nav.menu a.link-conta{background-image:none}
       <div class="pol-secao" id="pol-descontos"><h2>Descontos e códigos promocionais</h2>
         <p>Todo o site está com descontos especiais na inauguração, por 30 dias ou enquanto durarem os estoques (vale também para o cupom de inauguração). O preço "De" é o preço médio de mercado, e o "Por" é o preço Hera.</p>
         <p>No site, pagando com Pix, você ganha mais 5% de desconto nos perfumes (o frete não entra). Os 5% somam com o código promocional: primeiro entra o código e depois os 5% do Pix.</p>
-        <p>Cada código promocional tem regras, validade e condições próprias, que aparecem no carrinho quando você aplica o código.</p>
-        <p>Pedindo pelo WhatsApp, o desconto é de 7%, pagando com Pix.</p></div>
+        <p>Cada código promocional tem regras, validade e condições próprias, que aparecem no carrinho quando você aplica o código.</p></div>
       <div class="pol-secao" id="pol-envio"><h2>Envio e prazos</h2>
         <p>Entrega para todo o Brasil, com prazo e valor calculados pelo CEP, no carrinho. A Hera paga metade do frete.</p>
         <p>Depois que o pagamento é aprovado, os perfumes são postados em 2 a 3 dias úteis e os kits em 1 dia útil. Você recebe o código de rastreio.</p></div>
@@ -1487,7 +1486,7 @@ nav.menu a.link-conta{background-image:none}
     <div class="tot tot-wa" hidden><span>Pelo WhatsApp</span><b id="sel-total"></b></div>
     <small id="sel-outros" hidden></small>
     <p class="aviso-offline" id="sel-offline" hidden>O pagamento online abre em breve. Enquanto isso, fale com a Hera pelo <a href="https://wa.me/5511913184495" target="_blank" rel="noopener">WhatsApp</a>.</p>
-    <a class="link-wa" id="sel-enviar" target="_blank" rel="noopener" href="#">Prefere pedir pelo WhatsApp? Lá é 7% off no Pix. Mandar o carrinho para a Hera →</a>
+    <a class="link-wa" id="sel-enviar" target="_blank" rel="noopener" href="#">Prefere pedir pelo WhatsApp? Mandar o carrinho para a Hera →</a>
   </div>
 </aside>
 <script>
@@ -1498,7 +1497,7 @@ var WHATSAPP = '5511913184495';
 // Vazio = o servidor está no mesmo endereço do site (é assim no ambiente de teste do Cloudflare).
 // No site oficial (GitHub Pages), o botão "Pagar agora" só aparece depois que API_LOJA for preenchido.
 var API_LOJA = '';
-var DESCONTO_WHATSAPP = 7; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
+var DESCONTO_WHATSAPP = 0; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
 var DESCONTO_PIX = 5; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
 function precoPix(v){ return Math.round(v * (100 - DESCONTO_PIX)) / 100; }
 function lojaOnline(){ return !!API_LOJA || /\.workers\.dev$/.test(location.hostname) || location.hostname === 'localhost' || location.hostname === '127.0.0.1'; }
@@ -1904,7 +1903,7 @@ function mostrarProduto(id){
   document.getElementById('pr-nome').textContent = p.nome;
   document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Kit para presente' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
   document.getElementById('pr-preco').textContent = brl(p.preco);
-  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? '<b>' + brl(precoPix(p.preco)) + '</b> no Pix pelo site (' + DESCONTO_PIX + '% off) · ou ' : 'Pix ou até 4x sem juros no cartão · ou ') + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '';
+  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? '<b>' + brl(precoPix(p.preco)) + '</b> no Pix pelo site (' + DESCONTO_PIX + '% off)' : 'Pix ou até 4x sem juros no cartão') + (DESCONTO_WHATSAPP ? ' · ou ' + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '') : '';
   document.getElementById('pr-de').innerHTML = offPct(p) ? 'De <s>' + brl(p.preco_de) + '</s> <span class="etq etq-off">-' + offPct(p) + '%</span>' : '';
   document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No kit:</b> ' + esc(p.composicao || '') : '');
   document.getElementById('pr-conc').textContent = p.tipo === 'cofre' ? 'Kit' : p.conc;
