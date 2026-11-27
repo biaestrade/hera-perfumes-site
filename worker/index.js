@@ -51,7 +51,8 @@ export default {
     ctx.waitUntil((blingConfigurado(env) ? produtosOficiais(env).then(of => rodadaBling(env, of)).catch(e => console.error('bling', e && e.message)) : Promise.resolve())
       .then(() => enviarDadosPainel(env)).catch(e => console.error('dados do painel', e && e.message)));
     ctx.waitUntil(lembrarCarrinhos(env).catch(e => console.error('lembrete de carrinho', e && e.message)));
-    ctx.waitUntil(rodadaEtiquetas(env).catch(e => console.error('etiquetas', e && e.message)));
+    ctx.waitUntil(rodadaEtiquetas(env).catch(e => console.error('etiquetas', e && e.message))
+      .then(() => rodadaRastreio(env)).catch(e => console.error('rastreio', e && e.message)));
   },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -1438,6 +1439,50 @@ async function rodadaEtiquetas(env) {
   for (const r of results || []) { try { await etiquetaSuperFrete(env, r.id); } catch (e) { console.error('etiqueta', r.id, e.message); } }
 }
 
+// Rastreio da SuperFrete: de 30 em 30 minutos, consulta as etiquetas dos pedidos ainda não entregues.
+// Etiqueta paga (released) → grava o código de rastreio e marca "Em separação"; postada (posted) → "Enviado"
+// e avisa a cliente por e-mail; entregue (delivered) → "Entregue". A cliente vê tudo em Minha conta.
+async function rodadaRastreio(env) {
+  if (!env.SUPERFRETE_TOKEN) return;
+  const desde = new Date(Date.now() - 60 * 86400_000).toISOString();
+  const { results } = await env.DB.prepare(
+    `SELECT * FROM pedidos WHERE superfrete_id IS NOT NULL AND status LIKE 'aprovado%' AND COALESCE(status_envio, 'aguardando') <> 'entregue'
+       AND COALESCE(pago_em, criado_em) >= ?1 ORDER BY criado_em LIMIT 25`
+  ).bind(desde).all();
+  const site = (env.SITE_URL || env.LOJA_URL || '').replace(/\/+$/, '');
+  for (const p of results || []) {
+    try {
+      const o = await chamarSuperFrete(env, 'GET', `/api/v0/order/info/${encodeURIComponent(p.superfrete_id)}`);
+      if (!o) continue;
+      const codigo = String(o.tracking || '').trim().slice(0, 60) || null;
+      const agora = new Date().toISOString();
+      if (o.status === 'canceled') {
+        await env.DB.prepare('UPDATE pedidos SET superfrete_erro = ?2 WHERE id = ?1 AND superfrete_erro IS NULL')
+          .bind(p.id, 'a etiqueta foi cancelada na SuperFrete').run();
+        continue;
+      }
+      const ordem = { aguardando: 0, separando: 1, enviado: 2, entregue: 3 };
+      const atual = p.status_envio || 'aguardando';
+      const novo = o.status === 'delivered' ? 'entregue' : o.status === 'posted' ? 'enviado' : o.status === 'released' ? 'separando' : atual;
+      const envio = (ordem[novo] || 0) > (ordem[atual] || 0) ? novo : atual; // nunca volta para trás
+      if (envio === atual && (!codigo || p.rastreio_codigo === codigo)) continue;
+      await env.DB.prepare(
+        `UPDATE pedidos SET status_envio = ?2, rastreio_codigo = COALESCE(?3, rastreio_codigo), transportadora = COALESCE(transportadora, ?4),
+           enviado_em = CASE WHEN ?2 IN ('enviado','entregue') THEN COALESCE(enviado_em, ?5) ELSE enviado_em END,
+           entregue_em = CASE WHEN ?2 = 'entregue' THEN COALESCE(entregue_em, ?6) ELSE entregue_em END,
+           atualizado_em = ?7 WHERE id = ?1`
+      ).bind(p.id, envio, codigo, null, o.posted_at || agora, o.status === 'delivered' ? (o.updated_at || agora) : agora, agora).run();
+      // e-mail "foi enviado" (uma vez só, quando passa para Enviado)
+      if (envio === 'enviado' && atual !== 'enviado' && atual !== 'entregue' && p.email_cliente) {
+        const transp = p.transportadora || '';
+        await mandarEmail(env, p.email_cliente, `Seu pedido ${p.id} foi enviado`,
+          moldeEmail('Seu perfume está a caminho!', `O pedido <b>${escHtml(p.id)}</b> foi enviado${transp ? ' por ' + escHtml(transp) : ''}.${(codigo || p.rastreio_codigo) ? ' Código de rastreio: <b>' + escHtml(codigo || p.rastreio_codigo) + '</b>.' : ''}`,
+            'Acompanhar meu pedido', `${site}/#minha-conta`)).catch(() => false);
+      }
+    } catch (e) { console.error('rastreio', p.id, e.message); }
+  }
+}
+
 function superfreteLinha(p) {
   const botao = `<button formaction="/api/superfrete/criar" formmethod="post">${p.superfrete_erro ? 'Tentar de novo' : 'Criar etiqueta na SuperFrete'}</button>`;
   if (p.superfrete_id) return `<div class="bl"><span>✔ Etiqueta na SuperFrete${p.superfrete_preco_centavos ? ' · R$ ' + (p.superfrete_preco_centavos / 100).toFixed(2).replace('.', ',') : ''} · pague e imprima em <a href="https://web.superfrete.com/#/minhas-etiquetas" target="_blank" rel="noopener">Minhas etiquetas</a></span></div>`;
@@ -1530,7 +1575,7 @@ input,select{min-height:38px;border:1px solid #d9cbc4;border-radius:8px;padding:
 .porcod table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}.porcod th,.porcod td{text-align:left;padding:8px 10px;border-bottom:1px solid #f0e6e0}
 .porcod th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#88072B}.porcod td:nth-child(n+3),.porcod th:nth-child(n+3){text-align:right}
 .porcod tr.sel td{background:#fbf0f2;font-weight:600}.porcod tr.tot td{font-weight:700;border-bottom:0}.porcod a{color:#88072B;font-weight:600}.porcod .filtro{margin:12px 0 0;font-size:14px}.bling{background:#fff;border:1px solid #eadfd8;border-radius:12px;padding:12px 14px;margin:0 0 14px;font-size:14px}.bling.ok2{border-color:#bfe3cb}.btn{display:inline-block;margin-top:6px;background:#3B0B18;color:#fff;padding:8px 16px;border-radius:999px;text-decoration:none}.bl{margin-top:10px;font-size:13px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}.bl .er{color:#9a1c1c}.bl button{min-height:30px;padding:0 14px;font-size:12px}.ent{margin-top:8px;font-size:13px;background:#fbf7f2;border-radius:8px;padding:8px 10px}</style></head><body>
-<h1>Pedidos · Hera Perfumes</h1>${blingBox}${resumoHtml}<p>Quando você marcar <b>Enviado</b> com o código de rastreio, a cliente recebe um e-mail e vê o rastreio em "Minha conta".</p>${aviso}${linhas}</body></html>`;
+<h1>Pedidos · Hera Perfumes</h1>${blingBox}${resumoHtml}<p>Com a etiqueta paga na SuperFrete, o código de rastreio entra sozinho no pedido (em até 30 minutos) e a cliente vê em "Minha conta". Quando a SuperFrete marcar como postada, o pedido vira <b>Enviado</b> e a cliente recebe um e-mail. Você também pode preencher à mão.</p>${aviso}${linhas}</body></html>`;
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
 
