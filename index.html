@@ -2083,7 +2083,9 @@ window.addEventListener('hashchange', rota);
 fetch('produtos.json', {cache: 'no-cache'})
   .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
   .then(function(lista){
-    PERFUMES = lista.map(function(p){ if (p.preco > 0) p.preco = Math.round((p.preco + FRETE_EMBUTIDO) * 100) / 100; return p; });
+    // produto de teste (oculto): só aparece com ?teste=1 no endereço, e sem frete embutido
+    var verTeste = /[?&]teste=1/.test(location.search);
+    PERFUMES = lista.filter(function(p){ return !p.oculto || verTeste; }).map(function(p){ if (p.preco > 0 && !p.teste) p.preco = Math.round((p.preco + FRETE_EMBUTIDO) * 100) / 100; return p; });
     montaDestaques(); montaMarcas(); montaFiltroFamilias(); renderCatalogo(); atualizaSel(); rota(); cotar();
   })
   .catch(function(){

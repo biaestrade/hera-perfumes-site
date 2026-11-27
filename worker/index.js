@@ -334,7 +334,8 @@ async function produtosOficiais(env) {
     const base = Math.round(Number(p.preco) * 100);
     if (!p.id || !Number.isInteger(base) || base <= 0) continue;
     // metade do frete por conta da Hera: FRETE_EMBUTIDO (reais) vai somado ao preço de cada perfume (o site mostra o mesmo)
-    const preco = base + Math.max(0, Math.round((Number(env.FRETE_EMBUTIDO) || 0) * 100));
+    // produto de teste ("teste": true no produtos.json): preço exato, sem frete embutido
+    const preco = base + (p.teste ? 0 : Math.max(0, Math.round((Number(env.FRETE_EMBUTIDO) || 0) * 100)));
     mapa.set(String(p.id), {
       id: String(p.id),
       titulo: [p.marca, p.nome, p.conc, p.vol].filter(Boolean).join(' '),
@@ -343,6 +344,7 @@ async function produtosOficiais(env) {
       estoque: Number.isInteger(p.estoque) ? p.estoque : null, // controle de estoque: preparado, ainda não usado
       ml: parseInt(String(p.vol || ''), 10) || null, // para escolher a caixa do frete
       tipo: p.tipo || '',
+      teste: !!p.teste,
     });
   }
   cacheProdutos = { quando: Date.now(), mapa };
@@ -421,7 +423,13 @@ async function calcular(env, corpo, cepEntrega) {
   // frete: com a SuperFrete ligada, depende do CEP (no pagamento, sempre o CEP do endereço da conta)
   let frete = r.freteCentavos, fretes = null, freteEscolhido = null, freteErro = '';
   const cep = cepEntrega || (corpo && corpo.cep);
-  if (env.SUPERFRETE_TOKEN) {
+  // carrinho só com produto de teste: sem frete (não sai nada pelo correio)
+  const soTeste = linhas.length > 0 && linhas.every(l => (produtos.get(l.id) || {}).teste);
+  if (soTeste) {
+    frete = 0;
+    fretes = [{ id: 0, nome: 'Sem frete (teste)', centavos: 0, cobrado: 0, prazo: 0, gratis: true }];
+    freteEscolhido = fretes[0];
+  } else if (env.SUPERFRETE_TOKEN) {
     frete = 0;
     if (String(cep || '').replace(/\D/g, '').length === 8) {
       try {

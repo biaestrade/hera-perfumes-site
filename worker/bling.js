@@ -172,6 +172,12 @@ async function produtoNoBling(env, item, oficiais) {
 export async function enviarPedidoBling(env, pedidoId, oficiais) {
   const p = await env.DB.prepare('SELECT * FROM pedidos WHERE id = ?1').bind(pedidoId).first();
   if (!p || !String(p.status).startsWith('aprovado')) return null;
+  // pedido só com produto de teste: nunca vai para o Bling (não emite nota)
+  let itensTeste = []; try { itensTeste = JSON.parse(p.itens || '[]'); } catch (e) {}
+  if (itensTeste.length && itensTeste.every(i => String(i.id).startsWith('teste-'))) {
+    await env.DB.prepare('UPDATE pedidos SET bling_tentativas = 99 WHERE id = ?1').bind(p.id).run();
+    return null;
+  }
   try {
     let blingId = p.bling_pedido_id;
     if (!blingId) {

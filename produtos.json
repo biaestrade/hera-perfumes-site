@@ -5421,5 +5421,6 @@
    "Alberto Morillas",
    "Harry Fremont"
   ]
- }
+ },
+  {"id": "teste-5", "marca": "Hera", "nome": "Produto de teste", "conc": "Teste de pagamento", "vol": "", "genero": "Teste", "preco": 5.0, "familia": "", "acordes": [], "topo": "", "coracao": "", "fundo": "", "destaque": false, "teste": true, "oculto": true}
 ]
