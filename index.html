@@ -909,7 +909,7 @@ nav.menu a.link-conta{background-image:none}
   <symbol id="i-frasco" viewBox="0 0 46 70"><g fill="none" stroke="#C7848C" stroke-width="1.5"><rect x="16" y="2" width="14" height="10" rx="2"/><rect x="19" y="12" width="8" height="6"/><rect x="4" y="18" width="38" height="50" rx="8"/></g></symbol>
 </svg>
 
-<div class="faixa-topo" id="faixa-topo" aria-label="Ofertas"><div class="fx-linha"><a class="fx-m" href="#catalogo">DESCONTOS DE INAUGURAÇÃO<span class="fx-longo"> EM TODO O SITE</span></a><span class="fx-s"> · </span><span class="fx-m">5% OFF NO PIX PELO SITE</span><span class="fx-s"> · </span><a class="fx-m" href="https://wa.me/5511913184495" target="_blank" rel="noopener">7% OFF NO PIX PELO WHATSAPP</a><span class="fx-s"> · </span><span class="fx-m">ENVIO PARA TODO O BRASIL</span></div></div>
+<div class="faixa-topo" id="faixa-topo" aria-label="Ofertas"><div class="fx-linha"><a class="fx-m" href="#catalogo">DESCONTOS DE INAUGURAÇÃO<span class="fx-longo"> EM TODO O SITE</span></a><span class="fx-s"> · </span><span class="fx-m">ATÉ 4X SEM JUROS NO CARTÃO</span><span class="fx-s"> · </span><a class="fx-m" href="https://wa.me/5511913184495" target="_blank" rel="noopener">7% OFF NO PIX PELO WHATSAPP</a><span class="fx-s"> · </span><span class="fx-m">ENVIO PARA TODO O BRASIL</span></div></div>
 <header class="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="Hera Perfumes — início">
@@ -1233,7 +1233,7 @@ nav.menu a.link-conta{background-image:none}
       </nav>
       <div class="pol-secao" id="pol-pagamento"><h2>Pagamento</h2>
         <p>O pagamento é feito pelo Mercado Pago, em ambiente seguro. Aceitamos Pix e cartão de crédito. Os dados do seu cartão não passam pelo nosso site.</p>
-        <p>Cartão de crédito em até 4x sem juros. De 5x a 8x, com os juros do cartão pagos pelo cliente. À vista, só no Pix.</p>
+        <p>Pix ou cartão de crédito em até 4x sem juros. De 5x a 8x, com os juros do cartão pagos pelo cliente.</p>
         <p>O pedido é confirmado assim que o Mercado Pago aprova o pagamento. Pix costuma ser aprovado na hora.</p></div>
       <div class="pol-secao" id="pol-descontos"><h2>Descontos e códigos promocionais</h2>
         <p>Todo o site está com descontos especiais na inauguração, por 30 dias ou enquanto durarem os estoques (vale também para o cupom de inauguração). O preço "De" é o preço médio de mercado, e o "Por" é o preço Hera.</p>
@@ -1475,7 +1475,7 @@ nav.menu a.link-conta{background-image:none}
     </form>
     <div class="bloco-online" id="sel-online">
       <div class="tot tot-pix"><span>No Pix<em id="sel-pix-pct">5% OFF</em></span><b id="sel-total-pix"></b></div>
-      <div class="tot tot-cartao"><span>No cartão</span><b id="sel-total-online"></b></div>
+      <div class="tot tot-cartao"><span>Total</span><b id="sel-total-online"></b></div>
       <small id="sel-detalhe-online"></small>
       <button type="button" class="btn btn-pagar" id="sel-pagar"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Finalizar compra</button>
       <small id="sel-pagar-msg" aria-live="polite" style="margin:8px 0 0"></small>
@@ -1496,7 +1496,7 @@ var WHATSAPP = '5511913184495';
 // No site oficial (GitHub Pages), o botão "Pagar agora" só aparece depois que API_LOJA for preenchido.
 var API_LOJA = '';
 var DESCONTO_WHATSAPP = 7; // % de desconto pedindo pelo WhatsApp (só o que aparece no site; no pagamento online quem decide é o servidor)
-var DESCONTO_PIX = 5; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
+var DESCONTO_PIX = 0; // % de desconto no Pix pelo site (só para mostrar; quem calcula é o servidor, PIX_DESCONTO_PCT no wrangler.toml)
 function precoPix(v){ return Math.round(v * (100 - DESCONTO_PIX)) / 100; }
 function lojaOnline(){ return !!API_LOJA || /\.workers\.dev$/.test(location.hostname) || location.hostname === 'localhost' || location.hostname === '127.0.0.1'; }
 var PERFUMES = []; // a lista oficial fica em produtos.json (o site e o servidor leem o mesmo arquivo)
@@ -1590,7 +1590,7 @@ function atualizaSel(){
   if(on){
     var tot=document.getElementById('sel-total-online'), totPix=document.getElementById('sel-total-pix'), det=document.getElementById('sel-detalhe-online');
     var temPix=!!(COTACAO && !COTACAO.erro && COTACAO.pix);
-    document.querySelector('#sel-online .tot-pix').hidden=COTACAO && !COTACAO.erro && !COTACAO.pix;
+    document.querySelector('#sel-online .tot-pix').hidden=!DESCONTO_PIX || (COTACAO && !COTACAO.erro && !COTACAO.pix);
     if(temPix) document.getElementById('sel-pix-pct').textContent=COTACAO.pix.pct+'% OFF';
     if(COTACAO && !COTACAO.erro){
       tot.textContent=centavos(COTACAO.cartao?COTACAO.cartao.total:COTACAO.total);
@@ -1901,7 +1901,7 @@ function mostrarProduto(id){
   document.getElementById('pr-nome').textContent = p.nome;
   document.getElementById('pr-tipo').textContent = (p.tipo === 'cofre' ? 'Kit para presente' : p.conc + (p.vol ? ' · ' + p.vol : '')) + ' · ' + p.genero;
   document.getElementById('pr-preco').textContent = brl(p.preco);
-  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? '<b>' + brl(precoPix(p.preco)) + '</b> no Pix pelo site (' + DESCONTO_PIX + '% off) · ou ' + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '';
+  document.getElementById('pr-pix').innerHTML = p.preco > 0 ? (DESCONTO_PIX ? '<b>' + brl(precoPix(p.preco)) + '</b> no Pix pelo site (' + DESCONTO_PIX + '% off) · ou ' : 'Pix ou até 4x sem juros no cartão · ou ') + DESCONTO_WHATSAPP + '% off no Pix pedindo pelo WhatsApp' : '';
   document.getElementById('pr-de').innerHTML = offPct(p) ? 'De <s>' + brl(p.preco_de) + '</s> <span class="etq etq-off">-' + offPct(p) + '%</span>' : '';
   document.getElementById('pr-outros').innerHTML = (p.estoque > 0 ? '<span class="etq etq-pronta">Pronta entrega</span> ' : '') + (p.tipo === 'cofre' ? '<b>No kit:</b> ' + esc(p.composicao || '') : '');
   document.getElementById('pr-conc').textContent = p.tipo === 'cofre' ? 'Kit' : p.conc;
@@ -2418,7 +2418,7 @@ function rotulosPagar(temPix,totPix,tot){
   var bp=document.getElementById('conf-pix'), bc=document.getElementById('conf-ok');
   bp.hidden=!temPix; bp.disabled=false; bc.disabled=false;
   bp.innerHTML='Pagar com Pix · '+esc(totPix)+'<small>'+DESCONTO_PIX+'% off nos perfumes · aprovado na hora</small>';
-  bc.innerHTML='Pagar com cartão · '+esc(tot);
+  bc.innerHTML=temPix?'Pagar com cartão · '+esc(tot):'Ir para o pagamento · '+esc(tot)+'<small>Pix ou cartão em até 4x sem juros</small>';
 }
 function fechaConfirmacao(){ document.getElementById('conf').hidden=true; document.getElementById('conf-fundo').hidden=true; }
 document.getElementById('conf-fechar').addEventListener('click',fechaConfirmacao);

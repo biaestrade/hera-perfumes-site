@@ -292,7 +292,7 @@ async function paginaComPrevia(env, url) {
     const de = Number(p.preco_de) > por ? `De ${preco(p.preco_de)} por ${preco(por)}` : preco(por);
     meta = {
       titulo: `${p.marca} ${p.nome} — Hera Perfumes`,
-      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. 5% off no Pix ou em até 4x sem juros.`,
+      desc: `${tipo ? tipo + '. ' : ''}${de}. Perfume original. Pix ou até 4x sem juros no cartão.`,
       imagem: `${origem}/assets/compartilhar/${encodeURIComponent(p.id)}.jpg`,
       url: `${origem}/p/${encodeURIComponent(p.id)}`,
       alt: `${p.marca} ${p.nome}`,
@@ -555,7 +555,8 @@ async function pagar(request, env) {
     payment_methods: c.metodo === 'pix'
       ? { excluded_payment_types: [{ id: 'credit_card' }, { id: 'debit_card' }, { id: 'ticket' }, { id: 'atm' }, { id: 'prepaid_card' }], installments: 1 }
       // até 8x no cartão (2x a 4x sem juros para o cliente é configurado na conta do Mercado Pago)
-      : { excluded_payment_types: [{ id: 'bank_transfer' }, { id: 'ticket' }, { id: 'atm' }], installments: 8 },
+      // sem desconto no Pix (PIX_DESCONTO_PCT = 0): um botão só, e a cliente escolhe Pix ou cartão no Mercado Pago
+      : { excluded_payment_types: c.pixPct > 0 ? [{ id: 'bank_transfer' }, { id: 'ticket' }, { id: 'atm' }] : [{ id: 'ticket' }, { id: 'atm' }], installments: 8 },
   };
   const nomes = String(perfil.nome || '').trim().split(/\s+/);
   preferencia.payer = {
